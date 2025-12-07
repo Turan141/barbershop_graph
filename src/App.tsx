@@ -6,10 +6,12 @@ import { BarberProfilePage } from "./pages/BarberProfilePage"
 import { BarberDashboardPage } from "./pages/BarberDashboardPage"
 import { FavoritesPage } from "./pages/FavoritesPage"
 import { UserBookingsPage } from "./pages/UserBookingsPage"
+import { ScrollToTop } from "./components/ScrollToTop"
 
 function App() {
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<Layout>
 				<Routes>
 					<Route path='/' element={<HomePage />} />

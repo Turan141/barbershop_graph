@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { api } from "../services/api"
 import { Barber, Service } from "../types"
@@ -36,12 +36,20 @@ export const BarberProfilePage = () => {
 	>("idle")
 	const [showAllPortfolio, setShowAllPortfolio] = useState(false)
 
+	const { pathname } = useLocation()
+
 	useEffect(() => {
+		if (!user) {
+			navigate("/login", { state: { from: pathname } })
+			return
+		}
 		if (id) {
 			api.barbers.get(id).then(setBarbers)
 			if (user) fetchFavorites(user.id)
 		}
-	}, [id, user])
+	}, [id, user, navigate])
+
+	if (!user) return null
 
 	if (!barber)
 		return (

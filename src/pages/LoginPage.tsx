@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { api } from "../services/api"
@@ -12,6 +12,7 @@ export const LoginPage = () => {
 	const [error, setError] = useState("")
 	const login = useAuthStore((state) => state.login)
 	const navigate = useNavigate()
+	const location = useLocation()
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
@@ -20,7 +21,8 @@ export const LoginPage = () => {
 		try {
 			const { user, token } = await api.auth.login(email)
 			login(user, token)
-			navigate("/")
+			const from = location.state?.from || "/"
+			navigate(from)
 		} catch (err) {
 			setError(t("auth.login_failed"))
 		} finally {
