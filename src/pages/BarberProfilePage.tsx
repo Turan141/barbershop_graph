@@ -352,7 +352,7 @@ export const BarberProfilePage = () => {
 												{dates[0].fullLabel.split(" ")[1]}
 											</span>
 										</label>
-										<div className='flex gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-2 px-2'>
+										<div className='flex gap-3 overflow-x-auto py-4 scrollbar-hide -mx-2 px-2'>
 											{dates.map((d) => (
 												<button
 													key={d.value}
