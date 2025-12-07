@@ -5,9 +5,10 @@ import "./index.css"
 import "./i18n/config"
 
 async function enableMocking() {
-	if (process.env.NODE_ENV !== "development") {
-		return
-	}
+	// For the investor demo, we want to enable mocking even in production
+	// if (process.env.NODE_ENV !== "development") {
+	// 	return
+	// }
 
 	const { worker } = await import("./mocks/browser")
 
