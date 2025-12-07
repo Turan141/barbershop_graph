@@ -1,0 +1,46 @@
+{
+	"nav": {
+		"dashboard": "Dashboard",
+		"login": "Login",
+		"logout": "Logout",
+		"profile": "Profile"
+	},
+	"home": {
+		"hero_title": "Find Your Next Perfect",
+		"hero_subtitle": "Haircut",
+		"hero_desc": "Discover the best barbers in your area, view their portfolios, and book an appointment in seconds.",
+		"search_placeholder": "Search by name, location, or service...",
+		"search_btn": "Search",
+		"vip_section": "VIP Masters",
+		"vip_badge": "PREMIUM",
+		"all_barbers": "All Masters",
+		"view_all": "View All",
+		"more": "more"
+	},
+	"auth": {
+		"welcome": "Welcome Back",
+		"login_subtitle": "Sign in to manage your appointments and favorites",
+		"email_label": "Email address",
+		"email_placeholder": "you@example.com",
+		"password_label": "Password",
+		"password_disabled_title": "Password not required for this demo",
+		"forgot_password": "Forgot password?",
+		"login_button": "Sign in",
+		"logging_in": "Signing in...",
+		"demo_accounts": "Demo Accounts",
+		"client_demo": "Client Demo",
+		"barber_demo": "Barber Demo",
+		"no_account": "Don't have an account?",
+		"register_link": "Sign up for free",
+		"login_failed": "Login failed. Try client@test.com or barber@test.com"
+	},
+	"profile": {
+		"back_to_search": "Back to Search",
+		"open": "OPEN",
+		"reviews": "reviews",
+		"verified": "Verified",
+		"professional": "Professional",
+		"about": "About",
+		"select_service": "Select Service"
+	}
+}

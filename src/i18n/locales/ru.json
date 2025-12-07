@@ -1,0 +1,46 @@
+{
+	"nav": {
+		"dashboard": "Панель управления",
+		"login": "Войти",
+		"logout": "Выйти",
+		"profile": "Профиль"
+	},
+	"home": {
+		"hero_title": "Найдите Свою Идеальную",
+		"hero_subtitle": "Стрижку",
+		"hero_desc": "Откройте для себя лучших барберов в вашем районе, посмотрите их портфолио и запишитесь на прием за считанные секунды.",
+		"search_placeholder": "Поиск по имени, месту или услуге...",
+		"search_btn": "Поиск",
+		"vip_section": "VIP Мастера",
+		"vip_badge": "PREMIUM",
+		"all_barbers": "Все Мастера",
+		"view_all": "Смотреть все",
+		"more": "еще"
+	},
+	"auth": {
+		"welcome": "Добро пожаловать",
+		"login_subtitle": "Войдите, чтобы управлять своими записями и избранным",
+		"email_label": "Email адрес",
+		"email_placeholder": "you@example.com",
+		"password_label": "Пароль",
+		"password_disabled_title": "Пароль не требуется для этой демо-версии",
+		"forgot_password": "Забыли пароль?",
+		"login_button": "Войти",
+		"logging_in": "Вход...",
+		"demo_accounts": "Демо Аккаунты",
+		"client_demo": "Клиент Демо",
+		"barber_demo": "Барбер Демо",
+		"no_account": "Нет аккаунта?",
+		"register_link": "Зарегистрируйтесь бесплатно",
+		"login_failed": "Ошибка входа. Попробуйте client@test.com или barber@test.com"
+	},
+	"profile": {
+		"back_to_search": "Назад к поиску",
+		"open": "ОТКРЫТО",
+		"reviews": "отзывов",
+		"verified": "Подтвержден",
+		"professional": "Профессионал",
+		"about": "О мастере",
+		"select_service": "Выберите услугу"
+	}
+}

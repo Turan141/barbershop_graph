@@ -1,0 +1,46 @@
+{
+	"nav": {
+		"dashboard": "İdarə Paneli",
+		"login": "Giriş",
+		"logout": "Çıxış",
+		"profile": "Profil"
+	},
+	"home": {
+		"hero_title": "Növbəti Mükəmməl",
+		"hero_subtitle": "Saç Kəsiminizi Tapın",
+		"hero_desc": "Bölgənizdəki ən yaxşı bərbərləri kəşf edin, portfoliolarına baxın və saniyələr içində randevu alın.",
+		"search_placeholder": "Ad, məkan və ya xidmət üzrə axtar...",
+		"search_btn": "Axtar",
+		"vip_section": "VIP Ustalar",
+		"vip_badge": "PREMIUM",
+		"all_barbers": "Bütün Ustalar",
+		"view_all": "Hamısına bax",
+		"more": "daha çox"
+	},
+	"auth": {
+		"welcome": "Xoş gəlmisiniz",
+		"login_subtitle": "Randevularınızı və seçilmişlərinizi idarə etmək üçün daxil olun",
+		"email_label": "Email ünvanı",
+		"email_placeholder": "siz@numune.com",
+		"password_label": "Şifrə",
+		"password_disabled_title": "Bu demo üçün şifrə tələb olunmur",
+		"forgot_password": "Şifrəni unutmusunuz?",
+		"login_button": "Daxil ol",
+		"logging_in": "Giriş edilir...",
+		"demo_accounts": "Demo Hesablar",
+		"client_demo": "Müştəri Demo",
+		"barber_demo": "Bərbər Demo",
+		"no_account": "Hesabınız yoxdur?",
+		"register_link": "Pulsuz qeydiyyatdan keçin",
+		"login_failed": "Giriş uğursuz oldu. client@test.com və ya barber@test.com yoxlayın"
+	},
+	"profile": {
+		"back_to_search": "Axtarışa qayıt",
+		"open": "AÇIQ",
+		"reviews": "rəy",
+		"verified": "Təsdiqlənmiş",
+		"professional": "Peşəkar",
+		"about": "Haqqında",
+		"select_service": "Xidmət Seç"
+	}
+}
