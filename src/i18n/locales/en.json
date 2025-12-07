@@ -50,6 +50,21 @@
 		"Haircut": "Haircut",
 		"Styling": "Styling"
 	},
+	"footer": {
+		"description": "The easiest way to find and book the best barbers in your city. Look good, feel good.",
+		"product": "Product",
+		"features": "Features",
+		"for_barbers": "For Barbers",
+		"pricing": "Pricing",
+		"company": "Company",
+		"about_us": "About Us",
+		"careers": "Careers",
+		"contact": "Contact",
+		"legal": "Legal",
+		"privacy": "Privacy",
+		"terms": "Terms",
+		"copyright": "© 2025 BarberBook Inc. All rights reserved."
+	},
 	"auth": {
 		"welcome": "Welcome Back",
 		"login_subtitle": "Sign in to manage your appointments and favorites",

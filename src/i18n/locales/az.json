@@ -50,6 +50,21 @@
 		"Haircut": "Saç Kəsimi",
 		"Styling": "Stilləşdirmə"
 	},
+	"footer": {
+		"description": "Şəhərinizdəki ən yaxşı bərbərləri tapmağın və randevu almağın ən asan yolu. Yaxşı görün, yaxşı hiss et.",
+		"product": "Məhsul",
+		"features": "Xüsusiyyətlər",
+		"for_barbers": "Bərbərlər üçün",
+		"pricing": "Qiymətlər",
+		"company": "Şirkət",
+		"about_us": "Haqqımızda",
+		"careers": "Karyera",
+		"contact": "Əlaqə",
+		"legal": "Hüquqi",
+		"privacy": "Məxfilik",
+		"terms": "Şərtlər",
+		"copyright": "© 2025 BarberBook Inc. Bütün hüquqlar qorunur."
+	},
 	"auth": {
 		"welcome": "Xoş gəlmisiniz",
 		"login_subtitle": "Randevularınızı və seçilmişlərinizi idarə etmək üçün daxil olun",

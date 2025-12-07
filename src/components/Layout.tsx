@@ -227,70 +227,67 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 								<span className='font-bold text-lg text-slate-900'>BarberBook</span>
 							</div>
 							<p className='text-slate-500 text-sm leading-relaxed'>
-								Şəhərinizdəki ən yaxşı bərbərləri tapmağın və randevu almağın ən asan
-								yolu. Yaxşı görün, yaxşı hiss et.
+								{t("footer.description")}
 							</p>
 						</div>
 						<div>
-							<h3 className='font-semibold text-slate-900 mb-4'>Məhsul</h3>
+							<h3 className='font-semibold text-slate-900 mb-4'>{t("footer.product")}</h3>
 							<ul className='space-y-2 text-sm text-slate-500'>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Xüsusiyyətlər
+										{t("footer.features")}
 									</a>
 								</li>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Bərbərlər üçün
+										{t("footer.for_barbers")}
 									</a>
 								</li>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Qiymətlər
+										{t("footer.pricing")}
 									</a>
 								</li>
 							</ul>
 						</div>
 						<div>
-							<h3 className='font-semibold text-slate-900 mb-4'>Şirkət</h3>
+							<h3 className='font-semibold text-slate-900 mb-4'>{t("footer.company")}</h3>
 							<ul className='space-y-2 text-sm text-slate-500'>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Haqqımızda
+										{t("footer.about_us")}
 									</a>
 								</li>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Karyera
+										{t("footer.careers")}
 									</a>
 								</li>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Əlaqə
+										{t("footer.contact")}
 									</a>
 								</li>
 							</ul>
 						</div>
 						<div>
-							<h3 className='font-semibold text-slate-900 mb-4'>Hüquqi</h3>
+							<h3 className='font-semibold text-slate-900 mb-4'>{t("footer.legal")}</h3>
 							<ul className='space-y-2 text-sm text-slate-500'>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Məxfilik
+										{t("footer.privacy")}
 									</a>
 								</li>
 								<li>
 									<a href='#' className='hover:text-primary-600'>
-										Şərtlər
+										{t("footer.terms")}
 									</a>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<div className='border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4'>
-						<p className='text-slate-400 text-sm'>
-							© 2025 BarberBook Inc. Bütün hüquqlar qorunur.
-						</p>
+						<p className='text-slate-400 text-sm'>{t("footer.copyright")}</p>
 						<div className='flex gap-6'>
 							{/* Social icons placeholders */}
 							<div className='w-5 h-5 bg-slate-200 rounded-full'></div>
