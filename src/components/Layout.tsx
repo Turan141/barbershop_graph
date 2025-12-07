@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
-import { Scissors, User, LogOut, Calendar, Heart, Menu, X, Clock } from "lucide-react"
+import { Scissors, LogOut, Calendar, Heart, Menu, X, Clock } from "lucide-react"
 import clsx from "clsx"
 import { useTranslation } from "react-i18next"
 import { LanguageSwitcher } from "./LanguageSwitcher"

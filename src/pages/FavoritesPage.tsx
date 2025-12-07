@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
 import { useFavoritesStore } from "../store/favoritesStore"
 import { Star, MapPin, Scissors, Heart, ArrowLeft } from "lucide-react"
-import clsx from "clsx"
 
 export const FavoritesPage = () => {
 	const { user } = useAuthStore()

@@ -1,4 +1,4 @@
-import { Barber, Booking, User, Message } from "../types"
+import { Barber, Booking, User } from "../types"
 
 const STORAGE_KEYS = {
 	USERS: "barber_app_users_v3",
