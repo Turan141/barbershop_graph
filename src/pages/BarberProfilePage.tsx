@@ -311,16 +311,18 @@ export const BarberProfilePage = () => {
 				{/* Right Column: Booking Widget (4 cols) */}
 				<div className='lg:col-span-4'>
 					<div className='sticky top-24'>
-						<div className='card p-6 shadow-lg border-slate-200 bg-white'>
+						<div className='card p-6 shadow-xl shadow-slate-200/50 border-slate-100 bg-white/80 backdrop-blur-xl ring-1 ring-slate-200/50'>
 							<h2 className='text-lg font-bold text-slate-900 mb-6 flex items-center gap-2'>
-								<Calendar className='w-5 h-5 text-primary-600' />
+								<div className='p-2 bg-primary-50 rounded-lg'>
+									<Calendar className='w-5 h-5 text-primary-600' />
+								</div>
 								{t("profile.book_appointment")}
 							</h2>
 
 							{bookingStatus === "success" ? (
 								<div className='text-center py-10 animate-fade-in'>
-									<div className='w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm'>
-										<Check className='w-8 h-8' />
+									<div className='w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-100 animate-slide-up'>
+										<Check className='w-10 h-10' />
 									</div>
 									<h3 className='text-xl font-bold text-slate-900 mb-2'>
 										{t("profile.appointment_confirmed")}
@@ -341,13 +343,16 @@ export const BarberProfilePage = () => {
 									</button>
 								</div>
 							) : (
-								<div className='space-y-6'>
+								<div className='space-y-8'>
 									{/* Date Selection */}
 									<div>
-										<label className='block text-sm font-medium text-slate-700 mb-3'>
+										<label className='block text-sm font-bold text-slate-900 mb-4 flex items-center justify-between'>
 											{t("profile.select_date")}
+											<span className='text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded-full'>
+												{dates[0].fullLabel.split(" ")[1]}
+											</span>
 										</label>
-										<div className='flex gap-2 overflow-x-auto pb-2 scrollbar-hide'>
+										<div className='flex gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-2 px-2'>
 											{dates.map((d) => (
 												<button
 													key={d.value}
@@ -356,16 +361,21 @@ export const BarberProfilePage = () => {
 														setSelectedTime("")
 													}}
 													className={clsx(
-														"flex-shrink-0 w-16 h-20 rounded-xl flex flex-col items-center justify-center border transition-all",
+														"flex-shrink-0 w-16 h-24 rounded-2xl flex flex-col items-center justify-center border transition-all duration-300",
 														selectedDate === d.value
-															? "bg-primary-600 text-white border-primary-600 shadow-md scale-105"
-															: "bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-slate-50"
+															? "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/30 scale-105"
+															: "bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-slate-50 hover:shadow-md"
 													)}
 												>
-													<span className='text-xs font-medium opacity-80'>
+													<span
+														className={clsx(
+															"text-xs font-medium mb-1",
+															selectedDate === d.value ? "opacity-80" : "opacity-60"
+														)}
+													>
 														{d.label.split(" ")[0]}
 													</span>
-													<span className='text-lg font-bold'>
+													<span className='text-xl font-bold'>
 														{d.label.split(" ")[1]}
 													</span>
 												</button>
@@ -376,29 +386,29 @@ export const BarberProfilePage = () => {
 									{/* Time Selection */}
 									<div
 										className={clsx(
-											"transition-opacity duration-300",
-											!selectedDate && "opacity-50 pointer-events-none"
+											"transition-all duration-500",
+											!selectedDate && "opacity-50 pointer-events-none blur-sm"
 										)}
 									>
-										<label className='block text-sm font-medium text-slate-700 mb-3'>
+										<label className='block text-sm font-bold text-slate-900 mb-4'>
 											{t("profile.available_times")}{" "}
 											{selectedDate && (
-												<span className='font-normal text-slate-500'>
+												<span className='font-normal text-slate-500 ml-2'>
 													- {dates.find((d) => d.value === selectedDate)?.fullLabel}
 												</span>
 											)}
 										</label>
-										<div className='grid grid-cols-3 gap-2 max-h-60 overflow-y-auto pr-1'>
+										<div className='grid grid-cols-3 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar'>
 											{availableSlots.length > 0 ? (
 												availableSlots.map((time) => (
 													<button
 														key={time}
 														onClick={() => setSelectedTime(time)}
 														className={clsx(
-															"py-2 px-1 text-sm font-medium rounded-lg border transition-all",
+															"py-2.5 px-1 text-sm font-medium rounded-xl border transition-all duration-200",
 															selectedTime === time
-																? "bg-primary-600 text-white border-primary-600 shadow-sm"
-																: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600"
+																? "bg-primary-600 text-white border-primary-600 shadow-md scale-105"
+																: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
 														)}
 													>
 														{time}
@@ -414,11 +424,11 @@ export const BarberProfilePage = () => {
 
 									{/* Summary & Action */}
 									<div className='pt-6 border-t border-slate-100'>
-										<div className='flex justify-between items-end mb-6'>
-											<div className='text-sm text-slate-500'>
+										<div className='flex justify-between items-end mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100'>
+											<div className='text-sm text-slate-500 font-medium'>
 												{t("profile.total_price")}
 											</div>
-											<div className='text-2xl font-bold text-slate-900'>
+											<div className='text-3xl font-bold text-slate-900'>
 												{selectedService
 													? `${
 															selectedService.currency === "AZN"
@@ -437,19 +447,19 @@ export const BarberProfilePage = () => {
 												!selectedTime ||
 												bookingStatus === "submitting"
 											}
-											className='btn-primary w-full flex items-center justify-center gap-2'
+											className='btn-primary w-full flex items-center justify-center gap-2 py-4 text-lg shadow-xl shadow-primary-500/20 hover:shadow-primary-500/40'
 										>
 											{bookingStatus === "submitting" ? (
 												<>{t("profile.processing")}</>
 											) : (
 												<>
-													{t("profile.confirm")} <ArrowRight className='w-4 h-4' />
+													{t("profile.confirm")} <ArrowRight className='w-5 h-5' />
 												</>
 											)}
 										</button>
 
 										{bookingStatus === "error" && (
-											<p className='text-red-500 text-sm text-center mt-3 bg-red-50 py-2 rounded-lg'>
+											<p className='text-red-500 text-sm text-center mt-3 bg-red-50 py-2 rounded-lg border border-red-100 animate-shake'>
 												{t("profile.slot_taken")}
 											</p>
 										)}
