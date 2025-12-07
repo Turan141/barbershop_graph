@@ -3,7 +3,10 @@
 		"dashboard": "Панель управления",
 		"login": "Войти",
 		"logout": "Выйти",
-		"profile": "Профиль"
+		"profile": "Профиль",
+		"my_appointments": "Мои записи",
+		"favorites": "Избранное",
+		"register": "Регистрация"
 	},
 	"home": {
 		"hero_title": "Найдите Свою Идеальную",
@@ -89,6 +92,26 @@
 		"verified": "Подтвержден",
 		"professional": "Профессионал",
 		"about": "О мастере",
-		"select_service": "Выберите услугу"
+		"select_service": "Выберите услугу",
+		"location": "Местоположение",
+		"portfolio": "Портфолио",
+		"show_less": "Свернуть",
+		"view_all": "Показать все",
+		"min": "мин",
+		"selected": "Выбрано",
+		"select": "Выбрать",
+		"book_appointment": "Записаться",
+		"select_date": "Выберите дату",
+		"select_time": "Выберите время",
+		"confirm_booking": "Подтвердить",
+		"available_times": "Доступное время",
+		"no_slots": "Нет свободного времени на выбранную дату.",
+		"total_price": "Итоговая цена",
+		"processing": "Обработка...",
+		"confirm": "Подтвердить",
+		"slot_taken": "Это время уже занято. Пожалуйста, выберите другое.",
+		"appointment_confirmed": "Запись подтверждена!",
+		"appointment_success_message": "Ваша запись успешно создана.",
+		"book_another": "Записаться еще"
 	}
 }

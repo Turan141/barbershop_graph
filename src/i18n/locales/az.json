@@ -3,7 +3,10 @@
 		"dashboard": "İdarə Paneli",
 		"login": "Giriş",
 		"logout": "Çıxış",
-		"profile": "Profil"
+		"profile": "Profil",
+		"my_appointments": "Randevularım",
+		"favorites": "Seçilmişlər",
+		"register": "Qeydiyyat"
 	},
 	"home": {
 		"hero_title": "Növbəti Mükəmməl",
@@ -89,6 +92,26 @@
 		"verified": "Təsdiqlənmiş",
 		"professional": "Peşəkar",
 		"about": "Haqqında",
-		"select_service": "Xidmət Seç"
+		"select_service": "Xidmət Seç",
+		"location": "Məkan",
+		"portfolio": "Portfolio",
+		"show_less": "Daha az göstər",
+		"view_all": "Hamısına bax",
+		"min": "dəq",
+		"selected": "Seçildi",
+		"select": "Seç",
+		"book_appointment": "Randevu Al",
+		"select_date": "Tarix Seç",
+		"select_time": "Vaxt Seç",
+		"confirm_booking": "Təsdiqlə",
+		"available_times": "Mövcud Saatlar",
+		"no_slots": "Bu tarix üçün boş yer yoxdur.",
+		"total_price": "Ümumi Qiymət",
+		"processing": "Emal edilir...",
+		"confirm": "Təsdiqlə",
+		"slot_taken": "Bu vaxt artıq tutulub. Başqasını seçin.",
+		"appointment_confirmed": "Randevu Təsdiqləndi!",
+		"appointment_success_message": "Randevunuz uğurla qeydə alındı.",
+		"book_another": "Başqasını Al"
 	}
 }

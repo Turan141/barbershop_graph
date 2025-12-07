@@ -185,20 +185,46 @@ export const BarberProfilePage = () => {
 						</div>
 					</div>
 
+					{/* Location Map */}
+					<div>
+						<h2 className='text-xl font-bold text-slate-900 mb-4 flex items-center gap-2'>
+							<MapPin className='w-5 h-5 text-primary-600' />
+							{t("profile.location")}
+						</h2>
+						<div className='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-64 relative group'>
+							<iframe
+								width='100%'
+								height='100%'
+								frameBorder='0'
+								scrolling='no'
+								marginHeight={0}
+								marginWidth={0}
+								src={`https://maps.google.com/maps?q=${encodeURIComponent(
+									barber.location
+								)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+								className='filter grayscale group-hover:grayscale-0 transition-all duration-500'
+							></iframe>
+							<div className='absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2 text-sm font-medium text-slate-900'>
+								<MapPin className='w-4 h-4 text-primary-600' />
+								{barber.location}
+							</div>
+						</div>
+					</div>
+
 					{/* Portfolio Section */}
 					{barber.portfolio && barber.portfolio.length > 0 && (
 						<div>
 							<div className='flex justify-between items-center mb-4'>
 								<h2 className='text-xl font-bold text-slate-900 flex items-center gap-2'>
 									<ImageIcon className='w-5 h-5 text-primary-600' />
-									Portfolio
+									{t("profile.portfolio")}
 								</h2>
 								{barber.portfolio.length > 4 && (
 									<button
 										onClick={() => setShowAllPortfolio(!showAllPortfolio)}
 										className='text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors'
 									>
-										{showAllPortfolio ? "Daha az göstər" : "Hamısına bax"}
+										{showAllPortfolio ? t("profile.show_less") : t("profile.view_all")}
 									</button>
 								)}
 							</div>
@@ -254,7 +280,7 @@ export const BarberProfilePage = () => {
 											<h3 className='font-semibold text-slate-900'>{service.name}</h3>
 											<div className='flex items-center text-sm text-slate-500 mt-0.5'>
 												<Clock className='w-3.5 h-3.5 mr-1' />
-												{service.duration} dəq
+												{service.duration} {t("profile.min")}
 											</div>
 										</div>
 									</div>
@@ -271,7 +297,9 @@ export const BarberProfilePage = () => {
 													: "text-slate-400"
 											)}
 										>
-											{selectedService?.id === service.id ? "Seçildi" : "Seç"}
+											{selectedService?.id === service.id
+												? t("profile.selected")
+												: t("profile.select")}
 										</div>
 									</div>
 								</div>
@@ -286,7 +314,7 @@ export const BarberProfilePage = () => {
 						<div className='card p-6 shadow-lg border-slate-200 bg-white'>
 							<h2 className='text-lg font-bold text-slate-900 mb-6 flex items-center gap-2'>
 								<Calendar className='w-5 h-5 text-primary-600' />
-								Randevu Al
+								{t("profile.book_appointment")}
 							</h2>
 
 							{bookingStatus === "success" ? (
@@ -295,9 +323,11 @@ export const BarberProfilePage = () => {
 										<Check className='w-8 h-8' />
 									</div>
 									<h3 className='text-xl font-bold text-slate-900 mb-2'>
-										Randevu Təsdiqləndi!
+										{t("profile.appointment_confirmed")}
 									</h3>
-									<p className='text-slate-600 mb-8'>Randevunuz uğurla qeydə alındı.</p>
+									<p className='text-slate-600 mb-8'>
+										{t("profile.appointment_success_message")}
+									</p>
 									<button
 										onClick={() => {
 											setBookingStatus("idle")
@@ -307,7 +337,7 @@ export const BarberProfilePage = () => {
 										}}
 										className='btn-secondary w-full'
 									>
-										Başqasını Al
+										{t("profile.book_another")}
 									</button>
 								</div>
 							) : (
@@ -315,7 +345,7 @@ export const BarberProfilePage = () => {
 									{/* Date Selection */}
 									<div>
 										<label className='block text-sm font-medium text-slate-700 mb-3'>
-											Tarix Seç
+											{t("profile.select_date")}
 										</label>
 										<div className='flex gap-2 overflow-x-auto pb-2 scrollbar-hide'>
 											{dates.map((d) => (
@@ -351,7 +381,7 @@ export const BarberProfilePage = () => {
 										)}
 									>
 										<label className='block text-sm font-medium text-slate-700 mb-3'>
-											Mövcud Saatlar{" "}
+											{t("profile.available_times")}{" "}
 											{selectedDate && (
 												<span className='font-normal text-slate-500'>
 													- {dates.find((d) => d.value === selectedDate)?.fullLabel}
@@ -376,7 +406,7 @@ export const BarberProfilePage = () => {
 												))
 											) : (
 												<div className='col-span-3 text-sm text-slate-400 text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
-													Bu tarix üçün boş yer yoxdur
+													{t("profile.no_slots")}
 												</div>
 											)}
 										</div>
@@ -385,7 +415,9 @@ export const BarberProfilePage = () => {
 									{/* Summary & Action */}
 									<div className='pt-6 border-t border-slate-100'>
 										<div className='flex justify-between items-end mb-6'>
-											<div className='text-sm text-slate-500'>Ümumi Qiymət</div>
+											<div className='text-sm text-slate-500'>
+												{t("profile.total_price")}
+											</div>
 											<div className='text-2xl font-bold text-slate-900'>
 												{selectedService
 													? `${
@@ -408,17 +440,17 @@ export const BarberProfilePage = () => {
 											className='btn-primary w-full flex items-center justify-center gap-2'
 										>
 											{bookingStatus === "submitting" ? (
-												<>Emal edilir...</>
+												<>{t("profile.processing")}</>
 											) : (
 												<>
-													Təsdiqlə <ArrowRight className='w-4 h-4' />
+													{t("profile.confirm")} <ArrowRight className='w-4 h-4' />
 												</>
 											)}
 										</button>
 
 										{bookingStatus === "error" && (
 											<p className='text-red-500 text-sm text-center mt-3 bg-red-50 py-2 rounded-lg'>
-												Bu vaxt artıq tutulub. Başqasını seçin.
+												{t("profile.slot_taken")}
 											</p>
 										)}
 									</div>

@@ -2,16 +2,7 @@ import { useEffect, useState, useMemo } from "react"
 import { Link } from "react-router-dom"
 import { api } from "../services/api"
 import { Barber } from "../types"
-import {
-	Star,
-	MapPin,
-	Search,
-	ArrowRight,
-	Scissors,
-	QrCode,
-	Filter,
-	X
-} from "lucide-react"
+import { Star, MapPin, Search, Scissors, QrCode, Filter, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"

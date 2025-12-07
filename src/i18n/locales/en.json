@@ -3,7 +3,10 @@
 		"dashboard": "Dashboard",
 		"login": "Login",
 		"logout": "Logout",
-		"profile": "Profile"
+		"profile": "Profile",
+		"my_appointments": "My Appointments",
+		"favorites": "Favorites",
+		"register": "Register"
 	},
 	"home": {
 		"hero_title": "Find Your Next Perfect",
@@ -83,12 +86,32 @@
 		"login_failed": "Login failed. Try client@test.com or barber@test.com"
 	},
 	"profile": {
+		"available_times": "Available Times",
+		"no_slots": "No available slots for the selected date.",
 		"back_to_search": "Back to Search",
 		"open": "OPEN",
 		"reviews": "reviews",
 		"verified": "Verified",
 		"professional": "Professional",
 		"about": "About",
-		"select_service": "Select Service"
+		"select_service": "Select Service",
+		"location": "Location",
+		"portfolio": "Portfolio",
+		"show_less": "Show less",
+		"view_all": "View all",
+		"min": "min",
+		"selected": "Selected",
+		"select": "Select",
+		"book_appointment": "Book Appointment",
+		"select_date": "Select Date",
+		"select_time": "Select Time",
+		"confirm_booking": "Confirm Booking",
+		"total_price": "Total Price",
+		"processing": "Processing...",
+		"confirm": "Confirm",
+		"slot_taken": "This slot is already taken. Please choose another.",
+		"appointment_confirmed": "Appointment Confirmed!",
+		"appointment_success_message": "Your appointment has been successfully booked.",
+		"book_another": "Book Another"
 	}
 }

@@ -71,7 +71,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 											)}
 										>
 											<Clock className='h-4 w-4' />
-											Randevularım
+											{t("nav.my_appointments")}
 										</Link>
 										<Link
 											to='/favorites'
@@ -83,7 +83,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 											)}
 										>
 											<Heart className='h-4 w-4' />
-											Seçilmişlər
+											{t("nav.favorites")}
 										</Link>
 									</div>
 
@@ -124,7 +124,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 										to='/register'
 										className='btn-primary py-2.5 px-5 text-sm shadow-none'
 									>
-										Qeydiyyat
+										{t("nav.register")}
 									</Link>
 								</div>
 							)}
@@ -176,13 +176,13 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 										to='/bookings'
 										className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'
 									>
-										Randevularım
+										{t("nav.my_appointments")}
 									</Link>
 									<Link
 										to='/favorites'
 										className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'
 									>
-										Seçilmişlərim
+										{t("nav.favorites")}
 									</Link>
 									<button
 										onClick={handleLogout}
@@ -203,7 +203,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 										to='/register'
 										className='block w-full text-center px-4 py-2 bg-primary-600 text-white rounded-xl font-medium'
 									>
-										Qeydiyyat
+										{t("nav.register")}
 									</Link>
 								</div>
 							)}
