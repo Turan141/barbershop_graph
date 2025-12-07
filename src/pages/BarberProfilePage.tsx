@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, useNavigate, useLocation } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { api } from "../services/api"
 import { Barber, Service } from "../types"
@@ -35,8 +35,6 @@ export const BarberProfilePage = () => {
 		"idle" | "submitting" | "success" | "error"
 	>("idle")
 	const [showAllPortfolio, setShowAllPortfolio] = useState(false)
-
-	const { pathname } = useLocation()
 
 	useEffect(() => {
 		if (id) {

@@ -18,7 +18,37 @@
 		"more": "daha çox",
 		"banner_badge": "Bərbərlər üçün",
 		"banner_title": "QR Kod ilə Müştəri Bazasını Artırın",
-		"banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər."
+		"banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər.",
+		"filters": {
+			"title": "Filterlər",
+			"clear_all": "Təmizlə",
+			"location": "Məkan",
+			"all_locations": "Bütün Məkanlar",
+			"category": "Kateqoriya",
+			"all_categories": "Bütün Kateqoriyalar",
+			"price_level": "Qiymət Aralığı",
+			"any_price": "İstənilən Qiymət",
+			"price_low": "$ (20-dən az)",
+			"price_medium": "$$ (20 - 50)",
+			"price_high": "$$$ (50+)",
+			"rating": "Reytinq",
+			"any_rating": "İstənilən Reytinq",
+			"stars_4_5": "4.5+ Ulduz",
+			"stars_4_0": "4.0+ Ulduz",
+			"stars_3_5": "3.5+ Ulduz",
+			"show_results": "{{count}} Nəticəni Göstər",
+			"no_results_title": "Bərbər tapılmadı",
+			"no_results_desc": "Axtarışınıza uyğun nəticə tapılmadı. Başqa açar sözləri yoxlayın.",
+			"clear_filters_btn": "Bütün filterləri təmizlə"
+		}
+	},
+	"categories": {
+		"Men": "Kişi",
+		"Women": "Qadın",
+		"Kids": "Uşaq",
+		"Beard": "Saqqal",
+		"Haircut": "Saç Kəsimi",
+		"Styling": "Stilləşdirmə"
 	},
 	"auth": {
 		"welcome": "Xoş gəlmisiniz",

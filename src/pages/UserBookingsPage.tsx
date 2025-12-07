@@ -4,12 +4,11 @@ import { Booking, Barber } from "../types"
 import { api } from "../services/api"
 import { Calendar, Clock, MapPin, Scissors, X, CheckCircle } from "lucide-react"
 import clsx from "clsx"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const UserBookingsPage = () => {
 	const { user } = useAuthStore()
 	const navigate = useNavigate()
-	const location = useLocation()
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const [barbers, setBarbers] = useState<Record<string, Barber>>({})
 	const [loading, setLoading] = useState(true)

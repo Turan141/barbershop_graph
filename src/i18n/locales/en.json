@@ -18,7 +18,37 @@
 		"more": "more",
 		"banner_badge": "For Barbers",
 		"banner_title": "Grow Your Client Base with QR Code",
-		"banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online."
+		"banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online.",
+		"filters": {
+			"title": "Filters",
+			"clear_all": "Clear all",
+			"location": "Location",
+			"all_locations": "All Locations",
+			"category": "Category",
+			"all_categories": "All Categories",
+			"price_level": "Price Level",
+			"any_price": "Any Price",
+			"price_low": "$ (Under 20)",
+			"price_medium": "$$ (20 - 50)",
+			"price_high": "$$$ (50+)",
+			"rating": "Rating",
+			"any_rating": "Any Rating",
+			"stars_4_5": "4.5+ Stars",
+			"stars_4_0": "4.0+ Stars",
+			"stars_3_5": "3.5+ Stars",
+			"show_results": "Show {{count}} Results",
+			"no_results_title": "No Barbers Found",
+			"no_results_desc": "No results found matching your search. Try different keywords.",
+			"clear_filters_btn": "Clear all filters"
+		}
+	},
+	"categories": {
+		"Men": "Men",
+		"Women": "Women",
+		"Kids": "Kids",
+		"Beard": "Beard",
+		"Haircut": "Haircut",
+		"Styling": "Styling"
 	},
 	"auth": {
 		"welcome": "Welcome Back",

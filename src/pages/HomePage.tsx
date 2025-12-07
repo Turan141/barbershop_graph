@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { Link } from "react-router-dom"
 import { api } from "../services/api"
 import { Barber } from "../types"
-import { Star, MapPin, Search, ArrowRight, Scissors, QrCode } from "lucide-react"
+import { Star, MapPin, Search, ArrowRight, Scissors, QrCode, Filter, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"
+import clsx from "clsx"
 
 export const HomePage = () => {
 	const { user } = useAuthStore()
@@ -13,6 +14,13 @@ export const HomePage = () => {
 	const [search, setSearch] = useState("")
 	const [loading, setLoading] = useState(true)
 	const { t } = useTranslation()
+
+	// Filters
+	const [selectedLocation, setSelectedLocation] = useState("")
+	const [selectedCategory, setSelectedCategory] = useState("")
+	const [priceLevel, setPriceLevel] = useState<"all" | "low" | "medium" | "high">("all")
+	const [minRating, setMinRating] = useState(0)
+	const [showFilters, setShowFilters] = useState(false)
 
 	if (user?.role === "barber") {
 		return <BarberDashboardPage />
@@ -35,10 +43,78 @@ export const HomePage = () => {
 		return () => clearTimeout(debounce)
 	}, [search])
 
+	// Derived Data for Filters
+	const locations = useMemo(() => {
+		const locs = new Set(barbers.map((b) => b.location))
+		return Array.from(locs).sort()
+	}, [barbers])
+
+	const categories = ["Men", "Women", "Kids", "Beard", "Haircut", "Styling"]
+
+	const categoryKeywords: Record<string, string[]> = {
+		Men: ["fade", "saqqal", "təraş", "kişi", "klassik"],
+		Women: ["rəngləmə", "qadın", "xanım", "uzun saç", "stilləşdirmə"],
+		Kids: ["uşaq"],
+		Beard: ["saqqal", "təraş"],
+		Haircut: ["kəsim", "saç"],
+		Styling: ["stilləşdirmə", "baxım"]
+	}
+
+	const filteredBarbers = useMemo(() => {
+		return barbers.filter((barber) => {
+			// Location Filter
+			if (selectedLocation && barber.location !== selectedLocation) return false
+
+			// Category Filter (Specialties)
+			if (selectedCategory) {
+				const keywords = categoryKeywords[selectedCategory] || [selectedCategory.toLowerCase()]
+				const hasSpecialty = barber.specialties.some((s) =>
+					keywords.some((k) => s.toLowerCase().includes(k))
+				)
+				const hasService = barber.services.some((s) =>
+					keywords.some((k) => s.name.toLowerCase().includes(k))
+				)
+
+				if (!hasSpecialty && !hasService) return false
+			}
+
+			// Price Filter (Check if any service matches the range)
+			if (priceLevel !== "all") {
+				const hasMatchingPrice = barber.services.some((s) => {
+					if (priceLevel === "low") return s.price <= 20
+					if (priceLevel === "medium") return s.price > 20 && s.price <= 50
+					if (priceLevel === "high") return s.price > 50
+					return false
+				})
+				if (!hasMatchingPrice) return false
+			}
+
+			// Rating Filter
+			if (minRating > 0 && barber.rating < minRating) return false
+
+			return true
+		})
+	}, [barbers, selectedLocation, selectedCategory, priceLevel, minRating])
+
+	const clearFilters = () => {
+		setSelectedLocation("")
+		setSelectedCategory("")
+		setPriceLevel("all")
+		setMinRating(0)
+		setSearch("")
+	}
+
+	const activeFiltersCount = [
+		selectedLocation,
+		selectedCategory,
+		priceLevel !== "all",
+		minRating > 0
+	].filter(Boolean).length
+
 	return (
 		<div className='animate-fade-in'>
 			{/* Hero Section */}
-			<div className='relative bg-slate-900 text-white overflow-hidden'>
+			<div className='relative bg-slate-900 text-white'>
 				<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-20"></div>
 				<div className='absolute inset-0 bg-gradient-to-b from-slate-900/0 via-slate-900/50 to-slate-50'></div>
 
@@ -54,7 +130,7 @@ export const HomePage = () => {
 					</p>
 
 					{/* Search Bar */}
-					<div className='max-w-2xl mx-auto relative group'>
+					<div className='max-w-2xl mx-auto relative group z-20'>
 						<div className='absolute -inset-1 bg-gradient-to-r from-primary-500 to-primary-300 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-200'></div>
 						<div className='relative flex items-center bg-white rounded-xl p-2 shadow-2xl'>
 							<Search className='w-6 h-6 text-slate-400 ml-4' />
@@ -65,10 +141,134 @@ export const HomePage = () => {
 								value={search}
 								onChange={(e) => setSearch(e.target.value)}
 							/>
+							<button
+								onClick={() => setShowFilters(!showFilters)}
+								className={clsx(
+									"p-3 rounded-lg mr-2 transition-colors flex items-center gap-2",
+									showFilters || activeFiltersCount > 0
+										? "bg-primary-50 text-primary-600"
+										: "hover:bg-slate-100 text-slate-500"
+								)}
+							>
+								<Filter className='w-5 h-5' />
+								{activeFiltersCount > 0 && (
+									<span className='bg-primary-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full'>
+										{activeFiltersCount}
+									</span>
+								)}
+							</button>
 							<button className='bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-black transition-colors'>
 								{t("home.search_btn")}
 							</button>
 						</div>
+
+						{/* Filters Panel */}
+						{showFilters && (
+							<div className='absolute top-full left-0 right-0 mt-4 bg-white rounded-xl shadow-xl border border-slate-100 p-6 animate-slide-up text-left z-50'>
+								<div className='flex justify-between items-center mb-4'>
+									<h3 className='font-bold text-slate-900'>{t("home.filters.title")}</h3>
+									<div className='flex items-center gap-4'>
+										{activeFiltersCount > 0 && (
+											<button
+												onClick={clearFilters}
+												className='text-sm text-red-500 hover:text-red-600 font-medium flex items-center gap-1'
+											>
+												<X className='w-4 h-4' /> {t("home.filters.clear_all")}
+											</button>
+										)}
+										<button
+											onClick={() => setShowFilters(false)}
+											className='text-slate-400 hover:text-slate-600'
+										>
+											<X className='w-5 h-5' />
+										</button>
+									</div>
+								</div>
+
+								<div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
+									{/* Location */}
+									<div>
+										<label className='block text-sm font-medium text-slate-700 mb-2'>
+											{t("home.filters.location")}
+										</label>
+										<select
+											value={selectedLocation}
+											onChange={(e) => setSelectedLocation(e.target.value)}
+											className='w-full p-2.5 rounded-lg border border-slate-200 text-slate-700 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none'
+										>
+											<option value=''>{t("home.filters.all_locations")}</option>
+											{locations.map((loc) => (
+												<option key={loc} value={loc}>
+													{loc}
+												</option>
+											))}
+										</select>
+									</div>
+
+									{/* Category */}
+									<div>
+										<label className='block text-sm font-medium text-slate-700 mb-2'>
+											{t("home.filters.category")}
+										</label>
+										<select
+											value={selectedCategory}
+											onChange={(e) => setSelectedCategory(e.target.value)}
+											className='w-full p-2.5 rounded-lg border border-slate-200 text-slate-700 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none'
+										>
+											<option value=''>{t("home.filters.all_categories")}</option>
+											{categories.map((cat) => (
+												<option key={cat} value={cat}>
+													{t(`categories.${cat}`)}
+												</option>
+											))}
+										</select>
+									</div>
+
+									{/* Price */}
+									<div>
+										<label className='block text-sm font-medium text-slate-700 mb-2'>
+											{t("home.filters.price_level")}
+										</label>
+										<select
+											value={priceLevel}
+											onChange={(e) => setPriceLevel(e.target.value as any)}
+											className='w-full p-2.5 rounded-lg border border-slate-200 text-slate-700 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none'
+										>
+											<option value='all'>{t("home.filters.any_price")}</option>
+											<option value='low'>{t("home.filters.price_low")}</option>
+											<option value='medium'>{t("home.filters.price_medium")}</option>
+											<option value='high'>{t("home.filters.price_high")}</option>
+										</select>
+									</div>
+
+									{/* Rating */}
+									<div>
+										<label className='block text-sm font-medium text-slate-700 mb-2'>
+											{t("home.filters.rating")}
+										</label>
+										<select
+											value={minRating}
+											onChange={(e) => setMinRating(Number(e.target.value))}
+											className='w-full p-2.5 rounded-lg border border-slate-200 text-slate-700 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none'
+										>
+											<option value='0'>{t("home.filters.any_rating")}</option>
+											<option value='4.5'>{t("home.filters.stars_4_5")}</option>
+											<option value='4.0'>{t("home.filters.stars_4_0")}</option>
+											<option value='3.5'>{t("home.filters.stars_3_5")}</option>
+										</select>
+									</div>
+								</div>
+
+								<div className='mt-6 pt-4 border-t border-slate-100 flex justify-end'>
+									<button
+										onClick={() => setShowFilters(false)}
+										className='bg-primary-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-700 transition-colors'
+									>
+										{t("home.filters.show_results", { count: filteredBarbers.length })}
+									</button>
+								</div>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
@@ -84,20 +284,30 @@ export const HomePage = () => {
 							></div>
 						))}
 					</div>
-				) : barbers.length === 0 ? (
+				) : filteredBarbers.length === 0 ? (
 					<div className='text-center py-20'>
 						<div className='bg-slate-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4'>
 							<Search className='w-10 h-10 text-slate-300' />
 						</div>
-						<h3 className='text-xl font-bold text-slate-900 mb-2'>Bərbər tapılmadı</h3>
+						<h3 className='text-xl font-bold text-slate-900 mb-2'>
+							{t("home.filters.no_results_title")}
+						</h3>
 						<p className='text-slate-500'>
-							Axtarışınıza uyğun nəticə tapılmadı. Başqa açar sözləri yoxlayın.
+							{t("home.filters.no_results_desc")}
 						</p>
+						{activeFiltersCount > 0 && (
+							<button
+								onClick={clearFilters}
+								className='mt-4 text-primary-600 font-semibold hover:underline'
+							>
+								{t("home.filters.clear_filters_btn")}
+							</button>
+						)}
 					</div>
 				) : (
 					<>
 						{/* VIP Section */}
-						{barbers.some((b) => b.tier === "vip") && (
+						{filteredBarbers.some((b) => b.tier === "vip") && (
 							<div className='mb-16'>
 								<div className='flex items-center justify-between mb-8'>
 									<div className='flex items-center gap-3'>
@@ -110,7 +320,7 @@ export const HomePage = () => {
 									</div>
 								</div>
 								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-									{barbers
+									{filteredBarbers
 										.filter((b) => b.tier === "vip")
 										.map((barber) => (
 											<Link
@@ -199,20 +409,11 @@ export const HomePage = () => {
 							</div>
 						</div>
 
-						{/* Standard Section */}
-						<div>
-							<div className='flex items-center justify-between mb-8'>
-								<h2 className='text-2xl font-bold text-slate-900'>
-									{t("home.all_barbers")}
-								</h2>
-								<div className='text-sm text-primary-600 font-semibold cursor-pointer hover:underline flex items-center gap-1'>
-									{t("home.view_all")} <ArrowRight className='w-4 h-4' />
-								</div>
-							</div>
-							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-								{barbers
-									.filter((b) => b.tier !== "vip")
-									.map((barber) => (
+						{/* Standard List */}
+						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+							{filteredBarbers
+								.filter((b) => b.tier !== "vip")
+								.map((barber) => (
 										<Link key={barber.id} to={`/barbers/${barber.id}`} className='group'>
 											<div className='card overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col bg-white'>
 												<div className='aspect-[4/3] relative overflow-hidden'>
@@ -264,7 +465,6 @@ export const HomePage = () => {
 										</Link>
 									))}
 							</div>
-						</div>
 					</>
 				)}
 			</div>
