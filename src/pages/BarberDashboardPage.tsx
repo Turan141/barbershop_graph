@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
 import { Barber, Service, Booking, User as UserType } from "../types"
 import { api } from "../services/api"
@@ -23,6 +24,14 @@ import clsx from "clsx"
 
 export const BarberDashboardPage = () => {
 	const { user } = useAuthStore()
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		if (user?.role !== "barber") {
+			navigate("/")
+		}
+	}, [user, navigate])
+
 	const [barber, setBarber] = useState<Barber | null>(null)
 	const [loading, setLoading] = useState(true)
 	const [activeTab, setActiveTab] = useState<

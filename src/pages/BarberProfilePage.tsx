@@ -39,17 +39,11 @@ export const BarberProfilePage = () => {
 	const { pathname } = useLocation()
 
 	useEffect(() => {
-		if (!user) {
-			navigate("/login", { state: { from: pathname } })
-			return
-		}
 		if (id) {
 			api.barbers.get(id).then(setBarbers)
 			if (user) fetchFavorites(user.id)
 		}
-	}, [id, user, navigate])
-
-	if (!user) return null
+	}, [id, user])
 
 	if (!barber)
 		return (

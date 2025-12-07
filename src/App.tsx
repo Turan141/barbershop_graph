@@ -7,6 +7,7 @@ import { BarberDashboardPage } from "./pages/BarberDashboardPage"
 import { FavoritesPage } from "./pages/FavoritesPage"
 import { UserBookingsPage } from "./pages/UserBookingsPage"
 import { ScrollToTop } from "./components/ScrollToTop"
+import { ProtectedRoute } from "./components/ProtectedRoute"
 
 function App() {
 	return (
@@ -16,10 +17,38 @@ function App() {
 				<Routes>
 					<Route path='/' element={<HomePage />} />
 					<Route path='/login' element={<LoginPage />} />
-					<Route path='/dashboard' element={<BarberDashboardPage />} />
-					<Route path='/favorites' element={<FavoritesPage />} />
-					<Route path='/bookings' element={<UserBookingsPage />} />
-					<Route path='/barbers/:id' element={<BarberProfilePage />} />
+					<Route
+						path='/dashboard'
+						element={
+							<ProtectedRoute>
+								<BarberDashboardPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/favorites'
+						element={
+							<ProtectedRoute>
+								<FavoritesPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/bookings'
+						element={
+							<ProtectedRoute>
+								<UserBookingsPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/barbers/:id'
+						element={
+							<ProtectedRoute>
+								<BarberProfilePage />
+							</ProtectedRoute>
+						}
+					/>
 					<Route path='*' element={<Navigate to='/' replace />} />
 				</Routes>
 			</Layout>

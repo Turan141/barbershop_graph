@@ -12,10 +12,8 @@ export const FavoritesPage = () => {
 	useEffect(() => {
 		if (user) {
 			fetchFavorites(user.id)
-		} else {
-			navigate("/login")
 		}
-	}, [user, navigate, fetchFavorites])
+	}, [user, fetchFavorites])
 
 	if (!user) return null
 
