@@ -15,7 +15,10 @@
 		"vip_badge": "PREMIUM",
 		"all_barbers": "Bütün Ustalar",
 		"view_all": "Hamısına bax",
-		"more": "daha çox"
+		"more": "daha çox",
+		"banner_badge": "Bərbərlər üçün",
+		"banner_title": "QR Kod ilə Müştəri Bazasını Artırın",
+		"banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər."
 	},
 	"auth": {
 		"welcome": "Xoş gəlmisiniz",

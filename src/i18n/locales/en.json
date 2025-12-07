@@ -15,7 +15,10 @@
 		"vip_badge": "PREMIUM",
 		"all_barbers": "All Masters",
 		"view_all": "View All",
-		"more": "more"
+		"more": "more",
+		"banner_badge": "For Barbers",
+		"banner_title": "Grow Your Client Base with QR Code",
+		"banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online."
 	},
 	"auth": {
 		"welcome": "Welcome Back",

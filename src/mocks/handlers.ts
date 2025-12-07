@@ -94,6 +94,13 @@ export const handlers = [
 		return HttpResponse.json(bookings)
 	}),
 
+	http.get("/api/users/:id/bookings", async ({ params }) => {
+		await delay(300)
+		const { id } = params
+		const bookings = db.bookings.getByClientId(id as string)
+		return HttpResponse.json(bookings)
+	}),
+
 	http.get("/api/users/:id", async ({ params }) => {
 		await delay(300)
 		const { id } = params
@@ -160,4 +167,14 @@ export const handlers = [
 		const { barberId } = (await request.json()) as { barberId: string }
 
 		db.favorites.add(id as string, barberId)
-		return HttpResponse.json({ success: true
+		return HttpResponse.json({ success: true })
+	}),
+
+	http.delete("/api/users/:id/favorites/:barberId", async ({ params }) => {
+		await delay(200)
+		const { id, barberId } = params
+
+		db.favorites.remove(id as string, barberId as string)
+		return HttpResponse.json({ success: true })
+	})
+]

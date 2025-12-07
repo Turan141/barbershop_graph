@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
-import { Scissors, User, LogOut, Calendar, Heart, Menu, X } from "lucide-react"
+import { Scissors, User, LogOut, Calendar, Heart, Menu, X, Clock } from "lucide-react"
 import clsx from "clsx"
 import { useTranslation } from "react-i18next"
 import { LanguageSwitcher } from "./LanguageSwitcher"
@@ -61,6 +61,18 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 												{t("nav.dashboard")}
 											</Link>
 										)}
+										<Link
+											to='/bookings'
+											className={clsx(
+												"flex items-center gap-2 text-sm font-medium transition-colors",
+												isActive("/bookings")
+													? "text-primary-600"
+													: "text-slate-600 hover:text-slate-900"
+											)}
+										>
+											<Clock className='h-4 w-4' />
+											Randevularım
+										</Link>
 										<Link
 											to='/favorites'
 											className={clsx(
@@ -160,6 +172,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 											{t("nav.dashboard")}
 										</Link>
 									)}
+									<Link
+										to='/bookings'
+										className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'
+									>
+										Randevularım
+									</Link>
 									<Link
 										to='/favorites'
 										className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'

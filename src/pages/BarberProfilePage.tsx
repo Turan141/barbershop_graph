@@ -15,7 +15,8 @@ import {
 	Calendar,
 	ShieldCheck,
 	Scissors,
-	ArrowRight
+	ArrowRight,
+	Image as ImageIcon
 } from "lucide-react"
 import clsx from "clsx"
 
@@ -33,6 +34,7 @@ export const BarberProfilePage = () => {
 	const [bookingStatus, setBookingStatus] = useState<
 		"idle" | "submitting" | "success" | "error"
 	>("idle")
+	const [showAllPortfolio, setShowAllPortfolio] = useState(false)
 
 	useEffect(() => {
 		if (id) {
@@ -182,6 +184,43 @@ export const BarberProfilePage = () => {
 							<p className='text-slate-600 leading-relaxed'>{barber.bio}</p>
 						</div>
 					</div>
+
+					{/* Portfolio Section */}
+					{barber.portfolio && barber.portfolio.length > 0 && (
+						<div>
+							<div className='flex justify-between items-center mb-4'>
+								<h2 className='text-xl font-bold text-slate-900 flex items-center gap-2'>
+									<ImageIcon className='w-5 h-5 text-primary-600' />
+									Portfolio
+								</h2>
+								{barber.portfolio.length > 4 && (
+									<button
+										onClick={() => setShowAllPortfolio(!showAllPortfolio)}
+										className='text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors'
+									>
+										{showAllPortfolio ? "Daha az göstər" : "Hamısına bax"}
+									</button>
+								)}
+							</div>
+							<div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
+								{(showAllPortfolio ? barber.portfolio : barber.portfolio.slice(0, 4)).map(
+									(url, index) => (
+										<div
+											key={index}
+											className='aspect-square rounded-xl overflow-hidden bg-slate-100 group cursor-pointer'
+											onClick={() => window.open(url, "_blank")}
+										>
+											<img
+												src={url}
+												alt={`Portfolio ${index + 1}`}
+												className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-500'
+											/>
+										</div>
+									)
+								)}
+							</div>
+						</div>
+					)}
 
 					{/* Services List */}
 					<div>

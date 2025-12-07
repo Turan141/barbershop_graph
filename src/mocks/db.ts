@@ -277,6 +277,39 @@ const SEED_USERS: User[] = [
 	}
 ]
 
+const SEED_BOOKINGS: Booking[] = [
+	{
+		id: "bk1",
+		barberId: "b1",
+		clientId: "u1",
+		serviceId: "s1",
+		date: new Date().toISOString().split("T")[0], // Today
+		time: "10:00",
+		status: "confirmed",
+		createdAt: new Date().toISOString()
+	},
+	{
+		id: "bk2",
+		barberId: "b1",
+		clientId: "u1",
+		serviceId: "s2",
+		date: new Date(Date.now() + 86400000).toISOString().split("T")[0], // Tomorrow
+		time: "14:00",
+		status: "pending",
+		createdAt: new Date().toISOString()
+	},
+	{
+		id: "bk3",
+		barberId: "b1",
+		clientId: "u1",
+		serviceId: "s3",
+		date: new Date(Date.now() - 86400000).toISOString().split("T")[0], // Yesterday
+		time: "11:00",
+		status: "completed",
+		createdAt: new Date().toISOString()
+	}
+]
+
 // Helper to load/save
 const load = <T>(key: string, defaultVal: T): T => {
 	const stored = localStorage.getItem(key)
@@ -303,7 +336,10 @@ export const db = {
 		}
 	},
 	barbers: {
-		getAll: () => load<Barber[]>(STORAGE_KEYS.BARBERS, SEED_BARBERS),
+		getAll: () => {
+			const list = load<Barber[]>(STORAGE_KEYS.BARBERS, SEED_BARBERS)
+			return list.length > 0 ? list : SEED_BARBERS
+		},
 		getById: (id: string) =>
 			load<Barber[]>(STORAGE_KEYS.BARBERS, SEED_BARBERS).find((b) => b.id === id),
 		update: (id: string, updates: Partial<Barber>) => {
@@ -318,19 +354,23 @@ export const db = {
 		}
 	},
 	bookings: {
-		getAll: () => load<Booking[]>(STORAGE_KEYS.BOOKINGS, []),
+		getAll: () => load<Booking[]>(STORAGE_KEYS.BOOKINGS, SEED_BOOKINGS),
 		getByBarberId: (barberId: string) =>
-			load<Booking[]>(STORAGE_KEYS.BOOKINGS, []).filter((b) => b.barberId === barberId),
+			load<Booking[]>(STORAGE_KEYS.BOOKINGS, SEED_BOOKINGS).filter(
+				(b) => b.barberId === barberId
+			),
 		getByClientId: (clientId: string) =>
-			load<Booking[]>(STORAGE_KEYS.BOOKINGS, []).filter((b) => b.clientId === clientId),
+			load<Booking[]>(STORAGE_KEYS.BOOKINGS, SEED_BOOKINGS).filter(
+				(b) => b.clientId === clientId
+			),
 		create: (booking: Booking) => {
-			const bookings = load<Booking[]>(STORAGE_KEYS.BOOKINGS, [])
+			const bookings = load<Booking[]>(STORAGE_KEYS.BOOKINGS, SEED_BOOKINGS)
 			bookings.push(booking)
 			save(STORAGE_KEYS.BOOKINGS, bookings)
 			return booking
 		},
 		update: (id: string, updates: Partial<Booking>) => {
-			const bookings = load<Booking[]>(STORAGE_KEYS.BOOKINGS, [])
+			const bookings = load<Booking[]>(STORAGE_KEYS.BOOKINGS, SEED_BOOKINGS)
 			const index = bookings.findIndex((b) => b.id === id)
 			if (index !== -1) {
 				bookings[index] = { ...bookings[index], ...updates }

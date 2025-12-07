@@ -2,14 +2,21 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { api } from "../services/api"
 import { Barber } from "../types"
-import { Star, MapPin, Search, ArrowRight, Scissors } from "lucide-react"
+import { Star, MapPin, Search, ArrowRight, Scissors, QrCode } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { useAuthStore } from "../store/authStore"
+import { BarberDashboardPage } from "./BarberDashboardPage"
 
 export const HomePage = () => {
+	const { user } = useAuthStore()
 	const [barbers, setBarbers] = useState<Barber[]>([])
 	const [search, setSearch] = useState("")
 	const [loading, setLoading] = useState(true)
 	const { t } = useTranslation()
+
+	if (user?.role === "barber") {
+		return <BarberDashboardPage />
+	}
 
 	useEffect(() => {
 		const fetchBarbers = async () => {
@@ -76,6 +83,16 @@ export const HomePage = () => {
 								className='bg-white rounded-2xl h-96 animate-pulse shadow-soft'
 							></div>
 						))}
+					</div>
+				) : barbers.length === 0 ? (
+					<div className='text-center py-20'>
+						<div className='bg-slate-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4'>
+							<Search className='w-10 h-10 text-slate-300' />
+						</div>
+						<h3 className='text-xl font-bold text-slate-900 mb-2'>Bərbər tapılmadı</h3>
+						<p className='text-slate-500'>
+							Axtarışınıza uyğun nəticə tapılmadı. Başqa açar sözləri yoxlayın.
+						</p>
 					</div>
 				) : (
 					<>
@@ -151,6 +168,36 @@ export const HomePage = () => {
 								</div>
 							</div>
 						)}
+
+						{/* Marketing Banner */}
+						<div className='bg-gradient-to-r from-primary-50 to-white rounded-2xl p-6 md:p-8 mb-8 border border-primary-100 shadow-sm relative overflow-hidden group'>
+							<div className='absolute top-0 right-0 w-64 h-64 bg-primary-100/50 rounded-full blur-3xl -mr-16 -mt-16 transition-all group-hover:bg-primary-200/50'></div>
+
+							<div className='relative z-10 flex flex-col md:flex-row items-center gap-6'>
+								<div className='p-3 bg-white rounded-xl shadow-sm border border-primary-100 hidden md:block'>
+									<QrCode className='w-8 h-8 text-primary-600' />
+								</div>
+								<div className='flex-1 text-center md:text-left'>
+									<div className='inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold uppercase tracking-wider mb-2 border border-primary-200'>
+										<QrCode className='w-3 h-3' />
+										{t("home.banner_badge")}
+									</div>
+									<h3 className='text-xl font-bold mb-1 text-slate-900'>
+										{t("home.banner_title")}
+									</h3>
+									<p className='text-slate-600 text-sm leading-relaxed'>
+										{t("home.banner_desc")}
+									</p>
+								</div>
+								<div className='flex-shrink-0'>
+									<div className='bg-white p-2 rounded-lg shadow-md transform rotate-3 transition-transform group-hover:rotate-0 duration-300 border border-slate-100'>
+										<div className='w-16 h-16 bg-white rounded flex items-center justify-center border-2 border-dashed border-slate-200'>
+											<QrCode className='w-8 h-8 text-slate-900' />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
 						{/* Standard Section */}
 						<div>

@@ -52,6 +52,11 @@ export const api = {
 				handleResponse<Booking[]>(res)
 			),
 
+		listForClient: (clientId: string) =>
+			fetch(`${API_BASE}/users/${clientId}/bookings`).then((res) =>
+				handleResponse<Booking[]>(res)
+			),
+
 		updateStatus: (id: string, status: Booking["status"]) =>
 			fetch(`${API_BASE}/bookings/${id}`, {
 				method: "PATCH",
