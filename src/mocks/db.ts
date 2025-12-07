@@ -31,7 +31,13 @@ const SEED_BARBERS: Barber[] = [
 		services: [
 			{ id: "s1", name: "Klassik Saç Kəsimi", duration: 45, price: 35, currency: "AZN" },
 			{ id: "s2", name: "Saqqal Düzəltmə", duration: 30, price: 25, currency: "AZN" },
-			{ id: "s_kids", name: "Uşaq Saçı Kəsimi", duration: 30, price: 20, currency: "AZN" },
+			{
+				id: "s_kids",
+				name: "Uşaq Saçı Kəsimi",
+				duration: 30,
+				price: 20,
+				currency: "AZN"
+			},
 			{
 				id: "s3",
 				name: "VIP Xidmət (Saç + Saqqal + Üz Baxımı)",
