@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { api } from "../services/api"
-import { Scissors, User, Mail, Lock, Briefcase } from "lucide-react"
+import { Scissors, User, Mail, Briefcase } from "lucide-react"
 
 export const RegisterPage = () => {
 	const { t } = useTranslation()
@@ -25,7 +25,7 @@ export const RegisterPage = () => {
 			navigate(role === "barber" ? "/dashboard" : "/")
 		} catch (err: any) {
 			console.error("Registration error:", err)
-			let errorMessage = "Registration failed. Please try again."
+			let errorMessage = t("auth.registration_failed")
 			try {
 				// Try to parse the error message if it's a JSON string
 				const parsed = JSON.parse(err.message)
@@ -48,11 +48,9 @@ export const RegisterPage = () => {
 						<Scissors className='h-8 w-8' />
 					</div>
 					<h2 className='text-3xl font-bold text-slate-900 tracking-tight'>
-						Create an account
+						{t("auth.create_account")}
 					</h2>
-					<p className='mt-2 text-sm text-slate-600'>
-						Join us to book or manage appointments
-					</p>
+					<p className='mt-2 text-sm text-slate-600'>{t("auth.register_subtitle")}</p>
 				</div>
 
 				<div className='card p-8 shadow-xl border-0 bg-white'>
@@ -68,7 +66,7 @@ export const RegisterPage = () => {
 								htmlFor='name'
 								className='block text-sm font-medium text-slate-700 mb-1'
 							>
-								Full Name
+								{t("auth.full_name_label")}
 							</label>
 							<div className='relative'>
 								<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -80,7 +78,7 @@ export const RegisterPage = () => {
 									type='text'
 									required
 									className='input pl-10 w-full'
-									placeholder='John Doe'
+									placeholder={t("auth.name_placeholder")}
 									value={name}
 									onChange={(e) => setName(e.target.value)}
 								/>
@@ -92,7 +90,7 @@ export const RegisterPage = () => {
 								htmlFor='email'
 								className='block text-sm font-medium text-slate-700 mb-1'
 							>
-								Email address
+								{t("auth.email_label")}
 							</label>
 							<div className='relative'>
 								<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -104,7 +102,7 @@ export const RegisterPage = () => {
 									type='email'
 									required
 									className='input pl-10 w-full'
-									placeholder='you@example.com'
+									placeholder={t("auth.email_placeholder")}
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
@@ -113,7 +111,7 @@ export const RegisterPage = () => {
 
 						<div>
 							<label className='block text-sm font-medium text-slate-700 mb-3'>
-								I am a...
+								{t("auth.i_am_a")}
 							</label>
 							<div className='grid grid-cols-2 gap-4'>
 								<button
@@ -130,7 +128,7 @@ export const RegisterPage = () => {
 											role === "client" ? "text-primary-600" : "text-slate-400"
 										}`}
 									/>
-									<span className='font-medium'>Client</span>
+									<span className='font-medium'>{t("auth.role_client")}</span>
 								</button>
 								<button
 									type='button'
@@ -146,7 +144,7 @@ export const RegisterPage = () => {
 											role === "barber" ? "text-primary-600" : "text-slate-400"
 										}`}
 									/>
-									<span className='font-medium'>Barber</span>
+									<span className='font-medium'>{t("auth.role_barber")}</span>
 								</button>
 							</div>
 						</div>
@@ -156,18 +154,18 @@ export const RegisterPage = () => {
 							disabled={loading}
 							className='btn btn-primary w-full flex justify-center py-3 text-base'
 						>
-							{loading ? "Creating account..." : "Sign up"}
+							{loading ? t("auth.creating_account") : t("auth.sign_up")}
 						</button>
 					</form>
 
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-slate-600'>
-							Already have an account?{" "}
+							{t("auth.already_have_account")}{" "}
 							<Link
 								to='/login'
 								className='font-medium text-primary-600 hover:text-primary-500'
 							>
-								Sign in
+								{t("auth.sign_in_link")}
 							</Link>
 						</p>
 					</div>

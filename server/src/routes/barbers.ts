@@ -48,6 +48,7 @@ router.get("/", async (req, res) => {
 // GET /api/barbers/:id
 router.get("/:id", async (req, res) => {
 	const { id } = req.params
+	console.log(`Fetching barber with ID or UserID: ${id}`)
 	try {
 		let barber = await prisma.barberProfile.findUnique({
 			where: { id },
@@ -59,6 +60,7 @@ router.get("/:id", async (req, res) => {
 		})
 
 		if (!barber) {
+			console.log(`Barber not found by ID ${id}, trying userId...`)
 			// Try finding by userId
 			barber = await prisma.barberProfile.findUnique({
 				where: { userId: id },
@@ -71,9 +73,11 @@ router.get("/:id", async (req, res) => {
 		}
 
 		if (!barber) {
+			console.log(`Barber not found by userId ${id} either.`)
 			return res.status(404).json({ error: "Barber not found" })
 		}
 
+		console.log(`Barber found: ${barber.id}`)
 		res.json(mapBarber(barber))
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch barber" })

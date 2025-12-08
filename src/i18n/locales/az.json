@@ -83,7 +83,19 @@
 		"barber_demo": "Bərbər Demo",
 		"no_account": "Hesabınız yoxdur?",
 		"register_link": "Pulsuz qeydiyyatdan keçin",
-		"login_failed": "Giriş uğursuz oldu. client@test.com və ya barber@test.com yoxlayın"
+		"login_failed": "Giriş uğursuz oldu. client@test.com və ya barber@test.com yoxlayın",
+		"create_account": "Hesab yarat",
+		"register_subtitle": "Randevu almaq və idarə etmək üçün bizə qoşulun",
+		"full_name_label": "Ad Soyad",
+		"name_placeholder": "Ad Soyad",
+		"i_am_a": "Mən...",
+		"role_client": "Müştəri",
+		"role_barber": "Bərbər",
+		"creating_account": "Hesab yaradılır...",
+		"sign_up": "Qeydiyyatdan keç",
+		"already_have_account": "Artıq hesabınız var?",
+		"sign_in_link": "Daxil ol",
+		"registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin."
 	},
 	"profile": {
 		"back_to_search": "Axtarışa qayıt",

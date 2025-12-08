@@ -83,7 +83,19 @@
 		"barber_demo": "Barber Demo",
 		"no_account": "Don't have an account?",
 		"register_link": "Sign up for free",
-		"login_failed": "Login failed. Try client@test.com or barber@test.com"
+		"login_failed": "Login failed. Try client@test.com or barber@test.com",
+		"create_account": "Create an account",
+		"register_subtitle": "Join us to book or manage appointments",
+		"full_name_label": "Full Name",
+		"name_placeholder": "John Doe",
+		"i_am_a": "I am a...",
+		"role_client": "Client",
+		"role_barber": "Barber",
+		"creating_account": "Creating account...",
+		"sign_up": "Sign up",
+		"already_have_account": "Already have an account?",
+		"sign_in_link": "Sign in",
+		"registration_failed": "Registration failed. Please try again."
 	},
 	"profile": {
 		"available_times": "Available Times",

@@ -34,6 +34,9 @@ router.post("/login", async (req, res) => {
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
 	const { name, email, role } = req.body
+	console.log("Register request received:", { name, email, role })
+
+	const normalizedRole = role ? String(role).trim() : "client"
 
 	try {
 		const existingUser = await prisma.user.findUnique({ where: { email } })
@@ -45,30 +48,39 @@ router.post("/register", async (req, res) => {
 			data: {
 				name,
 				email,
-				role,
+				role: normalizedRole,
 				avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
 					name
 				)}&background=random`
 			}
 		})
 
-		if (role === "barber") {
-			await prisma.barberProfile.create({
-				data: {
-					userId: user.id,
-					specialties: JSON.stringify([]),
-					location: "Baku",
-					bio: "New barber",
-					portfolio: JSON.stringify([]),
-					schedule: JSON.stringify({
-						Monday: ["09:00", "18:00"],
-						Tuesday: ["09:00", "18:00"],
-						Wednesday: ["09:00", "18:00"],
-						Thursday: ["09:00", "18:00"],
-						Friday: ["09:00", "18:00"]
-					})
-				}
-			})
+		if (normalizedRole === "barber") {
+			console.log(`Creating barber profile for user ${user.id}`)
+			try {
+				await prisma.barberProfile.create({
+					data: {
+						userId: user.id,
+						specialties: JSON.stringify([]),
+						location: "Baku",
+						bio: "New barber",
+						portfolio: JSON.stringify([]),
+						schedule: JSON.stringify({
+							Monday: ["09:00", "18:00"],
+							Tuesday: ["09:00", "18:00"],
+							Wednesday: ["09:00", "18:00"],
+							Thursday: ["09:00", "18:00"],
+							Friday: ["09:00", "18:00"]
+						})
+					}
+				})
+				console.log(`Barber profile created for user ${user.id}`)
+			} catch (profileError) {
+				console.error("Failed to create barber profile:", profileError)
+				// Optionally delete the user if profile creation fails?
+				// await prisma.user.delete({ where: { id: user.id } })
+				// return res.status(500).json({ error: "Failed to create barber profile" })
+			}
 		}
 
 		const token = "mock-jwt-token-" + user.id

@@ -83,7 +83,19 @@
 		"barber_demo": "Барбер Демо",
 		"no_account": "Нет аккаунта?",
 		"register_link": "Зарегистрируйтесь бесплатно",
-		"login_failed": "Ошибка входа. Попробуйте client@test.com или barber@test.com"
+		"login_failed": "Ошибка входа. Попробуйте client@test.com или barber@test.com",
+		"create_account": "Создать аккаунт",
+		"register_subtitle": "Присоединяйтесь к нам, чтобы бронировать и управлять записями",
+		"full_name_label": "Полное имя",
+		"name_placeholder": "Иван Иванов",
+		"i_am_a": "Я...",
+		"role_client": "Клиент",
+		"role_barber": "Барбер",
+		"creating_account": "Создание аккаунта...",
+		"sign_up": "Зарегистрироваться",
+		"already_have_account": "Уже есть аккаунт?",
+		"sign_in_link": "Войти",
+		"registration_failed": "Ошибка регистрации. Пожалуйста, попробуйте снова."
 	},
 	"profile": {
 		"back_to_search": "Назад к поиску",
