@@ -125,6 +125,35 @@
 		"slot_taken": "This slot is already taken. Please choose another.",
 		"appointment_confirmed": "Appointment Confirmed!",
 		"appointment_success_message": "Your appointment has been successfully booked.",
-		"book_another": "Book Another"
+		"book_another": "Book Another",
+		"reviews_section_title": "Reviews",
+		"write_review": "Write a Review",
+		"no_reviews": "No reviews yet. Be the first to review!",
+		"rate_experience": "Rate your experience",
+		"share_experience_placeholder": "Share your experience (optional)...",
+		"submitting": "Submitting...",
+		"submit_review": "Submit Review"
+	},
+	"dashboard": {
+		"title": "Dashboard",
+		"subtitle": "Manage your profile and schedule",
+		"profile_load_error": "Profile failed to load",
+		"status_updated": "Booking status updated",
+		"status_update_error": "Error updating status",
+		"changes_saved": "Changes saved successfully!",
+		"save_error": "An error occurred. Please try again.",
+		"profile_not_found": "Barber profile not found.",
+		"no_bookings": "You have no bookings yet.",
+		"unknown_client": "Unknown Client",
+		"tabs": {
+			"profile": "Profile Details",
+			"bookings": "Bookings",
+			"schedule": "Working Hours",
+			"services": "Services",
+			"portfolio": "Portfolio"
+		}
+	},
+	"common": {
+		"loading": "Loading..."
 	}
 }

@@ -125,6 +125,35 @@
 		"slot_taken": "Это время уже занято. Пожалуйста, выберите другое.",
 		"appointment_confirmed": "Запись подтверждена!",
 		"appointment_success_message": "Ваша запись успешно создана.",
-		"book_another": "Записаться еще"
+		"book_another": "Записаться еще",
+		"reviews_section_title": "Отзывы",
+		"write_review": "Написать отзыв",
+		"no_reviews": "Отзывов пока нет. Будьте первым!",
+		"rate_experience": "Оцените ваш опыт",
+		"share_experience_placeholder": "Поделитесь впечатлениями (необязательно)...",
+		"submitting": "Отправка...",
+		"submit_review": "Отправить отзыв"
+	},
+	"dashboard": {
+		"title": "Панель управления",
+		"subtitle": "Управляйте своим профилем и расписанием",
+		"profile_load_error": "Не удалось загрузить профиль",
+		"status_updated": "Статус бронирования обновлен",
+		"status_update_error": "Ошибка при обновлении статуса",
+		"changes_saved": "Изменения успешно сохранены!",
+		"save_error": "Произошла ошибка. Пожалуйста, попробуйте снова.",
+		"profile_not_found": "Профиль барбера не найден.",
+		"no_bookings": "У вас пока нет бронирований.",
+		"unknown_client": "Неизвестный клиент",
+		"tabs": {
+			"profile": "Данные профиля",
+			"bookings": "Бронирования",
+			"schedule": "Рабочие часы",
+			"services": "Услуги",
+			"portfolio": "Портфолио"
+		}
+	},
+	"common": {
+		"loading": "Загрузка..."
 	}
 }

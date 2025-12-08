@@ -42,6 +42,16 @@ export interface Booking {
 	createdAt: string
 }
 
+export interface Review {
+	id: string
+	userId: string
+	barberId: string
+	rating: number
+	text?: string
+	createdAt: string
+	user?: User
+}
+
 export interface Message {
 	id: string
 	senderId: string

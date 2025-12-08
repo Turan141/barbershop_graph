@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { Barber, Service, Booking, User as UserType } from "../types"
 import { api } from "../services/api"
@@ -23,6 +24,7 @@ import {
 import clsx from "clsx"
 
 export const BarberDashboardPage = () => {
+	const { t } = useTranslation()
 	const { user } = useAuthStore()
 	const navigate = useNavigate()
 
@@ -63,7 +65,7 @@ export const BarberDashboardPage = () => {
 				console.error("Failed to fetch barber profile", error)
 				setMessage({
 					type: "error",
-					text: `Profil yüklənmədi: ${error.message || "Naməlum xəta"}`
+					text: `${t("dashboard.profile_load_error")}: ${error.message || t("dashboard.unknown_error")}`
 				})
 			} finally {
 				setLoading(false)
@@ -110,10 +112,10 @@ export const BarberDashboardPage = () => {
 			setBookings((prev) =>
 				prev.map((b) => (b.id === bookingId ? { ...b, status: newStatus } : b))
 			)
-			setMessage({ type: "success", text: "Randevu statusu yeniləndi" })
+			setMessage({ type: "success", text: t("dashboard.status_updated") })
 		} catch (error) {
 			console.error("Failed to update booking status", error)
-			setMessage({ type: "error", text: "Status yenilənərkən xəta baş verdi" })
+			setMessage({ type: "error", text: t("dashboard.status_update_error") })
 		}
 	}
 
@@ -130,12 +132,12 @@ export const BarberDashboardPage = () => {
 			if (res.ok) {
 				const updated = await res.json()
 				setBarber(updated)
-				setMessage({ type: "success", text: "Dəyişikliklər yadda saxlanıldı!" })
+				setMessage({ type: "success", text: t("dashboard.changes_saved") })
 			} else {
 				throw new Error("Failed to update")
 			}
 		} catch (error) {
-			setMessage({ type: "error", text: "Xəta baş verdi. Yenidən cəhd edin." })
+			setMessage({ type: "error", text: t("dashboard.save_error") })
 		} finally {
 			setSaving(false)
 		}
@@ -179,22 +181,22 @@ export const BarberDashboardPage = () => {
 		}
 	}
 
-	if (loading) return <div className='p-8 text-center'>Yüklənir...</div>
-	if (!barber) return <div className='p-8 text-center'>Bərbər profili tapılmadı.</div>
+	if (loading) return <div className='p-8 text-center'>{t("dashboard.loading")}</div>
+	if (!barber) return <div className='p-8 text-center'>{t("dashboard.profile_not_found")}</div>
 
 	const tabs = [
-		{ id: "profile", label: "Profil Məlumatları", icon: User },
-		{ id: "bookings", label: "Randevular", icon: List },
-		{ id: "schedule", label: "İş Saatları", icon: Calendar },
-		{ id: "services", label: "Xidmətlər", icon: Scissors },
-		{ id: "portfolio", label: "Portfolio", icon: ImageIcon }
+		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
+		{ id: "bookings", label: t("dashboard.tabs.bookings"), icon: List },
+		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Calendar },
+		{ id: "services", label: t("dashboard.tabs.services"), icon: Scissors },
+		{ id: "portfolio", label: t("dashboard.tabs.portfolio"), icon: ImageIcon }
 	] as const
 
 	return (
 		<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 			<div className='mb-8'>
-				<h1 className='text-3xl font-bold text-slate-900'>İdarə Paneli</h1>
-				<p className='text-slate-500 mt-2'>Profilinizi və iş qrafikinizi idarə edin</p>
+				<h1 className='text-3xl font-bold text-slate-900'>{t("dashboard.title")}</h1>
+				<p className='text-slate-500 mt-2'>{t("dashboard.subtitle")}</p>
 			</div>
 
 			<div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
@@ -243,16 +245,16 @@ export const BarberDashboardPage = () => {
 						{/* Bookings Tab */}
 						{activeTab === "bookings" && (
 							<div className='space-y-6'>
-								<h2 className='text-xl font-bold text-slate-900 mb-6'>Randevular</h2>
+								<h2 className='text-xl font-bold text-slate-900 mb-6'>{t("dashboard.bookings.title")}</h2>
 								{loadingBookings ? (
 									<div className='text-center py-12'>
 										<div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto'></div>
-										<p className='text-slate-500 mt-4'>Yüklənir...</p>
+										<p className='text-slate-500 mt-4'>{t("dashboard.loading")}</p>
 									</div>
 								) : bookings.length === 0 ? (
 									<div className='text-center py-12 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
 										<Calendar className='w-12 h-12 text-slate-300 mx-auto mb-4' />
-										<p className='text-slate-500'>Hələ ki, heç bir randevunuz yoxdur.</p>
+										<p className='text-slate-500'>{t("dashboard.bookings.no_bookings")}</p>
 									</div>
 								) : (
 									<div className='space-y-4'>
@@ -294,7 +296,7 @@ export const BarberDashboardPage = () => {
 															</div>
 															<div>
 																<h3 className='font-bold text-slate-900'>
-																	{client?.name || "Naməlum Müştəri"}
+																	{client?.name || t("dashboard.bookings.unknown_client")}
 																</h3>
 																<div className='flex items-center gap-2 text-sm text-slate-500 mt-1'>
 																	<span className='flex items-center gap-1'>
@@ -309,7 +311,7 @@ export const BarberDashboardPage = () => {
 																</div>
 																<div className='mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-primary-50 text-primary-700 text-xs font-medium'>
 																	<Scissors className='w-3 h-3' />
-																	{service?.name || "Xidmət silinib"}
+																	{service?.name || t("dashboard.bookings.service_deleted")}
 																</div>
 															</div>
 														</div>
@@ -321,7 +323,7 @@ export const BarberDashboardPage = () => {
 																	{service?.price}
 																</div>
 																<div className='text-xs text-slate-500'>
-																	{service?.duration} dəq
+																	{service?.duration} {t("profile.min")}
 																</div>
 															</div>
 															<div
@@ -337,12 +339,12 @@ export const BarberDashboardPage = () => {
 																)}
 															>
 																{booking.status === "confirmed"
-																	? "Təsdiqlənib"
+																	? t("dashboard.bookings.status.confirmed")
 																	: booking.status === "pending"
-																	? "Gözləyir"
+																	? t("dashboard.bookings.status.pending")
 																	: booking.status === "cancelled"
-																	? "Ləğv edilib"
-																	: "Tamamlanıb"}
+																	? t("dashboard.bookings.status.cancelled")
+																	: t("dashboard.bookings.status.completed")}
 															</div>
 
 															{/* Action Buttons */}
@@ -354,7 +356,7 @@ export const BarberDashboardPage = () => {
 																				handleStatusChange(booking.id, "confirmed")
 																			}
 																			className='p-3 bg-green-100 text-green-700 rounded-xl hover:bg-green-200 transition-all shadow-sm hover:shadow-md'
-																			title='Təsdiqlə'
+																			title={t("dashboard.bookings.actions.confirm")}
 																		>
 																			<Check className='w-6 h-6' />
 																		</button>
@@ -363,7 +365,7 @@ export const BarberDashboardPage = () => {
 																				handleStatusChange(booking.id, "cancelled")
 																			}
 																			className='p-3 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition-all shadow-sm hover:shadow-md'
-																			title='Ləğv et'
+																			title={t("dashboard.bookings.actions.cancel")}
 																		>
 																			<X className='w-6 h-6' />
 																		</button>
@@ -376,7 +378,7 @@ export const BarberDashboardPage = () => {
 																				handleStatusChange(booking.id, "completed")
 																			}
 																			className='p-3 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all shadow-sm hover:shadow-md'
-																			title='Tamamla'
+																			title={t("dashboard.bookings.actions.complete")}
 																		>
 																			<CheckCircle className='w-6 h-6' />
 																		</button>
@@ -385,7 +387,7 @@ export const BarberDashboardPage = () => {
 																				handleStatusChange(booking.id, "cancelled")
 																			}
 																			className='p-3 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition-all shadow-sm hover:shadow-md'
-																			title='Ləğv et'
+																			title={t("dashboard.bookings.actions.cancel")}
 																		>
 																			<X className='w-6 h-6' />
 																		</button>
@@ -405,13 +407,13 @@ export const BarberDashboardPage = () => {
 						{activeTab === "profile" && (
 							<div className='space-y-6'>
 								<h2 className='text-xl font-bold text-slate-900 mb-6'>
-									Şəxsi Məlumatlar
+									{t("dashboard.profile.title")}
 								</h2>
 
 								<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
 									<div>
 										<label className='block text-sm font-medium text-slate-700 mb-1'>
-											Ad Soyad
+											{t("dashboard.profile.name")}
 										</label>
 										<input
 											type='text'
@@ -422,7 +424,7 @@ export const BarberDashboardPage = () => {
 									</div>
 									<div>
 										<label className='block text-sm font-medium text-slate-700 mb-1'>
-											Email
+											{t("dashboard.profile.email")}
 										</label>
 										<div className='relative'>
 											<Mail className='absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400' />
@@ -436,7 +438,7 @@ export const BarberDashboardPage = () => {
 									</div>
 									<div>
 										<label className='block text-sm font-medium text-slate-700 mb-1'>
-											Telefon
+											{t("dashboard.profile.phone")}
 										</label>
 										<div className='relative'>
 											<Phone className='absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400' />
@@ -453,7 +455,7 @@ export const BarberDashboardPage = () => {
 									</div>
 									<div>
 										<label className='block text-sm font-medium text-slate-700 mb-1'>
-											Ünvan
+											{t("dashboard.profile.address")}
 										</label>
 										<div className='relative'>
 											<MapPin className='absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400' />
@@ -471,20 +473,20 @@ export const BarberDashboardPage = () => {
 
 								<div>
 									<label className='block text-sm font-medium text-slate-700 mb-1'>
-										Haqqında
+										{t("dashboard.profile.about")}
 									</label>
 									<textarea
 										rows={4}
 										value={formData.bio || ""}
 										onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
 										className='input-field'
-										placeholder='Təcrübəniz və xidmətləriniz haqqında qısa məlumat...'
+										placeholder={t("dashboard.profile.about_placeholder")}
 									/>
 								</div>
 
 								<div>
 									<label className='block text-sm font-medium text-slate-700 mb-1'>
-										İxtisaslar (Vergüllə ayırın)
+										{t("dashboard.profile.specialties")}
 									</label>
 									<input
 										type='text'
@@ -496,7 +498,7 @@ export const BarberDashboardPage = () => {
 											})
 										}
 										className='input-field'
-										placeholder='Fade, Saqqal, Klassik...'
+										placeholder={t("dashboard.profile.specialties_placeholder")}
 									/>
 								</div>
 							</div>
@@ -505,7 +507,7 @@ export const BarberDashboardPage = () => {
 						{/* Schedule Tab */}
 						{activeTab === "schedule" && (
 							<div className='space-y-6'>
-								<h2 className='text-xl font-bold text-slate-900 mb-6'>İş Qrafiki</h2>
+								<h2 className='text-xl font-bold text-slate-900 mb-6'>{t("dashboard.schedule.title")}</h2>
 								<div className='space-y-4'>
 									{[
 										"Monday",
@@ -518,13 +520,13 @@ export const BarberDashboardPage = () => {
 									].map((day) => {
 										const isWorking = !!formData.schedule?.[day]
 										const dayLabels: Record<string, string> = {
-											Monday: "Bazar ertəsi",
-											Tuesday: "Çərşənbə axşamı",
-											Wednesday: "Çərşənbə",
-											Thursday: "Cümə axşamı",
-											Friday: "Cümə",
-											Saturday: "Şənbə",
-											Sunday: "Bazar"
+											Monday: t("dashboard.schedule.days.monday"),
+											Tuesday: t("dashboard.schedule.days.tuesday"),
+											Wednesday: t("dashboard.schedule.days.wednesday"),
+											Thursday: t("dashboard.schedule.days.thursday"),
+											Friday: t("dashboard.schedule.days.friday"),
+											Saturday: t("dashboard.schedule.days.saturday"),
+											Sunday: t("dashboard.schedule.days.sunday")
 										}
 
 										return (
@@ -559,7 +561,7 @@ export const BarberDashboardPage = () => {
 													</div>
 													{isWorking && (
 														<span className='text-sm text-slate-500'>
-															{formData.schedule?.[day]?.length} saat aktiv
+															{formData.schedule?.[day]?.length} {t("dashboard.schedule.hours_active")}
 														</span>
 													)}
 												</div>
@@ -611,7 +613,7 @@ export const BarberDashboardPage = () => {
 								{/* Holidays Section */}
 								<div className='pt-6 border-t border-slate-100'>
 									<h3 className='text-lg font-semibold text-slate-900 mb-4'>
-										Qeyri-iş Günləri (Bayramlar)
+										{t("dashboard.schedule.holidays.title")}
 									</h3>
 									<div className='flex gap-2 mb-4'>
 										<input
@@ -637,7 +639,7 @@ export const BarberDashboardPage = () => {
 											}}
 											className='btn-secondary'
 										>
-											Əlavə et
+											{t("dashboard.schedule.holidays.add")}
 										</button>
 									</div>
 									<div className='flex flex-wrap gap-2'>
@@ -662,7 +664,7 @@ export const BarberDashboardPage = () => {
 										))}
 										{(!formData.holidays || formData.holidays.length === 0) && (
 											<p className='text-sm text-slate-500 italic'>
-												Heç bir xüsusi qeyri-iş günü əlavə edilməyib.
+												{t("dashboard.schedule.holidays.no_holidays")}
 											</p>
 										)}
 									</div>
@@ -674,12 +676,12 @@ export const BarberDashboardPage = () => {
 						{activeTab === "services" && (
 							<div className='space-y-6'>
 								<div className='flex justify-between items-center mb-6'>
-									<h2 className='text-xl font-bold text-slate-900'>Xidmətlər</h2>
+									<h2 className='text-xl font-bold text-slate-900'>{t("dashboard.services.title")}</h2>
 									<button
 										onClick={() => {
 											const newService: Service = {
 												id: "s" + Date.now(),
-												name: "Yeni Xidmət",
+												name: t("dashboard.services.new_service_default"),
 												duration: 30,
 												price: 10,
 												currency: "AZN"
@@ -692,7 +694,7 @@ export const BarberDashboardPage = () => {
 										className='btn-secondary py-2 px-4 text-sm flex items-center gap-2'
 									>
 										<Plus className='w-4 h-4' />
-										Xidmət əlavə et
+										{t("dashboard.services.add_service")}
 									</button>
 								</div>
 
@@ -704,7 +706,7 @@ export const BarberDashboardPage = () => {
 										>
 											<div className='flex-grow grid grid-cols-1 sm:grid-cols-3 gap-4 w-full'>
 												<div>
-													<label className='text-xs text-slate-500 mb-1 block'>Ad</label>
+													<label className='text-xs text-slate-500 mb-1 block'>{t("dashboard.services.name")}</label>
 													<input
 														type='text'
 														value={service.name}
@@ -718,7 +720,7 @@ export const BarberDashboardPage = () => {
 												</div>
 												<div>
 													<label className='text-xs text-slate-500 mb-1 block'>
-														Müddət (dəq)
+														{t("dashboard.services.duration")}
 													</label>
 													<div className='relative'>
 														<Clock className='absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400' />
@@ -739,7 +741,7 @@ export const BarberDashboardPage = () => {
 												</div>
 												<div>
 													<label className='text-xs text-slate-500 mb-1 block'>
-														Qiymət (AZN)
+														{t("dashboard.services.price")}
 													</label>
 													<input
 														type='number'
@@ -777,10 +779,10 @@ export const BarberDashboardPage = () => {
 						{activeTab === "portfolio" && (
 							<div className='space-y-6'>
 								<div className='flex justify-between items-center mb-6'>
-									<h2 className='text-xl font-bold text-slate-900'>Portfolio</h2>
+									<h2 className='text-xl font-bold text-slate-900'>{t("dashboard.portfolio.title")}</h2>
 									<button
 										onClick={() => {
-											const url = prompt("Şəkil URL-i daxil edin:")
+											const url = prompt(t("dashboard.portfolio.prompt_url"))
 											if (url) {
 												setFormData({
 													...formData,
@@ -791,7 +793,7 @@ export const BarberDashboardPage = () => {
 										className='btn-secondary py-2 px-4 text-sm flex items-center gap-2'
 									>
 										<Plus className='w-4 h-4' />
-										Şəkil əlavə et
+										{t("dashboard.portfolio.add_image")}
 									</button>
 								</div>
 
@@ -833,11 +835,11 @@ export const BarberDashboardPage = () => {
 								className='btn-primary flex items-center gap-2 px-8'
 							>
 								{saving ? (
-									"Yadda saxlanılır..."
+									t("dashboard.saving")
 								) : (
 									<>
 										<Save className='w-4 h-4' />
-										Yadda saxla
+										{t("dashboard.save")}
 									</>
 								)}
 							</button>

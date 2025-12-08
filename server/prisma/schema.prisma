@@ -23,6 +23,7 @@ model User {
   barberProfile BarberProfile?
   clientBookings Booking[] @relation("ClientBookings")
   favorites     Favorite[]
+  reviews       Review[]
 }
 
 model BarberProfile {
@@ -45,6 +46,7 @@ model BarberProfile {
   services    Service[]
   bookings    Booking[]
   favoritedBy Favorite[]
+  reviews     Review[]
 }
 
 model Service {
@@ -79,6 +81,21 @@ model Favorite {
   id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  barberId  String
+  barber    BarberProfile @relation(fields: [barberId], references: [id])
+
+  @@unique([userId, barberId])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int      // 1-5
+  text      String?
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
   barberId  String
   barber    BarberProfile @relation(fields: [barberId], references: [id])
 

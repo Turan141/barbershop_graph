@@ -125,6 +125,35 @@
 		"slot_taken": "Bu vaxt artıq tutulub. Başqasını seçin.",
 		"appointment_confirmed": "Randevu Təsdiqləndi!",
 		"appointment_success_message": "Randevunuz uğurla qeydə alındı.",
-		"book_another": "Başqasını Al"
+		"book_another": "Başqasını Al",
+		"reviews_section_title": "Rəylər",
+		"write_review": "Rəy Yaz",
+		"no_reviews": "Hələlik rəy yoxdur. İlk rəyi siz yazın!",
+		"rate_experience": "Təcrübənizi qiymətləndirin",
+		"share_experience_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
+		"submitting": "Göndərilir...",
+		"submit_review": "Rəyi Göndər"
+	},
+	"dashboard": {
+		"title": "İdarə Paneli",
+		"subtitle": "Profilinizi və iş qrafikinizi idarə edin",
+		"profile_load_error": "Profil yüklənmədi",
+		"status_updated": "Randevu statusu yeniləndi",
+		"status_update_error": "Status yenilənərkən xəta baş verdi",
+		"changes_saved": "Dəyişikliklər yadda saxlanıldı!",
+		"save_error": "Xəta baş verdi. Yenidən cəhd edin.",
+		"profile_not_found": "Bərbər profili tapılmadı.",
+		"no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
+		"unknown_client": "Naməlum Müştəri",
+		"tabs": {
+			"profile": "Profil Məlumatları",
+			"bookings": "Randevular",
+			"schedule": "İş Saatları",
+			"services": "Xidmətlər",
+			"portfolio": "Portfolio"
+		}
+	},
+	"common": {
+		"loading": "Yüklənir..."
 	}
 }

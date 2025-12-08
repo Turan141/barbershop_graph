@@ -1,4 +1,4 @@
-import { Barber, Booking, User } from "../types"
+import { Barber, Booking, User, Review } from "../types"
 
 const API_BASE =
 	import.meta.env.VITE_API_URL ||
@@ -38,7 +38,19 @@ export const api = {
 			)
 		},
 		get: (id: string) =>
-			fetch(`${API_BASE}/barbers/${id}`).then((res) => handleResponse<Barber>(res))
+			fetch(`${API_BASE}/barbers/${id}`).then((res) => handleResponse<Barber>(res)),
+
+		getReviews: (id: string) =>
+			fetch(`${API_BASE}/barbers/${id}/reviews`).then((res) =>
+				handleResponse<Review[]>(res)
+			),
+
+		addReview: (id: string, data: { userId: string; rating: number; text?: string }) =>
+			fetch(`${API_BASE}/barbers/${id}/reviews`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data)
+			}).then((res) => handleResponse<Review>(res))
 	},
 
 	bookings: {

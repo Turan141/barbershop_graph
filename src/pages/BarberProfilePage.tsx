@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { api } from "../services/api"
-import { Barber, Service } from "../types"
+import { Barber, Service, Review } from "../types"
 import { useAuthStore } from "../store/authStore"
 import { useFavoritesStore } from "../store/favoritesStore"
 import {
@@ -16,7 +16,9 @@ import {
 	ShieldCheck,
 	Scissors,
 	ArrowRight,
-	Image as ImageIcon
+	Image as ImageIcon,
+	MessageSquare,
+	X
 } from "lucide-react"
 import clsx from "clsx"
 import { format } from "date-fns"
@@ -44,9 +46,17 @@ export const BarberProfilePage = () => {
 	>("idle")
 	const [showAllPortfolio, setShowAllPortfolio] = useState(false)
 
+	// Reviews state
+	const [reviews, setReviews] = useState<Review[]>([])
+	const [showReviewModal, setShowReviewModal] = useState(false)
+	const [rating, setRating] = useState(0)
+	const [reviewText, setReviewText] = useState("")
+	const [submittingReview, setSubmittingReview] = useState(false)
+
 	useEffect(() => {
 		if (id) {
 			api.barbers.get(id).then(setBarbers)
+			api.barbers.getReviews(id).then(setReviews)
 			if (user) fetchFavorites(user.id)
 		}
 	}, [id, user])
@@ -86,6 +96,28 @@ export const BarberProfilePage = () => {
 		}
 	}
 
+	const handleSubmitReview = async () => {
+		if (!user || !id || rating === 0) return
+		setSubmittingReview(true)
+		try {
+			const newReview = await api.barbers.addReview(id, {
+				userId: user.id,
+				rating,
+				text: reviewText
+			})
+			setReviews([newReview, ...reviews])
+			setShowReviewModal(false)
+			setRating(0)
+			setReviewText("")
+			// Refresh barber to get updated rating
+			api.barbers.get(id).then(setBarbers)
+		} catch (error) {
+			console.error("Failed to submit review", error)
+		} finally {
+			setSubmittingReview(false)
+		}
+	}
+
 	// Generate next 7 days for calendar
 	const dates = Array.from({ length: 7 }, (_, i) => {
 		const d = new Date()
@@ -118,8 +150,12 @@ export const BarberProfilePage = () => {
 				{/* Left Column: Info (8 cols) */}
 				<div className='lg:col-span-8 space-y-8'>
 					{/* Profile Header Card */}
-					<div className='card p-8 relative overflow-hidden bg-white'>
-						<div className='absolute top-0 left-0 w-full h-32 bg-slate-100'></div>
+					<div className='card p-8 relative overflow-hidden bg-white group'>
+						<div className='absolute top-0 left-0 w-full h-32 bg-slate-100 overflow-hidden'>
+							<div className='absolute inset-0 bg-[linear-gradient(to_right,#0000000d_1px,transparent_1px),linear-gradient(to_bottom,#0000000d_1px,transparent_1px)] bg-[size:24px_24px]'></div>
+							<div className='absolute -top-24 -right-24 w-96 h-96 bg-primary-200/40 rounded-full blur-3xl'></div>
+							<div className='absolute -bottom-24 -left-24 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl'></div>
+						</div>
 						<div className='relative flex flex-col sm:flex-row gap-6 items-start pt-12'>
 							<div className='relative'>
 								<img
@@ -320,6 +356,70 @@ export const BarberProfilePage = () => {
 							</div>
 						)}
 					</div>
+					{/* Reviews Section */}
+					<div className='mt-8'>
+						<div className='flex justify-between items-center mb-6'>
+							<h2 className='text-xl font-bold text-slate-900 flex items-center gap-2'>
+								<MessageSquare className='w-5 h-5 text-primary-600' />
+								{t("profile.reviews_section_title")} ({reviews.length})
+							</h2>
+							{user && !reviews.find((r) => r.userId === user.id) && (
+								<button
+									onClick={() => setShowReviewModal(true)}
+									className='btn-secondary text-sm py-2 px-4'
+								>
+									{t("profile.write_review")}
+								</button>
+							)}
+						</div>
+
+						<div className='space-y-4'>
+							{reviews.length > 0 ? (
+								reviews.map((review) => (
+									<div
+										key={review.id}
+										className='bg-white p-6 rounded-2xl border border-slate-100'
+									>
+										<div className='flex justify-between items-start mb-2'>
+											<div className='flex items-center gap-3'>
+												<div className='w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold'>
+													{review.user?.name?.[0] || "U"}
+												</div>
+												<div>
+													<div className='font-bold text-slate-900'>
+														{review.user?.name || "User"}
+													</div>
+													<div className='text-xs text-slate-500'>
+														{new Date(review.createdAt).toLocaleDateString()}
+													</div>
+												</div>
+											</div>
+											<div className='flex gap-1'>
+												{Array.from({ length: 5 }).map((_, i) => (
+													<Star
+														key={i}
+														className={clsx(
+															"w-4 h-4",
+															i < review.rating
+																? "text-yellow-400 fill-yellow-400"
+																: "text-slate-200"
+														)}
+													/>
+												))}
+											</div>
+										</div>
+										{review.text && <p className='text-slate-600 mt-2'>{review.text}</p>}
+									</div>
+								))
+							) : (
+								<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+									<p className='text-slate-500'>
+										{t("profile.no_reviews")}
+									</p>
+								</div>
+							)}
+						</div>
+					</div>
 				</div>
 
 				{/* Right Column: Booking Widget (4 cols) */}
@@ -363,7 +463,7 @@ export const BarberProfilePage = () => {
 										<label className='block text-sm font-bold text-slate-900 mb-4 flex items-center justify-between'>
 											{t("profile.select_date")}
 											<span className='text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded-full'>
-												{dates[0].fullLabel.split(" ")[1]}
+												{dates[0].fullLabel}
 											</span>
 										</label>
 										<div className='flex gap-3 overflow-x-auto py-4 scrollbar-hide -mx-2 px-2'>
@@ -484,6 +584,55 @@ export const BarberProfilePage = () => {
 					</div>
 				</div>
 			</div>
+			{/* Review Modal */}
+			{showReviewModal && (
+				<div className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in'>
+					<div className='bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slide-up'>
+						<div className='p-6 border-b border-slate-100 flex justify-between items-center'>
+							<h3 className='text-lg font-bold text-slate-900'>{t("profile.rate_experience")}</h3>
+							<button
+								onClick={() => setShowReviewModal(false)}
+								className='text-slate-400 hover:text-slate-600 transition-colors'
+							>
+								<X className='w-5 h-5' />
+							</button>
+						</div>
+						<div className='p-6 space-y-6'>
+							<div className='flex justify-center gap-2'>
+								{[1, 2, 3, 4, 5].map((star) => (
+									<button
+										key={star}
+										onClick={() => setRating(star)}
+										className='transition-transform hover:scale-110 focus:outline-none'
+									>
+										<Star
+											className={clsx(
+												"w-10 h-10 transition-colors",
+												star <= rating
+													? "text-yellow-400 fill-yellow-400"
+													: "text-slate-200 hover:text-yellow-200"
+											)}
+										/>
+									</button>
+								))}
+							</div>
+							<textarea
+								value={reviewText}
+								onChange={(e) => setReviewText(e.target.value)}
+								placeholder={t("profile.review_placeholder")}
+								className='w-full h-32 p-4 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none resize-none transition-all'
+							></textarea>
+							<button
+								onClick={handleSubmitReview}
+								disabled={rating === 0 || submittingReview}
+								className='btn-primary w-full py-3'
+							>
+								{submittingReview ? t("profile.submitting") : t("profile.submit_review")}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }

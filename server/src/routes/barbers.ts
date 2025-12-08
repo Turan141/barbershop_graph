@@ -102,4 +102,132 @@ router.get("/:id/bookings", async (req, res) => {
 	}
 })
 
+// POST /api/barbers/:id/reviews
+router.post("/:id/reviews", async (req, res) => {
+	const { id } = req.params
+	const { userId, rating, text } = req.body
+
+	if (!userId || !rating) {
+		return res.status(400).json({ error: "Missing required fields" })
+	}
+
+	try {
+		// Check if user already reviewed
+		const existingReview = await prisma.review.findUnique({
+			where: {
+				userId_barberId: {
+					userId,
+					barberId: id
+				}
+			}
+		})
+
+		if (existingReview) {
+			return res.status(400).json({ error: "You have already reviewed this barber" })
+		}
+
+		// Create review
+		const review = await prisma.review.create({
+			data: {
+				userId,
+				barberId: id,
+				rating: Number(rating),
+				text
+			},
+			include: {
+				user: true
+			}
+		})
+
+		// Update barber rating stats
+		const reviews = await prisma.review.findMany({
+			where: { barberId: id }
+		})
+
+		const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
+		const averageRating = totalRating / reviews.length
+
+		await prisma.barberProfile.update({
+			where: { id },
+			data: {
+				rating: parseFloat(averageRating.toFixed(1)),
+				reviewCount: reviews.length
+			}
+		})
+
+		res.json(review)
+	} catch (error) {
+		console.error("Review error:", error)
+		res.status(500).json({ error: "Failed to submit review" })
+	}
+})
+
+// GET /api/barbers/:id/reviews
+router.get("/:id/reviews", async (req, res) => {
+	const { id } = req.params
+	try {
+		const reviews = await prisma.review.findMany({
+			where: { barberId: id },
+			include: {
+				user: true
+			},
+			orderBy: { createdAt: "desc" }
+		})
+		res.json(reviews)
+	} catch (error) {
+		res.status(500).json({ error: "Failed to fetch reviews" })
+	}
+})
+
+// PUT /api/barbers/:id
+router.put("/:id", async (req, res) => {
+	const { id } = req.params
+	const data = req.body
+
+	try {
+		// First find the profile to get the userId
+		const profile = await prisma.barberProfile.findUnique({
+			where: { id }
+		})
+
+		if (!profile) {
+			return res.status(404).json({ error: "Barber not found" })
+		}
+
+		// Update User info if provided
+		if (data.name || data.avatarUrl) {
+			await prisma.user.update({
+				where: { id: profile.userId },
+				data: {
+					name: data.name,
+					avatarUrl: data.avatarUrl
+				}
+			})
+		}
+
+		// Update BarberProfile info
+		const updateData: any = {}
+		if (data.location) updateData.location = data.location
+		if (data.bio) updateData.bio = data.bio
+		if (data.specialties) updateData.specialties = JSON.stringify(data.specialties)
+		if (data.schedule) updateData.schedule = JSON.stringify(data.schedule)
+		if (data.portfolio) updateData.portfolio = JSON.stringify(data.portfolio)
+		if (data.holidays) updateData.holidays = JSON.stringify(data.holidays)
+
+		const updatedProfile = await prisma.barberProfile.update({
+			where: { id },
+			data: updateData,
+			include: {
+				user: true,
+				services: true
+			}
+		})
+
+		res.json(mapBarber(updatedProfile))
+	} catch (error) {
+		console.error("Update error:", error)
+		res.status(500).json({ error: "Failed to update profile" })
+	}
+})
+
 export default router
