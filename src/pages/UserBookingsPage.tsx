@@ -42,7 +42,7 @@ export const UserBookingsPage = () => {
 					// Fetch current barber details to ensure we have services
 					try {
 						const myProfile = await api.barbers.get(user.id)
-						setBarbers({ [user.id]: myProfile })
+						setBarbers({ [myProfile.id]: myProfile })
 					} catch (e) {
 						console.error("Failed to fetch my profile", e)
 					}
