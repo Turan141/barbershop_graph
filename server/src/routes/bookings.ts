@@ -33,12 +33,12 @@ router.get("/", async (req, res) => {
 
 // POST /api/bookings
 router.post("/", async (req, res) => {
-	const { userId, barberId, serviceId, date, time } = req.body
+	const { clientId, barberId, serviceId, date, time } = req.body
 
 	try {
 		const booking = await prisma.booking.create({
 			data: {
-				clientId: userId,
+				clientId,
 				barberId,
 				serviceId,
 				date,
