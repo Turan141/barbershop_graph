@@ -396,14 +396,68 @@ export const UserBookingsPage = () => {
 							</div>
 
 							{/* Mobile List View */}
-							<div className='md:hidden space-y-4'>
-								{bookings
-									.sort(
-										(a, b) =>
-											new Date(b.date + "T" + b.time).getTime() -
-											new Date(a.date + "T" + a.time).getTime()
-									)
-									.map((b) => renderBookingCard(b))}
+							<div className='md:hidden space-y-8 pb-12'>
+								{[
+									{
+										title: t("dashboard.bookings.status.pending"),
+										color: "yellow",
+										sortOrder: "asc",
+										list: bookings.filter(
+											(b) => b.status === "pending" || b.status === "upcoming"
+										)
+									},
+									{
+										title: t("dashboard.bookings.status.confirmed"),
+										color: "green",
+										sortOrder: "asc",
+										list: bookings.filter((b) => b.status === "confirmed")
+									},
+									{
+										title: t("dashboard.bookings.status.completed"),
+										color: "blue",
+										sortOrder: "desc",
+										list: bookings.filter((b) => b.status === "completed")
+									},
+									{
+										title: t("dashboard.bookings.status.cancelled"),
+										color: "red",
+										sortOrder: "desc",
+										list: bookings.filter((b) => b.status === "cancelled")
+									}
+								].map(
+									(group) =>
+										group.list.length > 0 && (
+											<div key={group.title} className='space-y-3'>
+												<div
+													className={clsx(
+														"flex items-center justify-between px-1",
+														`text-${group.color}-900`
+													)}
+												>
+													<h3 className='font-bold text-lg'>{group.title}</h3>
+													<span
+														className={clsx(
+															"px-2.5 py-0.5 rounded-full text-xs font-bold",
+															`bg-${group.color}-100 text-${group.color}-700`
+														)}
+													>
+														{group.list.length}
+													</span>
+												</div>
+												<div className='space-y-3'>
+													{group.list
+														.sort((a, b) => {
+															const timeA = new Date(a.date + "T" + a.time).getTime()
+															const timeB = new Date(b.date + "T" + b.time).getTime()
+															return group.sortOrder === "asc"
+																? timeA - timeB
+																: timeB - timeA
+														})
+														.map((b) => renderBookingCard(b))}
+												</div>
+											</div>
+										)
+								)}
 							</div>
 						</>
 					) : (

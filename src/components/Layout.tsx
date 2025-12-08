@@ -73,18 +73,20 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 											<Clock className='h-4 w-4' />
 											{t("nav.my_appointments")}
 										</Link>
-										<Link
-											to='/favorites'
-											className={clsx(
-												"flex items-center gap-2 text-sm font-medium transition-colors",
-												isActive("/favorites")
-													? "text-primary-600"
-													: "text-slate-600 hover:text-slate-900"
-											)}
-										>
-											<Heart className='h-4 w-4' />
-											{t("nav.favorites")}
-										</Link>
+										{user.role !== "barber" && (
+											<Link
+												to='/favorites'
+												className={clsx(
+													"flex items-center gap-2 text-sm font-medium transition-colors",
+													isActive("/favorites")
+														? "text-primary-600"
+														: "text-slate-600 hover:text-slate-900"
+												)}
+											>
+												<Heart className='h-4 w-4' />
+												{t("nav.favorites")}
+											</Link>
+										)}
 									</div>
 
 									<div className='h-8 w-px bg-slate-200'></div>
