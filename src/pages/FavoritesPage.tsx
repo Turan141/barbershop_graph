@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
 import { useFavoritesStore } from "../store/favoritesStore"
 import { Star, MapPin, Scissors, Heart, ArrowLeft } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 export const FavoritesPage = () => {
+	const { t } = useTranslation()
 	const { user } = useAuthStore()
 	const { favorites, isLoading, fetchFavorites, removeFavorite } = useFavoritesStore()
 	const navigate = useNavigate()
@@ -27,8 +29,8 @@ export const FavoritesPage = () => {
 					<ArrowLeft className='w-6 h-6 text-slate-600' />
 				</button>
 				<div>
-					<h1 className='text-3xl font-bold text-slate-900'>Seçilmişlər</h1>
-					<p className='text-slate-500 mt-1'>Bəyəndiyiniz bərbərlərin siyahısı</p>
+					<h1 className='text-3xl font-bold text-slate-900'>{t("favorites.title")}</h1>
+					<p className='text-slate-500 mt-1'>{t("favorites.subtitle")}</p>
 				</div>
 			</div>
 
@@ -44,13 +46,13 @@ export const FavoritesPage = () => {
 			) : favorites.length === 0 ? (
 				<div className='text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200'>
 					<Heart className='w-16 h-16 text-slate-300 mx-auto mb-4' />
-					<h2 className='text-xl font-semibold text-slate-900 mb-2'>Siyahı boşdur</h2>
-					<p className='text-slate-500 mb-6'>
-						Hələ heç bir bərbəri seçilmişlərə əlavə etməmisiniz.
-					</p>
+					<h2 className='text-xl font-semibold text-slate-900 mb-2'>
+						{t("favorites.empty_title")}
+					</h2>
+					<p className='text-slate-500 mb-6'>{t("favorites.empty_desc")}</p>
 					<Link to='/' className='btn-primary inline-flex items-center gap-2'>
 						<Scissors className='w-4 h-4' />
-						Bərbərləri kəşf et
+						{t("favorites.discover_btn")}
 					</Link>
 				</div>
 			) : (

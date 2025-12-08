@@ -234,19 +234,19 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 							<h3 className='font-semibold text-slate-900 mb-4'>{t("footer.product")}</h3>
 							<ul className='space-y-2 text-sm text-slate-500'>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/features' className='hover:text-primary-600'>
 										{t("footer.features")}
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/for-barbers' className='hover:text-primary-600'>
 										{t("footer.for_barbers")}
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/pricing' className='hover:text-primary-600'>
 										{t("footer.pricing")}
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
@@ -254,19 +254,19 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 							<h3 className='font-semibold text-slate-900 mb-4'>{t("footer.company")}</h3>
 							<ul className='space-y-2 text-sm text-slate-500'>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/about' className='hover:text-primary-600'>
 										{t("footer.about_us")}
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/careers' className='hover:text-primary-600'>
 										{t("footer.careers")}
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/contact' className='hover:text-primary-600'>
 										{t("footer.contact")}
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
@@ -274,14 +274,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 							<h3 className='font-semibold text-slate-900 mb-4'>{t("footer.legal")}</h3>
 							<ul className='space-y-2 text-sm text-slate-500'>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/privacy' className='hover:text-primary-600'>
 										{t("footer.privacy")}
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href='#' className='hover:text-primary-600'>
+									<Link to='/terms' className='hover:text-primary-600'>
 										{t("footer.terms")}
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>

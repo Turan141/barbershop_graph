@@ -5,8 +5,10 @@ import { api } from "../services/api"
 import { Calendar, Clock, MapPin, Scissors, X, CheckCircle } from "lucide-react"
 import clsx from "clsx"
 import { Link, useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 export const UserBookingsPage = () => {
+	const { t } = useTranslation()
 	const { user } = useAuthStore()
 	const navigate = useNavigate()
 	const [bookings, setBookings] = useState<Booking[]>([])
@@ -68,8 +70,8 @@ export const UserBookingsPage = () => {
 	return (
 		<div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in'>
 			<div className='mb-8'>
-				<h1 className='text-3xl font-bold text-slate-900'>Randevularım</h1>
-				<p className='text-slate-500 mt-1'>Qarşıdan gələn və keçmiş randevularınız</p>
+				<h1 className='text-3xl font-bold text-slate-900'>{t("user_bookings.title")}</h1>
+				<p className='text-slate-500 mt-1'>{t("user_bookings.subtitle")}</p>
 			</div>
 
 			{loading ? (
@@ -84,11 +86,13 @@ export const UserBookingsPage = () => {
 			) : bookings.length === 0 ? (
 				<div className='text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200'>
 					<Calendar className='w-16 h-16 text-slate-300 mx-auto mb-4' />
-					<h2 className='text-xl font-semibold text-slate-900 mb-2'>Randevu tapılmadı</h2>
-					<p className='text-slate-500 mb-6'>Hələ heç bir randevu almamısınız.</p>
+					<h2 className='text-xl font-semibold text-slate-900 mb-2'>
+						{t("user_bookings.no_bookings_title")}
+					</h2>
+					<p className='text-slate-500 mb-6'>{t("user_bookings.no_bookings_desc")}</p>
 					<Link to='/' className='btn-primary inline-flex items-center gap-2'>
 						<Scissors className='w-4 h-4' />
-						Randevu Al
+						{t("user_bookings.book_now")}
 					</Link>
 				</div>
 			) : (
@@ -143,7 +147,7 @@ export const UserBookingsPage = () => {
 											</div>
 											<div>
 												<h3 className='font-bold text-lg text-slate-900'>
-													{barber?.name || "Naməlum Bərbər"}
+													{barber?.name || t("user_bookings.unknown_barber")}
 												</h3>
 												<div className='flex items-center text-slate-500 text-sm mt-1'>
 													<MapPin className='w-3.5 h-3.5 mr-1' />
@@ -194,12 +198,12 @@ export const UserBookingsPage = () => {
 														<X className='w-3.5 h-3.5' />
 													)}
 													{booking.status === "confirmed"
-														? "Təsdiqlənib"
+														? t("user_bookings.status.confirmed")
 														: booking.status === "pending"
-														? "Gözləyir"
+														? t("user_bookings.status.pending")
 														: booking.status === "cancelled"
-														? "Ləğv edilib"
-														: "Tamamlanıb"}
+														? t("user_bookings.status.cancelled")
+														: t("user_bookings.status.completed")}
 												</span>
 
 												{!isPast && booking.status !== "cancelled" && (
@@ -218,7 +222,7 @@ export const UserBookingsPage = () => {
 																? "bg-red-50 text-red-600"
 																: "text-slate-400 hover:text-red-600 hover:bg-red-50"
 														)}
-														title='Randevunu ləğv et'
+														title={t("user_bookings.cancel_tooltip")}
 													>
 														<X className='w-5 h-5' />
 													</button>
@@ -229,7 +233,7 @@ export const UserBookingsPage = () => {
 									{cancellingBookingId === booking.id && (
 										<div className='mt-4 pt-4 border-t border-slate-100 animate-fade-in'>
 											<label className='block text-sm font-medium text-slate-700 mb-2'>
-												Ləğv səbəbi (könüllü):
+												{t("user_bookings.cancel_reason_label")}
 											</label>
 											<div className='flex gap-3'>
 												<input
@@ -238,20 +242,22 @@ export const UserBookingsPage = () => {
 													onChange={(e) => setCancelReason(e.target.value)}
 													className='flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500'
 													autoFocus
-													placeholder='Səbəb qeyd edin...'
+													placeholder={t("user_bookings.cancel_reason_placeholder")}
 												/>
 												<button
 													onClick={() => handleCancel(booking.id, cancelReason)}
 													className='px-4 py-2 text-sm font-medium bg-red-600 text-white hover:bg-red-700 rounded-lg whitespace-nowrap'
 												>
-													Təsdiqlə
+													{t("user_bookings.confirm_cancel")}
 												</button>
 											</div>
 										</div>
 									)}
 									{booking.comment && (
 										<div className='mt-4 pt-4 border-t border-slate-100 text-sm bg-slate-50/50 -mx-6 -mb-6 px-6 py-3 rounded-b-2xl'>
-											<span className='font-medium text-slate-700'>Qeyd: </span>
+											<span className='font-medium text-slate-700'>
+												{t("user_bookings.note_label")}
+											</span>
 											<span className='text-slate-600 italic'>{booking.comment}</span>
 										</div>
 									)}

@@ -68,6 +68,211 @@
 		"terms": "Terms",
 		"copyright": "© 2025 BarberBook Inc. All rights reserved."
 	},
+	"pages": {
+		"features": {
+			"title": "Features",
+			"subtitle": "Everything you need to manage your style, all in one place.",
+			"items": {
+				"booking": {
+					"title": "Easy Booking",
+					"desc": "Book your appointment in seconds with our intuitive interface."
+				},
+				"availability": {
+					"title": "Real-time Availability",
+					"desc": "See exactly when your favorite barber is free."
+				},
+				"reminders": {
+					"title": "Reminders",
+					"desc": "Get notified before your appointment so you never miss a cut."
+				},
+				"reviews": {
+					"title": "Reviews & Ratings",
+					"desc": "Read genuine reviews from other customers to choose the best."
+				}
+			}
+		},
+		"for_barbers": {
+			"title": "For Barbers",
+			"subtitle": "Grow your business and manage your clients with ease.",
+			"scheduling": {
+				"title": "Smart Scheduling",
+				"desc": "Manage your calendar effortlessly. Set your working hours, breaks, and holidays."
+			},
+			"clients": {
+				"title": "Client Management",
+				"desc": "Keep track of your clients, their preferences, and booking history."
+			},
+			"growth": {
+				"title": "Business Growth",
+				"desc": "Get insights into your performance and grow your revenue with our analytics tools."
+			},
+			"cta": {
+				"title": "Ready to upgrade your business?",
+				"subtitle": "Join thousands of barbers who trust BarberBook to run their business.",
+				"button": "Get Started"
+			}
+		},
+		"pricing": {
+			"title": "Simple, Transparent Pricing",
+			"subtitle": "Choose the plan that fits your needs. No hidden fees.",
+			"selected": "Selected",
+			"button": "Get Started",
+			"popular": "POPULAR",
+			"period": "/mo",
+			"starter": {
+				"title": "Starter",
+				"price": "Free",
+				"features": ["Online Booking", "Basic Profile", "Up to 50 bookings/mo"]
+			},
+			"pro": {
+				"title": "Professional",
+				"price": "$29",
+				"features": [
+					"Everything in Starter",
+					"Unlimited Bookings",
+					"SMS Reminders",
+					"Analytics Dashboard"
+				]
+			},
+			"enterprise": {
+				"title": "Enterprise",
+				"price": "$99",
+				"features": [
+					"Everything in Pro",
+					"Multiple Staff Members",
+					"Priority Support",
+					"Custom Branding"
+				]
+			}
+		},
+		"about": {
+			"title": "About Us",
+			"mission": "BarberBook is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service.",
+			"story": {
+				"title": "Our Story",
+				"text": "Founded in 2024, BarberBook started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
+			},
+			"values": {
+				"title": "Our Values",
+				"quality": {
+					"title": "Quality:",
+					"text": "We believe in highlighting the best talent in the industry."
+				},
+				"community": {
+					"title": "Community:",
+					"text": "Barbershops are community hubs, and we want to support that connection."
+				},
+				"innovation": {
+					"title": "Innovation:",
+					"text": "We're constantly improving our technology to serve you better."
+				}
+			}
+		},
+		"careers": {
+			"title": "Join Our Team",
+			"subtitle": "We're building the future of barbershop management. Come help us shape the industry.",
+			"positions": {
+				"frontend": {
+					"title": "Senior Frontend Engineer",
+					"dept": "Engineering"
+				},
+				"design": {
+					"title": "Product Designer",
+					"dept": "Design"
+				},
+				"marketing": {
+					"title": "Marketing Manager",
+					"dept": "Marketing"
+				},
+				"success": {
+					"title": "Customer Success Specialist",
+					"dept": "Operations"
+				}
+			},
+			"location": {
+				"remote": "Remote",
+				"baku": "Baku, Azerbaijan"
+			},
+			"type": "Full-time"
+		},
+		"contact": {
+			"title": "Contact Us",
+			"subtitle": "Have questions? We'd love to hear from you.",
+			"get_in_touch": "Get in Touch",
+			"email": {
+				"title": "Email",
+				"value": "support@barberbook.com",
+				"desc": "We usually reply within 24 hours."
+			},
+			"phone": {
+				"title": "Phone",
+				"value": "+994 50 123 45 67",
+				"desc": "Mon-Fri from 9am to 6pm."
+			},
+			"office": {
+				"title": "Office",
+				"value": "123 Nizami Street",
+				"city": "Baku, Azerbaijan"
+			},
+			"form": {
+				"name": "Name",
+				"name_placeholder": "Your name",
+				"email": "Email",
+				"email_placeholder": "you@example.com",
+				"message": "Message",
+				"message_placeholder": "How can we help?",
+				"submit": "Send Message",
+				"success": "Message sent successfully!"
+			}
+		},
+		"privacy": {
+			"title": "Privacy Policy",
+			"last_updated": "Last updated: December 8, 2025",
+			"intro": {
+				"title": "1. Introduction",
+				"text": "Welcome to BarberBook. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
+			},
+			"data": {
+				"title": "2. Data We Collect",
+				"text": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:",
+				"items": [
+					"Identity Data includes first name, last name, username or similar identifier.",
+					"Contact Data includes email address and telephone number.",
+					"Technical Data includes internet protocol (IP) address, browser type and version.",
+					"Usage Data includes information about how you use our website and services."
+				]
+			},
+			"usage": {
+				"title": "3. How We Use Your Data",
+				"text": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
+				"items": [
+					"Where we need to perform the contract we are about to enter into or have entered into with you.",
+					"Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
+					"Where we need to comply with a legal or regulatory obligation."
+				]
+			}
+		},
+		"terms": {
+			"title": "Terms of Service",
+			"last_updated": "Last updated: December 8, 2025",
+			"agreement": {
+				"title": "1. Agreement to Terms",
+				"text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+			},
+			"license": {
+				"title": "2. Use License",
+				"text": "Permission is granted to temporarily download one copy of the materials (information or software) on BarberBook's website for personal, non-commercial transitory viewing only."
+			},
+			"disclaimer": {
+				"title": "3. Disclaimer",
+				"text": "The materials on BarberBook's website are provided on an 'as is' basis. BarberBook makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
+			},
+			"limitations": {
+				"title": "4. Limitations",
+				"text": "In no event shall BarberBook or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on BarberBook's website."
+			}
+		}
+	},
 	"auth": {
 		"welcome": "Welcome Back",
 		"login_subtitle": "Sign in to manage your appointments and favorites",
@@ -173,12 +378,14 @@
 				"cancel": "Cancel",
 				"complete": "Complete"
 			},
-			"cancel_reason_prompt": "Reason for cancellation (optional):"
+			"cancel_reason_prompt": "Reason for cancellation (optional):",
+			"note": "Note"
 		},
 		"unknown_client": "Unknown Client",
 		"profile": {
 			"title": "Profile Details",
 			"profile_picture": "Profile Picture",
+			"set_as_profile_picture": "Set as Profile Picture",
 			"select_from_portfolio": "Select from portfolio:",
 			"no_portfolio": "Upload images to your portfolio to set them as your profile picture.",
 			"name": "Full Name",
@@ -229,7 +436,8 @@
 			"set_avatar_tooltip": "Set as Profile Picture",
 			"current_avatar_tooltip": "Current Profile Picture",
 			"delete_tooltip": "Delete Image",
-			"upload_help": "JPG, PNG (Max 800x800px)"
+			"upload_help": "JPG, PNG (Max 800x800px)",
+			"upload_new_image": "Upload New Image"
 		},
 		"tabs": {
 			"profile": "Profile Details",
@@ -241,5 +449,31 @@
 	},
 	"common": {
 		"loading": "Loading..."
+	},
+	"user_bookings": {
+		"title": "My Appointments",
+		"subtitle": "Your upcoming and past appointments",
+		"no_bookings_title": "No Appointments Found",
+		"no_bookings_desc": "You haven't booked any appointments yet.",
+		"book_now": "Book Appointment",
+		"unknown_barber": "Unknown Barber",
+		"status": {
+			"confirmed": "Confirmed",
+			"pending": "Pending",
+			"cancelled": "Cancelled",
+			"completed": "Completed"
+		},
+		"cancel_tooltip": "Cancel Appointment",
+		"cancel_reason_label": "Reason for cancellation (optional):",
+		"cancel_reason_placeholder": "Enter reason...",
+		"confirm_cancel": "Confirm",
+		"note_label": "Note: "
+	},
+	"favorites": {
+		"title": "Favorites",
+		"subtitle": "List of your favorite barbers",
+		"empty_title": "List is empty",
+		"empty_desc": "You haven't added any barbers to favorites yet.",
+		"discover_btn": "Discover Barbers"
 	}
 }

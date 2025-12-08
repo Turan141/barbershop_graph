@@ -211,18 +211,14 @@ export const BarberProfilePage = () => {
 					<div className='mt-8'>
 						<h2 className='text-xl font-bold text-slate-900 mb-6 flex items-center gap-2'>
 							<Scissors className='w-5 h-5 text-primary-600' />
-							{t("profile.services_menu") || "Service Menu"}
+							{t("profile.services_menu")}
 						</h2>
 						<div className='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden'>
 							{/* Table Header (Desktop) */}
 							<div className='hidden sm:grid grid-cols-12 gap-4 p-4 bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider'>
-								<div className='col-span-6'>{t("profile.service_name") || "Service"}</div>
-								<div className='col-span-3 text-center'>
-									{t("profile.duration") || "Duration"}
-								</div>
-								<div className='col-span-3 text-right'>
-									{t("profile.price") || "Price"}
-								</div>
+								<div className='col-span-6'>{t("profile.service_name")}</div>
+								<div className='col-span-3 text-center'>{t("profile.duration")}</div>
+								<div className='col-span-3 text-right'>{t("profile.price")}</div>
 							</div>
 
 							{/* Service Rows */}
@@ -440,7 +436,7 @@ export const BarberProfilePage = () => {
 					onClick={() => setIsBookingModalOpen(true)}
 					className='btn-primary w-full py-3.5 text-lg shadow-lg shadow-primary-500/20'
 				>
-					{t("profile.book_now") || "Book Now"}
+					{t("profile.book_now")}
 				</button>
 			</div>
 

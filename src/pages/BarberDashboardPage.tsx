@@ -529,7 +529,7 @@ export const BarberDashboardPage = () => {
 														{booking.comment && (
 															<div className='mt-4 pt-4 border-t border-slate-100 text-sm bg-slate-50/50 -mx-5 -mb-5 px-5 py-3 rounded-b-xl w-[calc(100%+2.5rem)]'>
 																<span className='font-medium text-slate-700'>
-																	{t("dashboard.bookings.note") || "Note"}:{" "}
+																	{t("dashboard.bookings.note")}:{" "}
 																</span>
 																<span className='text-slate-600 italic'>
 																	{booking.comment}
@@ -594,7 +594,7 @@ export const BarberDashboardPage = () => {
 																	? "border-primary-500 ring-2 ring-primary-200 ring-offset-2"
 																	: "border-slate-200 hover:border-primary-300 hover:scale-105"
 															)}
-															title='Set as Profile Picture'
+															title={t("dashboard.profile.set_as_profile_picture")}
 														>
 															<img
 																src={url}
@@ -612,15 +612,14 @@ export const BarberDashboardPage = () => {
 														onClick={() => setIsUploadModalOpen(true)}
 														disabled={(formData.portfolio?.length || 0) >= 6}
 														className='w-12 h-12 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center text-slate-400 hover:text-primary-500 hover:border-primary-300 hover:bg-primary-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
-														title='Upload New Image'
+														title={t("dashboard.portfolio.upload_new_image")}
 													>
 														<Plus className='w-5 h-5' />
 													</button>
 												</div>
 												{(formData.portfolio?.length || 0) === 0 && (
 													<p className='text-xs text-slate-400 mt-2 italic'>
-														{t("dashboard.profile.no_portfolio") ||
-															"Upload images to your portfolio to set them as your profile picture."}
+														{t("dashboard.profile.no_portfolio")}
 													</p>
 												)}
 											</div>
@@ -1114,7 +1113,7 @@ export const BarberDashboardPage = () => {
 			<Modal
 				isOpen={isUploadModalOpen}
 				onClose={() => setIsUploadModalOpen(false)}
-				title={t("dashboard.portfolio.upload_title") || "Upload Image"}
+				title={t("dashboard.portfolio.upload_title")}
 			>
 				<div className='space-y-4'>
 					<div className='border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-primary-500 transition-colors cursor-pointer relative'>

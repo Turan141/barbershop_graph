@@ -172,13 +172,15 @@
 				"cancel": "Ləğv et",
 				"complete": "Tamamla"
 			},
-			"cancel_reason_prompt": "Ləğv səbəbi (könüllü):"
+			"cancel_reason_prompt": "Ləğv səbəbi (könüllü):",
+			"note": "Qeyd"
 		},
 		"unknown_client": "Naməlum Müştəri",
 		"profile": {
 			"avatar_url": "Profil Şəkli URL-si",
 			"title": "Profil Məlumatları",
 			"profile_picture": "Profil Şəkli",
+			"set_as_profile_picture": "Profil şəkli kimi təyin et",
 			"select_from_portfolio": "Portfoliodan seçin:",
 			"no_portfolio": "Profil şəkli təyin etmək üçün portfolionuzda şəkil yükləyin.",
 			"name": "Ad Soyad",
@@ -229,7 +231,8 @@
 			"set_avatar_tooltip": "Profil şəkli kimi təyin et",
 			"current_avatar_tooltip": "Cari profil şəkli",
 			"delete_tooltip": "Şəkli sil",
-			"upload_help": "JPG, PNG (Maks 800x800px)"
+			"upload_help": "JPG, PNG (Maks 800x800px)",
+			"upload_new_image": "Yeni Şəkil Yüklə"
 		},
 		"tabs": {
 			"profile": "Profil Məlumatları",
@@ -241,5 +244,234 @@
 	},
 	"common": {
 		"loading": "Yüklənir..."
+	},
+	"pages": {
+		"features": {
+			"title": "Xüsusiyyətlər",
+			"subtitle": "Üslubunuzu idarə etmək üçün lazım olan hər şey bir yerdə.",
+			"items": {
+				"booking": {
+					"title": "Asan Rezervasiya",
+					"desc": "İntuitiv interfeysimizlə saniyələr ərzində randevunuzu alın."
+				},
+				"availability": {
+					"title": "Real vaxt rejimində mövcudluq",
+					"desc": "Sevimli bərbərinizin nə vaxt boş olduğunu dəqiq görün."
+				},
+				"reminders": {
+					"title": "Xatırlatmalar",
+					"desc": "Randevunuzdan əvvəl bildiriş alın, beləliklə saç kəsimini heç vaxt qaçırmazsınız."
+				},
+				"reviews": {
+					"title": "Rəylər və Reytinqlər",
+					"desc": "Ən yaxşısını seçmək üçün digər müştərilərin həqiqi rəylərini oxuyun."
+				}
+			}
+		},
+		"for_barbers": {
+			"title": "Bərbərlər üçün",
+			"subtitle": "Biznesinizi böyüdün və müştərilərinizi asanlıqla idarə edin.",
+			"scheduling": {
+				"title": "Ağıllı Planlaşdırma",
+				"desc": "Təqviminizi asanlıqla idarə edin. İş saatlarınızı, fasilələri və tətilləri təyin edin."
+			},
+			"clients": {
+				"title": "Müştəri İdarəetməsi",
+				"desc": "Müştərilərinizi, onların seçimlərini və rezervasiya tarixçəsini izləyin."
+			},
+			"growth": {
+				"title": "Biznesin Böyüməsi",
+				"desc": "Analitik alətlərimizlə performansınız haqqında məlumat əldə edin və gəlirinizi artırın."
+			},
+			"cta": {
+				"title": "Biznesinizi təkmilləşdirməyə hazırsınız?",
+				"subtitle": "Bizneslərini idarə etmək üçün BarberBook-a güvənən minlərlə bərbərə qoşulun.",
+				"button": "Başlayın"
+			}
+		},
+		"pricing": {
+			"title": "Sadə, Şəffaf Qiymətlər",
+			"subtitle": "Ehtiyaclarınıza uyğun planı seçin. Gizli ödənişlər yoxdur.",
+			"selected": "Seçildi",
+			"button": "Başlayın",
+			"popular": "MƏŞHUR",
+			"period": "ay",
+			"starter": {
+				"title": "Başlanğıc",
+				"price": "Pulsuz",
+				"features": ["Onlayn Rezervasiya", "Əsas Profil", "Ayda 50-yə qədər rezervasiya"]
+			},
+			"pro": {
+				"title": "Peşəkar",
+				"price": "$29",
+				"features": [
+					"Başlanğıc paketindəki hər şey",
+					"Limitsiz Rezervasiya",
+					"SMS Xatırlatmalar",
+					"Analitik İdarə Paneli"
+				]
+			},
+			"enterprise": {
+				"title": "Biznes",
+				"price": "$99",
+				"features": [
+					"Peşəkar paketindəki hər şey",
+					"Çoxlu İşçi",
+					"Prioritet Dəstək",
+					"Xüsusi Brendinq"
+				]
+			}
+		},
+		"about": {
+			"title": "Haqqımızda",
+			"subtitle": "BarberBook bərbərxana təcrübəsini müasirləşdirmək missiyasındadır. Biz istedadlı bərbərləri keyfiyyətli xidməti qiymətləndirən müştərilərlə əlaqələndiririk.",
+			"story": {
+				"title": "Bizim Hekayəmiz",
+				"content": "2024-cü ildə qurulan BarberBook sadə bir müşahidə ilə başladı: yaxşı bərbər tapmaq və randevu almaq lazım olduğundan daha çətin idi. Biz müştərilərin əla bərbərləri kəşf etməsini və bərbərlərin bizneslərini səmərəli idarə etməsini asanlaşdıran bir platforma qurmaq üçün yola çıxdıq."
+			},
+			"values": {
+				"title": "Dəyərlərimiz",
+				"quality": {
+					"title": "Keyfiyyət",
+					"desc": "Sənayedəki ən yaxşı istedadları vurğulamağa inanırıq."
+				},
+				"community": {
+					"title": "İcma",
+					"desc": "Bərbərxanalar icma mərkəzləridir və biz bu əlaqəni dəstəkləmək istəyirik."
+				},
+				"innovation": {
+					"title": "İnnovasiya",
+					"desc": "Sizə daha yaxşı xidmət göstərmək üçün texnologiyamızı daim təkmilləşdiririk."
+				}
+			}
+		},
+		"careers": {
+			"title": "Komandamıza Qoşulun",
+			"subtitle": "Biz bərbərxana idarəçiliyinin gələcəyini qururuq. Sənayeni formalaşdırmağa kömək edin.",
+			"positions": [
+				{
+					"title": "Baş Frontend Mühəndisi",
+					"department": "Mühəndislik",
+					"location": "Uzaqdan",
+					"type": "Tam ştat"
+				},
+				{
+					"title": "Məhsul Dizayneri",
+					"department": "Dizayn",
+					"location": "Bakı, Azərbaycan",
+					"type": "Tam ştat"
+				},
+				{
+					"title": "Marketinq Meneceri",
+					"department": "Marketinq",
+					"location": "Uzaqdan",
+					"type": "Tam ştat"
+				},
+				{
+					"title": "Müştəri Uğuru Mütəxəssisi",
+					"department": "Əməliyyatlar",
+					"location": "Bakı, Azərbaycan",
+					"type": "Tam ştat"
+				}
+			]
+		},
+		"contact": {
+			"title": "Bizimlə Əlaqə",
+			"subtitle": "Suallarınız var? Sizdən eşitmək istərdik.",
+			"get_in_touch": "Əlaqə Saxlayın",
+			"email": {
+				"title": "E-poçt",
+				"desc": "Adətən 24 saat ərzində cavab veririk."
+			},
+			"phone": {
+				"title": "Telefon",
+				"desc": "B.e.-Cümə 09:00-dan 18:00-a qədər."
+			},
+			"office": {
+				"title": "Ofis"
+			},
+			"form": {
+				"name": "Ad",
+				"name_placeholder": "Adınız",
+				"email": "E-poçt",
+				"email_placeholder": "siz@numune.com",
+				"message": "Mesaj",
+				"message_placeholder": "Sizə necə kömək edə bilərik?",
+				"submit": "Mesaj Göndər"
+			}
+		},
+		"privacy": {
+			"title": "Məxfilik Siyasəti",
+			"last_updated": "Son yenilənmə: 8 Dekabr 2025",
+			"intro": {
+				"title": "1. Giriş",
+				"content": "BarberBook-a xoş gəlmisiniz. Məxfiliyinizə hörmət edirik və şəxsi məlumatlarınızı qorumağa sadiqik. Bu məxfilik siyasəti veb saytımızı ziyarət etdiyiniz zaman şəxsi məlumatlarınıza necə baxdığımız barədə məlumat verəcək və məxfilik hüquqlarınız və qanunun sizi necə qoruduğu barədə sizə məlumat verəcəkdir."
+			},
+			"data": {
+				"title": "2. Topladığımız Məlumatlar",
+				"content": "Sizin haqqınızda aşağıdakı kimi qruplaşdırdığımız müxtəlif növ şəxsi məlumatları toplaya, istifadə edə, saxlaya və ötürə bilərik:",
+				"list": [
+					"Şəxsiyyət Məlumatlarına ad, soyad, istifadəçi adı və ya oxşar identifikator daxildir.",
+					"Əlaqə Məlumatlarına e-poçt ünvanı və telefon nömrəsi daxildir.",
+					"Texniki Məlumatlara internet protokol (IP) ünvanı, brauzer növü və versiyası daxildir.",
+					"İstifadə Məlumatlarına veb saytımızdan və xidmətlərimizdən necə istifadə etdiyiniz barədə məlumatlar daxildir."
+				]
+			},
+			"usage": {
+				"title": "3. Məlumatlarınızı Necə İstifadə Edirik",
+				"content": "Şəxsi məlumatlarınızı yalnız qanun icazə verdikdə istifadə edəcəyik. Əksər hallarda şəxsi məlumatlarınızı aşağıdakı hallarda istifadə edəcəyik:",
+				"list": [
+					"Sizinlə bağlamaq üzrə olduğumuz və ya bağladığımız müqaviləni yerinə yetirmək lazım olduqda.",
+					"Bizim (və ya üçüncü tərəfin) qanuni maraqlarımız üçün zəruri olduqda və sizin maraqlarınız və əsas hüquqlarınız bu maraqları üstələmədikdə.",
+					"Qanuni və ya tənzimləyici öhdəliyə əməl etməli olduğumuz yerlərdə."
+				]
+			}
+		},
+		"terms": {
+			"title": "Xidmət Şərtləri",
+			"last_updated": "Son yenilənmə: 8 Dekabr 2025",
+			"agreement": {
+				"title": "1. Şərtlərlə Razılaşma",
+				"content": "Veb saytımıza daxil olmaqla, bu Xidmət Şərtlərinə əməl etməyə və bütün tətbiq olunan qanun və qaydalara riayət etməyə razılaşırsınız. Bu şərtlərdən hər hansı biri ilə razı deyilsinizsə, bu saytdan istifadə etmək və ya daxil olmaq qadağandır."
+			},
+			"license": {
+				"title": "2. İstifadə Lisenziyası",
+				"content": "BarberBook-un veb saytındakı materialların (məlumat və ya proqram təminatı) bir nüsxəsini yalnız şəxsi, qeyri-kommersiya məqsədli müvəqqəti baxış üçün yükləməyə icazə verilir."
+			},
+			"disclaimer": {
+				"title": "3. Məsuliyyətdən İmtina",
+				"content": "BarberBook-un veb saytındakı materiallar 'olduğu kimi' təqdim olunur. BarberBook heç bir zəmanət vermir, ifadə edilmir və ya nəzərdə tutulmur və bununla da ticarət qabiliyyəti, müəyyən məqsədə uyğunluq və ya əqli mülkiyyətin pozulmaması və ya digər hüquqların pozulması daxil olmaqla, lakin bununla məhdudlaşmayaraq bütün digər zəmanətləri rədd edir və ləğv edir."
+			},
+			"limitations": {
+				"title": "4. Məhdudiyyətlər",
+				"content": "Heç bir halda BarberBook və ya onun təchizatçıları BarberBook-un veb saytındakı materiallardan istifadə və ya istifadə edə bilməməsi nəticəsində yaranan hər hansı zərərə (o cümlədən, məhdudiyyətsiz olaraq, məlumat və ya mənfəət itkisi və ya işin dayandırılması səbəbindən yaranan zərərlər) görə məsuliyyət daşımır."
+			}
+		}
+	},
+	"user_bookings": {
+		"title": "Randevularım",
+		"subtitle": "Qarşıdan gələn və keçmiş randevularınız",
+		"no_bookings_title": "Randevu tapılmadı",
+		"no_bookings_desc": "Hələ heç bir randevu almamısınız.",
+		"book_now": "Randevu Al",
+		"unknown_barber": "Naməlum Bərbər",
+		"status": {
+			"confirmed": "Təsdiqlənib",
+			"pending": "Gözləyir",
+			"cancelled": "Ləğv edilib",
+			"completed": "Tamamlanıb"
+		},
+		"cancel_tooltip": "Randevunu ləğv et",
+		"cancel_reason_label": "Ləğv səbəbi (könüllü):",
+		"cancel_reason_placeholder": "Səbəb qeyd edin...",
+		"confirm_cancel": "Təsdiqlə",
+		"note_label": "Qeyd: "
+	},
+	"favorites": {
+		"title": "Seçilmişlər",
+		"subtitle": "Bəyəndiyiniz bərbərlərin siyahısı",
+		"empty_title": "Siyahı boşdur",
+		"empty_desc": "Hələ heç bir bərbəri seçilmişlərə əlavə etməmisiniz.",
+		"discover_btn": "Bərbərləri kəşf et"
 	}
 }
