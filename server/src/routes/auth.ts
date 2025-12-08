@@ -52,6 +52,25 @@ router.post("/register", async (req, res) => {
 			}
 		})
 
+		if (role === "barber") {
+			await prisma.barberProfile.create({
+				data: {
+					userId: user.id,
+					specialties: JSON.stringify([]),
+					location: "Baku",
+					bio: "New barber",
+					portfolio: JSON.stringify([]),
+					schedule: JSON.stringify({
+						Monday: ["09:00", "18:00"],
+						Tuesday: ["09:00", "18:00"],
+						Wednesday: ["09:00", "18:00"],
+						Thursday: ["09:00", "18:00"],
+						Friday: ["09:00", "18:00"]
+					})
+				}
+			})
+		}
+
 		const token = "mock-jwt-token-" + user.id
 		res.json({ user, token })
 	} catch (error) {
