@@ -2,7 +2,17 @@ import { useEffect, useState, useMemo } from "react"
 import { Link } from "react-router-dom"
 import { api } from "../services/api"
 import { Barber } from "../types"
-import { Star, MapPin, Search, Scissors, QrCode, Filter, X } from "lucide-react"
+import {
+	Star,
+	MapPin,
+	Search,
+	Scissors,
+	QrCode,
+	Filter,
+	X,
+	ChevronLeft,
+	ChevronRight
+} from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"
@@ -21,6 +31,8 @@ export const HomePage = () => {
 	const [priceLevel, setPriceLevel] = useState<"all" | "low" | "medium" | "high">("all")
 	const [minRating, setMinRating] = useState(0)
 	const [showFilters, setShowFilters] = useState(false)
+	const [currentPage, setCurrentPage] = useState(1)
+	const ITEMS_PER_PAGE = 9
 
 	if (user?.role === "barber") {
 		return <BarberDashboardPage />
@@ -96,7 +108,10 @@ export const HomePage = () => {
 			return true
 		})
 	}, [barbers, selectedLocation, selectedCategory, priceLevel, minRating])
-	console.log({ filteredBarbers })
+	useEffect(() => {
+		setCurrentPage(1)
+	}, [selectedLocation, selectedCategory, priceLevel, minRating, search])
+
 	const clearFilters = () => {
 		setSelectedLocation("")
 		setSelectedCategory("")
@@ -313,7 +328,7 @@ export const HomePage = () => {
 										<h2 className='text-2xl font-bold text-slate-900'>
 											{t("home.vip_section")}
 										</h2>
-										<span className='bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-0.5 rounded border border-yellow-200'>
+										<span className='bg-slate-900 text-white text-xs font-bold px-2.5 py-0.5 rounded border border-slate-700'>
 											{t("home.vip_badge")}
 										</span>
 									</div>
@@ -327,8 +342,8 @@ export const HomePage = () => {
 												to={`/barbers/${barber.id}`}
 												className='group'
 											>
-												<div className='card overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col border-2 border-yellow-400/30 relative bg-white'>
-													<div className='absolute top-0 right-0 bg-yellow-400 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-20 shadow-sm'>
+												<div className='card overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col border border-slate-600 relative bg-slate-800 shadow-lg shadow-slate-900/20'>
+													<div className='absolute top-0 right-0 bg-white text-slate-900 text-xs font-bold px-3 py-1 rounded-bl-lg z-20 shadow-sm'>
 														VIP
 													</div>
 													<div className='aspect-[4/3] relative overflow-hidden'>
@@ -336,25 +351,25 @@ export const HomePage = () => {
 															<img
 																src={barber.portfolio[0]}
 																alt={barber.name}
-																className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
+																className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100'
 															/>
 														) : (
-															<div className='w-full h-full bg-slate-100 flex items-center justify-center text-slate-400'>
+															<div className='w-full h-full bg-slate-700 flex items-center justify-center text-slate-500'>
 																<Scissors className='w-12 h-12 opacity-20' />
 															</div>
 														)}
-														<div className='absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-slate-900 shadow-sm'>
+														<div className='absolute top-4 left-4 bg-slate-800/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-white shadow-sm border border-slate-600'>
 															<Star className='w-3.5 h-3.5 fill-yellow-400 text-yellow-400' />
 															{barber.rating}
 														</div>
 													</div>
 
-													<div className='p-6 flex flex-col flex-grow bg-gradient-to-b from-yellow-50/30 to-white'>
+													<div className='p-6 flex flex-col flex-grow bg-gradient-to-b from-slate-700 to-slate-800'>
 														<div className='mb-4'>
-															<h3 className='text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors'>
+															<h3 className='text-xl font-bold text-white mb-1 group-hover:text-primary-300 transition-colors'>
 																{barber.name}
 															</h3>
-															<div className='flex items-center text-slate-500 text-sm'>
+															<div className='flex items-center text-slate-300 text-sm'>
 																<MapPin className='w-4 h-4 mr-1 text-slate-400' />
 																{barber.location}
 															</div>
@@ -364,7 +379,7 @@ export const HomePage = () => {
 															{barber?.specialties?.slice(0, 3)?.map((tag) => (
 																<span
 																	key={tag}
-																	className='px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full border border-yellow-200'
+																	className='px-3 py-1 bg-slate-600 text-slate-200 text-xs font-medium rounded-full border border-slate-500'
 																>
 																	{tag}
 																</span>
@@ -409,60 +424,124 @@ export const HomePage = () => {
 						</div>
 
 						{/* Standard List */}
-						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-							{filteredBarbers
-								.filter((b) => b.tier !== "vip")
-								.map((barber) => (
-									<Link key={barber.id} to={`/barbers/${barber.id}`} className='group'>
-										<div className='card overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col bg-white'>
-											<div className='aspect-[4/3] relative overflow-hidden'>
-												{barber.portfolio[0] ? (
-													<img
-														src={barber.portfolio[0]}
-														alt={barber.name}
-														className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
-													/>
-												) : (
-													<div className='w-full h-full bg-slate-100 flex items-center justify-center text-slate-400'>
-														<Scissors className='w-12 h-12 opacity-20' />
-													</div>
-												)}
-												<div className='absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-slate-900 shadow-sm'>
-													<Star className='w-3.5 h-3.5 fill-yellow-400 text-yellow-400' />
-													{barber.rating}
-												</div>
-											</div>
-
-											<div className='p-6 flex flex-col flex-grow'>
-												<div className='mb-4'>
-													<h3 className='text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors'>
-														{barber.name}
-													</h3>
-													<div className='flex items-center text-slate-500 text-sm'>
-														<MapPin className='w-4 h-4 mr-1 text-slate-400' />
-														{barber.location}
-													</div>
-												</div>
-
-												<div className='flex flex-wrap gap-2 mt-auto'>
-													{barber.specialties.slice(0, 3).map((tag) => (
-														<span
-															key={tag}
-															className='px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full'
-														>
-															{tag}
-														</span>
-													))}
-													{barber.specialties.length > 3 && (
-														<span className='px-3 py-1 bg-slate-50 text-slate-400 text-xs font-medium rounded-full'>
-															+{barber.specialties.length - 3} {t("home.more")}
-														</span>
+						<div>
+							<h2 className='text-2xl font-bold text-slate-900 mb-6'>
+								{t("home.all_barbers")}
+							</h2>
+							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+								{filteredBarbers
+									.filter((b) => b.tier !== "vip")
+									.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+									.map((barber) => (
+										<Link key={barber.id} to={`/barbers/${barber.id}`} className='group'>
+											<div className='card overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col bg-white'>
+												<div className='aspect-[4/3] relative overflow-hidden'>
+													{barber.portfolio[0] ? (
+														<img
+															src={barber.portfolio[0]}
+															alt={barber.name}
+															className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
+														/>
+													) : (
+														<div className='w-full h-full bg-slate-100 flex items-center justify-center text-slate-400'>
+															<Scissors className='w-12 h-12 opacity-20' />
+														</div>
 													)}
+													<div className='absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-slate-900 shadow-sm'>
+														<Star className='w-3.5 h-3.5 fill-yellow-400 text-yellow-400' />
+														{barber.rating}
+													</div>
+												</div>
+
+												<div className='p-6 flex flex-col flex-grow'>
+													<div className='mb-4'>
+														<h3 className='text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors'>
+															{barber.name}
+														</h3>
+														<div className='flex items-center text-slate-500 text-sm'>
+															<MapPin className='w-4 h-4 mr-1 text-slate-400' />
+															{barber.location}
+														</div>
+													</div>
+
+													<div className='flex flex-wrap gap-2 mt-auto'>
+														{barber.specialties.slice(0, 3).map((tag) => (
+															<span
+																key={tag}
+																className='px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full'
+															>
+																{tag}
+															</span>
+														))}
+														{barber.specialties.length > 3 && (
+															<span className='px-3 py-1 bg-slate-50 text-slate-400 text-xs font-medium rounded-full'>
+																+{barber.specialties.length - 3} {t("home.more")}
+															</span>
+														)}
+													</div>
 												</div>
 											</div>
-										</div>
-									</Link>
-								))}
+										</Link>
+									))}
+							</div>
+
+							{/* Pagination Controls */}
+							{filteredBarbers.filter((b) => b.tier !== "vip").length >
+								ITEMS_PER_PAGE && (
+								<div className='flex justify-center items-center gap-2 mt-12'>
+									<button
+										onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+										disabled={currentPage === 1}
+										className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+									>
+										<ChevronLeft className='w-5 h-5 text-slate-600' />
+									</button>
+
+									{Array.from({
+										length: Math.ceil(
+											filteredBarbers.filter((b) => b.tier !== "vip").length /
+												ITEMS_PER_PAGE
+										)
+									}).map((_, i) => (
+										<button
+											key={i}
+											onClick={() => setCurrentPage(i + 1)}
+											className={clsx(
+												"w-10 h-10 rounded-lg font-medium transition-colors",
+												currentPage === i + 1
+													? "bg-primary-600 text-white shadow-lg shadow-primary-500/30"
+													: "text-slate-600 hover:bg-slate-50"
+											)}
+										>
+											{i + 1}
+										</button>
+									))}
+
+									<button
+										onClick={() =>
+											setCurrentPage((p) =>
+												Math.min(
+													Math.ceil(
+														filteredBarbers.filter((b) => b.tier !== "vip").length /
+															ITEMS_PER_PAGE
+													),
+													p + 1
+												)
+											)
+										}
+										disabled={
+											currentPage ===
+											Math.ceil(
+												filteredBarbers.filter((b) => b.tier !== "vip").length /
+													ITEMS_PER_PAGE
+											)
+										}
+										className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+									>
+										<ChevronRight className='w-5 h-5 text-slate-600' />
+									</button>
+								</div>
+							)}
 						</div>
 					</>
 				)}

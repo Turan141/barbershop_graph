@@ -11,6 +11,7 @@ import {
 	Star,
 	Heart,
 	ChevronLeft,
+	ChevronRight,
 	MapPin,
 	Calendar,
 	ShieldCheck,
@@ -20,6 +21,8 @@ import {
 	X
 } from "lucide-react"
 import clsx from "clsx"
+
+const REVIEWS_PER_PAGE = 5
 
 export const BarberProfilePage = () => {
 	const { t } = useTranslation()
@@ -39,6 +42,7 @@ export const BarberProfilePage = () => {
 	const [rating, setRating] = useState(0)
 	const [reviewText, setReviewText] = useState("")
 	const [submittingReview, setSubmittingReview] = useState(false)
+	const [reviewsPage, setReviewsPage] = useState(1)
 
 	useEffect(() => {
 		if (id) {
@@ -327,42 +331,79 @@ export const BarberProfilePage = () => {
 
 						<div className='space-y-4'>
 							{reviews.length > 0 ? (
-								reviews.map((review) => (
-									<div
-										key={review.id}
-										className='bg-white p-6 rounded-2xl border border-slate-100'
-									>
-										<div className='flex justify-between items-start mb-2'>
-											<div className='flex items-center gap-3'>
-												<div className='w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold'>
-													{review.user?.name?.[0] || "U"}
-												</div>
-												<div>
-													<div className='font-bold text-slate-900'>
-														{review.user?.name || "User"}
+								<>
+									{reviews
+										.slice(
+											(reviewsPage - 1) * REVIEWS_PER_PAGE,
+											reviewsPage * REVIEWS_PER_PAGE
+										)
+										.map((review) => (
+											<div
+												key={review.id}
+												className='bg-white p-6 rounded-2xl border border-slate-100'
+											>
+												<div className='flex justify-between items-start mb-2'>
+													<div className='flex items-center gap-3'>
+														<div className='w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold'>
+															{review.user?.name?.[0] || "U"}
+														</div>
+														<div>
+															<div className='font-bold text-slate-900'>
+																{review.user?.name || "User"}
+															</div>
+															<div className='text-xs text-slate-500'>
+																{new Date(review.createdAt).toLocaleDateString()}
+															</div>
+														</div>
 													</div>
-													<div className='text-xs text-slate-500'>
-														{new Date(review.createdAt).toLocaleDateString()}
+													<div className='flex gap-1'>
+														{Array.from({ length: 5 }).map((_, i) => (
+															<Star
+																key={i}
+																className={clsx(
+																	"w-4 h-4",
+																	i < review.rating
+																		? "text-yellow-400 fill-yellow-400"
+																		: "text-slate-200"
+																)}
+															/>
+														))}
 													</div>
 												</div>
+												{review.text && (
+													<p className='text-slate-600 mt-2'>{review.text}</p>
+												)}
 											</div>
-											<div className='flex gap-1'>
-												{Array.from({ length: 5 }).map((_, i) => (
-													<Star
-														key={i}
-														className={clsx(
-															"w-4 h-4",
-															i < review.rating
-																? "text-yellow-400 fill-yellow-400"
-																: "text-slate-200"
-														)}
-													/>
-												))}
-											</div>
+										))}
+
+									{reviews.length > REVIEWS_PER_PAGE && (
+										<div className='flex justify-center items-center gap-2 mt-6'>
+											<button
+												onClick={() => setReviewsPage((p) => Math.max(1, p - 1))}
+												disabled={reviewsPage === 1}
+												className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+											>
+												<ChevronLeft className='w-4 h-4 text-slate-600' />
+											</button>
+											<span className='text-sm font-medium text-slate-600'>
+												{reviewsPage} / {Math.ceil(reviews.length / REVIEWS_PER_PAGE)}
+											</span>
+											<button
+												onClick={() =>
+													setReviewsPage((p) =>
+														Math.min(Math.ceil(reviews.length / REVIEWS_PER_PAGE), p + 1)
+													)
+												}
+												disabled={
+													reviewsPage === Math.ceil(reviews.length / REVIEWS_PER_PAGE)
+												}
+												className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+											>
+												<ChevronRight className='w-4 h-4 text-slate-600' />
+											</button>
 										</div>
-										{review.text && <p className='text-slate-600 mt-2'>{review.text}</p>}
-									</div>
-								))
+									)}
+								</>
 							) : (
 								<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
 									<p className='text-slate-500'>{t("profile.no_reviews")}</p>
