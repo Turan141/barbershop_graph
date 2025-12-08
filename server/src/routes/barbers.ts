@@ -214,6 +214,71 @@ router.put("/:id", async (req, res) => {
 		if (data.portfolio) updateData.portfolio = JSON.stringify(data.portfolio)
 		if (data.holidays) updateData.holidays = JSON.stringify(data.holidays)
 
+		// Handle Services Update
+		if (data.services && Array.isArray(data.services)) {
+			const currentServices = await prisma.service.findMany({
+				where: { barberId: id },
+				select: { id: true }
+			})
+			const currentIds = currentServices.map((s) => s.id)
+
+			const servicesToUpdate: any[] = []
+			const servicesToCreate: any[] = []
+			const inputIds: string[] = []
+
+			for (const s of data.services) {
+				if (s.id && currentIds.includes(s.id)) {
+					servicesToUpdate.push(s)
+					inputIds.push(s.id)
+				} else {
+					// New service (remove temp ID)
+					const { id: tempId, ...rest } = s
+					servicesToCreate.push(rest)
+				}
+			}
+
+			const idsToDelete = currentIds.filter((cid) => !inputIds.includes(cid))
+
+			await prisma.$transaction(async (tx) => {
+				// Delete removed services
+				if (idsToDelete.length > 0) {
+					// Optional: Check for bookings or handle error
+					await tx.service.deleteMany({
+						where: {
+							id: { in: idsToDelete },
+							barberId: id
+						}
+					})
+				}
+
+				// Update existing services
+				for (const s of servicesToUpdate) {
+					await tx.service.update({
+						where: { id: s.id },
+						data: {
+							name: s.name,
+							duration: Number(s.duration),
+							price: Number(s.price),
+							currency: s.currency
+						}
+					})
+				}
+
+				// Create new services
+				for (const s of servicesToCreate) {
+					await tx.service.create({
+						data: {
+							name: s.name,
+							duration: Number(s.duration),
+							price: Number(s.price),
+							currency: s.currency || "AZN",
+							barberId: id
+						}
+					})
+				}
+			})
+		}
+
 		const updatedProfile = await prisma.barberProfile.update({
 			where: { id },
 			data: updateData,

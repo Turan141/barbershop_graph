@@ -65,7 +65,9 @@ export const BarberDashboardPage = () => {
 				console.error("Failed to fetch barber profile", error)
 				setMessage({
 					type: "error",
-					text: `${t("dashboard.profile_load_error")}: ${error.message || t("dashboard.unknown_error")}`
+					text: `${t("dashboard.profile_load_error")}: ${
+						error.message || t("dashboard.unknown_error")
+					}`
 				})
 			} finally {
 				setLoading(false)
@@ -132,6 +134,7 @@ export const BarberDashboardPage = () => {
 			if (res.ok) {
 				const updated = await res.json()
 				setBarber(updated)
+				setFormData(updated)
 				setMessage({ type: "success", text: t("dashboard.changes_saved") })
 			} else {
 				throw new Error("Failed to update")
@@ -182,7 +185,8 @@ export const BarberDashboardPage = () => {
 	}
 
 	if (loading) return <div className='p-8 text-center'>{t("dashboard.loading")}</div>
-	if (!barber) return <div className='p-8 text-center'>{t("dashboard.profile_not_found")}</div>
+	if (!barber)
+		return <div className='p-8 text-center'>{t("dashboard.profile_not_found")}</div>
 
 	const tabs = [
 		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
@@ -245,7 +249,9 @@ export const BarberDashboardPage = () => {
 						{/* Bookings Tab */}
 						{activeTab === "bookings" && (
 							<div className='space-y-6'>
-								<h2 className='text-xl font-bold text-slate-900 mb-6'>{t("dashboard.bookings.title")}</h2>
+								<h2 className='text-xl font-bold text-slate-900 mb-6'>
+									{t("dashboard.bookings.title")}
+								</h2>
 								{loadingBookings ? (
 									<div className='text-center py-12'>
 										<div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto'></div>
@@ -254,7 +260,9 @@ export const BarberDashboardPage = () => {
 								) : bookings.length === 0 ? (
 									<div className='text-center py-12 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
 										<Calendar className='w-12 h-12 text-slate-300 mx-auto mb-4' />
-										<p className='text-slate-500'>{t("dashboard.bookings.no_bookings")}</p>
+										<p className='text-slate-500'>
+											{t("dashboard.bookings.no_bookings")}
+										</p>
 									</div>
 								) : (
 									<div className='space-y-4'>
@@ -311,7 +319,8 @@ export const BarberDashboardPage = () => {
 																</div>
 																<div className='mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-primary-50 text-primary-700 text-xs font-medium'>
 																	<Scissors className='w-3 h-3' />
-																	{service?.name || t("dashboard.bookings.service_deleted")}
+																	{service?.name ||
+																		t("dashboard.bookings.service_deleted")}
 																</div>
 															</div>
 														</div>
@@ -507,7 +516,9 @@ export const BarberDashboardPage = () => {
 						{/* Schedule Tab */}
 						{activeTab === "schedule" && (
 							<div className='space-y-6'>
-								<h2 className='text-xl font-bold text-slate-900 mb-6'>{t("dashboard.schedule.title")}</h2>
+								<h2 className='text-xl font-bold text-slate-900 mb-6'>
+									{t("dashboard.schedule.title")}
+								</h2>
 								<div className='space-y-4'>
 									{[
 										"Monday",
@@ -561,7 +572,8 @@ export const BarberDashboardPage = () => {
 													</div>
 													{isWorking && (
 														<span className='text-sm text-slate-500'>
-															{formData.schedule?.[day]?.length} {t("dashboard.schedule.hours_active")}
+															{formData.schedule?.[day]?.length}{" "}
+															{t("dashboard.schedule.hours_active")}
 														</span>
 													)}
 												</div>
@@ -676,7 +688,9 @@ export const BarberDashboardPage = () => {
 						{activeTab === "services" && (
 							<div className='space-y-6'>
 								<div className='flex justify-between items-center mb-6'>
-									<h2 className='text-xl font-bold text-slate-900'>{t("dashboard.services.title")}</h2>
+									<h2 className='text-xl font-bold text-slate-900'>
+										{t("dashboard.services.title")}
+									</h2>
 									<button
 										onClick={() => {
 											const newService: Service = {
@@ -706,7 +720,9 @@ export const BarberDashboardPage = () => {
 										>
 											<div className='flex-grow grid grid-cols-1 sm:grid-cols-3 gap-4 w-full'>
 												<div>
-													<label className='text-xs text-slate-500 mb-1 block'>{t("dashboard.services.name")}</label>
+													<label className='text-xs text-slate-500 mb-1 block'>
+														{t("dashboard.services.name")}
+													</label>
 													<input
 														type='text'
 														value={service.name}
@@ -779,7 +795,9 @@ export const BarberDashboardPage = () => {
 						{activeTab === "portfolio" && (
 							<div className='space-y-6'>
 								<div className='flex justify-between items-center mb-6'>
-									<h2 className='text-xl font-bold text-slate-900'>{t("dashboard.portfolio.title")}</h2>
+									<h2 className='text-xl font-bold text-slate-900'>
+										{t("dashboard.portfolio.title")}
+									</h2>
 									<button
 										onClick={() => {
 											const url = prompt(t("dashboard.portfolio.prompt_url"))

@@ -104,7 +104,12 @@
 		"verified": "Подтвержден",
 		"professional": "Профессионал",
 		"about": "О мастере",
+		"services_menu": "Прайс-лист",
+		"service_name": "Услуга",
+		"duration": "Длительность",
+		"price": "Цена",
 		"select_service": "Выберите услугу",
+		"select_service_placeholder": "Выберите услугу...",
 		"location": "Местоположение",
 		"portfolio": "Портфолио",
 		"show_less": "Свернуть",
@@ -137,14 +142,77 @@
 	"dashboard": {
 		"title": "Панель управления",
 		"subtitle": "Управляйте своим профилем и расписанием",
+		"loading": "Загрузка...",
 		"profile_load_error": "Не удалось загрузить профиль",
+		"unknown_error": "Неизвестная ошибка",
 		"status_updated": "Статус бронирования обновлен",
 		"status_update_error": "Ошибка при обновлении статуса",
 		"changes_saved": "Изменения успешно сохранены!",
 		"save_error": "Произошла ошибка. Пожалуйста, попробуйте снова.",
 		"profile_not_found": "Профиль барбера не найден.",
 		"no_bookings": "У вас пока нет бронирований.",
+		"saving": "Сохранение...",
+		"save": "Сохранить изменения",
+		"bookings": {
+			"title": "Бронирования",
+			"no_bookings": "У вас пока нет бронирований.",
+			"unknown_client": "Неизвестный клиент",
+			"service_deleted": "Услуга удалена",
+			"status": {
+				"confirmed": "Подтверждено",
+				"pending": "Ожидает",
+				"cancelled": "Отменено",
+				"completed": "Завершено"
+			},
+			"actions": {
+				"confirm": "Подтвердить",
+				"cancel": "Отменить",
+				"complete": "Завершить"
+			}
+		},
 		"unknown_client": "Неизвестный клиент",
+		"profile": {
+			"title": "Данные профиля",
+			"name": "ФИО",
+			"email": "Email",
+			"phone": "Телефон",
+			"address": "Адрес / Местоположение",
+			"about": "О себе",
+			"about_placeholder": "Расскажите клиентам о вашем опыте и навыках...",
+			"specialties": "Специализация",
+			"specialties_placeholder": "например, Стрижка, Борода, Укладка (через запятую)"
+		},
+		"schedule": {
+			"title": "Рабочие часы",
+			"days": {
+				"monday": "Понедельник",
+				"tuesday": "Вторник",
+				"wednesday": "Среда",
+				"thursday": "Четверг",
+				"friday": "Пятница",
+				"saturday": "Суббота",
+				"sunday": "Воскресенье"
+			},
+			"hours_active": "часов активно",
+			"holidays": {
+				"title": "Выходные / Праздники",
+				"add": "Добавить дату",
+				"no_holidays": "Выходные не добавлены."
+			}
+		},
+		"services": {
+			"title": "Услуги",
+			"new_service_default": "Новая услуга",
+			"add_service": "Добавить услугу",
+			"name": "Название услуги",
+			"duration": "Длительность (мин)",
+			"price": "Цена"
+		},
+		"portfolio": {
+			"title": "Портфолио",
+			"prompt_url": "Введите URL изображения:",
+			"add_image": "Добавить фото"
+		},
 		"tabs": {
 			"profile": "Данные профиля",
 			"bookings": "Бронирования",

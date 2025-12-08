@@ -104,7 +104,12 @@
 		"verified": "Təsdiqlənmiş",
 		"professional": "Peşəkar",
 		"about": "Haqqında",
+		"services_menu": "Xidmət Menyusu",
+		"service_name": "Xidmət",
+		"duration": "Müddət",
+		"price": "Qiymət",
 		"select_service": "Xidmət Seç",
+		"select_service_placeholder": "Xidmət seçin...",
 		"location": "Məkan",
 		"portfolio": "Portfolio",
 		"show_less": "Daha az göstər",
@@ -137,14 +142,77 @@
 	"dashboard": {
 		"title": "İdarə Paneli",
 		"subtitle": "Profilinizi və iş qrafikinizi idarə edin",
+		"loading": "Yüklənir...",
 		"profile_load_error": "Profil yüklənmədi",
+		"unknown_error": "Naməlum xəta",
 		"status_updated": "Randevu statusu yeniləndi",
 		"status_update_error": "Status yenilənərkən xəta baş verdi",
 		"changes_saved": "Dəyişikliklər yadda saxlanıldı!",
 		"save_error": "Xəta baş verdi. Yenidən cəhd edin.",
 		"profile_not_found": "Bərbər profili tapılmadı.",
 		"no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
+		"saving": "Yadda saxlanılır...",
+		"save": "Yadda saxla",
+		"bookings": {
+			"title": "Randevular",
+			"no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
+			"unknown_client": "Naməlum Müştəri",
+			"service_deleted": "Xidmət silinib",
+			"status": {
+				"confirmed": "Təsdiqlənib",
+				"pending": "Gözləyir",
+				"cancelled": "Ləğv edilib",
+				"completed": "Tamamlanıb"
+			},
+			"actions": {
+				"confirm": "Təsdiqlə",
+				"cancel": "Ləğv et",
+				"complete": "Tamamla"
+			}
+		},
 		"unknown_client": "Naməlum Müştəri",
+		"profile": {
+			"title": "Profil Məlumatları",
+			"name": "Ad Soyad",
+			"email": "Email",
+			"phone": "Telefon",
+			"address": "Ünvan / Məkan",
+			"about": "Haqqında",
+			"about_placeholder": "Təcrübəniz və bacarıqlarınız haqqında yazın...",
+			"specialties": "İxtisaslaşma",
+			"specialties_placeholder": "məs. Saç kəsimi, Saqqal, Formaya salma (vergüllə ayırın)"
+		},
+		"schedule": {
+			"title": "İş Saatları",
+			"days": {
+				"monday": "Bazar ertəsi",
+				"tuesday": "Çərşənbə axşamı",
+				"wednesday": "Çərşənbə",
+				"thursday": "Cümə axşamı",
+				"friday": "Cümə",
+				"saturday": "Şənbə",
+				"sunday": "Bazar"
+			},
+			"hours_active": "saat aktivdir",
+			"holidays": {
+				"title": "Tətillər / İstirahət günləri",
+				"add": "Tarix əlavə et",
+				"no_holidays": "Hələ ki, tətil günü yoxdur."
+			}
+		},
+		"services": {
+			"title": "Xidmətlər",
+			"new_service_default": "Yeni Xidmət",
+			"add_service": "Xidmət əlavə et",
+			"name": "Xidmət adı",
+			"duration": "Müddət (dəq)",
+			"price": "Qiymət"
+		},
+		"portfolio": {
+			"title": "Portfolio",
+			"prompt_url": "Şəkil URL-ni daxil edin:",
+			"add_image": "Şəkil əlavə et"
+		},
 		"tabs": {
 			"profile": "Profil Məlumatları",
 			"bookings": "Randevular",

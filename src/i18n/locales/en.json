@@ -107,7 +107,12 @@
 		"verified": "Verified",
 		"professional": "Professional",
 		"about": "About",
+		"services_menu": "Service Menu",
+		"service_name": "Service",
+		"duration": "Duration",
+		"price": "Price",
 		"select_service": "Select Service",
+		"select_service_placeholder": "Select a service...",
 		"location": "Location",
 		"portfolio": "Portfolio",
 		"show_less": "Show less",
@@ -137,14 +142,77 @@
 	"dashboard": {
 		"title": "Dashboard",
 		"subtitle": "Manage your profile and schedule",
+		"loading": "Loading...",
 		"profile_load_error": "Profile failed to load",
+		"unknown_error": "Unknown error",
 		"status_updated": "Booking status updated",
 		"status_update_error": "Error updating status",
 		"changes_saved": "Changes saved successfully!",
 		"save_error": "An error occurred. Please try again.",
 		"profile_not_found": "Barber profile not found.",
 		"no_bookings": "You have no bookings yet.",
+		"saving": "Saving...",
+		"save": "Save Changes",
+		"bookings": {
+			"title": "Bookings",
+			"no_bookings": "You have no bookings yet.",
+			"unknown_client": "Unknown Client",
+			"service_deleted": "Service Deleted",
+			"status": {
+				"confirmed": "Confirmed",
+				"pending": "Pending",
+				"cancelled": "Cancelled",
+				"completed": "Completed"
+			},
+			"actions": {
+				"confirm": "Confirm",
+				"cancel": "Cancel",
+				"complete": "Complete"
+			}
+		},
 		"unknown_client": "Unknown Client",
+		"profile": {
+			"title": "Profile Details",
+			"name": "Full Name",
+			"email": "Email Address",
+			"phone": "Phone Number",
+			"address": "Address / Location",
+			"about": "About You",
+			"about_placeholder": "Tell clients about your experience and skills...",
+			"specialties": "Specialties",
+			"specialties_placeholder": "e.g. Haircut, Beard Trim, Styling (comma separated)"
+		},
+		"schedule": {
+			"title": "Working Hours",
+			"days": {
+				"monday": "Monday",
+				"tuesday": "Tuesday",
+				"wednesday": "Wednesday",
+				"thursday": "Thursday",
+				"friday": "Friday",
+				"saturday": "Saturday",
+				"sunday": "Sunday"
+			},
+			"hours_active": "hours active",
+			"holidays": {
+				"title": "Holidays / Days Off",
+				"add": "Add Date",
+				"no_holidays": "No holidays added yet."
+			}
+		},
+		"services": {
+			"title": "Services",
+			"new_service_default": "New Service",
+			"add_service": "Add Service",
+			"name": "Service Name",
+			"duration": "Duration (min)",
+			"price": "Price"
+		},
+		"portfolio": {
+			"title": "Portfolio",
+			"prompt_url": "Enter image URL:",
+			"add_image": "Add Image"
+		},
 		"tabs": {
 			"profile": "Profile Details",
 			"bookings": "Bookings",

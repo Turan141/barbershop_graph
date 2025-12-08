@@ -18,7 +18,8 @@ import {
 	ArrowRight,
 	Image as ImageIcon,
 	MessageSquare,
-	X
+	X,
+	ChevronDown
 } from "lucide-react"
 import clsx from "clsx"
 import { format } from "date-fns"
@@ -41,6 +42,7 @@ export const BarberProfilePage = () => {
 	const [selectedService, setSelectedService] = useState<Service | null>(null)
 	const [selectedDate, setSelectedDate] = useState<string>("")
 	const [selectedTime, setSelectedTime] = useState<string>("")
+	const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false)
 	const [bookingStatus, setBookingStatus] = useState<
 		"idle" | "submitting" | "success" | "error"
 	>("idle")
@@ -252,9 +254,96 @@ export const BarberProfilePage = () => {
 						</div>
 					</div>
 
+					{/* Services Menu (Table/Grid) */}
+					<div className='mt-8'>
+						<h2 className='text-xl font-bold text-slate-900 mb-6 flex items-center gap-2'>
+							<Scissors className='w-5 h-5 text-primary-600' />
+							{t("profile.services_menu") || "Service Menu"}
+						</h2>
+						<div className='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden'>
+							{/* Table Header (Desktop) */}
+							<div className='hidden sm:grid grid-cols-12 gap-4 p-4 bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider'>
+								<div className='col-span-6'>{t("profile.service_name") || "Service"}</div>
+								<div className='col-span-3 text-center'>
+									{t("profile.duration") || "Duration"}
+								</div>
+								<div className='col-span-3 text-right'>
+									{t("profile.price") || "Price"}
+								</div>
+							</div>
+
+							{/* Service Rows */}
+							<div className='divide-y divide-slate-100'>
+								{barber.services.length > 0 ? (
+									barber.services.map((service) => (
+										<div
+											key={service.id}
+											onClick={() => setSelectedService(service)}
+											className={clsx(
+												"group p-4 sm:grid sm:grid-cols-12 sm:gap-4 sm:items-center cursor-pointer transition-all hover:bg-slate-50",
+												selectedService?.id === service.id
+													? "bg-primary-50/50"
+													: "bg-white"
+											)}
+										>
+											{/* Name & Icon */}
+											<div className='col-span-6 flex items-center gap-3 mb-2 sm:mb-0'>
+												<div
+													className={clsx(
+														"w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0",
+														selectedService?.id === service.id
+															? "bg-primary-100 text-primary-600"
+															: "bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm"
+													)}
+												>
+													<Scissors className='w-5 h-5' />
+												</div>
+												<div>
+													<div
+														className={clsx(
+															"font-bold text-slate-900",
+															selectedService?.id === service.id && "text-primary-700"
+														)}
+													>
+														{service.name}
+													</div>
+													{/* Mobile Duration/Price */}
+													<div className='sm:hidden text-sm text-slate-500 mt-1'>
+														{service.duration} {t("profile.min")} •{" "}
+														{service.currency === "AZN" ? "₼" : service.currency}
+														{service.price}
+													</div>
+												</div>
+											</div>
+
+											{/* Duration (Desktop) */}
+											<div className='hidden sm:block col-span-3 text-center text-sm font-medium text-slate-600'>
+												{service.duration} {t("profile.min")}
+											</div>
+
+											{/* Price (Desktop) */}
+											<div className='hidden sm:block col-span-3 text-right'>
+												<span className='font-bold text-slate-900 text-lg'>
+													{service.currency === "AZN" ? "₼" : service.currency}
+													{service.price}
+												</span>
+											</div>
+										</div>
+									))
+								) : (
+									<div className='text-center py-12'>
+										<p className='text-slate-500 font-medium'>
+											{t("profile.no_services")}
+										</p>
+									</div>
+								)}
+							</div>
+						</div>
+					</div>
+
 					{/* Portfolio Section */}
 					{barber.portfolio && barber.portfolio.length > 0 && (
-						<div>
+						<div className='mt-8'>
 							<div className='flex justify-between items-center mb-4'>
 								<h2 className='text-xl font-bold text-slate-900 flex items-center gap-2'>
 									<ImageIcon className='w-5 h-5 text-primary-600' />
@@ -288,74 +377,6 @@ export const BarberProfilePage = () => {
 							</div>
 						</div>
 					)}
-
-					{/* Services List */}
-					<div>
-						<h2 className='text-xl font-bold text-slate-900 mb-4'>
-							{t("profile.select_service")}
-						</h2>
-						{barber.services.length > 0 ? (
-							<div className='grid grid-cols-1 gap-4'>
-								{barber.services.map((service) => (
-									<div
-										key={service.id}
-										onClick={() => setSelectedService(service)}
-										className={clsx(
-											"group flex justify-between items-center p-5 rounded-xl border cursor-pointer transition-all duration-200",
-											selectedService?.id === service.id
-												? "border-primary-600 bg-primary-50/50 ring-1 ring-primary-600 shadow-sm"
-												: "bg-white border-slate-200 hover:border-primary-300 hover:shadow-md"
-										)}
-									>
-										<div className='flex items-center gap-4'>
-											<div
-												className={clsx(
-													"w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-													selectedService?.id === service.id
-														? "bg-primary-100 text-primary-600"
-														: "bg-slate-100 text-slate-500 group-hover:bg-primary-50 group-hover:text-primary-500"
-												)}
-											>
-												<Scissors className='w-5 h-5' />
-											</div>
-											<div>
-												<h3 className='font-semibold text-slate-900'>{service.name}</h3>
-												<div className='flex items-center text-sm text-slate-500 mt-0.5'>
-													<Clock className='w-3.5 h-3.5 mr-1' />
-													{service.duration} {t("profile.min")}
-												</div>
-											</div>
-										</div>
-										<div className='text-right'>
-											<div className='font-bold text-lg text-slate-900'>
-												{service.currency === "AZN" ? "₼" : service.currency}
-												{service.price}
-											</div>
-											<div
-												className={clsx(
-													"text-xs font-medium mt-1",
-													selectedService?.id === service.id
-														? "text-primary-600"
-														: "text-slate-400"
-												)}
-											>
-												{selectedService?.id === service.id
-													? t("profile.selected")
-													: t("profile.select")}
-											</div>
-										</div>
-									</div>
-								))}
-							</div>
-						) : (
-							<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
-								<div className='w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-									<Scissors className='w-8 h-8 text-slate-400' />
-								</div>
-								<p className='text-slate-500 font-medium'>{t("profile.no_services")}</p>
-							</div>
-						)}
-					</div>
 					{/* Reviews Section */}
 					<div className='mt-8'>
 						<div className='flex justify-between items-center mb-6'>
@@ -413,9 +434,7 @@ export const BarberProfilePage = () => {
 								))
 							) : (
 								<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
-									<p className='text-slate-500'>
-										{t("profile.no_reviews")}
-									</p>
+									<p className='text-slate-500'>{t("profile.no_reviews")}</p>
 								</div>
 							)}
 						</div>
@@ -458,8 +477,117 @@ export const BarberProfilePage = () => {
 								</div>
 							) : (
 								<div className='space-y-8'>
-									{/* Date Selection */}
+									{/* Service Selection (Mobile/Desktop) */}
 									<div>
+										<label className='block text-sm font-bold text-slate-900 mb-4'>
+											{t("profile.select_service")}
+										</label>
+										<div className='relative'>
+											<button
+												onClick={() => setIsServiceDropdownOpen(!isServiceDropdownOpen)}
+												className='w-full p-4 pr-4 bg-slate-50 border border-slate-200 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-900 flex items-center justify-between transition-all hover:border-primary-300'
+											>
+												<span
+													className={clsx(
+														"truncate mr-2",
+														!selectedService && "text-slate-500 font-normal"
+													)}
+												>
+													{selectedService ? (
+														<>
+															{selectedService.name}
+															<span className='mx-2 text-slate-300'>|</span>
+															<span className='text-primary-600'>
+																{selectedService.currency === "AZN"
+																	? "₼"
+																	: selectedService.currency}
+																{selectedService.price}
+															</span>
+														</>
+													) : (
+														t("profile.select_service_placeholder") ||
+														"Select a service..."
+													)}
+												</span>
+												<ChevronDown
+													className={clsx(
+														"w-5 h-5 text-slate-400 transition-transform duration-200 flex-shrink-0",
+														isServiceDropdownOpen && "rotate-180 text-primary-500"
+													)}
+												/>
+											</button>
+
+											{isServiceDropdownOpen && (
+												<>
+													<div
+														className='fixed inset-0 z-10'
+														onClick={() => setIsServiceDropdownOpen(false)}
+													></div>
+													<div className='absolute z-20 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-200/50 max-h-80 overflow-y-auto custom-scrollbar animate-in fade-in zoom-in-95 duration-200'>
+														{barber.services.map((service) => (
+															<button
+																key={service.id}
+																onClick={() => {
+																	setSelectedService(service)
+																	setIsServiceDropdownOpen(false)
+																}}
+																className={clsx(
+																	"w-full p-4 text-left hover:bg-primary-50/50 flex items-center justify-between group transition-all border-b border-slate-50 last:border-0",
+																	selectedService?.id === service.id && "bg-primary-50/30"
+																)}
+															>
+																<div className='flex items-center gap-3 overflow-hidden'>
+																	<div
+																		className={clsx(
+																			"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
+																			selectedService?.id === service.id
+																				? "bg-primary-100 text-primary-600"
+																				: "bg-slate-100 text-slate-400 group-hover:bg-white group-hover:text-primary-500 group-hover:shadow-sm"
+																		)}
+																	>
+																		<Scissors className='w-4 h-4' />
+																	</div>
+																	<div className='truncate'>
+																		<div
+																			className={clsx(
+																				"font-medium truncate transition-colors",
+																				selectedService?.id === service.id
+																					? "text-primary-900"
+																					: "text-slate-900 group-hover:text-primary-700"
+																			)}
+																		>
+																			{service.name}
+																		</div>
+																		<div className='text-xs text-slate-500 flex items-center gap-1'>
+																			<Clock className='w-3 h-3' />
+																			{service.duration} {t("profile.min")}
+																		</div>
+																	</div>
+																</div>
+																<div className='flex items-center gap-3 pl-2 flex-shrink-0'>
+																	<div className='font-bold text-slate-900'>
+																		{service.currency === "AZN" ? "₼" : service.currency}
+																		{service.price}
+																	</div>
+																	{selectedService?.id === service.id && (
+																		<Check className='w-4 h-4 text-primary-600' />
+																	)}
+																</div>
+															</button>
+														))}
+													</div>
+												</>
+											)}
+										</div>
+									</div>
+
+									{/* Date Selection */}
+									<div
+										className={clsx(
+											"transition-all duration-500",
+											!selectedService && "opacity-50 pointer-events-none blur-sm"
+										)}
+									>
 										<label className='block text-sm font-bold text-slate-900 mb-4 flex items-center justify-between'>
 											{t("profile.select_date")}
 											<span className='text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded-full'>
@@ -501,7 +629,8 @@ export const BarberProfilePage = () => {
 									<div
 										className={clsx(
 											"transition-all duration-500",
-											!selectedDate && "opacity-50 pointer-events-none blur-sm"
+											(!selectedDate || !selectedService) &&
+												"opacity-50 pointer-events-none blur-sm"
 										)}
 									>
 										<label className='block text-sm font-bold text-slate-900 mb-4'>
@@ -589,7 +718,9 @@ export const BarberProfilePage = () => {
 				<div className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in'>
 					<div className='bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slide-up'>
 						<div className='p-6 border-b border-slate-100 flex justify-between items-center'>
-							<h3 className='text-lg font-bold text-slate-900'>{t("profile.rate_experience")}</h3>
+							<h3 className='text-lg font-bold text-slate-900'>
+								{t("profile.rate_experience")}
+							</h3>
 							<button
 								onClick={() => setShowReviewModal(false)}
 								className='text-slate-400 hover:text-slate-600 transition-colors'
