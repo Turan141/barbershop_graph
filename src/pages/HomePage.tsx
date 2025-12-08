@@ -59,7 +59,6 @@ export const HomePage = () => {
 		Haircut: ["kəsim", "saç"],
 		Styling: ["stilləşdirmə", "baxım"]
 	}
-
 	const filteredBarbers = useMemo(() => {
 		return barbers.filter((barber) => {
 			// Location Filter
@@ -97,7 +96,7 @@ export const HomePage = () => {
 			return true
 		})
 	}, [barbers, selectedLocation, selectedCategory, priceLevel, minRating])
-
+	console.log({ filteredBarbers })
 	const clearFilters = () => {
 		setSelectedLocation("")
 		setSelectedCategory("")
@@ -362,7 +361,7 @@ export const HomePage = () => {
 														</div>
 
 														<div className='flex flex-wrap gap-2 mt-auto'>
-															{barber.specialties.slice(0, 3).map((tag) => (
+															{barber?.specialties?.slice(0, 3)?.map((tag) => (
 																<span
 																	key={tag}
 																	className='px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full border border-yellow-200'

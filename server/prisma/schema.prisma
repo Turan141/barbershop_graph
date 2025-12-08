@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      String   // "client" | "barber"
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  barberProfile BarberProfile?
+  clientBookings Booking[] @relation("ClientBookings")
+  favorites     Favorite[]
+}
+
+model BarberProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  
+  specialties String   // JSON string: string[]
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  location    String
+  phone       String?
+  bio         String
+  schedule    String   // JSON string: { [key: string]: string[] }
+  holidays    String?  // JSON string: string[]
+  tier        String?  // "vip" | "standard"
+  portfolio   String   // JSON string: string[]
+
+  // Relations
+  services    Service[]
+  bookings    Booking[]
+  favoritedBy Favorite[]
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  duration    Int      // in minutes
+  price       Float
+  currency    String
+  barberId    String
+  barber      BarberProfile @relation(fields: [barberId], references: [id])
+  bookings    Booking[]
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  date      String   // YYYY-MM-DD
+  time      String   // HH:mm
+  status    String   // "pending" | "confirmed" | "cancelled" | "completed"
+  createdAt DateTime @default(now())
+
+  clientId  String
+  client    User     @relation("ClientBookings", fields: [clientId], references: [id])
+
+  barberId  String
+  barber    BarberProfile @relation(fields: [barberId], references: [id])
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  barberId  String
+  barber    BarberProfile @relation(fields: [barberId], references: [id])
+
+  @@unique([userId, barberId])
+}
