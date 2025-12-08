@@ -38,7 +38,7 @@ export interface Booking {
 	serviceId: string
 	date: string // ISO date string YYYY-MM-DD
 	time: string // HH:mm
-	status: "pending" | "confirmed" | "cancelled" | "completed"
+	status: "pending" | "confirmed" | "cancelled" | "completed" | "upcoming"
 	createdAt: string
 }
 

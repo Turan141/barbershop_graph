@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
 				serviceId,
 				date,
 				time,
-				status: "upcoming"
+				status: "pending"
 			},
 			include: {
 				barber: { include: { user: true } },

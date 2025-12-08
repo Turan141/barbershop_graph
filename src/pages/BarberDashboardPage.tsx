@@ -340,7 +340,8 @@ export const BarberDashboardPage = () => {
 																	"px-3 py-1 rounded-full text-xs font-bold capitalize",
 																	booking.status === "confirmed"
 																		? "bg-green-100 text-green-700"
-																		: booking.status === "pending"
+																		: booking.status === "pending" ||
+																		  booking.status === "upcoming"
 																		? "bg-yellow-100 text-yellow-700"
 																		: booking.status === "cancelled"
 																		? "bg-red-100 text-red-700"
@@ -349,7 +350,8 @@ export const BarberDashboardPage = () => {
 															>
 																{booking.status === "confirmed"
 																	? t("dashboard.bookings.status.confirmed")
-																	: booking.status === "pending"
+																	: booking.status === "pending" ||
+																	  booking.status === "upcoming"
 																	? t("dashboard.bookings.status.pending")
 																	: booking.status === "cancelled"
 																	? t("dashboard.bookings.status.cancelled")
@@ -358,7 +360,8 @@ export const BarberDashboardPage = () => {
 
 															{/* Action Buttons */}
 															<div className='flex gap-3 mt-2'>
-																{booking.status === "pending" && (
+																{(booking.status === "pending" ||
+																	booking.status === "upcoming") && (
 																	<>
 																		<button
 																			onClick={() =>
