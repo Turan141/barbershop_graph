@@ -13,6 +13,9 @@ export const UserBookingsPage = () => {
 	const [barbers, setBarbers] = useState<Record<string, Barber>>({})
 	const [loading, setLoading] = useState(true)
 
+	const [cancellingBookingId, setCancellingBookingId] = useState<string | null>(null)
+	const [cancelReason, setCancelReason] = useState("")
+
 	useEffect(() => {
 		if (!user) return
 
@@ -45,14 +48,16 @@ export const UserBookingsPage = () => {
 		fetchData()
 	}, [user, navigate])
 
-	const handleCancel = async (bookingId: string) => {
-		if (!confirm("Randevunu ləğv etmək istədiyinizə əminsiniz?")) return
-
+	const handleCancel = async (bookingId: string, reason?: string) => {
 		try {
-			await api.bookings.updateStatus(bookingId, "cancelled")
+			await api.bookings.updateStatus(bookingId, "cancelled", reason)
 			setBookings((prev) =>
-				prev.map((b) => (b.id === bookingId ? { ...b, status: "cancelled" } : b))
+				prev.map((b) =>
+					b.id === bookingId ? { ...b, status: "cancelled", comment: reason } : b
+				)
 			)
+			setCancellingBookingId(null)
+			setCancelReason("")
 		} catch (error) {
 			console.error("Failed to cancel booking", error)
 		}
@@ -89,11 +94,25 @@ export const UserBookingsPage = () => {
 			) : (
 				<div className='space-y-4'>
 					{bookings
-						.sort(
-							(a, b) =>
-								new Date(b.date + "T" + b.time).getTime() -
-								new Date(a.date + "T" + a.time).getTime()
-						)
+						.sort((a, b) => {
+							const statusOrder: Record<string, number> = {
+								pending: 1,
+								upcoming: 2,
+								confirmed: 3,
+								completed: 4,
+								cancelled: 5
+							}
+
+							const statusA = statusOrder[a.status] || 99
+							const statusB = statusOrder[b.status] || 99
+
+							if (statusA !== statusB) return statusA - statusB
+
+							return (
+								new Date(a.date + "T" + a.time).getTime() -
+								new Date(b.date + "T" + b.time).getTime()
+							)
+						})
 						.map((booking) => {
 							const barber = barbers[booking.barberId]
 							const service = barber?.services.find((s) => s.id === booking.serviceId)
@@ -109,7 +128,7 @@ export const UserBookingsPage = () => {
 											: "border-slate-200 shadow-sm hover:shadow-md hover:border-primary-200"
 									)}
 								>
-									<div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+									<div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative'>
 										<div className='flex items-start gap-4'>
 											<div className='w-16 h-16 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0'>
 												{barber?.avatarUrl ? (
@@ -185,8 +204,20 @@ export const UserBookingsPage = () => {
 
 												{!isPast && booking.status !== "cancelled" && (
 													<button
-														onClick={() => handleCancel(booking.id)}
-														className='p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors'
+														onClick={() => {
+															if (cancellingBookingId === booking.id) {
+																setCancellingBookingId(null)
+															} else {
+																setCancellingBookingId(booking.id)
+																setCancelReason("")
+															}
+														}}
+														className={clsx(
+															"p-2 rounded-lg transition-colors",
+															cancellingBookingId === booking.id
+																? "bg-red-50 text-red-600"
+																: "text-slate-400 hover:text-red-600 hover:bg-red-50"
+														)}
 														title='Randevunu ləğv et'
 													>
 														<X className='w-5 h-5' />
@@ -195,6 +226,35 @@ export const UserBookingsPage = () => {
 											</div>
 										</div>
 									</div>
+									{cancellingBookingId === booking.id && (
+										<div className='mt-4 pt-4 border-t border-slate-100 animate-fade-in'>
+											<label className='block text-sm font-medium text-slate-700 mb-2'>
+												Ləğv səbəbi (könüllü):
+											</label>
+											<div className='flex gap-3'>
+												<input
+													type='text'
+													value={cancelReason}
+													onChange={(e) => setCancelReason(e.target.value)}
+													className='flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500'
+													autoFocus
+													placeholder='Səbəb qeyd edin...'
+												/>
+												<button
+													onClick={() => handleCancel(booking.id, cancelReason)}
+													className='px-4 py-2 text-sm font-medium bg-red-600 text-white hover:bg-red-700 rounded-lg whitespace-nowrap'
+												>
+													Təsdiqlə
+												</button>
+											</div>
+										</div>
+									)}
+									{booking.comment && (
+										<div className='mt-4 pt-4 border-t border-slate-100 text-sm bg-slate-50/50 -mx-6 -mb-6 px-6 py-3 rounded-b-2xl'>
+											<span className='font-medium text-slate-700'>Qeyd: </span>
+											<span className='text-slate-600 italic'>{booking.comment}</span>
+										</div>
+									)}
 								</div>
 							)
 						})}

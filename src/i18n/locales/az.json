@@ -168,7 +168,8 @@
 				"confirm": "Təsdiqlə",
 				"cancel": "Ləğv et",
 				"complete": "Tamamla"
-			}
+			},
+			"cancel_reason_prompt": "Ləğv səbəbi (könüllü):"
 		},
 		"unknown_client": "Naməlum Müştəri",
 		"profile": {

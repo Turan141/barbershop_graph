@@ -50,6 +50,9 @@ export const BarberDashboardPage = () => {
 	const [clients, setClients] = useState<Record<string, UserType>>({})
 	const [loadingBookings, setLoadingBookings] = useState(false)
 
+	const [cancellingBookingId, setCancellingBookingId] = useState<string | null>(null)
+	const [cancelReason, setCancelReason] = useState("")
+
 	// Form states
 	const [formData, setFormData] = useState<Partial<Barber>>({})
 
@@ -108,13 +111,19 @@ export const BarberDashboardPage = () => {
 		fetchBookings()
 	}, [user, activeTab])
 
-	const handleStatusChange = async (bookingId: string, newStatus: Booking["status"]) => {
+	const handleStatusChange = async (
+		bookingId: string,
+		newStatus: Booking["status"],
+		comment?: string
+	) => {
 		try {
-			await api.bookings.updateStatus(bookingId, newStatus)
+			await api.bookings.updateStatus(bookingId, newStatus, comment)
 			setBookings((prev) =>
-				prev.map((b) => (b.id === bookingId ? { ...b, status: newStatus } : b))
+				prev.map((b) => (b.id === bookingId ? { ...b, status: newStatus, comment } : b))
 			)
 			setMessage({ type: "success", text: t("dashboard.status_updated") })
+			setCancellingBookingId(null)
+			setCancelReason("")
 		} catch (error) {
 			console.error("Failed to update booking status", error)
 			setMessage({ type: "error", text: t("dashboard.status_update_error") })
@@ -267,11 +276,25 @@ export const BarberDashboardPage = () => {
 								) : (
 									<div className='space-y-4'>
 										{bookings
-											.sort(
-												(a, b) =>
+											.sort((a, b) => {
+												const statusOrder: Record<string, number> = {
+													pending: 1,
+													upcoming: 2,
+													confirmed: 3,
+													completed: 4,
+													cancelled: 5
+												}
+
+												const statusA = statusOrder[a.status] || 99
+												const statusB = statusOrder[b.status] || 99
+
+												if (statusA !== statusB) return statusA - statusB
+
+												return (
 													new Date(a.date + "T" + a.time).getTime() -
 													new Date(b.date + "T" + b.time).getTime()
-											)
+												)
+											})
 											.map((booking) => {
 												const client = clients[booking.clientId]
 												const service = barber?.services.find(
@@ -284,129 +307,190 @@ export const BarberDashboardPage = () => {
 													<div
 														key={booking.id}
 														className={clsx(
-															"p-5 rounded-xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4",
+															"p-5 rounded-xl border transition-all flex flex-col gap-4",
 															isPast
 																? "bg-slate-50 border-slate-100 opacity-75"
 																: "bg-white border-slate-200 hover:border-primary-200 hover:shadow-sm"
 														)}
 													>
-														<div className='flex items-start gap-4'>
-															<div className='w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0 overflow-hidden'>
-																{client?.avatarUrl ? (
-																	<img
-																		src={client.avatarUrl}
-																		alt={client.name}
-																		className='w-full h-full object-cover'
-																	/>
-																) : (
-																	<User className='w-6 h-6 text-slate-400' />
-																)}
-															</div>
-															<div>
-																<h3 className='font-bold text-slate-900'>
-																	{client?.name || t("dashboard.bookings.unknown_client")}
-																</h3>
-																<div className='flex items-center gap-2 text-sm text-slate-500 mt-1'>
-																	<span className='flex items-center gap-1'>
-																		<Calendar className='w-3.5 h-3.5' />
-																		{booking.date}
-																	</span>
-																	<span className='w-1 h-1 rounded-full bg-slate-300'></span>
-																	<span className='flex items-center gap-1'>
-																		<Clock className='w-3.5 h-3.5' />
-																		{booking.time}
-																	</span>
+														<div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+															<div className='flex items-start gap-4'>
+																<div className='w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0 overflow-hidden'>
+																	{client?.avatarUrl ? (
+																		<img
+																			src={client.avatarUrl}
+																			alt={client.name}
+																			className='w-full h-full object-cover'
+																		/>
+																	) : (
+																		<User className='w-6 h-6 text-slate-400' />
+																	)}
 																</div>
-																<div className='mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-primary-50 text-primary-700 text-xs font-medium'>
-																	<Scissors className='w-3 h-3' />
-																	{service?.name ||
-																		t("dashboard.bookings.service_deleted")}
+																<div>
+																	<h3 className='font-bold text-slate-900'>
+																		{client?.name ||
+																			t("dashboard.bookings.unknown_client")}
+																	</h3>
+																	<div className='flex items-center gap-2 text-sm text-slate-500 mt-1'>
+																		<span className='flex items-center gap-1'>
+																			<Calendar className='w-3.5 h-3.5' />
+																			{booking.date}
+																		</span>
+																		<span className='w-1 h-1 rounded-full bg-slate-300'></span>
+																		<span className='flex items-center gap-1'>
+																			<Clock className='w-3.5 h-3.5' />
+																			{booking.time}
+																		</span>
+																	</div>
+																	<div className='mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-primary-50 text-primary-700 text-xs font-medium'>
+																		<Scissors className='w-3 h-3' />
+																		{service?.name ||
+																			t("dashboard.bookings.service_deleted")}
+																	</div>
 																</div>
 															</div>
-														</div>
 
-														<div className='flex items-center gap-3 sm:flex-col sm:items-end'>
-															<div className='text-right'>
-																<div className='font-bold text-slate-900'>
-																	{service?.currency === "AZN" ? "₼" : service?.currency}
-																	{service?.price}
+															<div className='flex items-center gap-3 sm:flex-col sm:items-end'>
+																<div className='text-right'>
+																	<div className='font-bold text-slate-900'>
+																		{service?.currency === "AZN"
+																			? "₼"
+																			: service?.currency}
+																		{service?.price}
+																	</div>
+																	<div className='text-xs text-slate-500'>
+																		{service?.duration} {t("profile.min")}
+																	</div>
 																</div>
-																<div className='text-xs text-slate-500'>
-																	{service?.duration} {t("profile.min")}
-																</div>
-															</div>
-															<div
-																className={clsx(
-																	"px-3 py-1 rounded-full text-xs font-bold capitalize",
-																	booking.status === "confirmed"
-																		? "bg-green-100 text-green-700"
+																<div
+																	className={clsx(
+																		"px-3 py-1 rounded-full text-xs font-bold capitalize",
+																		booking.status === "confirmed"
+																			? "bg-green-100 text-green-700"
+																			: booking.status === "pending" ||
+																			  booking.status === "upcoming"
+																			? "bg-yellow-100 text-yellow-700"
+																			: booking.status === "cancelled"
+																			? "bg-red-100 text-red-700"
+																			: "bg-slate-100 text-slate-700"
+																	)}
+																>
+																	{booking.status === "confirmed"
+																		? t("dashboard.bookings.status.confirmed")
 																		: booking.status === "pending" ||
 																		  booking.status === "upcoming"
-																		? "bg-yellow-100 text-yellow-700"
+																		? t("dashboard.bookings.status.pending")
 																		: booking.status === "cancelled"
-																		? "bg-red-100 text-red-700"
-																		: "bg-slate-100 text-slate-700"
-																)}
-															>
-																{booking.status === "confirmed"
-																	? t("dashboard.bookings.status.confirmed")
-																	: booking.status === "pending" ||
-																	  booking.status === "upcoming"
-																	? t("dashboard.bookings.status.pending")
-																	: booking.status === "cancelled"
-																	? t("dashboard.bookings.status.cancelled")
-																	: t("dashboard.bookings.status.completed")}
-															</div>
+																		? t("dashboard.bookings.status.cancelled")
+																		: t("dashboard.bookings.status.completed")}
+																</div>
 
-															{/* Action Buttons */}
-															<div className='flex gap-3 mt-2'>
-																{(booking.status === "pending" ||
-																	booking.status === "upcoming") && (
-																	<>
-																		<button
-																			onClick={() =>
-																				handleStatusChange(booking.id, "confirmed")
-																			}
-																			className='p-3 bg-green-100 text-green-700 rounded-xl hover:bg-green-200 transition-all shadow-sm hover:shadow-md'
-																			title={t("dashboard.bookings.actions.confirm")}
-																		>
-																			<Check className='w-6 h-6' />
-																		</button>
-																		<button
-																			onClick={() =>
-																				handleStatusChange(booking.id, "cancelled")
-																			}
-																			className='p-3 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition-all shadow-sm hover:shadow-md'
-																			title={t("dashboard.bookings.actions.cancel")}
-																		>
-																			<X className='w-6 h-6' />
-																		</button>
-																	</>
-																)}
-																{booking.status === "confirmed" && (
-																	<>
-																		<button
-																			onClick={() =>
-																				handleStatusChange(booking.id, "completed")
-																			}
-																			className='p-3 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all shadow-sm hover:shadow-md'
-																			title={t("dashboard.bookings.actions.complete")}
-																		>
-																			<CheckCircle className='w-6 h-6' />
-																		</button>
-																		<button
-																			onClick={() =>
-																				handleStatusChange(booking.id, "cancelled")
-																			}
-																			className='p-3 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition-all shadow-sm hover:shadow-md'
-																			title={t("dashboard.bookings.actions.cancel")}
-																		>
-																			<X className='w-6 h-6' />
-																		</button>
-																	</>
-																)}
+																{/* Action Buttons */}
+																<div className='flex gap-3 mt-2 w-full'>
+																	{cancellingBookingId === booking.id ? (
+																		<div className='flex flex-col gap-2 w-full animate-fade-in'>
+																			<input
+																				type='text'
+																				value={cancelReason}
+																				onChange={(e) => setCancelReason(e.target.value)}
+																				placeholder={t(
+																					"dashboard.bookings.cancel_reason_prompt"
+																				)}
+																				className='input-field text-sm py-2'
+																				autoFocus
+																			/>
+																			<div className='flex gap-2 justify-end'>
+																				<button
+																					onClick={() => {
+																						setCancellingBookingId(null)
+																						setCancelReason("")
+																					}}
+																					className='px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors'
+																				>
+																					{t("dashboard.bookings.actions.cancel")}
+																				</button>
+																				<button
+																					onClick={() =>
+																						handleStatusChange(
+																							booking.id,
+																							"cancelled",
+																							cancelReason
+																						)
+																					}
+																					className='px-3 py-1.5 text-xs font-medium bg-red-600 text-white hover:bg-red-700 rounded-lg transition-colors'
+																				>
+																					{t("dashboard.bookings.actions.confirm")}
+																				</button>
+																			</div>
+																		</div>
+																	) : (
+																		<>
+																			{(booking.status === "pending" ||
+																				booking.status === "upcoming") && (
+																				<>
+																					<button
+																						onClick={() =>
+																							handleStatusChange(booking.id, "confirmed")
+																						}
+																						className='p-3 bg-green-100 text-green-700 rounded-xl hover:bg-green-200 transition-all shadow-sm hover:shadow-md'
+																						title={t(
+																							"dashboard.bookings.actions.confirm"
+																						)}
+																					>
+																						<Check className='w-6 h-6' />
+																					</button>
+																					<button
+																						onClick={() => {
+																							setCancellingBookingId(booking.id)
+																							setCancelReason("")
+																						}}
+																						className='p-3 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition-all shadow-sm hover:shadow-md'
+																						title={t("dashboard.bookings.actions.cancel")}
+																					>
+																						<X className='w-6 h-6' />
+																					</button>
+																				</>
+																			)}
+																			{booking.status === "confirmed" && (
+																				<>
+																					<button
+																						onClick={() =>
+																							handleStatusChange(booking.id, "completed")
+																						}
+																						className='p-3 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-all shadow-sm hover:shadow-md'
+																						title={t(
+																							"dashboard.bookings.actions.complete"
+																						)}
+																					>
+																						<CheckCircle className='w-6 h-6' />
+																					</button>
+																					<button
+																						onClick={() => {
+																							setCancellingBookingId(booking.id)
+																							setCancelReason("")
+																						}}
+																						className='p-3 bg-red-100 text-red-700 rounded-xl hover:bg-red-200 transition-all shadow-sm hover:shadow-md'
+																						title={t("dashboard.bookings.actions.cancel")}
+																					>
+																						<X className='w-6 h-6' />
+																					</button>
+																				</>
+																			)}
+																		</>
+																	)}
+																</div>
 															</div>
 														</div>
+														{booking.comment && (
+															<div className='mt-4 pt-4 border-t border-slate-100 text-sm bg-slate-50/50 -mx-5 -mb-5 px-5 py-3 rounded-b-xl w-[calc(100%+2.5rem)]'>
+																<span className='font-medium text-slate-700'>
+																	{t("dashboard.bookings.note") || "Note"}:{" "}
+																</span>
+																<span className='text-slate-600 italic'>
+																	{booking.comment}
+																</span>
+															</div>
+														)}
 													</div>
 												)
 											})}

@@ -71,11 +71,11 @@ export const api = {
 				handleResponse<Booking[]>(res)
 			),
 
-		updateStatus: (id: string, status: Booking["status"]) =>
+		updateStatus: (id: string, status: Booking["status"], comment?: string) =>
 			fetch(`${API_BASE}/bookings/${id}`, {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ status })
+				body: JSON.stringify({ status, comment })
 			}).then((res) => handleResponse<Booking>(res))
 	},
 

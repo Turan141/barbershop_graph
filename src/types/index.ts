@@ -39,6 +39,7 @@ export interface Booking {
 	date: string // ISO date string YYYY-MM-DD
 	time: string // HH:mm
 	status: "pending" | "confirmed" | "cancelled" | "completed" | "upcoming"
+	comment?: string
 	createdAt: string
 }
 

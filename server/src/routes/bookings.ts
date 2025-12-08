@@ -59,12 +59,12 @@ router.post("/", async (req, res) => {
 // PATCH /api/bookings/:id
 router.patch("/:id", async (req, res) => {
 	const { id } = req.params
-	const { status } = req.body
+	const { status, comment } = req.body
 
 	try {
 		const booking = await prisma.booking.update({
 			where: { id },
-			data: { status }
+			data: { status, comment }
 		})
 		res.json(booking)
 	} catch (error) {

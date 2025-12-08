@@ -168,7 +168,8 @@
 				"confirm": "Confirm",
 				"cancel": "Cancel",
 				"complete": "Complete"
-			}
+			},
+			"cancel_reason_prompt": "Reason for cancellation (optional):"
 		},
 		"unknown_client": "Unknown Client",
 		"profile": {

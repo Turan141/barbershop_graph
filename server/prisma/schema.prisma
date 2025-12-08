@@ -65,6 +65,7 @@ model Booking {
   date      String   // YYYY-MM-DD
   time      String   // HH:mm
   status    String   // "pending" | "confirmed" | "cancelled" | "completed"
+  comment   String?  // Reason for cancellation or other notes
   createdAt DateTime @default(now())
 
   clientId  String

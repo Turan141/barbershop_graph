@@ -168,7 +168,8 @@
 				"confirm": "Подтвердить",
 				"cancel": "Отменить",
 				"complete": "Завершить"
-			}
+			},
+			"cancel_reason_prompt": "Причина отмены (необязательно):"
 		},
 		"unknown_client": "Неизвестный клиент",
 		"profile": {
