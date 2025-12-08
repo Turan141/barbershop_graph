@@ -24,9 +24,9 @@ router.get("/", async (req, res) => {
 	if (query) {
 		const search = query as string
 		where.OR = [
-			{ user: { name: { contains: search } } },
-			{ location: { contains: search } },
-			{ services: { some: { name: { contains: search } } } }
+			{ user: { name: { contains: search, mode: "insensitive" } } },
+			{ location: { contains: search, mode: "insensitive" } },
+			{ services: { some: { name: { contains: search, mode: "insensitive" } } } }
 		]
 	}
 
