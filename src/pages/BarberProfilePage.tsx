@@ -19,6 +19,14 @@ import {
 	Image as ImageIcon
 } from "lucide-react"
 import clsx from "clsx"
+import { format } from "date-fns"
+import { enUS, ru, az } from "date-fns/locale"
+
+const locales: Record<string, any> = {
+	en: enUS,
+	ru: ru,
+	az: az
+}
 
 export const BarberProfilePage = () => {
 	const { t, i18n } = useTranslation()
@@ -82,15 +90,12 @@ export const BarberProfilePage = () => {
 	const dates = Array.from({ length: 7 }, (_, i) => {
 		const d = new Date()
 		d.setDate(d.getDate() + i)
+		const currentLocale = locales[i18n.language] || enUS
 		return {
-			label: d.toLocaleDateString(i18n.language, { weekday: "short", day: "numeric" }),
-			fullLabel: d.toLocaleDateString(i18n.language, {
-				weekday: "long",
-				month: "long",
-				day: "numeric"
-			}),
+			label: format(d, "EEE, d", { locale: currentLocale }),
+			fullLabel: format(d, "EEEE, d MMMM", { locale: currentLocale }),
 			value: d.toISOString().split("T")[0],
-			dayName: d.toLocaleDateString("en-US", { weekday: "long" }) // Keep en-US for schedule lookup
+			dayName: format(d, "EEEE", { locale: enUS }) // Keep en-US for schedule lookup
 		}
 	})
 
@@ -253,58 +258,67 @@ export const BarberProfilePage = () => {
 						<h2 className='text-xl font-bold text-slate-900 mb-4'>
 							{t("profile.select_service")}
 						</h2>
-						<div className='grid grid-cols-1 gap-4'>
-							{barber.services.map((service) => (
-								<div
-									key={service.id}
-									onClick={() => setSelectedService(service)}
-									className={clsx(
-										"group flex justify-between items-center p-5 rounded-xl border cursor-pointer transition-all duration-200",
-										selectedService?.id === service.id
-											? "border-primary-600 bg-primary-50/50 ring-1 ring-primary-600 shadow-sm"
-											: "bg-white border-slate-200 hover:border-primary-300 hover:shadow-md"
-									)}
-								>
-									<div className='flex items-center gap-4'>
-										<div
-											className={clsx(
-												"w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-												selectedService?.id === service.id
-													? "bg-primary-100 text-primary-600"
-													: "bg-slate-100 text-slate-500 group-hover:bg-primary-50 group-hover:text-primary-500"
-											)}
-										>
-											<Scissors className='w-5 h-5' />
+						{barber.services.length > 0 ? (
+							<div className='grid grid-cols-1 gap-4'>
+								{barber.services.map((service) => (
+									<div
+										key={service.id}
+										onClick={() => setSelectedService(service)}
+										className={clsx(
+											"group flex justify-between items-center p-5 rounded-xl border cursor-pointer transition-all duration-200",
+											selectedService?.id === service.id
+												? "border-primary-600 bg-primary-50/50 ring-1 ring-primary-600 shadow-sm"
+												: "bg-white border-slate-200 hover:border-primary-300 hover:shadow-md"
+										)}
+									>
+										<div className='flex items-center gap-4'>
+											<div
+												className={clsx(
+													"w-10 h-10 rounded-full flex items-center justify-center transition-colors",
+													selectedService?.id === service.id
+														? "bg-primary-100 text-primary-600"
+														: "bg-slate-100 text-slate-500 group-hover:bg-primary-50 group-hover:text-primary-500"
+												)}
+											>
+												<Scissors className='w-5 h-5' />
+											</div>
+											<div>
+												<h3 className='font-semibold text-slate-900'>{service.name}</h3>
+												<div className='flex items-center text-sm text-slate-500 mt-0.5'>
+													<Clock className='w-3.5 h-3.5 mr-1' />
+													{service.duration} {t("profile.min")}
+												</div>
+											</div>
 										</div>
-										<div>
-											<h3 className='font-semibold text-slate-900'>{service.name}</h3>
-											<div className='flex items-center text-sm text-slate-500 mt-0.5'>
-												<Clock className='w-3.5 h-3.5 mr-1' />
-												{service.duration} {t("profile.min")}
+										<div className='text-right'>
+											<div className='font-bold text-lg text-slate-900'>
+												{service.currency === "AZN" ? "₼" : service.currency}
+												{service.price}
+											</div>
+											<div
+												className={clsx(
+													"text-xs font-medium mt-1",
+													selectedService?.id === service.id
+														? "text-primary-600"
+														: "text-slate-400"
+												)}
+											>
+												{selectedService?.id === service.id
+													? t("profile.selected")
+													: t("profile.select")}
 											</div>
 										</div>
 									</div>
-									<div className='text-right'>
-										<div className='font-bold text-lg text-slate-900'>
-											{service.currency === "AZN" ? "₼" : service.currency}
-											{service.price}
-										</div>
-										<div
-											className={clsx(
-												"text-xs font-medium mt-1",
-												selectedService?.id === service.id
-													? "text-primary-600"
-													: "text-slate-400"
-											)}
-										>
-											{selectedService?.id === service.id
-												? t("profile.selected")
-												: t("profile.select")}
-										</div>
-									</div>
+								))}
+							</div>
+						) : (
+							<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+								<div className='w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+									<Scissors className='w-8 h-8 text-slate-400' />
 								</div>
-							))}
-						</div>
+								<p className='text-slate-500 font-medium'>{t("profile.no_services")}</p>
+							</div>
+						)}
 					</div>
 				</div>
 

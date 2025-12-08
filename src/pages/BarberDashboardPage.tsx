@@ -55,14 +55,16 @@ export const BarberDashboardPage = () => {
 		const fetchBarber = async () => {
 			if (!user) return
 			try {
-				const res = await fetch(`/api/barbers/${user.id}`)
-				if (res.ok) {
-					const data = await res.json()
-					setBarber(data)
-					setFormData(data)
-				}
-			} catch (error) {
+				// Use the api service which handles the base URL correctly
+				const data = await api.barbers.get(user.id)
+				setBarber(data)
+				setFormData(data)
+			} catch (error: any) {
 				console.error("Failed to fetch barber profile", error)
+				setMessage({
+					type: "error",
+					text: `Profil yüklənmədi: ${error.message || "Naməlum xəta"}`
+				})
 			} finally {
 				setLoading(false)
 			}

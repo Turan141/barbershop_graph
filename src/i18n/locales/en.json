@@ -100,6 +100,7 @@
 	"profile": {
 		"available_times": "Available Times",
 		"no_slots": "No available slots for the selected date.",
+		"no_services": "No services available yet.",
 		"back_to_search": "Back to Search",
 		"open": "OPEN",
 		"reviews": "reviews",

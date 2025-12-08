@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
 	const { name, email, role } = req.body
 	console.log("Register request received:", { name, email, role })
 
-	const normalizedRole = role ? String(role).trim() : "client"
+	const normalizedRole = role ? String(role).trim().toLowerCase() : "client"
 
 	try {
 		const existingUser = await prisma.user.findUnique({ where: { email } })
@@ -77,9 +77,9 @@ router.post("/register", async (req, res) => {
 				console.log(`Barber profile created for user ${user.id}`)
 			} catch (profileError) {
 				console.error("Failed to create barber profile:", profileError)
-				// Optionally delete the user if profile creation fails?
-				// await prisma.user.delete({ where: { id: user.id } })
-				// return res.status(500).json({ error: "Failed to create barber profile" })
+				// If profile creation fails, delete the user and return error
+				await prisma.user.delete({ where: { id: user.id } })
+				return res.status(500).json({ error: "Failed to create barber profile" })
 			}
 		}
 
