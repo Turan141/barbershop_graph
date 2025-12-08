@@ -74,6 +74,7 @@ router.post("/register", async (req, res) => {
 		const token = "mock-jwt-token-" + user.id
 		res.json({ user, token })
 	} catch (error) {
+		console.error("Registration error:", error)
 		res.status(500).json({ error: "Registration failed" })
 	}
 })

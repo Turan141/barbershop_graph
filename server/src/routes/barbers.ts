@@ -49,7 +49,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	const { id } = req.params
 	try {
-		const barber = await prisma.barberProfile.findUnique({
+		let barber = await prisma.barberProfile.findUnique({
 			where: { id },
 			include: {
 				user: true,
@@ -57,6 +57,18 @@ router.get("/:id", async (req, res) => {
 				bookings: true
 			}
 		})
+
+		if (!barber) {
+			// Try finding by userId
+			barber = await prisma.barberProfile.findUnique({
+				where: { userId: id },
+				include: {
+					user: true,
+					services: true,
+					bookings: true
+				}
+			})
+		}
 
 		if (!barber) {
 			return res.status(404).json({ error: "Barber not found" })

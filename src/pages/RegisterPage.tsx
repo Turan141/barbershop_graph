@@ -23,8 +23,18 @@ export const RegisterPage = () => {
 			const { user, token } = await api.auth.register({ name, email, role })
 			login(user, token)
 			navigate(role === "barber" ? "/dashboard" : "/")
-		} catch (err) {
-			setError("Registration failed. Please try again.")
+		} catch (err: any) {
+			console.error("Registration error:", err)
+			let errorMessage = "Registration failed. Please try again."
+			try {
+				// Try to parse the error message if it's a JSON string
+				const parsed = JSON.parse(err.message)
+				if (parsed.error) errorMessage = parsed.error
+			} catch (e) {
+				// If not JSON, use the message directly if it exists
+				if (err.message && err.message !== "undefined") errorMessage = err.message
+			}
+			setError(errorMessage)
 		} finally {
 			setLoading(false)
 		}
