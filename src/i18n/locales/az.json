@@ -173,6 +173,7 @@
 		},
 		"unknown_client": "Naməlum Müştəri",
 		"profile": {
+			"avatar_url": "Profil Şəkli URL-si",
 			"title": "Profil Məlumatları",
 			"name": "Ad Soyad",
 			"email": "Email",

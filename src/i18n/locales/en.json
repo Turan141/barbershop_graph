@@ -98,6 +98,7 @@
 		"registration_failed": "Registration failed. Please try again."
 	},
 	"profile": {
+		"avatar_url": "Profile Picture URL",
 		"available_times": "Available Times",
 		"no_slots": "No available slots for the selected date.",
 		"no_services": "No services available yet.",

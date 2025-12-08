@@ -130,7 +130,7 @@ export const BarberDashboardPage = () => {
 		}
 	}
 
-	const handleSave = async () => {
+	const saveBarberData = async (data: any) => {
 		if (!barber) return
 		setSaving(true)
 		setMessage(null)
@@ -138,7 +138,7 @@ export const BarberDashboardPage = () => {
 			const res = await fetch(`/api/barbers/${barber.id}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(formData)
+				body: JSON.stringify(data)
 			})
 			if (res.ok) {
 				const updated = await res.json()
@@ -153,6 +153,14 @@ export const BarberDashboardPage = () => {
 		} finally {
 			setSaving(false)
 		}
+	}
+
+	const handleSave = () => saveBarberData(formData)
+
+	const handleSetAvatar = (url: string) => {
+		const updatedFormData = { ...formData, avatarUrl: url }
+		setFormData(updatedFormData)
+		saveBarberData(updatedFormData)
 	}
 
 	const updateSchedule = (day: string, slots: string[]) => {
@@ -507,6 +515,35 @@ export const BarberDashboardPage = () => {
 								</h2>
 
 								<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+									<div className='md:col-span-2'>
+										<label className='block text-sm font-medium text-slate-700 mb-1'>
+											{t("dashboard.profile.avatar_url") || "Profile Image URL"}
+										</label>
+										<div className='flex gap-4 items-center'>
+											<div className='w-16 h-16 rounded-full bg-slate-100 overflow-hidden flex-shrink-0 border border-slate-200'>
+												{formData.avatarUrl ? (
+													<img
+														src={formData.avatarUrl}
+														alt='Profile'
+														className='w-full h-full object-cover'
+													/>
+												) : (
+													<div className='w-full h-full flex items-center justify-center text-slate-400'>
+														<User className='w-8 h-8' />
+													</div>
+												)}
+											</div>
+											<input
+												type='text'
+												value={formData.avatarUrl || ""}
+												onChange={(e) =>
+													setFormData({ ...formData, avatarUrl: e.target.value })
+												}
+												className='input-field flex-1'
+												placeholder='https://example.com/image.jpg'
+											/>
+										</div>
+									</div>
 									<div>
 										<label className='block text-sm font-medium text-slate-700 mb-1'>
 											{t("dashboard.profile.name")}
@@ -903,31 +940,55 @@ export const BarberDashboardPage = () => {
 								</div>
 
 								<div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
-									{formData.portfolio?.map((url, index) => (
-										<div
-											key={index}
-											className='relative group aspect-square rounded-xl overflow-hidden bg-slate-100'
-										>
-											<img
-												src={url}
-												alt={`Portfolio ${index + 1}`}
-												className='w-full h-full object-cover'
-											/>
-											<div className='absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
-												<button
-													onClick={() => {
-														const newPortfolio = formData.portfolio?.filter(
-															(_, i) => i !== index
-														)
-														setFormData({ ...formData, portfolio: newPortfolio })
-													}}
-													className='p-2 bg-white text-red-500 rounded-full hover:bg-red-50'
-												>
-													<Trash2 className='w-5 h-5' />
-												</button>
+									{formData.portfolio?.map((url, index) => {
+										const isAvatar = formData.avatarUrl === url
+										return (
+											<div
+												key={index}
+												className={clsx(
+													"relative group aspect-square rounded-xl overflow-hidden bg-slate-100",
+													isAvatar && "ring-4 ring-primary-500 ring-offset-2"
+												)}
+											>
+												<img
+													src={url}
+													alt={`Portfolio ${index + 1}`}
+													className='w-full h-full object-cover'
+												/>
+												{isAvatar && (
+													<div className='absolute top-2 right-2 bg-primary-500 text-white p-1 rounded-full shadow-md z-10'>
+														<Check className='w-4 h-4' />
+													</div>
+												)}
+												<div className='absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3'>
+													{!isAvatar && (
+														<button
+															onClick={() => handleSetAvatar(url)}
+															className='p-2 bg-white text-primary-600 rounded-full hover:bg-primary-50 transition-colors'
+															title='Set as Profile Picture'
+														>
+															<User className='w-5 h-5' />
+														</button>
+													)}
+													<button
+														onClick={() => {
+															const newPortfolio = formData.portfolio?.filter(
+																(_, i) => i !== index
+															)
+															setFormData({
+																...formData,
+																portfolio: newPortfolio
+															})
+														}}
+														className='p-2 bg-white text-red-500 rounded-full hover:bg-red-50 transition-colors'
+														title='Delete Image'
+													>
+														<Trash2 className='w-5 h-5' />
+													</button>
+												</div>
 											</div>
-										</div>
-									))}
+										)
+									})}
 								</div>
 							</div>
 						)}
