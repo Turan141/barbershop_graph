@@ -8,15 +8,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const index_1 = require("../index");
+const db_1 = require("../db");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const router = (0, express_1.Router)();
 // POST /api/auth/login
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
+    const { email, password } = req.body;
     try {
-        let user = yield index_1.prisma.user.findUnique({
+        let user = yield db_1.prisma.user.findUnique({
             where: { email },
             include: { barberProfile: true }
         });
@@ -28,9 +43,14 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
             // But the mock db had them. I will seed them.
             return res.status(404).json({ error: "User not found" });
         }
+        const isPasswordValid = yield bcryptjs_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
         // Mock token
         const token = "mock-jwt-token-" + user.id;
-        res.json({ user, token });
+        const _a = user, { password: _ } = _a, userWithoutPassword = __rest(_a, ["password"]);
+        res.json({ user: userWithoutPassword, token });
     }
     catch (error) {
         res.status(500).json({ error: "Login failed" });
@@ -38,24 +58,58 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 // POST /api/auth/register
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, role } = req.body;
+    const { name, email, password, role } = req.body;
+    console.log("Register request received:", { name, email, role });
+    const normalizedRole = role ? String(role).trim().toLowerCase() : "client";
     try {
-        const existingUser = yield index_1.prisma.user.findUnique({ where: { email } });
+        const existingUser = yield db_1.prisma.user.findUnique({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ error: "User already exists" });
         }
-        const user = yield index_1.prisma.user.create({
+        const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
+        const user = yield db_1.prisma.user.create({
             data: {
                 name,
                 email,
-                role,
+                password: hashedPassword,
+                role: normalizedRole,
                 avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
             }
         });
+        if (normalizedRole === "barber") {
+            console.log(`Creating barber profile for user ${user.id}`);
+            try {
+                yield db_1.prisma.barberProfile.create({
+                    data: {
+                        userId: user.id,
+                        specialties: JSON.stringify([]),
+                        location: "Baku",
+                        bio: "New barber",
+                        portfolio: JSON.stringify([]),
+                        schedule: JSON.stringify({
+                            Monday: ["09:00", "18:00"],
+                            Tuesday: ["09:00", "18:00"],
+                            Wednesday: ["09:00", "18:00"],
+                            Thursday: ["09:00", "18:00"],
+                            Friday: ["09:00", "18:00"]
+                        })
+                    }
+                });
+                console.log(`Barber profile created for user ${user.id}`);
+            }
+            catch (profileError) {
+                console.error("Failed to create barber profile:", profileError);
+                // If profile creation fails, delete the user and return error
+                yield db_1.prisma.user.delete({ where: { id: user.id } });
+                return res.status(500).json({ error: "Failed to create barber profile" });
+            }
+        }
         const token = "mock-jwt-token-" + user.id;
-        res.json({ user, token });
+        const _a = user, { password: _ } = _a, userWithoutPassword = __rest(_a, ["password"]);
+        res.json({ user: userWithoutPassword, token });
     }
     catch (error) {
+        console.error("Registration error:", error);
         res.status(500).json({ error: "Registration failed" });
     }
 }));

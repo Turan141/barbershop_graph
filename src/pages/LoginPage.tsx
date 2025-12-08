@@ -8,6 +8,7 @@ import { Scissors, ArrowRight, Mail, Lock } from "lucide-react"
 export const LoginPage = () => {
 	const { t } = useTranslation()
 	const [email, setEmail] = useState("client@test.com")
+	const [password, setPassword] = useState("password")
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState("")
 	const login = useAuthStore((state) => state.login)
@@ -19,7 +20,7 @@ export const LoginPage = () => {
 		setLoading(true)
 		setError("")
 		try {
-			const { user, token } = await api.auth.login(email)
+			const { user, token } = await api.auth.login(email, password)
 			login(user, token)
 			const from = location.state?.from || "/"
 			navigate(from)
@@ -91,10 +92,11 @@ export const LoginPage = () => {
 										id='password'
 										name='password'
 										type='password'
+										required
 										className='input-field pl-10'
 										placeholder='••••••••'
-										disabled
-										title={t("auth.password_disabled_title")}
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
 									/>
 								</div>
 								<div className='flex justify-end mt-1'>

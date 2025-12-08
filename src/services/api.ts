@@ -14,14 +14,14 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 export const api = {
 	auth: {
-		login: (email: string) =>
+		login: (email: string, password: string) =>
 			fetch(`${API_BASE}/auth/login`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email })
+				body: JSON.stringify({ email, password })
 			}).then((res) => handleResponse<{ user: User; token: string }>(res)),
 
-		register: (data: Partial<User>) =>
+		register: (data: any) =>
 			fetch(`${API_BASE}/auth/register`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },

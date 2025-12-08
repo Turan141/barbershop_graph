@@ -1,11 +1,12 @@
 import { Router } from "express"
 import { prisma } from "../db"
+import bcrypt from "bcryptjs"
 
 const router = Router()
 
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
-	const { email } = req.body
+	const { email, password } = req.body
 
 	try {
 		let user = await prisma.user.findUnique({
@@ -22,10 +23,16 @@ router.post("/login", async (req, res) => {
 			return res.status(404).json({ error: "User not found" })
 		}
 
+		const isPasswordValid = await bcrypt.compare(password, (user as any).password)
+		if (!isPasswordValid) {
+			return res.status(401).json({ error: "Invalid credentials" })
+		}
+
 		// Mock token
 		const token = "mock-jwt-token-" + user.id
 
-		res.json({ user, token })
+		const { password: _, ...userWithoutPassword } = user as any
+		res.json({ user: userWithoutPassword, token })
 	} catch (error) {
 		res.status(500).json({ error: "Login failed" })
 	}
@@ -33,7 +40,7 @@ router.post("/login", async (req, res) => {
 
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
-	const { name, email, role } = req.body
+	const { name, email, password, role } = req.body
 	console.log("Register request received:", { name, email, role })
 
 	const normalizedRole = role ? String(role).trim().toLowerCase() : "client"
@@ -44,15 +51,18 @@ router.post("/register", async (req, res) => {
 			return res.status(400).json({ error: "User already exists" })
 		}
 
+		const hashedPassword = await bcrypt.hash(password, 10)
+
 		const user = await prisma.user.create({
 			data: {
 				name,
 				email,
+				password: hashedPassword,
 				role: normalizedRole,
 				avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
 					name
 				)}&background=random`
-			}
+			} as any
 		})
 
 		if (normalizedRole === "barber") {
@@ -84,7 +94,8 @@ router.post("/register", async (req, res) => {
 		}
 
 		const token = "mock-jwt-token-" + user.id
-		res.json({ user, token })
+		const { password: _, ...userWithoutPassword } = user as any
+		res.json({ user: userWithoutPassword, token })
 	} catch (error) {
 		console.error("Registration error:", error)
 		res.status(500).json({ error: "Registration failed" })

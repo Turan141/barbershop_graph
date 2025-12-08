@@ -64,7 +64,7 @@ router.patch("/:id", async (req, res) => {
 	try {
 		const booking = await prisma.booking.update({
 			where: { id },
-			data: { status, comment }
+			data: { status, comment } as any
 		})
 		res.json(booking)
 	} catch (error) {

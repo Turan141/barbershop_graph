@@ -448,7 +448,8 @@ async function main() {
 				name: u.name,
 				email: u.email,
 				role: u.role,
-				avatarUrl: u.avatarUrl
+				avatarUrl: u.avatarUrl,
+				password: "$2a$10$CwTycUXWue0Thq9StjUM0u"
 			}
 		})
 		console.log(`Created user with id: ${user.id}`)
@@ -465,7 +466,8 @@ async function main() {
 				name: b.name,
 				email: b.email,
 				role: "barber",
-				avatarUrl: b.avatarUrl
+				avatarUrl: b.avatarUrl,
+				password: "$2a$10$CwTycUXWue0Thq9StjUM0u"
 			}
 		})
 

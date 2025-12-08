@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const index_1 = require("../index");
+const db_1 = require("../db");
 const router = (0, express_1.Router)();
 // GET /api/bookings (User's bookings)
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,7 +22,7 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(400).json({ error: "User ID required" });
     }
     try {
-        const bookings = yield index_1.prisma.booking.findMany({
+        const bookings = yield db_1.prisma.booking.findMany({
             where: { clientId: userId },
             include: {
                 barber: {
@@ -40,16 +40,16 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 }));
 // POST /api/bookings
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, barberId, serviceId, date, time } = req.body;
+    const { clientId, barberId, serviceId, date, time } = req.body;
     try {
-        const booking = yield index_1.prisma.booking.create({
+        const booking = yield db_1.prisma.booking.create({
             data: {
-                clientId: userId,
+                clientId,
                 barberId,
                 serviceId,
                 date,
                 time,
-                status: "upcoming"
+                status: "pending"
             },
             include: {
                 barber: { include: { user: true } },
@@ -65,11 +65,11 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // PATCH /api/bookings/:id
 router.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, comment } = req.body;
     try {
-        const booking = yield index_1.prisma.booking.update({
+        const booking = yield db_1.prisma.booking.update({
             where: { id },
-            data: { status }
+            data: { status, comment }
         });
         res.json(booking);
     }
@@ -81,7 +81,7 @@ router.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* (
 router.patch("/:id/cancel", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const booking = yield index_1.prisma.booking.update({
+        const booking = yield db_1.prisma.booking.update({
             where: { id },
             data: { status: "cancelled" }
         });

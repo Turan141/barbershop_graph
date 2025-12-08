@@ -21,13 +21,13 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const index_1 = require("../index");
+const db_1 = require("../db");
 const router = (0, express_1.Router)();
 // GET /api/users/:id
 router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const user = yield index_1.prisma.user.findUnique({
+        const user = yield db_1.prisma.user.findUnique({
             where: { id },
             include: {
                 barberProfile: true,
@@ -51,7 +51,7 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const bookings = yield index_1.prisma.booking.findMany({
+        const bookings = yield db_1.prisma.booking.findMany({
             where: { clientId: id },
             include: {
                 barber: { include: { user: true } },
@@ -74,7 +74,7 @@ const mapBarber = (profile) => {
 router.get("/:id/favorites", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const favorites = yield index_1.prisma.favorite.findMany({
+        const favorites = yield db_1.prisma.favorite.findMany({
             where: { userId: id },
             include: {
                 barber: { include: { user: true, services: true } }
@@ -93,7 +93,7 @@ router.post("/:id/favorites", (req, res) => __awaiter(void 0, void 0, void 0, fu
     const { id } = req.params;
     const { barberId } = req.body;
     try {
-        const favorite = yield index_1.prisma.favorite.create({
+        const favorite = yield db_1.prisma.favorite.create({
             data: {
                 userId: id,
                 barberId
@@ -110,7 +110,7 @@ router.delete("/:id/favorites/:barberId", (req, res) => __awaiter(void 0, void 0
     const { id, barberId } = req.params;
     try {
         // We need to find the favorite entry first or deleteMany
-        yield index_1.prisma.favorite.deleteMany({
+        yield db_1.prisma.favorite.deleteMany({
             where: {
                 userId: id,
                 barberId
