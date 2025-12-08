@@ -54,7 +54,10 @@ export const RegisterPage = () => {
 						)}
 
 						<div>
-							<label htmlFor='name' className='block text-sm font-medium text-slate-700 mb-1'>
+							<label
+								htmlFor='name'
+								className='block text-sm font-medium text-slate-700 mb-1'
+							>
 								Full Name
 							</label>
 							<div className='relative'>
@@ -75,7 +78,10 @@ export const RegisterPage = () => {
 						</div>
 
 						<div>
-							<label htmlFor='email' className='block text-sm font-medium text-slate-700 mb-1'>
+							<label
+								htmlFor='email'
+								className='block text-sm font-medium text-slate-700 mb-1'
+							>
 								Email address
 							</label>
 							<div className='relative'>
@@ -109,7 +115,11 @@ export const RegisterPage = () => {
 											: "border-slate-200 hover:border-slate-300 text-slate-600"
 									}`}
 								>
-									<User className={`h-6 w-6 mb-2 ${role === "client" ? "text-primary-600" : "text-slate-400"}`} />
+									<User
+										className={`h-6 w-6 mb-2 ${
+											role === "client" ? "text-primary-600" : "text-slate-400"
+										}`}
+									/>
 									<span className='font-medium'>Client</span>
 								</button>
 								<button
@@ -121,7 +131,11 @@ export const RegisterPage = () => {
 											: "border-slate-200 hover:border-slate-300 text-slate-600"
 									}`}
 								>
-									<Briefcase className={`h-6 w-6 mb-2 ${role === "barber" ? "text-primary-600" : "text-slate-400"}`} />
+									<Briefcase
+										className={`h-6 w-6 mb-2 ${
+											role === "barber" ? "text-primary-600" : "text-slate-400"
+										}`}
+									/>
 									<span className='font-medium'>Barber</span>
 								</button>
 							</div>
@@ -139,7 +153,10 @@ export const RegisterPage = () => {
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-slate-600'>
 							Already have an account?{" "}
-							<Link to='/login' className='font-medium text-primary-600 hover:text-primary-500'>
+							<Link
+								to='/login'
+								className='font-medium text-primary-600 hover:text-primary-500'
+							>
 								Sign in
 							</Link>
 						</p>
