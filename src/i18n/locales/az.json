@@ -135,9 +135,12 @@
 		"write_review": "Rəy Yaz",
 		"no_reviews": "Hələlik rəy yoxdur. İlk rəyi siz yazın!",
 		"rate_experience": "Təcrübənizi qiymətləndirin",
+		"review_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
 		"share_experience_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
 		"submitting": "Göndərilir...",
-		"submit_review": "Rəyi Göndər"
+		"submit_review": "Rəyi Göndər",
+		"book_now": "İndi Bron Et",
+		"selected_service": "Seçilmiş Xidmət"
 	},
 	"dashboard": {
 		"title": "İdarə Paneli",
@@ -175,6 +178,9 @@
 		"profile": {
 			"avatar_url": "Profil Şəkli URL-si",
 			"title": "Profil Məlumatları",
+			"profile_picture": "Profil Şəkli",
+			"select_from_portfolio": "Portfoliodan seçin:",
+			"no_portfolio": "Profil şəkli təyin etmək üçün portfolionuzda şəkil yükləyin.",
 			"name": "Ad Soyad",
 			"email": "Email",
 			"phone": "Telefon",
@@ -212,8 +218,18 @@
 		},
 		"portfolio": {
 			"title": "Portfolio",
-			"prompt_url": "Şəkil URL-ni daxil edin:",
-			"add_image": "Şəkil əlavə et"
+			"prompt_url": "Şəkil URL-si daxil edin:",
+			"add_image": "Şəkil Əlavə Et",
+			"limit_reached": "Maksimum 6 şəkil icazəlidir",
+			"upload_title": "Şəkil Yüklə",
+			"compressing": "Sıxılır...",
+			"click_to_upload": "Şəkil yükləmək üçün klikləyin",
+			"image_added": "Şəkil uğurla əlavə edildi",
+			"upload_error": "Şəkil yüklənməsi uğursuz oldu",
+			"set_avatar_tooltip": "Profil şəkli kimi təyin et",
+			"current_avatar_tooltip": "Cari profil şəkli",
+			"delete_tooltip": "Şəkli sil",
+			"upload_help": "JPG, PNG (Maks 800x800px)"
 		},
 		"tabs": {
 			"profile": "Profil Məlumatları",

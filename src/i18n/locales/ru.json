@@ -136,9 +136,12 @@
 		"write_review": "Написать отзыв",
 		"no_reviews": "Отзывов пока нет. Будьте первым!",
 		"rate_experience": "Оцените ваш опыт",
+		"review_placeholder": "Поделитесь впечатлениями (необязательно)...",
 		"share_experience_placeholder": "Поделитесь впечатлениями (необязательно)...",
 		"submitting": "Отправка...",
-		"submit_review": "Отправить отзыв"
+		"submit_review": "Отправить отзыв",
+		"book_now": "Забронировать",
+		"selected_service": "Выбранная услуга"
 	},
 	"dashboard": {
 		"title": "Панель управления",
@@ -175,6 +178,9 @@
 		"unknown_client": "Неизвестный клиент",
 		"profile": {
 			"title": "Данные профиля",
+			"profile_picture": "Фото профиля",
+			"select_from_portfolio": "Выберите из портфолио:",
+			"no_portfolio": "Загрузите изображения в портфолио, чтобы установить их как фото профиля.",
 			"name": "ФИО",
 			"email": "Email",
 			"phone": "Телефон",
@@ -212,8 +218,18 @@
 		},
 		"portfolio": {
 			"title": "Портфолио",
-			"prompt_url": "Введите URL изображения:",
-			"add_image": "Добавить фото"
+			"add_image": "Добавить фото",
+			"upload_title": "Загрузить фото",
+			"limit_reached": "Достигнут лимит портфолио (макс. 6 изображений)",
+			"compressing": "Сжатие...",
+			"click_to_upload": "Нажмите, чтобы загрузить изображение",
+			"image_added": "Изображение добавлено в портфолио",
+			"upload_error": "Ошибка загрузки изображения",
+			"delete_confirm": "Вы уверены, что хотите удалить это изображение?",
+			"set_avatar_tooltip": "Установить как фото профиля",
+			"current_avatar_tooltip": "Текущее фото профиля",
+			"delete_tooltip": "Удалить изображение",
+			"upload_help": "JPG, PNG (Макс. 800x800px)"
 		},
 		"tabs": {
 			"profile": "Данные профиля",

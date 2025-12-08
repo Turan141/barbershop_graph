@@ -136,9 +136,12 @@
 		"write_review": "Write a Review",
 		"no_reviews": "No reviews yet. Be the first to review!",
 		"rate_experience": "Rate your experience",
+		"review_placeholder": "Share your experience (optional)...",
 		"share_experience_placeholder": "Share your experience (optional)...",
 		"submitting": "Submitting...",
-		"submit_review": "Submit Review"
+		"submit_review": "Submit Review",
+		"book_now": "Book Now",
+		"selected_service": "Selected Service"
 	},
 	"dashboard": {
 		"title": "Dashboard",
@@ -175,6 +178,9 @@
 		"unknown_client": "Unknown Client",
 		"profile": {
 			"title": "Profile Details",
+			"profile_picture": "Profile Picture",
+			"select_from_portfolio": "Select from portfolio:",
+			"no_portfolio": "Upload images to your portfolio to set them as your profile picture.",
 			"name": "Full Name",
 			"email": "Email Address",
 			"phone": "Phone Number",
@@ -213,7 +219,17 @@
 		"portfolio": {
 			"title": "Portfolio",
 			"prompt_url": "Enter image URL:",
-			"add_image": "Add Image"
+			"add_image": "Add Image",
+			"limit_reached": "Maximum 6 images allowed",
+			"upload_title": "Upload Image",
+			"compressing": "Compressing...",
+			"click_to_upload": "Click to upload image",
+			"image_added": "Image added successfully",
+			"upload_error": "Failed to upload image",
+			"set_avatar_tooltip": "Set as Profile Picture",
+			"current_avatar_tooltip": "Current Profile Picture",
+			"delete_tooltip": "Delete Image",
+			"upload_help": "JPG, PNG (Max 800x800px)"
 		},
 		"tabs": {
 			"profile": "Profile Details",
