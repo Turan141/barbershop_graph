@@ -30,6 +30,7 @@ export interface Barber extends User {
 	phone?: string
 	services: Service[]
 	portfolio: string[]
+	previewImageUrl?: string
 	bio: string
 	verificationStatus: "none" | "pending" | "verified" | "rejected"
 	verificationDocumentUrl?: string

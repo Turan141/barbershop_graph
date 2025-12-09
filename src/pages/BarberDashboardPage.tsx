@@ -53,6 +53,9 @@ export const BarberDashboardPage = () => {
 
 	const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
 	const [uploading, setUploading] = useState(false)
+	const [selectionMode, setSelectionMode] = useState<"avatar" | "preview" | null>(
+		null
+	)
 
 	// Form states
 	const [formData, setFormData] = useState<Partial<Barber>>({})
@@ -100,6 +103,12 @@ export const BarberDashboardPage = () => {
 
 	const handleSetAvatar = (url: string) => {
 		const updatedFormData = { ...formData, avatarUrl: url }
+		setFormData(updatedFormData)
+		saveBarberData(updatedFormData)
+	}
+
+	const handleSetPreviewImage = (url: string) => {
+		const updatedFormData = { ...formData, previewImageUrl: url }
 		setFormData(updatedFormData)
 		saveBarberData(updatedFormData)
 	}
@@ -802,107 +811,218 @@ export const BarberDashboardPage = () => {
 
 						{/* Portfolio Tab */}
 						{activeTab === "portfolio" && (
-							<div className='space-y-6'>
-								<div className='flex justify-between items-center mb-6'>
-									<h2 className='text-xl font-bold text-slate-900'>
-										{t("dashboard.portfolio.title")}
-									</h2>
-									<button
-										onClick={() => setIsUploadModalOpen(true)}
-										disabled={(formData.portfolio?.length || 0) >= 6}
-										className='btn-secondary py-2 px-4 text-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed'
-									>
-										<Plus className='w-4 h-4' />
-										{t("dashboard.portfolio.add_image")}
-									</button>
+							<div className='space-y-8'>
+								{/* Identity Section */}
+								<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+									{/* Avatar Card */}
+									<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center text-center'>
+										<h3 className='font-bold text-slate-900 mb-4'>
+											{t("dashboard.portfolio.profile_avatar")}
+										</h3>
+										<div className='relative w-32 h-32 rounded-full overflow-hidden bg-slate-100 mb-4 ring-4 ring-slate-50'>
+											{formData.avatarUrl ? (
+												<img
+													src={formData.avatarUrl}
+													alt='Avatar'
+													className='w-full h-full object-cover'
+												/>
+											) : (
+												<div className='w-full h-full flex items-center justify-center text-slate-300'>
+													<User className='w-12 h-12' />
+												</div>
+											)}
+										</div>
+										<p className='text-sm text-slate-500 mb-4'>
+											{t("dashboard.portfolio.avatar_desc")}
+										</p>
+										<button
+											onClick={() => setSelectionMode("avatar")}
+											className={clsx(
+												"btn-secondary w-full",
+												selectionMode === "avatar" && "ring-2 ring-primary-500"
+											)}
+										>
+											{selectionMode === "avatar"
+												? t("dashboard.portfolio.select_from_gallery")
+												: t("dashboard.portfolio.change_avatar")}
+										</button>
+									</div>
+
+									{/* Listing Cover Card */}
+									<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center text-center'>
+										<h3 className='font-bold text-slate-900 mb-4'>
+											{t("dashboard.portfolio.listing_cover")}
+										</h3>
+										<div className='relative w-full h-32 rounded-xl overflow-hidden bg-slate-100 mb-4'>
+											{formData.previewImageUrl ? (
+												<img
+													src={formData.previewImageUrl}
+													alt='Cover'
+													className='w-full h-full object-cover'
+												/>
+											) : (
+												<div className='w-full h-full flex items-center justify-center text-slate-300'>
+													<ImageIcon className='w-12 h-12' />
+												</div>
+											)}
+										</div>
+										<p className='text-sm text-slate-500 mb-4'>
+											{t("dashboard.portfolio.cover_desc")}
+										</p>
+										<button
+											onClick={() => setSelectionMode("preview")}
+											className={clsx(
+												"btn-secondary w-full",
+												selectionMode === "preview" && "ring-2 ring-primary-500"
+											)}
+										>
+											{selectionMode === "preview"
+												? t("dashboard.portfolio.select_from_gallery")
+												: t("dashboard.portfolio.change_cover")}
+										</button>
+									</div>
 								</div>
 
-								<div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
-									{(!formData.portfolio || formData.portfolio.length === 0) && (
-										<div className='col-span-full text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
-											<ImageIcon className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-											<p className='text-slate-500'>
-												{t("dashboard.portfolio.no_images") || "No images in portfolio."}
-											</p>
+								{/* Gallery Section */}
+								<div>
+									<div className='flex justify-between items-center mb-6'>
+										<h2 className='text-xl font-bold text-slate-900'>
+											{t("dashboard.portfolio.title")}
+										</h2>
+										<button
+											onClick={() => setIsUploadModalOpen(true)}
+											disabled={(formData.portfolio?.length || 0) >= 6}
+											className='btn-secondary py-2 px-4 text-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed'
+										>
+											<Plus className='w-4 h-4' />
+											{t("dashboard.portfolio.add_image")}
+										</button>
+									</div>
+
+									{selectionMode && (
+										<div className='bg-primary-50 border border-primary-100 rounded-xl p-4 mb-6 flex items-center justify-between animate-fade-in'>
+											<div className='flex items-center gap-3 text-primary-700'>
+												<div className='bg-primary-100 p-2 rounded-full'>
+													{selectionMode === "avatar" ? (
+														<User className='w-5 h-5' />
+													) : (
+														<ImageIcon className='w-5 h-5' />
+													)}
+												</div>
+												<p className='font-medium'>
+													{t("dashboard.portfolio.select_instruction")}{" "}
+													{selectionMode === "avatar"
+														? t("dashboard.portfolio.avatar")
+														: t("dashboard.portfolio.cover_image")}
+												</p>
+											</div>
 											<button
-												onClick={() => setIsUploadModalOpen(true)}
-												className='mt-4 text-primary-600 font-medium hover:underline'
+												onClick={() => setSelectionMode(null)}
+												className='text-sm font-bold text-primary-700 hover:text-primary-800'
 											>
-												{t("dashboard.portfolio.upload_first") ||
-													"Upload your first image"}
+												{t("dashboard.portfolio.cancel_selection")}
 											</button>
 										</div>
 									)}
-									{formData.portfolio?.map((url, index) => {
-										// Compare lengths or use a more robust comparison if base64 strings are slightly different
-										// But usually exact match should work. Let's try to debug by logging or ensuring state update.
-										// The issue might be that formData.avatarUrl is not updated immediately or reference issue.
-										// However, let's ensure we are comparing strings.
-										const isAvatar = formData.avatarUrl === url
 
-										return (
-											<div
-												key={index}
-												className={clsx(
-													"relative group aspect-square rounded-xl overflow-hidden bg-slate-100",
-													isAvatar && "ring-4 ring-primary-500 ring-offset-2"
-												)}
-											>
-												<img
-													src={url}
-													alt={`Portfolio ${index + 1}`}
-													className='w-full h-full object-cover'
-												/>
-												{isAvatar && (
-													<div className='absolute top-2 right-2 bg-primary-500 text-white p-1 rounded-full shadow-md z-10'>
-														<Check className='w-4 h-4' />
-													</div>
-												)}
-												<div className='absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3'>
-													<button
-														onClick={(e) => {
-															e.stopPropagation() // Prevent bubbling
-															handleSetAvatar(url)
-														}}
-														className={clsx(
-															"p-2 rounded-full transition-colors",
-															isAvatar
-																? "bg-primary-500 text-white cursor-default"
-																: "bg-white text-primary-600 hover:bg-primary-50"
-														)}
-														title={
-															isAvatar
-																? t("dashboard.portfolio.current_avatar_tooltip") ||
-																  "Current Profile Picture"
-																: t("dashboard.portfolio.set_avatar_tooltip") ||
-																  "Set as Profile Picture"
-														}
-														disabled={isAvatar}
-													>
-														<User className='w-5 h-5' />
-													</button>
-													<button
-														onClick={(e) => {
-															e.stopPropagation()
-															const newPortfolio = formData.portfolio?.filter(
-																(_, i) => i !== index
-															)
-															setFormData({
-																...formData,
-																portfolio: newPortfolio
-															})
-														}}
-														className='p-2 bg-white text-red-500 rounded-full hover:bg-red-50 transition-colors'
-														title={
-															t("dashboard.portfolio.delete_tooltip") || "Delete Image"
-														}
-													>
-														<Trash2 className='w-5 h-5' />
-													</button>
-												</div>
+									<div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
+										{(!formData.portfolio || formData.portfolio.length === 0) && (
+											<div className='col-span-full text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+												<ImageIcon className='w-12 h-12 text-slate-300 mx-auto mb-3' />
+												<p className='text-slate-500'>
+													{t("dashboard.portfolio.no_images") ||
+														"No images in portfolio."}
+												</p>
+												<button
+													onClick={() => setIsUploadModalOpen(true)}
+													className='mt-4 text-primary-600 font-medium hover:underline'
+												>
+													{t("dashboard.portfolio.upload_first") ||
+														"Upload your first image"}
+												</button>
 											</div>
-										)
-									})}
+										)}
+										{formData.portfolio?.map((url, index) => {
+											const isAvatar = formData.avatarUrl === url
+											const isPreview = formData.previewImageUrl === url
+
+											return (
+												<div
+													key={index}
+													onClick={() => {
+														if (selectionMode === "avatar") {
+															handleSetAvatar(url)
+															setSelectionMode(null)
+														} else if (selectionMode === "preview") {
+															handleSetPreviewImage(url)
+															setSelectionMode(null)
+														}
+													}}
+													className={clsx(
+														"relative group aspect-square rounded-xl overflow-hidden bg-slate-100 transition-all duration-200",
+														selectionMode
+															? "cursor-pointer hover:ring-4 hover:ring-primary-300"
+															: "",
+														isAvatar && "ring-4 ring-primary-500 ring-offset-2",
+														isPreview &&
+															!isAvatar &&
+															"ring-4 ring-indigo-500 ring-offset-2"
+													)}
+												>
+													<img
+														src={url}
+														alt={`Portfolio ${index + 1}`}
+														className='w-full h-full object-cover'
+													/>
+													
+													{/* Badges */}
+													<div className='absolute top-2 right-2 flex flex-col gap-2'>
+														{isAvatar && (
+															<div
+																className='bg-primary-500 text-white p-1.5 rounded-full shadow-md z-10'
+																title={t("dashboard.portfolio.current_avatar")}
+															>
+																<User className='w-3 h-3' />
+															</div>
+														)}
+														{isPreview && (
+															<div
+																className='bg-indigo-500 text-white p-1.5 rounded-full shadow-md z-10'
+																title={t("dashboard.portfolio.current_cover")}
+															>
+																<ImageIcon className='w-3 h-3' />
+															</div>
+														)}
+													</div>
+
+													{/* Hover Actions (Only when not selecting) */}
+													{!selectionMode && (
+														<div className='absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3'>
+															<button
+																onClick={(e) => {
+																	e.stopPropagation()
+																	const newPortfolio = formData.portfolio?.filter(
+																		(_, i) => i !== index
+																	)
+																	setFormData({
+																		...formData,
+																		portfolio: newPortfolio
+																	})
+																}}
+																className='p-2 bg-white text-red-500 rounded-full hover:bg-red-50 transition-colors'
+																title={
+																	t("dashboard.portfolio.delete_tooltip") ||
+																	"Delete Image"
+																}
+															>
+																<Trash2 className='w-5 h-5' />
+															</button>
+														</div>
+													)}
+												</div>
+											)
+										})}
+									</div>
 								</div>
 							</div>
 						)}
