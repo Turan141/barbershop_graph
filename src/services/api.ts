@@ -61,6 +61,27 @@ export const api = {
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Review>(res)),
 
+		getStats: (id: string) =>
+			fetch(`${API_BASE}/barbers/${id}/stats`, {
+				headers: getHeaders()
+			}).then((res) => handleResponse<any>(res)),
+
+		getClients: (id: string) =>
+			fetch(`${API_BASE}/barbers/${id}/clients`, {
+				headers: getHeaders()
+			}).then((res) => handleResponse<any[]>(res)),
+
+		saveClientNote: (
+			barberId: string,
+			clientId: string,
+			data: { notes: string; tags: string[] }
+		) =>
+			fetch(`${API_BASE}/barbers/${barberId}/clients/${clientId}/notes`, {
+				method: "POST",
+				headers: getHeaders(),
+				body: JSON.stringify(data)
+			}).then((res) => handleResponse<any>(res)),
+
 		update: (id: string, data: Partial<Barber>) =>
 			fetch(`${API_BASE}/barbers/${id}`, {
 				method: "PUT",

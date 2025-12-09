@@ -140,6 +140,100 @@ router.get("/:id/bookings", async (req, res) => {
 	}
 })
 
+// GET /api/barbers/:id/stats
+router.get("/:id/stats", authenticateToken, async (req: AuthRequest, res) => {
+	const { id } = req.params
+	const userId = req.user!.id
+
+	try {
+		const profile = await prisma.barberProfile.findUnique({
+			where: { id },
+			select: { userId: true }
+		})
+
+		if (!profile) {
+			return res.status(404).json({ error: "Barber not found" })
+		}
+
+		if (profile.userId !== userId) {
+			return res.status(403).json({ error: "Access denied" })
+		}
+
+		// Fetch all bookings for calculations
+		// In a real app with millions of rows, we would use aggregate queries or raw SQL for performance.
+		// For this scale, fetching and processing in memory is fine and flexible.
+		const bookings = await prisma.booking.findMany({
+			where: { barberId: id },
+			include: { service: true }
+		})
+
+		const now = new Date()
+		const todayStr = now.toISOString().split("T")[0]
+
+		// Helper to get date string for X days ago
+		const getDayStr = (daysAgo: number) => {
+			const d = new Date(now)
+			d.setDate(d.getDate() - daysAgo)
+			return d.toISOString().split("T")[0]
+		}
+
+		const last7Days = Array.from({ length: 7 }, (_, i) => getDayStr(6 - i)) // [6 days ago, ..., today]
+
+		// Calculate Stats
+		let todayRevenue = 0
+		let todayBookings = 0
+		let monthRevenue = 0
+		let monthBookings = 0
+		let totalClients = new Set()
+
+		const currentMonth = now.toISOString().slice(0, 7) // YYYY-MM
+
+		const chartData = last7Days.map((date) => ({
+			date,
+			revenue: 0,
+			bookings: 0
+		}))
+
+		bookings.forEach((b) => {
+			// Only count confirmed or completed for revenue
+			const isPaid = b.status === "completed" || b.status === "confirmed"
+			const price = b.service?.price || 0
+
+			// Today
+			if (b.date === todayStr) {
+				todayBookings++
+				if (isPaid) todayRevenue += price
+			}
+
+			// Month
+			if (b.date.startsWith(currentMonth)) {
+				monthBookings++
+				if (isPaid) monthRevenue += price
+			}
+
+			// Total Clients (Unique)
+			if (b.clientId) totalClients.add(b.clientId)
+
+			// Chart Data
+			const dayStat = chartData.find((d) => d.date === b.date)
+			if (dayStat) {
+				dayStat.bookings++
+				if (isPaid) dayStat.revenue += price
+			}
+		})
+
+		res.json({
+			today: { revenue: todayRevenue, bookings: todayBookings },
+			month: { revenue: monthRevenue, bookings: monthBookings },
+			totalClients: totalClients.size,
+			chart: chartData
+		})
+	} catch (error) {
+		console.error("Stats error:", error)
+		res.status(500).json({ error: "Failed to fetch stats" })
+	}
+})
+
 // POST /api/barbers/:id/reviews
 router.post("/:id/reviews", async (req, res) => {
 	const { id } = req.params
@@ -336,6 +430,106 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 	} catch (error) {
 		console.error("Update error:", error)
 		res.status(500).json({ error: "Failed to update profile" })
+	}
+})
+
+// GET /api/barbers/:id/clients
+router.get("/:id/clients", async (req, res) => {
+	const { id } = req.params
+	try {
+		// Find all bookings for this barber to identify clients
+		const bookings = await prisma.booking.findMany({
+			where: { barberId: id },
+			include: {
+				client: true,
+				service: true
+			},
+			orderBy: { date: "desc" }
+		})
+
+		// Group by client
+		const clientsMap = new Map()
+
+		for (const booking of bookings) {
+			if (!clientsMap.has(booking.clientId)) {
+				clientsMap.set(booking.clientId, {
+					user: booking.client,
+					bookings: [],
+					totalRevenue: 0,
+					lastBooking: booking.date
+				})
+			}
+			const clientData = clientsMap.get(booking.clientId)
+			clientData.bookings.push(booking)
+
+			// Calculate revenue from completed bookings
+			// In a real app, we'd check payment status too
+			if (booking.status === "completed" || booking.status === "confirmed") {
+				clientData.totalRevenue += booking.service.price
+			}
+		}
+
+		// Fetch notes for these clients
+		const clientIds = Array.from(clientsMap.keys())
+		const notes = await prisma.barberClientNote.findMany({
+			where: {
+				barberId: id,
+				clientId: { in: clientIds }
+			}
+		})
+
+		const notesMap = new Map(notes.map((n) => [n.clientId, n]))
+
+		const result = Array.from(clientsMap.values()).map((c) => {
+			const note = notesMap.get(c.user.id)
+			return {
+				id: c.user.id,
+				name: c.user.name,
+				email: c.user.email,
+				avatarUrl: c.user.avatarUrl,
+				totalBookings: c.bookings.length,
+				totalRevenue: c.totalRevenue,
+				lastBookingDate: c.lastBooking,
+				notes: note?.notes || "",
+				tags: note?.tags ? JSON.parse(note.tags) : []
+			}
+		})
+
+		res.json(result)
+	} catch (error) {
+		console.error("Fetch clients error:", error)
+		res.status(500).json({ error: "Failed to fetch clients" })
+	}
+})
+
+// POST /api/barbers/:id/clients/:clientId/notes
+router.post("/:id/clients/:clientId/notes", async (req, res) => {
+	const { id, clientId } = req.params
+	const { notes, tags } = req.body
+
+	try {
+		const note = await prisma.barberClientNote.upsert({
+			where: {
+				barberId_clientId: {
+					barberId: id,
+					clientId: clientId
+				}
+			},
+			update: {
+				notes,
+				tags: JSON.stringify(tags || [])
+			},
+			create: {
+				barberId: id,
+				clientId,
+				notes,
+				tags: JSON.stringify(tags || [])
+			}
+		})
+		res.json(note)
+	} catch (error) {
+		console.error("Save note error:", error)
+		res.status(500).json({ error: "Failed to save client notes" })
 	}
 })
 

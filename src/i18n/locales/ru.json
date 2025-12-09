@@ -240,11 +240,39 @@
 			"upload_new_image": "Загрузить новое фото"
 		},
 		"tabs": {
+			"overview": "Обзор",
 			"profile": "Данные профиля",
 			"bookings": "Бронирования",
 			"schedule": "Рабочие часы",
 			"services": "Услуги",
 			"portfolio": "Портфолио"
+		},
+		"stats": {
+			"today_revenue": "Выручка за сегодня",
+			"bookings_today": "записей сегодня",
+			"month_revenue": "Выручка за месяц",
+			"bookings_month": "записей в этом месяце",
+			"total_clients": "Всего клиентов",
+			"unique_clients": "уникальных клиентов",
+			"weekly_overview": "Обзор за неделю",
+			"revenue": "Выручка",
+			"bookings": "Записи"
+		},
+		"clients": {
+			"title": "Мои Клиенты",
+			"search_placeholder": "Поиск клиентов...",
+			"total_clients": "Всего клиентов",
+			"total_revenue": "Общая выручка",
+			"last_visit": "Последний визит",
+			"bookings": "Записи",
+			"notes": "Заметки",
+			"tags": "Теги",
+			"add_note": "Добавить заметку",
+			"save_note": "Сохранить",
+			"no_clients": "Клиенты не найдены",
+			"details": "Детали клиента",
+			"contact": "Контакты",
+			"add_tag": "Добавить тег"
 		}
 	},
 	"common": {

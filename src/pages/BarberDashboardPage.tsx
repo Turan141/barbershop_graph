@@ -6,6 +6,8 @@ import { Barber, Service } from "../types"
 import { api } from "../services/api"
 import {
 	User,
+	Users,
+	LayoutDashboard,
 	Calendar,
 	Scissors,
 	Image as ImageIcon,
@@ -21,6 +23,8 @@ import {
 	Camera
 } from "lucide-react"
 import clsx from "clsx"
+import { DashboardStats } from "../components/DashboardStats"
+import { ClientList } from "../components/ClientList"
 import { Modal } from "../components/Modal"
 import { compressImage } from "../utils/imageUtils"
 
@@ -38,8 +42,8 @@ export const BarberDashboardPage = () => {
 	const [barber, setBarber] = useState<Barber | null>(null)
 	const [loading, setLoading] = useState(true)
 	const [activeTab, setActiveTab] = useState<
-		"profile" | "schedule" | "services" | "portfolio"
-	>("profile")
+		"overview" | "clients" | "profile" | "schedule" | "services" | "portfolio"
+	>("overview")
 	const [saving, setSaving] = useState(false)
 	const [message, setMessage] = useState<{
 		type: "success" | "error"
@@ -172,6 +176,8 @@ export const BarberDashboardPage = () => {
 		return <div className='p-8 text-center'>{t("dashboard.profile_not_found")}</div>
 
 	const tabs = [
+		{ id: "overview", label: t("dashboard.tabs.overview"), icon: LayoutDashboard },
+		{ id: "clients", label: t("dashboard.clients.title"), icon: Users },
 		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
 		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Calendar },
 		{ id: "services", label: t("dashboard.tabs.services"), icon: Scissors },
@@ -227,6 +233,14 @@ export const BarberDashboardPage = () => {
 								{message.text}
 							</div>
 						)}
+
+						{/* Overview Tab */}
+						{activeTab === "overview" && barber && (
+							<DashboardStats barberId={barber.id} />
+						)}
+
+						{/* Clients Tab */}
+						{activeTab === "clients" && barber && <ClientList barberId={barber.id} />}
 
 						{/* Profile Tab */}
 						{activeTab === "profile" && (

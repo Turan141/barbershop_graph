@@ -25,6 +25,7 @@ model User {
   clientBookings Booking[] @relation("ClientBookings")
   favorites     Favorite[]
   reviews       Review[]
+  clientNotes   BarberClientNote[]
 }
 
 model BarberProfile {
@@ -48,6 +49,7 @@ model BarberProfile {
   bookings    Booking[]
   favoritedBy Favorite[]
   reviews     Review[]
+  clientNotes BarberClientNote[]
 }
 
 model Service {
@@ -87,6 +89,23 @@ model Favorite {
   barber    BarberProfile @relation(fields: [barberId], references: [id])
 
   @@unique([userId, barberId])
+}
+
+model BarberClientNote {
+  id        String   @id @default(uuid())
+  notes     String?  // The note text
+  tags      String?  // JSON string: string[] e.g. ["VIP", "Late"]
+  
+  barberId  String
+  barber    BarberProfile @relation(fields: [barberId], references: [id])
+  
+  clientId  String
+  client    User     @relation(fields: [clientId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([barberId, clientId])
 }
 
 model Review {

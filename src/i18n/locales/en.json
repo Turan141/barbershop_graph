@@ -444,11 +444,39 @@
 			"upload_new_image": "Upload New Image"
 		},
 		"tabs": {
+			"overview": "Overview",
 			"profile": "Profile Details",
 			"bookings": "Bookings",
 			"schedule": "Working Hours",
 			"services": "Services",
 			"portfolio": "Portfolio"
+		},
+		"stats": {
+			"today_revenue": "Today's Revenue",
+			"bookings_today": "bookings today",
+			"month_revenue": "Month's Revenue",
+			"bookings_month": "bookings this month",
+			"total_clients": "Total Clients",
+			"unique_clients": "unique clients served",
+			"weekly_overview": "Weekly Overview",
+			"revenue": "Revenue",
+			"bookings": "Bookings"
+		},
+		"clients": {
+			"title": "My Clients",
+			"search_placeholder": "Search clients...",
+			"total_clients": "Total Clients",
+			"total_revenue": "Total Revenue",
+			"last_visit": "Last Visit",
+			"bookings": "Bookings",
+			"notes": "Notes",
+			"tags": "Tags",
+			"add_note": "Add Note",
+			"save_note": "Save Note",
+			"no_clients": "No clients found",
+			"details": "Client Details",
+			"contact": "Contact Info",
+			"add_tag": "Add Tag"
 		}
 	},
 	"common": {

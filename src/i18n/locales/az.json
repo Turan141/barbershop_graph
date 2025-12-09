@@ -239,11 +239,39 @@
 			"upload_new_image": "Yeni Şəkil Yüklə"
 		},
 		"tabs": {
+			"overview": "İcmal",
 			"profile": "Profil Məlumatları",
 			"bookings": "Randevular",
 			"schedule": "İş Saatları",
 			"services": "Xidmətlər",
 			"portfolio": "Portfolio"
+		},
+		"stats": {
+			"today_revenue": "Bugünkü Gəlir",
+			"bookings_today": "bugünkü randevular",
+			"month_revenue": "Aylıq Gəlir",
+			"bookings_month": "bu aykı randevular",
+			"total_clients": "Ümumi Müştərilər",
+			"unique_clients": "unikal müştəri",
+			"weekly_overview": "Həftəlik İcmal",
+			"revenue": "Gəlir",
+			"bookings": "Randevular"
+		},
+		"clients": {
+			"title": "Müştərilərim",
+			"search_placeholder": "Müştəri axtar...",
+			"total_clients": "Cəmi Müştəri",
+			"total_revenue": "Cəmi Gəlir",
+			"last_visit": "Son Ziyarət",
+			"bookings": "Rezervasiyalar",
+			"notes": "Qeydlər",
+			"tags": "Teqlər",
+			"add_note": "Qeyd əlavə et",
+			"save_note": "Yadda saxla",
+			"no_clients": "Müştəri tapılmadı",
+			"details": "Müştəri Məlumatları",
+			"contact": "Əlaqə",
+			"add_tag": "Teq əlavə et"
 		}
 	},
 	"common": {
