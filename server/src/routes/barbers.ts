@@ -1,7 +1,10 @@
 import { Router } from "express"
 import { prisma } from "../db"
+import { authenticateToken, AuthRequest } from "../middleware/auth"
+import jwt from "jsonwebtoken"
 
 const router = Router()
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 const mapBarber = (profile: any) => {
 	const { user, ...rest } = profile
@@ -87,17 +90,32 @@ router.get("/:id", async (req, res) => {
 // GET /api/barbers/:id/bookings
 router.get("/:id/bookings", async (req, res) => {
 	const { id } = req.params
+
+	// Check for auth token to determine if we show full details
+	const authHeader = req.headers['authorization'];
+	const token = authHeader && authHeader.split(' ')[1];
+	let requesterId = null;
+
+	if (token) {
+		try {
+			const verified = jwt.verify(token, JWT_SECRET) as { id: string };
+			requesterId = verified.id;
+		} catch (e) {
+			// Invalid token, treat as guest
+		}
+	}
+
 	try {
 		// Resolve barber ID (could be profile ID or user ID)
 		let barber = await prisma.barberProfile.findUnique({
 			where: { id },
-			select: { id: true }
+			select: { id: true, userId: true }
 		})
 
 		if (!barber) {
 			barber = await prisma.barberProfile.findUnique({
 				where: { userId: id },
-				select: { id: true }
+				select: { id: true, userId: true }
 			})
 		}
 
@@ -105,10 +123,12 @@ router.get("/:id/bookings", async (req, res) => {
 			return res.status(404).json({ error: "Barber not found" })
 		}
 
+		const isOwner = requesterId === barber.userId;
+
 		const bookings = await prisma.booking.findMany({
 			where: { barberId: barber.id },
 			include: {
-				client: true,
+				client: isOwner, // Only include client details if owner
 				service: true
 			},
 			orderBy: { date: "desc" }
@@ -198,7 +218,7 @@ router.get("/:id/reviews", async (req, res) => {
 })
 
 // PUT /api/barbers/:id
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
 	const data = req.body
 
@@ -210,6 +230,11 @@ router.put("/:id", async (req, res) => {
 
 		if (!profile) {
 			return res.status(404).json({ error: "Barber not found" })
+		}
+
+		// Check authorization
+		if (profile.userId !== req.user!.id) {
+			return res.status(403).json({ error: "Not authorized to update this profile" })
 		}
 
 		// Update User info if provided

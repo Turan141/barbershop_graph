@@ -1,11 +1,17 @@
 import { Router } from "express"
 import { prisma } from "../db"
+import { authenticateToken, AuthRequest } from "../middleware/auth"
 
 const router = Router()
 
 // GET /api/users/:id
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
+	
+	if (req.user!.id !== id) {
+		return res.status(403).json({ error: "Access denied" })
+	}
+
 	try {
 		const user = await prisma.user.findUnique({
 			where: { id },
@@ -30,8 +36,13 @@ router.get("/:id", async (req, res) => {
 })
 
 // GET /api/users/:id/bookings
-router.get("/:id/bookings", async (req, res) => {
+router.get("/:id/bookings", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
+
+	if (req.user!.id !== id) {
+		return res.status(403).json({ error: "Access denied" })
+	}
+
 	try {
 		const bookings = await prisma.booking.findMany({
 			where: { clientId: id },
@@ -61,8 +72,13 @@ const mapBarber = (profile: any) => {
 }
 
 // GET /api/users/:id/favorites
-router.get("/:id/favorites", async (req, res) => {
+router.get("/:id/favorites", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
+
+	if (req.user!.id !== id) {
+		return res.status(403).json({ error: "Access denied" })
+	}
+
 	try {
 		const favorites = await prisma.favorite.findMany({
 			where: { userId: id },
@@ -79,9 +95,13 @@ router.get("/:id/favorites", async (req, res) => {
 })
 
 // POST /api/users/:id/favorites
-router.post("/:id/favorites", async (req, res) => {
+router.post("/:id/favorites", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
 	const { barberId } = req.body
+
+	if (req.user!.id !== id) {
+		return res.status(403).json({ error: "Access denied" })
+	}
 
 	try {
 		const favorite = await prisma.favorite.create({
@@ -97,8 +117,12 @@ router.post("/:id/favorites", async (req, res) => {
 })
 
 // DELETE /api/users/:id/favorites/:barberId
-router.delete("/:id/favorites/:barberId", async (req, res) => {
+router.delete("/:id/favorites/:barberId", authenticateToken, async (req: AuthRequest, res) => {
 	const { id, barberId } = req.params
+
+	if (req.user!.id !== id) {
+		return res.status(403).json({ error: "Access denied" })
+	}
 
 	try {
 		// We need to find the favorite entry first or deleteMany

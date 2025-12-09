@@ -504,8 +504,7 @@ export const BarberDashboardPage = () => {
 																		<button
 																			key={time}
 																			onClick={() => {
-																				const current =
-																					formData.schedule?.[day] || []
+																				const current = formData.schedule?.[day] || []
 																				const newSlots = isSelected
 																					? current.filter((t) => t !== time)
 																					: [...current, time].sort()
@@ -535,8 +534,7 @@ export const BarberDashboardPage = () => {
 																		`time-${day}`
 																	) as HTMLInputElement
 																	if (input.value) {
-																		const current =
-																			formData.schedule?.[day] || []
+																		const current = formData.schedule?.[day] || []
 																		if (!current.includes(input.value)) {
 																			updateSchedule(
 																				day,

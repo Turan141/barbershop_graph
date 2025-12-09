@@ -19,10 +19,16 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = require("../db");
+const auth_1 = require("../middleware/auth");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const router = (0, express_1.Router)();
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const mapBarber = (profile) => {
     const { user } = profile, rest = __rest(profile, ["user"]);
     return Object.assign(Object.assign(Object.assign({}, user), rest), { 
@@ -95,25 +101,39 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // GET /api/barbers/:id/bookings
 router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    // Check for auth token to determine if we show full details
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    let requesterId = null;
+    if (token) {
+        try {
+            const verified = jsonwebtoken_1.default.verify(token, JWT_SECRET);
+            requesterId = verified.id;
+        }
+        catch (e) {
+            // Invalid token, treat as guest
+        }
+    }
     try {
         // Resolve barber ID (could be profile ID or user ID)
         let barber = yield db_1.prisma.barberProfile.findUnique({
             where: { id },
-            select: { id: true }
+            select: { id: true, userId: true }
         });
         if (!barber) {
             barber = yield db_1.prisma.barberProfile.findUnique({
                 where: { userId: id },
-                select: { id: true }
+                select: { id: true, userId: true }
             });
         }
         if (!barber) {
             return res.status(404).json({ error: "Barber not found" });
         }
+        const isOwner = requesterId === barber.userId;
         const bookings = yield db_1.prisma.booking.findMany({
             where: { barberId: barber.id },
             include: {
-                client: true,
+                client: isOwner, // Only include client details if owner
                 service: true
             },
             orderBy: { date: "desc" }
@@ -195,7 +215,7 @@ router.get("/:id/reviews", (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 }));
 // PUT /api/barbers/:id
-router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const data = req.body;
     try {
@@ -205,6 +225,10 @@ router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         if (!profile) {
             return res.status(404).json({ error: "Barber not found" });
+        }
+        // Check authorization
+        if (profile.userId !== req.user.id) {
+            return res.status(403).json({ error: "Not authorized to update this profile" });
         }
         // Update User info if provided
         if (data.name || data.avatarUrl) {
