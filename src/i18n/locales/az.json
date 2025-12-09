@@ -211,7 +211,12 @@
 			"unverified_desc": "Təsdiqlənmək üçün sənəd yükləyin.",
 			"upload_doc": "Şəxsiyyət vəsiqəsi və ya Sertifikat yükləyin",
 			"submit_verification": "Sorğu Göndər",
-			"upload_hint": "Zəhmət olmasa sənədinizə keçid təqdim edin (Google Drive, Dropbox və s.)"
+			"upload_hint": "Zəhmət olmasa sənədinizə keçid təqdim edin (Google Drive, Dropbox və s.)",
+			"address_hint": "Xəritədə görmək üçün ünvanı daxil edin",
+			"map_preview": "Xəritəyə baxış",
+			"open_in_maps": "Google Maps-də aç",
+			"map_warning": "Zəhmət olmasa xəritədə yerin düzgünlüyünü yoxlayın",
+			"official_address": "Rəsmi Ünvan"
 		},
 		"schedule": {
 			"add_time": "Vaxt əlavə et",
@@ -306,7 +311,8 @@
 		}
 	},
 	"common": {
-		"loading": "Yüklənir..."
+		"loading": "Yüklənir...",
+		"check_map": "Xəritəni yoxla"
 	},
 	"pages": {
 		"features": {

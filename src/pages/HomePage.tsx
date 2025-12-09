@@ -19,6 +19,49 @@ import { useAuthStore } from "../store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"
 import clsx from "clsx"
 
+const getRegionFromAddress = (address: string) => {
+	if (!address) return ""
+	const parts = address.split(",").map((p) => p.trim())
+
+	// 1. Check for "rayonu" (Azerbaijani for District)
+	const district = parts.find((p) => p.toLowerCase().includes("rayonu"))
+	if (district) return district
+
+	// 2. Check for "rayon" (Russian/English)
+	const districtRu = parts.find((p) => p.toLowerCase().includes("rayon"))
+	if (districtRu) return districtRu
+
+	// 3. Check for known cities
+	const knownCities = [
+		"Bakı",
+		"Baku",
+		"Sumqayıt",
+		"Sumqayit",
+		"Gəncə",
+		"Ganja",
+		"Xırdalan",
+		"Khirdalan",
+		"Naxçıvan",
+		"Nakhchivan"
+	]
+	const city = parts.find((p) =>
+		knownCities.some(
+			(c) =>
+				p.toLowerCase() === c.toLowerCase() || p.toLowerCase().includes(c.toLowerCase())
+		)
+	)
+	if (city) return city
+
+	// 4. Fallback: If it looks like a full address, try to grab the City/Region part.
+	// Assuming format: Street, [District], City, Country
+	if (parts.length >= 3) {
+		// Return the part before the country (last part)
+		return parts[parts.length - 2]
+	}
+
+	return address
+}
+
 export const HomePage = () => {
 	const { user } = useAuthStore()
 	const [barbers, setBarbers] = useState<Barber[]>([])
@@ -58,8 +101,8 @@ export const HomePage = () => {
 
 	// Derived Data for Filters
 	const locations = useMemo(() => {
-		const locs = new Set(barbers.map((b) => b.location))
-		return Array.from(locs).sort()
+		const locs = new Set(barbers.map((b) => getRegionFromAddress(b.location)))
+		return Array.from(locs).filter(Boolean).sort()
 	}, [barbers])
 
 	const categories = ["Men", "Women", "Kids", "Beard", "Haircut", "Styling"]
@@ -75,7 +118,10 @@ export const HomePage = () => {
 	const filteredBarbers = useMemo(() => {
 		return barbers.filter((barber) => {
 			// Location Filter
-			if (selectedLocation && barber.location !== selectedLocation) return false
+			if (selectedLocation) {
+				const region = getRegionFromAddress(barber.location)
+				if (region !== selectedLocation) return false
+			}
 
 			// Category Filter (Specialties)
 			if (selectedCategory) {
@@ -133,7 +179,17 @@ export const HomePage = () => {
 			{/* Modern Header / Hero */}
 			<div className='bg-white pt-6 pb-6 px-4 sm:px-6 lg:px-8 shadow-sm border-b border-slate-100'>
 				<div className='max-w-7xl mx-auto'>
-					<div className='flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8'>
+					{/* Mobile Branding */}
+					<div className='sm:hidden mb-6 flex items-center justify-between'>
+						<div>
+							<h1 className='text-xl font-bold text-slate-900 flex items-center gap-2'></h1>
+							<p className='text-xs text-slate-500 mt-1 ml-1'>
+								{t("home.hero_desc").split(".")[0]}.
+							</p>
+						</div>
+					</div>
+
+					<div className='hidden sm:flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8'>
 						<div className='max-w-2xl'>
 							<h1 className='text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tighter leading-[1.1]'>
 								{t("home.hero_title")}
@@ -146,7 +202,7 @@ export const HomePage = () => {
 
 					{/* Quick Categories (Pills) */}
 					{!showFilters && (
-						<div className='flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 mb-6'>
+						<div className='hidden sm:flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 mb-6'>
 							<button
 								onClick={() => {
 									setSelectedCategory("")
@@ -309,6 +365,32 @@ export const HomePage = () => {
 					</div>
 				) : (
 					<>
+						{/* External Ad Placement - Subtle / Native Style */}
+						<div className='relative overflow-hidden rounded-xl bg-slate-50 mb-8 border border-slate-200 group cursor-pointer hover:bg-slate-100 transition-colors'>
+							<div className='p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
+								<div className='flex-1'>
+									<div className='flex items-center gap-2 mb-2'>
+										<span className='text-[10px] font-semibold text-slate-400 uppercase tracking-wider border border-slate-300 px-1.5 rounded'>
+											Ad
+										</span>
+										<span className='text-xs font-bold text-slate-500 flex items-center gap-1'>
+											Advertisement Space
+										</span>
+									</div>
+									<h3 className='text-lg font-bold text-slate-900 mb-1'>
+										Your Ad Could Be Here
+									</h3>
+									<p className='text-slate-500 text-xs sm:text-sm max-w-md'>
+										Reach thousands of potential customers. Contact us to place your
+										banner here.
+									</p>
+								</div>
+								<button className='w-full sm:w-auto px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg font-semibold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm whitespace-nowrap'>
+									Contact Us
+								</button>
+							</div>
+						</div>
+
 						{/* VIP Section - Horizontal Scroll on Mobile, Grid on Desktop */}
 						{filteredBarbers.some((b) => b.tier === "vip") && (
 							<div className='mb-12'>
@@ -319,14 +401,14 @@ export const HomePage = () => {
 									</h2>
 								</div>
 
-								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+								<div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6'>
 									{filteredBarbers
 										.filter((b) => b.tier === "vip")
 										.map((barber) => (
 											<Link
 												key={barber.id}
 												to={`/barbers/${barber.id}`}
-												className='group relative block h-80 sm:h-96 rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500 ring-1 ring-slate-200 hover:ring-2 hover:ring-yellow-400/50'
+												className='group relative block h-64 sm:h-96 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500 ring-1 ring-slate-200 hover:ring-2 hover:ring-yellow-400/50'
 											>
 												<div className='absolute inset-0 bg-slate-200'>
 													{barber.previewImageUrl || barber.portfolio[0] ? (
@@ -359,24 +441,24 @@ export const HomePage = () => {
 												</div>
 
 												{/* Content */}
-												<div className='absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500'>
-													<div className='flex items-center justify-between mb-3'>
-														<div className='bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-3 py-1 rounded-full text-xs font-extrabold tracking-wider shadow-lg shadow-yellow-500/20 flex items-center gap-1'>
-															<Crown className='w-3 h-3' />
+												<div className='absolute bottom-0 left-0 right-0 p-3 sm:p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500'>
+													<div className='flex items-center justify-between mb-2 sm:mb-3'>
+														<div className='bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-extrabold tracking-wider shadow-lg shadow-yellow-500/20 flex items-center gap-1'>
+															<Crown className='w-2.5 h-2.5 sm:w-3 sm:h-3' />
 															VIP
 														</div>
 													</div>
 
-													<h3 className='text-2xl font-bold mb-1.5 text-white group-hover:text-yellow-50 transition-colors'>
+													<h3 className='text-lg sm:text-2xl font-bold mb-1 sm:mb-1.5 text-white group-hover:text-yellow-50 transition-colors truncate'>
 														{barber.name}
 													</h3>
 
-													<div className='flex items-center text-slate-300 text-sm mb-4 font-medium'>
-														<MapPin className='w-4 h-4 mr-1.5 text-yellow-500' />
-														{barber.location}
+													<div className='flex items-center text-slate-300 text-xs sm:text-sm mb-2 sm:mb-4 font-medium truncate'>
+														<MapPin className='w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-1.5 text-yellow-500 flex-shrink-0' />
+														<span className='truncate'>{barber.location}</span>
 													</div>
 
-													<div className='flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100'>
+													<div className='flex flex-wrap gap-1 sm:gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 hidden sm:flex'>
 														{barber.specialties.slice(0, 3).map((tag) => (
 															<span
 																key={tag}
@@ -420,13 +502,13 @@ export const HomePage = () => {
 							<h2 className='text-2xl font-bold text-slate-900 mb-6'>
 								{t("home.all_barbers")}
 							</h2>
-							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+							<div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6'>
 								{filteredBarbers
 									.filter((b) => b.tier !== "vip")
 									.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
 									.map((barber) => (
 										<Link key={barber.id} to={`/barbers/${barber.id}`} className='group'>
-											<div className='bg-white rounded-[1.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col'>
+											<div className='bg-white rounded-2xl sm:rounded-[1.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col'>
 												<div className='aspect-square relative overflow-hidden bg-slate-100'>
 													{barber.previewImageUrl || barber.portfolio[0] ? (
 														<img
@@ -445,28 +527,28 @@ export const HomePage = () => {
 													</div>
 												</div>
 
-												<div className='p-5 flex flex-col flex-grow'>
-													<div className='mb-3'>
-														<h3 className='text-lg font-bold text-slate-900 mb-1 group-hover:text-primary-600 transition-colors'>
+												<div className='p-3 sm:p-5 flex flex-col flex-grow'>
+													<div className='mb-2 sm:mb-3'>
+														<h3 className='text-base sm:text-lg font-bold text-slate-900 mb-0.5 sm:mb-1 group-hover:text-primary-600 transition-colors truncate'>
 															{barber.name}
 														</h3>
-														<div className='flex items-center text-slate-500 text-sm'>
-															<MapPin className='w-3.5 h-3.5 mr-1 text-slate-400' />
-															{barber.location}
+														<div className='flex items-center text-slate-500 text-xs sm:text-sm truncate'>
+															<MapPin className='w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 text-slate-400 flex-shrink-0' />
+															<span className='truncate'>{barber.location}</span>
 														</div>
 													</div>
 
-													<div className='flex flex-wrap gap-1.5 mt-auto'>
+													<div className='flex flex-wrap gap-1 sm:gap-1.5 mt-auto'>
 														{barber.specialties.slice(0, 2).map((tag) => (
 															<span
 																key={tag}
-																className='px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-bold uppercase tracking-wide rounded-md border border-slate-100'
+																className='px-2 py-0.5 sm:px-2.5 sm:py-1 bg-slate-50 text-slate-600 text-[9px] sm:text-[10px] font-bold uppercase tracking-wide rounded-md border border-slate-100'
 															>
 																{tag}
 															</span>
 														))}
 														{barber.specialties.length > 2 && (
-															<span className='px-2.5 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-md border border-slate-100'>
+															<span className='px-2 py-0.5 sm:px-2.5 sm:py-1 bg-slate-50 text-slate-400 text-[9px] sm:text-[10px] font-bold rounded-md border border-slate-100'>
 																+{barber.specialties.length - 2}
 															</span>
 														)}

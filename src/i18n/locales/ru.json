@@ -212,7 +212,12 @@
 			"unverified_desc": "Загрузите документ для подтверждения.",
 			"upload_doc": "Загрузить ID или сертификат",
 			"submit_verification": "Отправить запрос",
-			"upload_hint": "Пожалуйста, предоставьте ссылку на ваш документ (Google Drive, Dropbox и т.д.)"
+			"upload_hint": "Пожалуйста, предоставьте ссылку на ваш документ (Google Drive, Dropbox и т.д.)",
+			"address_hint": "Введите адрес, чтобы увидеть его на карте",
+			"map_preview": "Предпросмотр карты",
+			"open_in_maps": "Открыть в Google Maps",
+			"map_warning": "Пожалуйста, проверьте правильность местоположения на карте",
+			"official_address": "Официальный адрес"
 		},
 		"schedule": {
 			"title": "Рабочие часы",
@@ -307,7 +312,8 @@
 		}
 	},
 	"common": {
-		"loading": "Загрузка..."
+		"loading": "Загрузка...",
+		"check_map": "Проверить карту"
 	},
 	"pages": {
 		"features": {

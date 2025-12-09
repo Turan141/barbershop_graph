@@ -403,6 +403,11 @@
 			"email": "Email Address",
 			"phone": "Phone Number",
 			"address": "Address / Location",
+			"address_hint": "Enter the full address (City, Street, Building) to ensure clients can find you.",
+			"map_preview": "Location Preview",
+			"open_in_maps": "Open in Google Maps",
+			"map_warning": "If the map is incorrect, please add more details to the address field.",
+			"official_address": "Official Address",
 			"about": "About You",
 			"about_placeholder": "Tell clients about your experience and skills...",
 			"specialties": "Specialties",
@@ -511,7 +516,8 @@
 		}
 	},
 	"common": {
-		"loading": "Loading..."
+		"loading": "Loading...",
+		"check_map": "Check Map"
 	},
 	"user_bookings": {
 		"title": "My Appointments",

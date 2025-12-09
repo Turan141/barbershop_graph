@@ -21,7 +21,9 @@ import {
 	Check,
 	Upload,
 	Camera,
-	ShieldCheck
+	ShieldCheck,
+	ExternalLink,
+	AlertCircle
 } from "lucide-react"
 import clsx from "clsx"
 import { DashboardStats } from "../components/DashboardStats"
@@ -57,6 +59,36 @@ export const BarberDashboardPage = () => {
 
 	// Form states
 	const [formData, setFormData] = useState<Partial<Barber>>({})
+	const [previewAddress, setPreviewAddress] = useState<string>("")
+	const [checkingMap, setCheckingMap] = useState(false)
+
+	const handleCheckMap = async () => {
+		if (!formData.location) return
+		setCheckingMap(true)
+		try {
+			// Try to get full address from OpenStreetMap Nominatim API
+			const response = await fetch(
+				`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+					formData.location
+				)}&limit=1`
+			)
+			const data = await response.json()
+
+			if (data && data.length > 0) {
+				const fullAddress = data[0].display_name
+				setFormData((prev) => ({ ...prev, location: fullAddress }))
+				setPreviewAddress(fullAddress)
+			} else {
+				// Fallback if not found
+				setPreviewAddress(formData.location)
+			}
+		} catch (error) {
+			console.error("Failed to fetch address details", error)
+			setPreviewAddress(formData.location)
+		} finally {
+			setCheckingMap(false)
+		}
+	}
 
 	useEffect(() => {
 		const fetchBarber = async () => {
@@ -66,6 +98,7 @@ export const BarberDashboardPage = () => {
 				const data = await api.barbers.get(user.id)
 				setBarber(data)
 				setFormData(data)
+				setPreviewAddress(data.location || "")
 			} catch (error: any) {
 				console.error("Failed to fetch barber profile", error)
 				setMessage({
@@ -381,11 +414,99 @@ export const BarberDashboardPage = () => {
 												type='text'
 												value={formData.location || ""}
 												onChange={(e) =>
-													setFormData({ ...formData, location: e.target.value })
+													setFormData({
+														...formData,
+														location: e.target.value,
+														isAddressVerified: false
+													})
 												}
-												className='input-field pl-10'
+												className='input-field pl-10 pr-28'
+												placeholder='e.g. Baku, Nizami Street 10'
 											/>
+											<button
+												type='button'
+												onClick={handleCheckMap}
+												disabled={checkingMap || !formData.location}
+												className='absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1.5 rounded border border-slate-200 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1'
+											>
+												{checkingMap && (
+													<div className='w-3 h-3 border-2 border-slate-400 border-t-transparent rounded-full animate-spin'></div>
+												)}
+												{t("common.check_map") || "Check Map"}
+											</button>
 										</div>
+										<p className='text-xs text-slate-500 mt-1 mb-3'>
+											{t("dashboard.profile.address_hint") ||
+												"Enter the full address (City, Street, Building) to ensure clients can find you."}
+										</p>
+										{previewAddress && (
+											<div className='bg-slate-50 p-3 rounded-xl border border-slate-200'>
+												<div className='flex justify-between items-center mb-2'>
+													<span className='text-xs font-bold text-slate-700 uppercase tracking-wider'>
+														{t("dashboard.profile.map_preview") || "Location Preview"}
+													</span>
+													<a
+														href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+															previewAddress
+														)}`}
+														target='_blank'
+														rel='noopener noreferrer'
+														className='text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1'
+													>
+														{t("dashboard.profile.open_in_maps") || "Open in Google Maps"}
+														<ExternalLink className='w-3 h-3' />
+													</a>
+												</div>
+												<div className='rounded-lg overflow-hidden h-48 shadow-sm bg-white relative'>
+													<iframe
+														title='Map Preview'
+														width='100%'
+														height='100%'
+														frameBorder='0'
+														scrolling='no'
+														marginHeight={0}
+														marginWidth={0}
+														src={`https://maps.google.com/maps?q=${encodeURIComponent(
+															previewAddress
+														)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+														className='w-full h-full'
+													></iframe>
+												</div>
+												<p className='text-[10px] text-amber-600 mt-2 flex items-start gap-1'>
+													<AlertCircle className='w-3 h-3 mt-0.5 flex-shrink-0' />
+													{t("dashboard.profile.map_warning") ||
+														"If the map is incorrect, please add more details to the address field."}
+												</p>
+												<div className='mt-3 flex items-center gap-2'>
+													<input
+														type='checkbox'
+														id='confirm-address'
+														checked={formData.isAddressVerified || false}
+														onChange={(e) =>
+															setFormData({
+																...formData,
+																isAddressVerified: e.target.checked
+															})
+														}
+														disabled={
+															!previewAddress || previewAddress !== formData.location
+														}
+														className='w-4 h-4 text-primary-600 rounded border-slate-300 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed'
+													/>
+													<label
+														htmlFor='confirm-address'
+														className={clsx(
+															"text-xs font-medium text-slate-700",
+															(!previewAddress || previewAddress !== formData.location) &&
+																"opacity-50 cursor-not-allowed"
+														)}
+													>
+														{t("dashboard.profile.official_address") ||
+															"Official Address"}
+													</label>
+												</div>
+											</div>
+										)}
 									</div>
 								</div>
 

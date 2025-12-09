@@ -134,10 +134,30 @@ export const BarberProfilePage = () => {
 											<h1 className='text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-2'>
 												{barber.name}
 											</h1>
-											<div className='flex items-center justify-center sm:justify-start text-slate-500 font-medium bg-slate-50 inline-flex px-3 py-1 rounded-full border border-slate-100'>
-												<MapPin className='w-3.5 h-3.5 mr-1.5 text-primary-500' />
-												{barber.location}
-											</div>
+											<a
+												href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+													barber.location
+												)}`}
+												target='_blank'
+												rel='noopener noreferrer'
+												className='flex items-center justify-center sm:justify-start text-slate-500 font-medium bg-slate-50 inline-flex px-3 py-1 rounded-full border border-slate-100 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 transition-all group/location'
+											>
+												<MapPin className='w-3.5 h-3.5 mr-1.5 text-primary-500 group-hover/location:scale-110 transition-transform' />
+												<span className='truncate max-w-[200px] sm:max-w-xs'>
+													{barber.location}
+												</span>
+												{barber.isAddressVerified && (
+													<span
+														className='ml-2 flex items-center gap-1 text-[10px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded border border-green-100 flex-shrink-0'
+														title={t("dashboard.profile.official_address")}
+													>
+														<ShieldCheck className='w-3 h-3' />
+														<span className='hidden sm:inline'>
+															{t("dashboard.profile.official_address")}
+														</span>
+													</span>
+												)}
+											</a>
 										</div>
 
 										{/* Actions */}
