@@ -1,9 +1,20 @@
 import { Barber, Booking, User, Review } from "../types"
 import { useAuthStore } from "../store/authStore"
+import { Capacitor } from "@capacitor/core"
 
-const API_BASE =
-	import.meta.env.VITE_API_URL ||
-	(import.meta.env.PROD ? "/api" : "http://localhost:3000/api")
+const getApiBase = () => {
+	// If running in Capacitor (Native Mobile App)
+	if (Capacitor.isNativePlatform()) {
+		return "http://10.0.2.2:3000/api"
+	}
+	// If running in Browser (Development or Production)
+	return (
+		import.meta.env.VITE_API_URL ||
+		(import.meta.env.PROD ? "/api" : "http://localhost:3000/api")
+	)
+}
+
+const API_BASE = getApiBase()
 
 async function handleResponse<T>(response: Response): Promise<T> {
 	if (!response.ok) {

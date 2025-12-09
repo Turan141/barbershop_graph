@@ -15,6 +15,7 @@ import clsx from "clsx"
 import { Barber, Service, Booking } from "../types"
 import { api } from "../services/api"
 import { useAuthStore } from "../store/authStore"
+import { NotificationService } from "../services/notifications"
 
 const locales: Record<string, any> = {
 	en: enUS,
@@ -70,13 +71,23 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
 		setBookingStatus("submitting")
 		try {
-			await api.bookings.create({
+			const booking = await api.bookings.create({
 				barberId: barber.id,
 				clientId: user.id,
 				serviceId: selectedService.id,
 				date: selectedDate,
 				time: selectedTime
 			})
+
+			// Schedule local notification
+			await NotificationService.requestPermissions()
+			await NotificationService.scheduleBookingReminder(
+				booking.id,
+				barber.name || "Barber",
+				selectedDate,
+				selectedTime
+			)
+
 			setBookingStatus("success")
 			if (onSuccess) onSuccess()
 		} catch (error) {
