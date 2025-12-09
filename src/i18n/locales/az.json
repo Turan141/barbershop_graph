@@ -9,8 +9,8 @@
 		"register": "Qeydiyyat"
 	},
 	"home": {
-		"hero_title": "Növbəti Mükəmməl",
-		"hero_subtitle": "Saç Kəsiminizi Tapın",
+		"hero_title": "Növbəti mükəmməl",
+		"hero_subtitle": "saç kəsiminizi tapın",
 		"hero_desc": "Bölgənizdəki ən yaxşı bərbərləri kəşf edin, portfoliolarına baxın və saniyələr içində randevu alın.",
 		"search_placeholder": "Ad, məkan və ya xidmət üzrə axtar...",
 		"search_btn": "Axtar",
@@ -46,6 +46,7 @@
 		}
 	},
 	"categories": {
+		"All": "Hamısı",
 		"Men": "Kişi",
 		"Women": "Qadın",
 		"Kids": "Uşaq",

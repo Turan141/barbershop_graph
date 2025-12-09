@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["Rockwell", "sans-serif"]
+				sans: ["Euclid Circular B", "sans-serif"]
 			},
 			colors: {
 				primary: {
