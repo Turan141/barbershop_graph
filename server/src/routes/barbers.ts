@@ -251,6 +251,7 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 		// Update BarberProfile info
 		const updateData: any = {}
 		if (data.location) updateData.location = data.location
+		if (data.phone) updateData.phone = data.phone
 		if (data.bio) updateData.bio = data.bio
 		if (data.specialties) updateData.specialties = JSON.stringify(data.specialties)
 		if (data.schedule) updateData.schedule = JSON.stringify(data.schedule)

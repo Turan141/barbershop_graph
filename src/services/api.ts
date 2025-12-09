@@ -80,16 +80,12 @@ export const api = {
 		listForBarber: (barberId: string) =>
 			fetch(`${API_BASE}/barbers/${barberId}/bookings`, {
 				headers: getHeaders()
-			}).then((res) =>
-				handleResponse<Booking[]>(res)
-			),
+			}).then((res) => handleResponse<Booking[]>(res)),
 
 		listForClient: (clientId: string) =>
 			fetch(`${API_BASE}/users/${clientId}/bookings`, {
 				headers: getHeaders()
-			}).then((res) =>
-				handleResponse<Booking[]>(res)
-			),
+			}).then((res) => handleResponse<Booking[]>(res)),
 
 		updateStatus: (id: string, status: Booking["status"], comment?: string) =>
 			fetch(`${API_BASE}/bookings/${id}`, {
@@ -103,9 +99,7 @@ export const api = {
 		list: (userId: string) =>
 			fetch(`${API_BASE}/users/${userId}/favorites`, {
 				headers: getHeaders()
-			}).then((res) =>
-				handleResponse<Barber[]>(res)
-			),
+			}).then((res) => handleResponse<Barber[]>(res)),
 
 		add: (userId: string, barberId: string) =>
 			fetch(`${API_BASE}/users/${userId}/favorites`, {

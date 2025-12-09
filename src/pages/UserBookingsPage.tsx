@@ -14,9 +14,17 @@ import {
 import clsx from "clsx"
 import { Link, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import { format } from "date-fns"
+import { enUS, ru, az } from "date-fns/locale"
+
+const locales: Record<string, any> = {
+	en: enUS,
+	ru: ru,
+	az: az
+}
 
 export const UserBookingsPage = () => {
-	const { t } = useTranslation()
+	const { t, i18n } = useTranslation()
 	const { user } = useAuthStore()
 	const navigate = useNavigate()
 	const [bookings, setBookings] = useState<Booking[]>([])
@@ -141,7 +149,10 @@ export const UserBookingsPage = () => {
 							</h3>
 							<div className='flex items-center gap-2 text-xs text-slate-500'>
 								<span className='flex items-center gap-1'>
-									<Calendar className='w-3 h-3' /> {booking.date}
+									<Calendar className='w-3 h-3' />
+									{format(new Date(booking.date), "d MMMM", {
+										locale: locales[i18n.language] || enUS
+									})}
 								</span>
 								<span className='flex items-center gap-1'>
 									<Clock className='w-3 h-3' /> {booking.time}
@@ -329,14 +340,45 @@ export const UserBookingsPage = () => {
 			</div>
 
 			{loading ? (
-				<div className='space-y-4'>
-					{[1, 2, 3].map((i) => (
-						<div
-							key={i}
-							className='bg-white rounded-xl h-32 animate-pulse shadow-sm border border-slate-100'
-						></div>
-					))}
-				</div>
+				isBarber ? (
+					<>
+						{/* Mobile Skeleton */}
+						<div className='md:hidden space-y-4'>
+							{[1, 2, 3].map((i) => (
+								<div
+									key={i}
+									className='bg-white rounded-xl h-32 animate-pulse shadow-sm border border-slate-100'
+								></div>
+							))}
+						</div>
+						{/* Desktop Skeleton */}
+						<div className='hidden md:grid grid-cols-4 gap-6 h-[600px]'>
+							{[1, 2, 3, 4].map((i) => (
+								<div
+									key={i}
+									className='bg-slate-50/50 rounded-2xl border border-slate-200/60 h-full flex flex-col animate-pulse'
+								>
+									<div className='p-4 border-b border-slate-100'>
+										<div className='h-6 w-24 bg-slate-200 rounded'></div>
+									</div>
+									<div className='p-3 space-y-3'>
+										<div className='h-32 bg-white rounded-xl'></div>
+										<div className='h-32 bg-white rounded-xl'></div>
+									</div>
+								</div>
+							))}
+						</div>
+					</>
+				) : (
+					<div className='space-y-4 max-w-3xl mx-auto'>
+						{[1, 2, 3].map((i) => (
+							<div
+								key={i}
+								className='bg-white rounded-xl h-32 animate-pulse shadow-sm border border-slate-100'
+							></div>
+						))}
+					</div>
+				)
 			) : bookings.length === 0 ? (
 				<div className='text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200'>
 					<Calendar className='w-16 h-16 text-slate-300 mx-auto mb-4' />

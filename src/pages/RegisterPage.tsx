@@ -23,7 +23,7 @@ export const RegisterPage = () => {
 		try {
 			const { user, token } = await api.auth.register({ name, email, password, role })
 			login(user, token)
-			navigate(role === "barber" ? "/dashboard" : "/")
+			navigate(role === "barber" ? "/bookings" : "/")
 		} catch (err: any) {
 			console.error("Registration error:", err)
 			let errorMessage = t("auth.registration_failed")

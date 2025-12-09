@@ -196,6 +196,7 @@
 			"specialties_placeholder": "məs. Saç kəsimi, Saqqal, Formaya salma (vergüllə ayırın)"
 		},
 		"schedule": {
+			"add_time": "Vaxt əlavə et",
 			"title": "İş Saatları",
 			"days": {
 				"monday": "Bazar ertəsi",

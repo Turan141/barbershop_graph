@@ -22,8 +22,18 @@ export const LoginPage = () => {
 		try {
 			const { user, token } = await api.auth.login(email, password)
 			login(user, token)
-			const from = location.state?.from || "/"
-			navigate(from)
+
+			// Redirect logic
+			if (location.state?.from) {
+				navigate(location.state.from)
+			} else {
+				// Default redirects based on role
+				if (user.role === "barber") {
+					navigate("/bookings")
+				} else {
+					navigate("/")
+				}
+			}
 		} catch (err) {
 			setError(t("auth.login_failed"))
 		} finally {
