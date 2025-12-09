@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['"Outfit"', "sans-serif"]
+				sans: ["Rockwell", "sans-serif"]
 			},
 			colors: {
 				primary: {

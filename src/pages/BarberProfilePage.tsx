@@ -105,79 +105,102 @@ export const BarberProfilePage = () => {
 				{/* Left Column: Info (8 cols) */}
 				<div className='lg:col-span-8 space-y-8'>
 					{/* Profile Header Card */}
-					<div className='card p-8 relative overflow-hidden bg-white group'>
-						<div className='absolute top-0 left-0 w-full h-32 bg-slate-100 overflow-hidden'>
-							<div className='absolute inset-0 bg-[linear-gradient(to_right,#0000000d_1px,transparent_1px),linear-gradient(to_bottom,#0000000d_1px,transparent_1px)] bg-[size:24px_24px]'></div>
-							<div className='absolute -top-24 -right-24 w-96 h-96 bg-primary-200/40 rounded-full blur-3xl'></div>
-							<div className='absolute -bottom-24 -left-24 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl'></div>
-						</div>
-						<div className='relative flex flex-col sm:flex-row gap-6 items-start pt-12'>
-							<div className='relative'>
-								<img
-									src={barber.avatarUrl}
-									alt={barber.name}
-									className='w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-lg'
-								/>
-								<div className='absolute -bottom-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full border-2 border-white'>
-									{t("profile.open")}
-								</div>
-							</div>
+					<div className='relative bg-white rounded-[2rem] shadow-xl shadow-slate-200/60 overflow-hidden border border-slate-100 isolate'>
+						{/* Decorative Background Elements */}
+						<div className='absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 rounded-full bg-primary-50 blur-3xl opacity-60 pointer-events-none'></div>
+						<div className='absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 rounded-full bg-blue-50 blur-3xl opacity-60 pointer-events-none'></div>
 
-							<div className='flex-grow pt-2'>
-								<div className='flex justify-between items-start'>
-									<div>
-										<h1 className='text-3xl font-bold text-slate-900'>{barber.name}</h1>
-										<div className='flex items-center text-slate-500 mt-2'>
-											<MapPin className='w-4 h-4 mr-1' />
-											{barber.location}
-										</div>
+						<div className='relative p-8 sm:p-10'>
+							<div className='flex flex-col sm:flex-row gap-8 items-start'>
+								{/* Avatar Section */}
+								<div className='relative flex-shrink-0 mx-auto sm:mx-0'>
+									<div className='w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1.5 bg-gradient-to-tr from-primary-500 via-blue-500 to-cyan-400 shadow-lg'>
+										<img
+											src={barber.avatarUrl}
+											alt={barber.name}
+											className='w-full h-full rounded-full object-cover border-4 border-white bg-white'
+										/>
 									</div>
-									<button
-										onClick={toggleFavorite}
-										className={clsx(
-											"p-3 rounded-xl transition-all border",
-											isFav
-												? "bg-red-50 border-red-100 text-red-500"
-												: "bg-white border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-100"
-										)}
-									>
-										<Heart className={clsx("w-6 h-6", isFav && "fill-current")} />
-									</button>
+									<div className='absolute bottom-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full border-[3px] border-white shadow-sm flex items-center gap-1.5'>
+										<div className='w-1.5 h-1.5 rounded-full bg-white animate-pulse'></div>
+										{t("profile.open")}
+									</div>
 								</div>
 
-								<div className='flex items-center gap-6 mt-6'>
-									<div className='flex items-center gap-2'>
-										<div className='bg-yellow-100 p-1.5 rounded-lg'>
-											<Star className='w-5 h-5 text-yellow-600 fill-yellow-600' />
-										</div>
+								{/* Info Section */}
+								<div className='flex-grow text-center sm:text-left space-y-6 w-full'>
+									<div className='flex flex-col sm:flex-row justify-between items-start gap-4'>
 										<div>
-											<div className='font-bold text-slate-900'>{barber.rating}</div>
-											<div className='text-xs text-slate-500'>
-												{barber.reviewCount} {t("profile.reviews")}
+											<h1 className='text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-2'>
+												{barber.name}
+											</h1>
+											<div className='flex items-center justify-center sm:justify-start text-slate-500 font-medium bg-slate-50 inline-flex px-3 py-1 rounded-full border border-slate-100'>
+												<MapPin className='w-3.5 h-3.5 mr-1.5 text-primary-500' />
+												{barber.location}
 											</div>
 										</div>
-									</div>
-									<div className='w-px h-8 bg-slate-200'></div>
-									<div className='flex items-center gap-2'>
-										<div className='bg-blue-100 p-1.5 rounded-lg'>
-											<ShieldCheck className='w-5 h-5 text-blue-600' />
+
+										{/* Actions */}
+										<div className='flex items-center gap-2 justify-center sm:justify-end w-full sm:w-auto'>
+											<button
+												onClick={toggleFavorite}
+												className={clsx(
+													"group flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 border",
+													isFav
+														? "bg-red-50 border-red-100 text-red-500 shadow-inner"
+														: "bg-white border-slate-200 text-slate-400 hover:border-primary-200 hover:text-primary-600 hover:shadow-md"
+												)}
+											>
+												<Heart
+													className={clsx(
+														"w-6 h-6 transition-transform group-active:scale-90",
+														isFav && "fill-current"
+													)}
+												/>
+											</button>
 										</div>
-										<div>
-											<div className='font-bold text-slate-900'>
+									</div>
+
+									{/* Stats Grid */}
+									<div className='grid grid-cols-3 gap-4 py-6 border-y border-slate-100/80'>
+										<div className='text-center sm:text-left'>
+											<div className='flex items-center justify-center sm:justify-start gap-1.5 text-slate-900 font-bold text-2xl'>
+												<Star className='w-5 h-5 text-yellow-400 fill-yellow-400' />
+												{barber.rating}
+											</div>
+											<div className='text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1'>
+												{t("profile.rating")}
+											</div>
+										</div>
+										<div className='text-center sm:text-left border-l border-slate-100 pl-4 sm:pl-8'>
+											<div className='text-slate-900 font-bold text-2xl'>
+												{barber.reviewCount}
+											</div>
+											<div className='text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1'>
+												{t("profile.reviews")}
+											</div>
+										</div>
+										<div className='text-center sm:text-left border-l border-slate-100 pl-4 sm:pl-8'>
+											<div className='flex items-center justify-center sm:justify-start gap-1.5 text-blue-600 font-bold text-xl'>
+												<ShieldCheck className='w-6 h-6' />
+											</div>
+											<div className='text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1'>
 												{t("profile.verified")}
 											</div>
-											<div className='text-xs text-slate-500'>
-												{t("profile.professional")}
-											</div>
 										</div>
+									</div>
+
+									{/* Bio */}
+									<div className='pt-1'>
+										<h3 className='text-sm font-bold text-slate-900 mb-2 uppercase tracking-wide opacity-80'>
+											{t("profile.about")}
+										</h3>
+										<p className='text-slate-600 leading-relaxed text-sm sm:text-base font-light'>
+											{barber.bio}
+										</p>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<div className='mt-8 pt-8 border-t border-slate-100'>
-							<h3 className='font-semibold text-slate-900 mb-3'>{t("profile.about")}</h3>
-							<p className='text-slate-600 leading-relaxed'>{barber.bio}</p>
 						</div>
 					</div>
 

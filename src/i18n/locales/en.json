@@ -303,6 +303,7 @@
 		"registration_failed": "Registration failed. Please try again."
 	},
 	"profile": {
+		"rating": "Rating",
 		"avatar_url": "Profile Picture URL",
 		"available_times": "Available Times",
 		"no_slots": "No available slots for the selected date.",

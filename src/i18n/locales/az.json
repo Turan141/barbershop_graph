@@ -98,6 +98,7 @@
 		"registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin."
 	},
 	"profile": {
+		"rating": "Reytinq",
 		"back_to_search": "Axtarışa qayıt",
 		"open": "AÇIQ",
 		"reviews": "rəy",
