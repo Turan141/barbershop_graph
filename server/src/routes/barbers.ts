@@ -351,6 +351,9 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 		if (data.schedule) updateData.schedule = JSON.stringify(data.schedule)
 		if (data.portfolio) updateData.portfolio = JSON.stringify(data.portfolio)
 		if (data.holidays) updateData.holidays = JSON.stringify(data.holidays)
+		if (data.verificationDocumentUrl)
+			updateData.verificationDocumentUrl = data.verificationDocumentUrl
+		if (data.verificationStatus === "pending") updateData.verificationStatus = "pending"
 
 		// Handle Services Update
 		if (data.services && Array.isArray(data.services)) {

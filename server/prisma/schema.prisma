@@ -43,6 +43,10 @@ model BarberProfile {
   holidays    String?  // JSON string: string[]
   tier        String?  // "vip" | "standard"
   portfolio   String   // JSON string: string[]
+  
+  // Verification
+  verificationStatus      String   @default("none") // "none" | "pending" | "verified" | "rejected"
+  verificationDocumentUrl String?
 
   // Relations
   services    Service[]

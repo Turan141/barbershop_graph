@@ -14,6 +14,13 @@ export interface Service {
 	currency: string
 }
 
+export interface BarberScheduleItem {
+	start: string // "09:00"
+	end: string // "18:00"
+	lunchStart?: string
+	lunchEnd?: string
+}
+
 export interface Barber extends User {
 	role: "barber"
 	specialties: string[]
@@ -24,8 +31,10 @@ export interface Barber extends User {
 	services: Service[]
 	portfolio: string[]
 	bio: string
+	verificationStatus: "none" | "pending" | "verified" | "rejected"
+	verificationDocumentUrl?: string
 	schedule: {
-		[key: string]: string[] // "Monday": ["09:00", "10:00", ...]
+		[key: string]: BarberScheduleItem | null // "Monday": { start: "09:00", end: "18:00" }
 	}
 	holidays?: string[] // ISO date strings YYYY-MM-DD
 	tier?: "vip" | "standard"

@@ -18,12 +18,14 @@ import { TermsPage } from "./pages/TermsPage"
 import { ScrollToTop } from "./components/ScrollToTop"
 import { ProtectedRoute } from "./components/ProtectedRoute"
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Toaster } from "react-hot-toast"
 
 function App() {
 	return (
 		<BrowserRouter>
 			<ScrollToTop />
 			<SpeedInsights />
+			<Toaster position='top-center' />
 			<Layout>
 				<Routes>
 					<Route path='/' element={<HomePage />} />

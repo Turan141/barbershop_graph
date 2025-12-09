@@ -162,7 +162,14 @@ export const BarberProfilePage = () => {
 									</div>
 
 									{/* Stats Grid */}
-									<div className='grid grid-cols-3 gap-4 py-6 border-y border-slate-100/80'>
+									<div
+										className={clsx(
+											"grid gap-4 py-6 border-y border-slate-100/80",
+											barber.verificationStatus === "verified"
+												? "grid-cols-3"
+												: "grid-cols-2"
+										)}
+									>
 										<div className='text-center sm:text-left'>
 											<div className='flex items-center justify-center sm:justify-start gap-1.5 text-slate-900 font-bold text-2xl'>
 												<Star className='w-5 h-5 text-yellow-400 fill-yellow-400' />
@@ -180,14 +187,16 @@ export const BarberProfilePage = () => {
 												{t("profile.reviews")}
 											</div>
 										</div>
-										<div className='text-center sm:text-left border-l border-slate-100 pl-4 sm:pl-8'>
-											<div className='flex items-center justify-center sm:justify-start gap-1.5 text-blue-600 font-bold text-xl'>
-												<ShieldCheck className='w-6 h-6' />
+										{barber.verificationStatus === "verified" && (
+											<div className='text-center sm:text-left border-l border-slate-100 pl-4 sm:pl-8'>
+												<div className='flex items-center justify-center sm:justify-start gap-1.5 text-blue-600 font-bold text-xl'>
+													<ShieldCheck className='w-6 h-6' />
+												</div>
+												<div className='text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1'>
+													{t("profile.verified")}
+												</div>
 											</div>
-											<div className='text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1'>
-												{t("profile.verified")}
-											</div>
-										</div>
+										)}
 									</div>
 
 									{/* Bio */}

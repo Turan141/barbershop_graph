@@ -105,14 +105,28 @@ export const UserBookingsPage = () => {
 	const renderBookingCard = (booking: Booking) => {
 		const barber = barbers[booking.barberId]
 		const client = isBarber ? clients[booking.clientId] : null
-		const service = barber?.services?.find((s) => s.id === booking.serviceId)
-		const isPast = new Date(booking.date + "T" + booking.time) < new Date()
+		// @ts-ignore - service is included in the API response
+		const service =
+			booking.service || barber?.services?.find((s) => s.id === booking.serviceId)
+
+		// Calculate if booking is in the past
+		// Note: We use a simple comparison. For more robust timezone handling, consider using date-fns or moment-timezone
+		const bookingDateTime = new Date(`${booking.date}T${booking.time}`)
+		const now = new Date()
+		const isPast = bookingDateTime < now
+
+		// Allow cancelling if it's not past OR if it's pending (even if past, to clean up)
+		const canCancel =
+			!isBarber &&
+			booking.status !== "cancelled" &&
+			(!isPast || booking.status === "pending")
+
 		return (
 			<div
 				key={booking.id}
 				className={clsx(
 					"bg-white p-4 rounded-xl border transition-all flex flex-col gap-3 shadow-sm",
-					isPast
+					isPast && booking.status !== "pending"
 						? "border-slate-100 opacity-75"
 						: "border-slate-200 hover:shadow-md hover:border-primary-200"
 				)}
@@ -236,7 +250,7 @@ export const UserBookingsPage = () => {
 					) : (
 						<>
 							{/* Client Cancel Action */}
-							{!isBarber && !isPast && booking.status !== "cancelled" && (
+							{canCancel && (
 								<button
 									onClick={() => {
 										setCancellingBookingId(booking.id)
@@ -250,38 +264,40 @@ export const UserBookingsPage = () => {
 							)}
 
 							{/* Barber Actions */}
-							{isBarber && !isPast && booking.status !== "cancelled" && (
-								<div className='flex gap-2 w-full justify-end pt-2 border-t border-slate-50 mt-1'>
-									{(booking.status === "pending" || booking.status === "upcoming") && (
+							{isBarber &&
+								(!isPast || booking.status === "pending") &&
+								booking.status !== "cancelled" && (
+									<div className='flex gap-2 w-full justify-end pt-2 border-t border-slate-50 mt-1'>
+										{(booking.status === "pending" || booking.status === "upcoming") && (
+											<button
+												onClick={() => handleStatusChange(booking.id, "confirmed")}
+												className='flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-xs font-medium'
+											>
+												<Check className='w-4 h-4' />
+												{t("dashboard.bookings.actions.confirm")}
+											</button>
+										)}
+										{booking.status === "confirmed" && (
+											<button
+												onClick={() => handleStatusChange(booking.id, "completed")}
+												className='flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-xs font-medium'
+											>
+												<CheckCircle className='w-4 h-4' />
+												{t("dashboard.bookings.actions.complete")}
+											</button>
+										)}
 										<button
-											onClick={() => handleStatusChange(booking.id, "confirmed")}
-											className='flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-xs font-medium'
+											onClick={() => {
+												setCancellingBookingId(booking.id)
+												setCancelReason("")
+											}}
+											className='px-3 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors text-xs font-medium'
+											title={t("dashboard.bookings.actions.cancel")}
 										>
-											<Check className='w-4 h-4' />
-											{t("dashboard.bookings.actions.confirm")}
+											<X className='w-4 h-4' />
 										</button>
-									)}
-									{booking.status === "confirmed" && (
-										<button
-											onClick={() => handleStatusChange(booking.id, "completed")}
-											className='flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-xs font-medium'
-										>
-											<CheckCircle className='w-4 h-4' />
-											{t("dashboard.bookings.actions.complete")}
-										</button>
-									)}
-									<button
-										onClick={() => {
-											setCancellingBookingId(booking.id)
-											setCancelReason("")
-										}}
-										className='px-3 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors text-xs font-medium'
-										title={t("dashboard.bookings.actions.cancel")}
-									>
-										<X className='w-4 h-4' />
-									</button>
-								</div>
-							)}
+									</div>
+								)}
 						</>
 					)}
 				</div>

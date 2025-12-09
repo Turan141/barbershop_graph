@@ -16,6 +16,8 @@ import { Barber, Service, Booking } from "../types"
 import { api } from "../services/api"
 import { useAuthStore } from "../store/authStore"
 import { NotificationService } from "../services/notifications"
+import { isSlotAvailable, generateTimeSlots } from "../utils/bookingLogic"
+import toast from "react-hot-toast"
 
 const locales: Record<string, any> = {
 	en: enUS,
@@ -90,8 +92,35 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
 			setBookingStatus("success")
 			if (onSuccess) onSuccess()
-		} catch (error) {
+		} catch (error: any) {
 			setBookingStatus("error")
+			let message = t("profile.booking_failed") || "Failed to book appointment"
+			try {
+				// Try to parse the error message if it's JSON string from api.ts handleResponse
+				const parsed = JSON.parse(error.message)
+
+				// Check for error code first for translation
+				if (parsed.errorCode) {
+					const translatedError = t(`profile.errors.${parsed.errorCode}`)
+					// If translation exists and is not the key itself (basic check, though i18next usually returns key if missing)
+					if (
+						translatedError &&
+						translatedError !== `profile.errors.${parsed.errorCode}`
+					) {
+						message = translatedError
+					} else if (parsed.error) {
+						message = parsed.error
+					}
+				} else if (parsed.error) {
+					message = parsed.error
+				}
+			} catch (e) {
+				// If parsing fails, use the error message directly if available
+				if (error.message) {
+					message = error.message
+				}
+			}
+			toast.error(message)
 		}
 	}
 
@@ -108,9 +137,30 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		}
 	})
 
-	const availableSlots = selectedDate
-		? barber.schedule[dates.find((d) => d.value === selectedDate)?.dayName || ""] || []
-		: []
+	const generateSlots = () => {
+		if (!selectedDate || !selectedService) return []
+		const dayName = dates.find((d) => d.value === selectedDate)?.dayName || ""
+		const schedule = barber.schedule[dayName]
+
+		if (!schedule) return []
+
+		// Handle both legacy array format and new object format
+		let start = "09:00"
+		let end = "18:00"
+
+		if (Array.isArray(schedule)) {
+			console.warn(
+				"Encountered legacy schedule format (array). Using default 09:00-18:00."
+			)
+		} else if (typeof schedule === "object" && schedule !== null) {
+			start = (schedule as any).start || "09:00"
+			end = (schedule as any).end || "18:00"
+		}
+
+		return generateTimeSlots(start, end, selectedService.duration)
+	}
+
+	const availableSlots = generateSlots()
 
 	if (bookingStatus === "success") {
 		return (
@@ -156,14 +206,19 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 							)}
 						>
 							{selectedService ? (
-								<>
-									{selectedService.name}
-									<span className='mx-2 text-slate-300'>|</span>
-									<span className='text-primary-600'>
+								<div className='flex items-center overflow-hidden'>
+									<span className='truncate'>{selectedService.name}</span>
+									<span className='mx-2 text-slate-300 flex-shrink-0'>|</span>
+									<span className='text-primary-600 flex-shrink-0'>
 										{selectedService.currency === "AZN" ? "₼" : selectedService.currency}
 										{selectedService.price}
 									</span>
-								</>
+									<span className='mx-2 text-slate-300 flex-shrink-0'>|</span>
+									<span className='text-slate-500 text-sm flex-shrink-0 flex items-center gap-1'>
+										<Clock className='w-3 h-3' />
+										{selectedService.duration} {t("profile.min")}
+									</span>
+								</div>
 							) : (
 								t("profile.select_service_placeholder") || "Select a service..."
 							)}
@@ -289,7 +344,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 					(!selectedDate || !selectedService) && "opacity-50 pointer-events-none blur-sm"
 				)}
 			>
-				<label className='block text-sm font-bold text-slate-900 mb-4'>
+				<label className='block text-sm font-bold text-slate-900 mb-2'>
 					{t("profile.available_times")}{" "}
 					{selectedDate && (
 						<span className='font-normal text-slate-500 ml-2'>
@@ -297,18 +352,25 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						</span>
 					)}
 				</label>
+				<p className='text-xs text-slate-500 mb-4 flex items-start gap-1.5'>
+					<Clock className='w-3.5 h-3.5 mt-0.5 flex-shrink-0' />
+					{t("profile.dynamic_slots_hint") ||
+						"Time slots are calculated based on the service duration."}
+				</p>
 				<div className='grid grid-cols-3 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar'>
 					{availableSlots.length > 0 ? (
 						availableSlots.map((time) => {
-							const booking = bookings.find(
-								(b) =>
-									b.date === selectedDate && b.time === time && b.status !== "cancelled"
+							// Check for overlap with any existing booking
+							// We need to check if the [time, time + duration] overlaps with any [booking.time, booking.time + booking.service.duration]
+
+							const isTaken = !isSlotAvailable(
+								time,
+								selectedService?.duration || 30,
+								bookings,
+								selectedDate
 							)
-							const isBusy =
-								booking?.status === "confirmed" || booking?.status === "completed"
-							const isPending =
-								booking?.status === "pending" || booking?.status === "upcoming"
-							const isTaken = isBusy
+
+							const isBusy = isTaken // Simplify for now
 
 							return (
 								<button
@@ -319,10 +381,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 										"py-2.5 px-1 text-sm font-medium rounded-xl border transition-all duration-200 relative",
 										isBusy
 											? "bg-red-50 border-red-100 text-red-300 cursor-not-allowed"
-											: isPending
-											? selectedTime === time
-												? "bg-amber-500 text-white border-amber-500 shadow-md"
-												: "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100"
 											: selectedTime === time
 											? "bg-primary-600 text-white border-primary-600 shadow-md"
 											: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
@@ -332,16 +390,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 									{isBusy && (
 										<span className='absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase text-red-500 leading-none'>
 											{t("profile.busy") || "Busy"}
-										</span>
-									)}
-									{isPending && (
-										<span
-											className={clsx(
-												"absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase leading-none",
-												selectedTime === time ? "text-amber-100" : "text-amber-600"
-											)}
-										>
-											{t("profile.reserved") || "Reserved"}
 										</span>
 									)}
 								</button>
@@ -404,12 +452,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						</>
 					)}
 				</button>
-
-				{bookingStatus === "error" && (
-					<p className='text-red-500 text-sm text-center mt-3 bg-red-50 py-2 rounded-lg border border-red-100 animate-shake'>
-						{t("profile.slot_taken")}
-					</p>
-				)}
 			</div>
 		</div>
 	)

@@ -137,6 +137,12 @@
 		"appointment_confirmed": "Запись подтверждена!",
 		"appointment_success_message": "Ваша запись успешно создана.",
 		"book_another": "Записаться еще",
+		"booking_failed": "Не удалось записаться",
+		"dynamic_slots_hint": "Доступное время рассчитывается исходя из длительности выбранной услуги.",
+		"errors": {
+			"SLOT_ALREADY_BOOKED": "Это время уже занято",
+			"MAX_ACTIVE_BOOKINGS_REACHED": "Вы достигли лимита в 3 активные записи."
+		},
 		"reviews_section_title": "Отзывы",
 		"write_review": "Написать отзыв",
 		"no_reviews": "Отзывов пока нет. Будьте первым!",
@@ -196,7 +202,17 @@
 			"about": "О себе",
 			"about_placeholder": "Расскажите клиентам о вашем опыте и навыках...",
 			"specialties": "Специализация",
-			"specialties_placeholder": "например, Стрижка, Борода, Укладка (через запятую)"
+			"specialties_placeholder": "например, Стрижка, Борода, Укладка (через запятую)",
+			"verification_title": "Верификация",
+			"status_verified": "Аккаунт подтвержден",
+			"status_pending": "Ожидает подтверждения",
+			"status_unverified": "Аккаунт не подтвержден",
+			"verified_desc": "Ваш аккаунт подтвержден и отображается значок.",
+			"pending_desc": "Мы проверяем ваши документы.",
+			"unverified_desc": "Загрузите документ для подтверждения.",
+			"upload_doc": "Загрузить ID или сертификат",
+			"submit_verification": "Отправить запрос",
+			"upload_hint": "Пожалуйста, предоставьте ссылку на ваш документ (Google Drive, Dropbox и т.д.)"
 		},
 		"schedule": {
 			"title": "Рабочие часы",

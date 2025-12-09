@@ -342,6 +342,12 @@
 		"appointment_confirmed": "Appointment Confirmed!",
 		"appointment_success_message": "Your appointment has been successfully booked.",
 		"book_another": "Book Another",
+		"booking_failed": "Failed to book appointment",
+		"dynamic_slots_hint": "Available time slots are calculated based on the duration of the selected service.",
+		"errors": {
+			"SLOT_ALREADY_BOOKED": "This time slot is already booked",
+			"MAX_ACTIVE_BOOKINGS_REACHED": "You have reached the maximum limit of 3 active bookings."
+		},
 		"reviews_section_title": "Reviews",
 		"write_review": "Write a Review",
 		"no_reviews": "No reviews yet. Be the first to review!",
@@ -400,7 +406,17 @@
 			"about": "About You",
 			"about_placeholder": "Tell clients about your experience and skills...",
 			"specialties": "Specialties",
-			"specialties_placeholder": "e.g. Haircut, Beard Trim, Styling (comma separated)"
+			"specialties_placeholder": "e.g. Haircut, Beard Trim, Styling (comma separated)",
+			"verification_title": "Verification",
+			"status_verified": "Verified Account",
+			"status_pending": "Verification Pending",
+			"status_unverified": "Unverified Account",
+			"verified_desc": "Your account is verified and displays a badge.",
+			"pending_desc": "We are reviewing your documents.",
+			"unverified_desc": "Upload a document to get verified.",
+			"upload_doc": "Upload ID or Certificate",
+			"submit_verification": "Submit Request",
+			"upload_hint": "Please provide a link to your document (Google Drive, Dropbox, etc.)"
 		},
 		"schedule": {
 			"title": "Working Hours",

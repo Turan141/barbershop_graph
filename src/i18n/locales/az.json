@@ -124,6 +124,7 @@
 		"select_time": "Vaxt Seç",
 		"confirm_booking": "Təsdiqlə",
 		"available_times": "Mövcud Saatlar",
+		"dynamic_slots_hint": "Mövcud vaxtlar seçilmiş xidmətin müddətinə əsasən hesablanır.",
 		"no_slots": "Bu tarix üçün boş yer yoxdur.",
 		"no_services": "Hələlik xidmət yoxdur.",
 		"total_price": "Ümumi Qiymət",
@@ -136,6 +137,11 @@
 		"appointment_confirmed": "Randevu Təsdiqləndi!",
 		"appointment_success_message": "Randevunuz uğurla qeydə alındı.",
 		"book_another": "Başqasını Al",
+		"booking_failed": "Randevu alına bilmədi",
+		"errors": {
+			"SLOT_ALREADY_BOOKED": "Bu vaxt artıq tutulub",
+			"MAX_ACTIVE_BOOKINGS_REACHED": "Siz maksimum 3 aktiv randevu limitinə çatdınız."
+		},
 		"reviews_section_title": "Rəylər",
 		"write_review": "Rəy Yaz",
 		"no_reviews": "Hələlik rəy yoxdur. İlk rəyi siz yazın!",
@@ -195,7 +201,17 @@
 			"about": "Haqqında",
 			"about_placeholder": "Təcrübəniz və bacarıqlarınız haqqında yazın...",
 			"specialties": "İxtisaslaşma",
-			"specialties_placeholder": "məs. Saç kəsimi, Saqqal, Formaya salma (vergüllə ayırın)"
+			"specialties_placeholder": "məs. Saç kəsimi, Saqqal, Formaya salma (vergüllə ayırın)",
+			"verification_title": "Təsdiqləmə",
+			"status_verified": "Təsdiqlənmiş Hesab",
+			"status_pending": "Təsdiqləmə Gözlənilir",
+			"status_unverified": "Təsdiqlənməmiş Hesab",
+			"verified_desc": "Hesabınız təsdiqlənib və nişan göstərilir.",
+			"pending_desc": "Sənədlərinizi nəzərdən keçiririk.",
+			"unverified_desc": "Təsdiqlənmək üçün sənəd yükləyin.",
+			"upload_doc": "Şəxsiyyət vəsiqəsi və ya Sertifikat yükləyin",
+			"submit_verification": "Sorğu Göndər",
+			"upload_hint": "Zəhmət olmasa sənədinizə keçid təqdim edin (Google Drive, Dropbox və s.)"
 		},
 		"schedule": {
 			"add_time": "Vaxt əlavə et",

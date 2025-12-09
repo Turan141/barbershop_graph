@@ -4,6 +4,28 @@ import { authenticateToken, AuthRequest } from "../middleware/auth"
 
 const router = Router()
 
+// Helper to map barber profile to frontend interface
+const mapBarber = (profile: any) => {
+	const { user, ...rest } = profile
+	return {
+		...user,
+		...rest,
+		specialties:
+			typeof rest.specialties === "string"
+				? JSON.parse(rest.specialties)
+				: rest.specialties,
+		schedule:
+			typeof rest.schedule === "string" ? JSON.parse(rest.schedule) : rest.schedule,
+		portfolio:
+			typeof rest.portfolio === "string" ? JSON.parse(rest.portfolio) : rest.portfolio,
+		holidays: rest.holidays
+			? typeof rest.holidays === "string"
+				? JSON.parse(rest.holidays)
+				: rest.holidays
+			: undefined
+	}
+}
+
 // GET /api/users/:id
 router.get("/:id", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
@@ -52,24 +74,17 @@ router.get("/:id/bookings", authenticateToken, async (req: AuthRequest, res) => 
 			},
 			orderBy: { date: "desc" }
 		})
-		res.json(bookings)
+
+		const mappedBookings = bookings.map((booking) => ({
+			...booking,
+			barber: booking.barber ? mapBarber(booking.barber) : null
+		}))
+
+		res.json(mappedBookings)
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch bookings" })
 	}
 })
-
-// Helper to map barber profile to frontend interface
-const mapBarber = (profile: any) => {
-	const { user, ...rest } = profile
-	return {
-		...user,
-		...rest,
-		specialties: JSON.parse(rest.specialties),
-		schedule: JSON.parse(rest.schedule),
-		portfolio: JSON.parse(rest.portfolio),
-		holidays: rest.holidays ? JSON.parse(rest.holidays) : undefined
-	}
-}
 
 // GET /api/users/:id/favorites
 router.get("/:id/favorites", authenticateToken, async (req: AuthRequest, res) => {

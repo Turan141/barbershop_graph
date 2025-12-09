@@ -203,12 +203,12 @@ const SERVICES_TEMPLATE = [
 ]
 
 const SCHEDULE_TEMPLATE = {
-	Monday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-	Tuesday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-	Wednesday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-	Thursday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-	Friday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
-	Saturday: ["10:00", "11:00", "12:00", "13:00", "14:00"]
+	Monday: { start: "09:00", end: "18:00" },
+	Tuesday: { start: "09:00", end: "18:00" },
+	Wednesday: { start: "09:00", end: "18:00" },
+	Thursday: { start: "09:00", end: "18:00" },
+	Friday: { start: "09:00", end: "18:00" },
+	Saturday: { start: "10:00", end: "16:00" }
 }
 
 function getRandomItem<T>(arr: T[]): T {
@@ -278,62 +278,12 @@ const SEED_BARBERS: any[] = [
 			{ id: "s_test_1", name: "Test Service", duration: 30, price: 10, currency: "AZN" }
 		],
 		schedule: {
-			Monday: [
-				"09:00",
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00"
-			],
-			Tuesday: [
-				"09:00",
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00"
-			],
-			Wednesday: [
-				"09:00",
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00"
-			],
-			Thursday: [
-				"09:00",
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00"
-			],
-			Friday: [
-				"09:00",
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00"
-			],
-			Saturday: ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"]
+			Monday: { start: "09:00", end: "17:00" },
+			Tuesday: { start: "09:00", end: "17:00" },
+			Wednesday: { start: "09:00", end: "17:00" },
+			Thursday: { start: "09:00", end: "17:00" },
+			Friday: { start: "09:00", end: "17:00" },
+			Saturday: { start: "10:00", end: "15:00" }
 		}
 	},
 	{
@@ -373,11 +323,11 @@ const SEED_BARBERS: any[] = [
 			}
 		],
 		schedule: {
-			Monday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-			Tuesday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-			Wednesday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-			Thursday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
-			Friday: ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
+			Monday: { start: "09:00", end: "16:00" },
+			Tuesday: { start: "09:00", end: "16:00" },
+			Wednesday: { start: "09:00", end: "16:00" },
+			Thursday: { start: "09:00", end: "16:00" },
+			Friday: { start: "09:00", end: "17:00" }
 		}
 	},
 	{
@@ -403,10 +353,10 @@ const SEED_BARBERS: any[] = [
 			{ id: "s5b", name: "Keratin Baxımı", duration: 150, price: 150, currency: "AZN" }
 		],
 		schedule: {
-			Wednesday: ["10:00", "11:00", "12:00", "14:00", "15:00", "16:00"],
-			Thursday: ["10:00", "11:00", "12:00", "14:00", "15:00", "16:00"],
-			Friday: ["10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "18:00"],
-			Saturday: ["10:00", "11:00", "12:00", "13:00", "14:00"]
+			Wednesday: { start: "10:00", end: "16:00" },
+			Thursday: { start: "10:00", end: "16:00" },
+			Friday: { start: "10:00", end: "18:00" },
+			Saturday: { start: "10:00", end: "14:00" }
 		}
 	},
 	{
@@ -431,61 +381,11 @@ const SEED_BARBERS: any[] = [
 			{ id: "s7", name: "Təraş", duration: 30, price: 15, currency: "AZN" }
 		],
 		schedule: {
-			Monday: [
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00",
-				"18:00"
-			],
-			Tuesday: [
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00",
-				"18:00"
-			],
-			Wednesday: [
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00",
-				"18:00"
-			],
-			Thursday: [
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00",
-				"18:00"
-			],
-			Friday: [
-				"10:00",
-				"11:00",
-				"12:00",
-				"13:00",
-				"14:00",
-				"15:00",
-				"16:00",
-				"17:00",
-				"18:00"
-			]
+			Monday: { start: "10:00", end: "18:00" },
+			Tuesday: { start: "10:00", end: "18:00" },
+			Wednesday: { start: "10:00", end: "18:00" },
+			Thursday: { start: "10:00", end: "18:00" },
+			Friday: { start: "10:00", end: "18:00" }
 		}
 	}
 ]
@@ -521,6 +421,7 @@ async function main() {
 		// Delete related records first due to foreign key constraints
 		await prisma.booking.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
 		await prisma.review.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
+		await prisma.favorite.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
 		await prisma.service.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
 		await prisma.barberProfile.deleteMany({ where: { id: { startsWith: "b_gen_" } } })
 		await prisma.user.deleteMany({ where: { id: { startsWith: "b_gen_" } } })
@@ -537,10 +438,10 @@ async function main() {
 				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
 			},
 			create: {
-				id: u.id,
+				id: u.id, // Ensure ID is used
 				name: u.name,
 				email: u.email,
-				role: u.role,
+				role: u.role as any,
 				avatarUrl: u.avatarUrl,
 				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
 			}
