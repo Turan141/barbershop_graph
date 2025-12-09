@@ -6,7 +6,7 @@ const router = Router()
 
 // GET /api/bookings (User's bookings)
 router.get("/", authenticateToken, async (req: AuthRequest, res) => {
-	const userId = req.user!.id;
+	const userId = req.user!.id
 
 	try {
 		const bookings = await prisma.booking.findMany({

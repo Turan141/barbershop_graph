@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 const router = Router()
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
 
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
@@ -26,11 +26,9 @@ router.post("/login", async (req, res) => {
 		}
 
 		// Generate real JWT
-		const token = jwt.sign(
-			{ id: user.id, role: user.role },
-			JWT_SECRET,
-			{ expiresIn: '24h' }
-		);
+		const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
+			expiresIn: "24h"
+		})
 
 		const { password: _, ...userWithoutPassword } = user as any
 		res.json({ user: userWithoutPassword, token })
@@ -94,11 +92,9 @@ router.post("/register", async (req, res) => {
 			}
 		}
 
-		const token = jwt.sign(
-			{ id: user.id, role: user.role },
-			JWT_SECRET,
-			{ expiresIn: '24h' }
-		);
+		const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
+			expiresIn: "24h"
+		})
 		const { password: _, ...userWithoutPassword } = user as any
 		res.json({ user: userWithoutPassword, token })
 	} catch (error) {

@@ -4,7 +4,7 @@ import { authenticateToken, AuthRequest } from "../middleware/auth"
 import jwt from "jsonwebtoken"
 
 const router = Router()
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
 
 const mapBarber = (profile: any) => {
 	const { user, ...rest } = profile
@@ -92,14 +92,14 @@ router.get("/:id/bookings", async (req, res) => {
 	const { id } = req.params
 
 	// Check for auth token to determine if we show full details
-	const authHeader = req.headers['authorization'];
-	const token = authHeader && authHeader.split(' ')[1];
-	let requesterId = null;
+	const authHeader = req.headers["authorization"]
+	const token = authHeader && authHeader.split(" ")[1]
+	let requesterId = null
 
 	if (token) {
 		try {
-			const verified = jwt.verify(token, JWT_SECRET) as { id: string };
-			requesterId = verified.id;
+			const verified = jwt.verify(token, JWT_SECRET) as { id: string }
+			requesterId = verified.id
 		} catch (e) {
 			// Invalid token, treat as guest
 		}
@@ -123,7 +123,7 @@ router.get("/:id/bookings", async (req, res) => {
 			return res.status(404).json({ error: "Barber not found" })
 		}
 
-		const isOwner = requesterId === barber.userId;
+		const isOwner = requesterId === barber.userId
 
 		const bookings = await prisma.booking.findMany({
 			where: { barberId: barber.id },

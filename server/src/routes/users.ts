@@ -7,7 +7,7 @@ const router = Router()
 // GET /api/users/:id
 router.get("/:id", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
-	
+
 	if (req.user!.id !== id) {
 		return res.status(403).json({ error: "Access denied" })
 	}
@@ -117,25 +117,29 @@ router.post("/:id/favorites", authenticateToken, async (req: AuthRequest, res) =
 })
 
 // DELETE /api/users/:id/favorites/:barberId
-router.delete("/:id/favorites/:barberId", authenticateToken, async (req: AuthRequest, res) => {
-	const { id, barberId } = req.params
+router.delete(
+	"/:id/favorites/:barberId",
+	authenticateToken,
+	async (req: AuthRequest, res) => {
+		const { id, barberId } = req.params
 
-	if (req.user!.id !== id) {
-		return res.status(403).json({ error: "Access denied" })
-	}
+		if (req.user!.id !== id) {
+			return res.status(403).json({ error: "Access denied" })
+		}
 
-	try {
-		// We need to find the favorite entry first or deleteMany
-		await prisma.favorite.deleteMany({
-			where: {
-				userId: id,
-				barberId
-			}
-		})
-		res.json({ success: true })
-	} catch (error) {
-		res.status(500).json({ error: "Failed to remove favorite" })
+		try {
+			// We need to find the favorite entry first or deleteMany
+			await prisma.favorite.deleteMany({
+				where: {
+					userId: id,
+					barberId
+				}
+			})
+			res.json({ success: true })
+		} catch (error) {
+			res.status(500).json({ error: "Failed to remove favorite" })
+		}
 	}
-})
+)
 
 export default router
