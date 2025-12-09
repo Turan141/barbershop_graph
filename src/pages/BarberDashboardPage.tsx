@@ -53,9 +53,7 @@ export const BarberDashboardPage = () => {
 
 	const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
 	const [uploading, setUploading] = useState(false)
-	const [selectionMode, setSelectionMode] = useState<"avatar" | "preview" | null>(
-		null
-	)
+	const [selectionMode, setSelectionMode] = useState<"avatar" | "preview" | null>(null)
 
 	// Form states
 	const [formData, setFormData] = useState<Partial<Barber>>({})
@@ -974,7 +972,7 @@ export const BarberDashboardPage = () => {
 														alt={`Portfolio ${index + 1}`}
 														className='w-full h-full object-cover'
 													/>
-													
+
 													{/* Badges */}
 													<div className='absolute top-2 right-2 flex flex-col gap-2'>
 														{isAvatar && (

@@ -351,7 +351,8 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 		if (data.specialties) updateData.specialties = JSON.stringify(data.specialties)
 		if (data.schedule) updateData.schedule = JSON.stringify(data.schedule)
 		if (data.portfolio) updateData.portfolio = JSON.stringify(data.portfolio)
-		if (data.previewImageUrl !== undefined) updateData.previewImageUrl = data.previewImageUrl
+		if (data.previewImageUrl !== undefined)
+			updateData.previewImageUrl = data.previewImageUrl
 		if (data.holidays) updateData.holidays = JSON.stringify(data.holidays)
 		if (data.verificationDocumentUrl)
 			updateData.verificationDocumentUrl = data.verificationDocumentUrl

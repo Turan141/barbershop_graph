@@ -344,7 +344,7 @@ export const HomePage = () => {
 
 												{/* Rich Gradient Overlay */}
 												<div className='absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500'></div>
-												
+
 												{/* Gold Shine Effect */}
 												<div className='absolute inset-0 bg-gradient-to-tr from-yellow-500/0 via-yellow-500/0 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
 
@@ -352,7 +352,9 @@ export const HomePage = () => {
 												<div className='absolute top-4 right-4 z-10'>
 													<div className='flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 shadow-sm'>
 														<Star className='w-3.5 h-3.5 fill-yellow-400 text-yellow-400' />
-														<span className='font-bold text-sm text-white'>{barber.rating}</span>
+														<span className='font-bold text-sm text-white'>
+															{barber.rating}
+														</span>
 													</div>
 												</div>
 
@@ -364,16 +366,16 @@ export const HomePage = () => {
 															VIP
 														</div>
 													</div>
-													
+
 													<h3 className='text-2xl font-bold mb-1.5 text-white group-hover:text-yellow-50 transition-colors'>
 														{barber.name}
 													</h3>
-													
+
 													<div className='flex items-center text-slate-300 text-sm mb-4 font-medium'>
 														<MapPin className='w-4 h-4 mr-1.5 text-yellow-500' />
 														{barber.location}
 													</div>
-													
+
 													<div className='flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100'>
 														{barber.specialties.slice(0, 3).map((tag) => (
 															<span

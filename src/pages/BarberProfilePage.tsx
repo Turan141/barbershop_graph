@@ -111,7 +111,7 @@ export const BarberProfilePage = () => {
 						<div className='absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 rounded-full bg-blue-50 blur-3xl opacity-60 pointer-events-none'></div>
 
 						<div className='relative p-8 sm:p-10'>
-							<div className='flex flex-col sm:flex-row gap-8 items-start'>
+							<div className='flex flex-col sm:flex-row gap-8 items-center sm:items-start'>
 								{/* Avatar Section */}
 								<div className='relative flex-shrink-0 mx-auto sm:mx-0'>
 									<div className='w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1.5 bg-gradient-to-tr from-primary-500 via-blue-500 to-cyan-400 shadow-lg'>
@@ -129,8 +129,8 @@ export const BarberProfilePage = () => {
 
 								{/* Info Section */}
 								<div className='flex-grow text-center sm:text-left space-y-6 w-full'>
-									<div className='flex flex-col sm:flex-row justify-between items-start gap-4'>
-										<div>
+									<div className='flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4'>
+										<div className='w-full sm:w-auto'>
 											<h1 className='text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-2'>
 												{barber.name}
 											</h1>
