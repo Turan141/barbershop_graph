@@ -292,8 +292,8 @@ export const HomePage = () => {
 			{/* Content Section */}
 			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10 pb-20'>
 				{loading ? (
-					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-						{[1, 2, 3].map((i) => (
+					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+						{[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
 							<div
 								key={i}
 								className='bg-white rounded-2xl h-96 animate-pulse shadow-soft'
@@ -333,7 +333,7 @@ export const HomePage = () => {
 										</span>
 									</div>
 								</div>
-								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+								<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 									{filteredBarbers
 										.filter((b) => b.tier === "vip")
 										.map((barber) => (
@@ -428,7 +428,7 @@ export const HomePage = () => {
 							<h2 className='text-2xl font-bold text-slate-900 mb-6'>
 								{t("home.all_barbers")}
 							</h2>
-							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 								{filteredBarbers
 									.filter((b) => b.tier !== "vip")
 									.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)

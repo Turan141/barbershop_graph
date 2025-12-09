@@ -260,6 +260,33 @@ function generateRandomBarber(index: number) {
 
 const SEED_BARBERS: any[] = [
 	{
+		id: "b_test",
+		name: "Test Barber",
+		email: "barber@test.com",
+		role: "barber",
+		avatarUrl: "https://ui-avatars.com/api/?name=Test+Barber&background=random&size=200",
+		specialties: ["Test Cut", "Debug Shave"],
+		rating: 5.0,
+		reviewCount: 999,
+		location: "Test Location",
+		bio: "A test barber account for development purposes.",
+		tier: "vip",
+		portfolio: [
+			"https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=300"
+		],
+		services: [
+			{ id: "s_test_1", name: "Test Service", duration: 30, price: 10, currency: "AZN" }
+		],
+		schedule: {
+			Monday: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+			Tuesday: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+			Wednesday: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+			Thursday: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+			Friday: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+			Saturday: ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"]
+		}
+	},
+	{
 		id: "b1",
 		name: 'Alex "The Blade" Johnson',
 		email: "alex@barber.com",
@@ -438,21 +465,37 @@ const SEED_USERS = [
 async function main() {
 	console.log("Start seeding ...")
 
+	// Cleanup generated barbers and users to avoid unique constraint errors
+	try {
+		console.log("Cleaning up old generated data...")
+		// Delete related records first due to foreign key constraints
+		await prisma.booking.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
+		await prisma.review.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
+		await prisma.service.deleteMany({ where: { barberId: { startsWith: "b_gen_" } } })
+		await prisma.barberProfile.deleteMany({ where: { id: { startsWith: "b_gen_" } } })
+		await prisma.user.deleteMany({ where: { id: { startsWith: "b_gen_" } } })
+		console.log("Cleanup complete")
+	} catch (e) {
+		console.log("Cleanup failed (might be first run):", e)
+	}
+
 	// Seed Users
 	for (const u of SEED_USERS) {
 		const user = await prisma.user.upsert({
 			where: { email: u.email },
-			update: {},
+			update: {
+				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
+			},
 			create: {
 				id: u.id,
 				name: u.name,
 				email: u.email,
 				role: u.role,
 				avatarUrl: u.avatarUrl,
-				password: "$2a$10$CwTycUXWue0Thq9StjUM0u"
+				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
 			}
 		})
-		console.log(`Created user with id: ${user.id}`)
+		console.log(`Created/Updated user with id: ${user.id}`)
 	}
 
 	// Seed Barbers (User + Profile + Services)
@@ -460,14 +503,16 @@ async function main() {
 		// 1. Create User for Barber
 		const user = await prisma.user.upsert({
 			where: { email: b.email },
-			update: {},
+			update: {
+				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
+			},
 			create: {
 				id: b.id + "_user", // e.g. b1_user
 				name: b.name,
 				email: b.email,
 				role: "barber",
 				avatarUrl: b.avatarUrl,
-				password: "$2a$10$CwTycUXWue0Thq9StjUM0u"
+				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
 			}
 		})
 

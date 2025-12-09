@@ -30,7 +30,77 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({ barberId }) => {
 	}, [barberId])
 
 	if (loading) return <div className='animate-pulse h-64 bg-slate-100 rounded-xl'></div>
-	if (!stats) return null
+	
+	if (!stats) {
+		return (
+			<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+				<TrendingUp className='w-12 h-12 text-slate-300 mx-auto mb-3' />
+				<h3 className='text-lg font-medium text-slate-900'>{t("dashboard.stats.no_data_title") || "No Stats Available"}</h3>
+				<p className='text-slate-500'>{t("dashboard.stats.no_data_desc") || "Start accepting bookings to see your analytics here."}</p>
+			</div>
+		)
+	}
+
+	const hasData = stats.totalClients > 0 || stats.today.revenue > 0 || stats.month.revenue > 0
+
+	if (!hasData) {
+		return (
+			<div className='space-y-6 animate-fade-in'>
+				{/* Empty State Cards */}
+				<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+					<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm opacity-75'>
+						<div className='flex items-center justify-between mb-4'>
+							<h3 className='text-slate-500 font-medium text-sm'>
+								{t("dashboard.stats.today_revenue")}
+							</h3>
+							<div className='p-2 bg-slate-50 rounded-lg'>
+								<DollarSign className='w-5 h-5 text-slate-400' />
+							</div>
+						</div>
+						<div className='text-2xl font-bold text-slate-900'>0 ₼</div>
+						<div className='text-xs text-slate-400 mt-1'>
+							0 {t("dashboard.stats.bookings_today")}
+						</div>
+					</div>
+					{/* ... other empty cards ... */}
+					<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm opacity-75'>
+						<div className='flex items-center justify-between mb-4'>
+							<h3 className='text-slate-500 font-medium text-sm'>
+								{t("dashboard.stats.month_revenue")}
+							</h3>
+							<div className='p-2 bg-slate-50 rounded-lg'>
+								<TrendingUp className='w-5 h-5 text-slate-400' />
+							</div>
+						</div>
+						<div className='text-2xl font-bold text-slate-900'>0 ₼</div>
+						<div className='text-xs text-slate-400 mt-1'>
+							0 {t("dashboard.stats.bookings_month")}
+						</div>
+					</div>
+					<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm opacity-75'>
+						<div className='flex items-center justify-between mb-4'>
+							<h3 className='text-slate-500 font-medium text-sm'>
+								{t("dashboard.stats.total_clients")}
+							</h3>
+							<div className='p-2 bg-slate-50 rounded-lg'>
+								<Users className='w-5 h-5 text-slate-400' />
+							</div>
+						</div>
+						<div className='text-2xl font-bold text-slate-900'>0</div>
+						<div className='text-xs text-slate-400 mt-1'>
+							{t("dashboard.stats.unique_clients")}
+						</div>
+					</div>
+				</div>
+
+				<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+					<TrendingUp className='w-12 h-12 text-slate-300 mx-auto mb-3' />
+					<h3 className='text-lg font-medium text-slate-900'>{t("dashboard.stats.get_started_title") || "Ready for Business?"}</h3>
+					<p className='text-slate-500 max-w-md mx-auto'>{t("dashboard.stats.get_started_desc") || "Your analytics will appear here once you start receiving bookings."}</p>
+				</div>
+			</div>
+		)
+	}
 
 	return (
 		<div className='space-y-6 animate-fade-in'>

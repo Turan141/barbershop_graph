@@ -35,8 +35,8 @@ export const FavoritesPage = () => {
 			</div>
 
 			{isLoading ? (
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-					{[1, 2, 3].map((i) => (
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+					{[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
 						<div
 							key={i}
 							className='bg-white rounded-2xl h-96 animate-pulse shadow-soft'
@@ -56,7 +56,7 @@ export const FavoritesPage = () => {
 					</Link>
 				</div>
 			) : (
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 					{favorites.map((barber) => (
 						<div key={barber.id} className='group relative'>
 							<Link to={`/barbers/${barber.id}`} className='block h-full'>

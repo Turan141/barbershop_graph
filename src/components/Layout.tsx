@@ -169,6 +169,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 									{user.role === "barber" && (
 										<Link
 											to='/dashboard'
+											onClick={() => setIsMobileMenuOpen(false)}
 											className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'
 										>
 											{t("nav.dashboard")}
@@ -176,18 +177,23 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 									)}
 									<Link
 										to='/bookings'
+										onClick={() => setIsMobileMenuOpen(false)}
 										className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'
 									>
 										{t("nav.my_appointments")}
 									</Link>
 									<Link
 										to='/favorites'
+										onClick={() => setIsMobileMenuOpen(false)}
 										className='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50'
 									>
 										{t("nav.favorites")}
 									</Link>
 									<button
-										onClick={handleLogout}
+										onClick={() => {
+											handleLogout()
+											setIsMobileMenuOpen(false)
+										}}
 										className='w-full text-left px-3 py-2 rounded-lg text-base font-medium text-red-600 hover:bg-red-50'
 									>
 										{t("nav.logout")}
@@ -197,12 +203,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 								<div className='space-y-3 mt-4'>
 									<Link
 										to='/login'
+										onClick={() => setIsMobileMenuOpen(false)}
 										className='block w-full text-center px-4 py-2 border border-slate-200 rounded-xl font-medium text-slate-700'
 									>
 										{t("nav.login")}
 									</Link>
 									<Link
 										to='/register'
+										onClick={() => setIsMobileMenuOpen(false)}
 										className='block w-full text-center px-4 py-2 bg-primary-600 text-white rounded-xl font-medium'
 									>
 										{t("nav.register")}

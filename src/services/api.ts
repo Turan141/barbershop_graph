@@ -5,7 +5,7 @@ import { Capacitor } from "@capacitor/core"
 const getApiBase = () => {
 	// If running in Capacitor (Native Mobile App)
 	if (Capacitor.isNativePlatform()) {
-		return "http://10.0.2.2:3000/api"
+		return "https://barbershop-graph-api.vercel.app/api"
 	}
 	// If running in Browser (Development or Production)
 	return (
@@ -19,7 +19,14 @@ const API_BASE = getApiBase()
 async function handleResponse<T>(response: Response): Promise<T> {
 	if (!response.ok) {
 		const error = await response.text()
+		console.error("API Error:", error)
 		throw new Error(error || response.statusText)
+	}
+	const contentType = response.headers.get("content-type")
+	if (contentType && !contentType.includes("application/json")) {
+		const text = await response.text()
+		console.error("API Non-JSON Response:", text)
+		throw new Error("Received non-JSON response from server")
 	}
 	return response.json()
 }

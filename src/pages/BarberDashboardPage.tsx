@@ -653,6 +653,30 @@ export const BarberDashboardPage = () => {
 								</div>
 
 								<div className='space-y-4'>
+									{(!formData.services || formData.services.length === 0) && (
+										<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+											<Scissors className='w-12 h-12 text-slate-300 mx-auto mb-3' />
+											<p className='text-slate-500'>{t("dashboard.services.no_services") || "No services added yet."}</p>
+											<button
+												onClick={() => {
+													const newService: Service = {
+														id: "s" + Date.now(),
+														name: t("dashboard.services.new_service_default"),
+														duration: 30,
+														price: 10,
+														currency: "AZN"
+													}
+													setFormData({
+														...formData,
+														services: [...(formData.services || []), newService]
+													})
+												}}
+												className='mt-4 text-primary-600 font-medium hover:underline'
+											>
+												{t("dashboard.services.add_first") || "Add your first service"}
+											</button>
+										</div>
+									)}
 									{formData.services?.map((service, index) => (
 										<div
 											key={service.id}
@@ -749,6 +773,18 @@ export const BarberDashboardPage = () => {
 								</div>
 
 								<div className='grid grid-cols-2 sm:grid-cols-3 gap-4'>
+									{(!formData.portfolio || formData.portfolio.length === 0) && (
+										<div className='col-span-full text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+											<ImageIcon className='w-12 h-12 text-slate-300 mx-auto mb-3' />
+											<p className='text-slate-500'>{t("dashboard.portfolio.no_images") || "No images in portfolio."}</p>
+											<button
+												onClick={() => setIsUploadModalOpen(true)}
+												className='mt-4 text-primary-600 font-medium hover:underline'
+											>
+												{t("dashboard.portfolio.upload_first") || "Upload your first image"}
+											</button>
+										</div>
+									)}
 									{formData.portfolio?.map((url, index) => {
 										// Compare lengths or use a more robust comparison if base64 strings are slightly different
 										// But usually exact match should work. Let's try to debug by logging or ensuring state update.

@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react"
+import { useState, FormEvent, useEffect } from "react"
 import { useNavigate, Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
@@ -12,8 +12,22 @@ export const LoginPage = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState("")
 	const login = useAuthStore((state) => state.login)
+	const user = useAuthStore((state) => state.user)
 	const navigate = useNavigate()
 	const location = useLocation()
+
+	// Redirect if already logged in
+	useEffect(() => {
+		if (user) {
+			if (location.state?.from) {
+				navigate(location.state.from, { replace: true })
+			} else if (user.role === "barber") {
+				navigate("/dashboard", { replace: true })
+			} else {
+				navigate("/", { replace: true })
+			}
+		}
+	}, [user, navigate, location])
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
@@ -25,13 +39,13 @@ export const LoginPage = () => {
 
 			// Redirect logic
 			if (location.state?.from) {
-				navigate(location.state.from)
+				navigate(location.state.from, { replace: true })
 			} else {
 				// Default redirects based on role
 				if (user.role === "barber") {
-					navigate("/bookings")
+					navigate("/bookings", { replace: true })
 				} else {
-					navigate("/")
+					navigate("/", { replace: true })
 				}
 			}
 		} catch (err) {

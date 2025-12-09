@@ -11,6 +11,8 @@
 
 	body {
 		@apply font-sans text-slate-900 antialiased bg-slate-50 selection:bg-primary-100 selection:text-primary-900;
+		padding-top: env(safe-area-inset-top);
+		padding-bottom: env(safe-area-inset-bottom);
 	}
 
 	/* Modern Scrollbar */
