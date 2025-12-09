@@ -80,19 +80,10 @@ export const BarberDashboardPage = () => {
 		setSaving(true)
 		setMessage(null)
 		try {
-			const res = await fetch(`/api/barbers/${barber.id}`, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(data)
-			})
-			if (res.ok) {
-				const updated = await res.json()
-				setBarber(updated)
-				setFormData(updated)
-				setMessage({ type: "success", text: t("dashboard.changes_saved") })
-			} else {
-				throw new Error("Failed to update")
-			}
+			const updated = await api.barbers.update(barber.id, data)
+			setBarber(updated)
+			setFormData(updated)
+			setMessage({ type: "success", text: t("dashboard.changes_saved") })
 		} catch (error) {
 			setMessage({ type: "error", text: t("dashboard.save_error") })
 		} finally {

@@ -1,4 +1,5 @@
 import { Barber, Booking, User, Review } from "../types"
+import { useAuthStore } from "../store/authStore"
 
 const API_BASE =
 	import.meta.env.VITE_API_URL ||
@@ -10,6 +11,14 @@ async function handleResponse<T>(response: Response): Promise<T> {
 		throw new Error(error || response.statusText)
 	}
 	return response.json()
+}
+
+const getHeaders = () => {
+	const token = useAuthStore.getState().token
+	return {
+		"Content-Type": "application/json",
+		...(token ? { Authorization: `Bearer ${token}` } : {})
+	}
 }
 
 export const api = {
@@ -48,58 +57,74 @@ export const api = {
 		addReview: (id: string, data: { userId: string; rating: number; text?: string }) =>
 			fetch(`${API_BASE}/barbers/${id}/reviews`, {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: getHeaders(),
 				body: JSON.stringify(data)
-			}).then((res) => handleResponse<Review>(res))
+			}).then((res) => handleResponse<Review>(res)),
+
+		update: (id: string, data: Partial<Barber>) =>
+			fetch(`${API_BASE}/barbers/${id}`, {
+				method: "PUT",
+				headers: getHeaders(),
+				body: JSON.stringify(data)
+			}).then((res) => handleResponse<Barber>(res))
 	},
 
 	bookings: {
 		create: (data: Omit<Booking, "id" | "status" | "createdAt">) =>
 			fetch(`${API_BASE}/bookings`, {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: getHeaders(),
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Booking>(res)),
 
 		listForBarber: (barberId: string) =>
-			fetch(`${API_BASE}/barbers/${barberId}/bookings`).then((res) =>
+			fetch(`${API_BASE}/barbers/${barberId}/bookings`, {
+				headers: getHeaders()
+			}).then((res) =>
 				handleResponse<Booking[]>(res)
 			),
 
 		listForClient: (clientId: string) =>
-			fetch(`${API_BASE}/users/${clientId}/bookings`).then((res) =>
+			fetch(`${API_BASE}/users/${clientId}/bookings`, {
+				headers: getHeaders()
+			}).then((res) =>
 				handleResponse<Booking[]>(res)
 			),
 
 		updateStatus: (id: string, status: Booking["status"], comment?: string) =>
 			fetch(`${API_BASE}/bookings/${id}`, {
 				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
+				headers: getHeaders(),
 				body: JSON.stringify({ status, comment })
 			}).then((res) => handleResponse<Booking>(res))
 	},
 
 	favorites: {
 		list: (userId: string) =>
-			fetch(`${API_BASE}/users/${userId}/favorites`).then((res) =>
+			fetch(`${API_BASE}/users/${userId}/favorites`, {
+				headers: getHeaders()
+			}).then((res) =>
 				handleResponse<Barber[]>(res)
 			),
 
 		add: (userId: string, barberId: string) =>
 			fetch(`${API_BASE}/users/${userId}/favorites`, {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: getHeaders(),
 				body: JSON.stringify({ barberId })
 			}).then((res) => handleResponse<void>(res)),
 
 		remove: (userId: string, barberId: string) =>
 			fetch(`${API_BASE}/users/${userId}/favorites/${barberId}`, {
-				method: "DELETE"
+				method: "DELETE",
+				headers: getHeaders()
 			}).then((res) => handleResponse<void>(res))
 	},
 
 	users: {
 		get: (id: string) =>
-			fetch(`${API_BASE}/users/${id}`).then((res) => handleResponse<User>(res))
+			fetch(`${API_BASE}/users/${id}`, {
+				headers: getHeaders()
+			}).then((res) => handleResponse<User>(res))
 	}
 }

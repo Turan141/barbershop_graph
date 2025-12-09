@@ -47,37 +47,25 @@ export const UserBookingsPage = () => {
 						console.error("Failed to fetch my profile", e)
 					}
 
-					const clientIds = Array.from(new Set(data.map((b) => b.clientId)))
+					// Extract clients from bookings
 					const clientsData: Record<string, User> = {}
-
-					await Promise.all(
-						clientIds.map(async (id) => {
-							try {
-								const client = await api.users.get(id)
-								clientsData[id] = client
-							} catch (e) {
-								console.error(`Failed to fetch client ${id}`, e)
-							}
-						})
-					)
+					data.forEach((booking) => {
+						if (booking.client) {
+							clientsData[booking.clientId] = booking.client
+						}
+					})
 					setClients(clientsData)
 				} else {
 					data = await api.bookings.listForClient(user.id)
 					setBookings(data)
 
-					const barberIds = Array.from(new Set(data.map((b) => b.barberId)))
+					// Extract barbers from bookings
 					const barbersData: Record<string, Barber> = {}
-
-					await Promise.all(
-						barberIds.map(async (id) => {
-							try {
-								const barber = await api.barbers.get(id)
-								barbersData[id] = barber
-							} catch (e) {
-								console.error(`Failed to fetch barber ${id}`, e)
-							}
-						})
-					)
+					data.forEach((booking) => {
+						if (booking.barber) {
+							barbersData[booking.barberId] = booking.barber
+						}
+					})
 					setBarbers(barbersData)
 				}
 			} catch (error) {

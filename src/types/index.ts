@@ -41,6 +41,9 @@ export interface Booking {
 	status: "pending" | "confirmed" | "cancelled" | "completed" | "upcoming"
 	comment?: string
 	createdAt: string
+	client?: User
+	barber?: Barber
+	service?: Service
 }
 
 export interface Review {
