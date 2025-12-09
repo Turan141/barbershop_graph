@@ -17,7 +17,7 @@ import { PrivacyPage } from "./pages/PrivacyPage"
 import { TermsPage } from "./pages/TermsPage"
 import { ScrollToTop } from "./components/ScrollToTop"
 import { ProtectedRoute } from "./components/ProtectedRoute"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 function App() {
 	return (
