@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { format } from "date-fns"
 import { enUS, ru, az } from "date-fns/locale"
-import { Check, ChevronDown, Clock, Scissors, ArrowRight, AlertCircle } from "lucide-react"
+import {
+	Check,
+	ChevronDown,
+	Clock,
+	Scissors,
+	ArrowRight,
+	AlertCircle
+} from "lucide-react"
 import clsx from "clsx"
 import { Barber, Service, Booking } from "../types"
 import { api } from "../services/api"
@@ -42,10 +49,18 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
 	useEffect(() => {
 		if (barber.id) {
-			api.bookings
-				.listForBarber(barber.id)
-				.then(setBookings)
-				.catch((err) => console.error("Failed to fetch bookings", err))
+			const fetchBookings = () => {
+				api.bookings
+					.listForBarber(barber.id)
+					.then(setBookings)
+					.catch((err) => console.error("Failed to fetch bookings", err))
+			}
+
+			fetchBookings()
+			// Poll every 5 seconds to keep availability updated
+			const interval = setInterval(fetchBookings, 5000)
+
+			return () => clearInterval(interval)
 		}
 	}, [barber.id])
 
@@ -276,9 +291,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						availableSlots.map((time) => {
 							const booking = bookings.find(
 								(b) =>
-									b.date === selectedDate &&
-									b.time === time &&
-									b.status !== "cancelled"
+									b.date === selectedDate && b.time === time && b.status !== "cancelled"
 							)
 							const isBusy =
 								booking?.status === "confirmed" || booking?.status === "completed"
@@ -304,9 +317,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 											: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
 									)}
 								>
-									<span className={clsx(isTaken && "opacity-50 text-xs")}>
-										{time}
-									</span>
+									<span className={clsx(isTaken && "opacity-50 text-xs")}>{time}</span>
 									{isBusy && (
 										<span className='absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase text-red-500 leading-none'>
 											{t("profile.busy") || "Busy"}

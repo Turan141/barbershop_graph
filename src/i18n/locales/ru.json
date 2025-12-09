@@ -401,6 +401,9 @@
 				"message": "Сообщение",
 				"message_placeholder": "Чем мы можем помочь?",
 				"submit": "Отправить сообщение"
+			},
+			"schedule": {
+				"add_time": "Добавить время"
 			}
 		},
 		"privacy": {

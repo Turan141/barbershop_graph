@@ -478,42 +478,80 @@ export const BarberDashboardPage = () => {
 												</div>
 
 												{isWorking && (
-													<div className='grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2'>
-														{[
-															"09:00",
-															"10:00",
-															"11:00",
-															"12:00",
-															"13:00",
-															"14:00",
-															"15:00",
-															"16:00",
-															"17:00",
-															"18:00",
-															"19:00"
-														].map((time) => {
-															const isSelected = formData.schedule?.[day]?.includes(time)
-															return (
-																<button
-																	key={time}
-																	onClick={() => {
-																		const current = formData.schedule?.[day] || []
-																		const newSlots = isSelected
-																			? current.filter((t) => t !== time)
-																			: [...current, time].sort()
-																		updateSchedule(day, newSlots)
-																	}}
-																	className={clsx(
-																		"px-2 py-1 text-xs font-medium rounded border transition-colors",
-																		isSelected
-																			? "bg-primary-50 text-primary-700 border-primary-200"
-																			: "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
-																	)}
-																>
-																	{time}
-																</button>
+													<div className='space-y-3'>
+														<div className='grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2'>
+															{Array.from(
+																new Set([
+																	"09:00",
+																	"10:00",
+																	"11:00",
+																	"12:00",
+																	"13:00",
+																	"14:00",
+																	"15:00",
+																	"16:00",
+																	"17:00",
+																	"18:00",
+																	"19:00",
+																	...(formData.schedule?.[day] || [])
+																])
 															)
-														})}
+																.sort()
+																.map((time) => {
+																	const isSelected =
+																		formData.schedule?.[day]?.includes(time)
+																	return (
+																		<button
+																			key={time}
+																			onClick={() => {
+																				const current =
+																					formData.schedule?.[day] || []
+																				const newSlots = isSelected
+																					? current.filter((t) => t !== time)
+																					: [...current, time].sort()
+																				updateSchedule(day, newSlots)
+																			}}
+																			className={clsx(
+																				"px-2 py-1 text-xs font-medium rounded border transition-colors",
+																				isSelected
+																					? "bg-primary-50 text-primary-700 border-primary-200"
+																					: "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+																			)}
+																		>
+																			{time}
+																		</button>
+																	)
+																})}
+														</div>
+														<div className='flex items-center gap-2'>
+															<input
+																type='time'
+																id={`time-${day}`}
+																className='px-2 py-1 text-xs border border-slate-200 rounded focus:outline-none focus:border-primary-500'
+															/>
+															<button
+																onClick={() => {
+																	const input = document.getElementById(
+																		`time-${day}`
+																	) as HTMLInputElement
+																	if (input.value) {
+																		const current =
+																			formData.schedule?.[day] || []
+																		if (!current.includes(input.value)) {
+																			updateSchedule(
+																				day,
+																				[...current, input.value].sort()
+																			)
+																		}
+																		input.value = ""
+																	}
+																}}
+																className='px-2 py-1 text-xs font-medium bg-slate-100 text-slate-600 rounded hover:bg-slate-200 transition-colors flex items-center gap-1'
+															>
+																<Plus className='w-3 h-3' />
+																{t("dashboard.schedule.add_time") || "Add Time"}
+															</button>
+														</div>
 													</div>
 												)}
 											</div>

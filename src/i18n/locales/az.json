@@ -401,6 +401,9 @@
 				"message": "Mesaj",
 				"message_placeholder": "Sizə necə kömək edə bilərik?",
 				"submit": "Mesaj Göndər"
+			},
+			"schedule": {
+				"add_time": "Vaxt əlavə et"
 			}
 		},
 		"privacy": {

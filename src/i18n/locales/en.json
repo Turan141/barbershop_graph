@@ -416,7 +416,8 @@
 				"title": "Holidays / Days Off",
 				"add": "Add Date",
 				"no_holidays": "No holidays added yet."
-			}
+			},
+			"add_time": "Add Time"
 		},
 		"services": {
 			"title": "Services",
