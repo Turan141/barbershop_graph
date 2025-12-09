@@ -188,223 +188,227 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	}
 
 	return (
-		<div className='space-y-8'>
-			{/* Service Selection */}
-			<div>
-				<label className='block text-sm font-bold text-slate-900 mb-4'>
-					{t("profile.select_service")}
-				</label>
-				<div className='relative'>
-					<button
-						onClick={() => setIsServiceDropdownOpen(!isServiceDropdownOpen)}
-						className='w-full p-4 pr-4 bg-slate-50 border border-slate-200 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-900 flex items-center justify-between transition-all hover:border-primary-300'
-					>
-						<span
-							className={clsx(
-								"truncate mr-2",
-								!selectedService && "text-slate-500 font-normal"
-							)}
-						>
-							{selectedService ? (
-								<div className='flex items-center overflow-hidden'>
-									<span className='truncate'>{selectedService.name}</span>
-									<span className='mx-2 text-slate-300 flex-shrink-0'>|</span>
-									<span className='text-primary-600 flex-shrink-0'>
-										{selectedService.currency === "AZN" ? "₼" : selectedService.currency}
-										{selectedService.price}
-									</span>
-									<span className='mx-2 text-slate-300 flex-shrink-0'>|</span>
-									<span className='text-slate-500 text-sm flex-shrink-0 flex items-center gap-1'>
-										<Clock className='w-3 h-3' />
-										{selectedService.duration} {t("profile.min")}
-									</span>
-								</div>
-							) : (
-								t("profile.select_service_placeholder") || "Select a service..."
-							)}
-						</span>
-						<ChevronDown
-							className={clsx(
-								"w-5 h-5 text-slate-400 transition-transform duration-200 flex-shrink-0",
-								isServiceDropdownOpen && "rotate-180 text-primary-500"
-							)}
-						/>
-					</button>
-
-					{isServiceDropdownOpen && (
-						<>
-							<div
-								className='fixed inset-0 z-10'
-								onClick={() => setIsServiceDropdownOpen(false)}
-							></div>
-							<div className='absolute z-20 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-200/50 max-h-80 overflow-y-auto custom-scrollbar animate-in fade-in zoom-in-95 duration-200'>
-								{barber.services.map((service) => (
-									<button
-										key={service.id}
-										onClick={() => {
-											onServiceSelect(service)
-											setIsServiceDropdownOpen(false)
-										}}
-										className={clsx(
-											"w-full p-4 text-left hover:bg-primary-50/50 flex items-center justify-between group transition-all border-b border-slate-50 last:border-0",
-											selectedService?.id === service.id && "bg-primary-50/30"
-										)}
-									>
-										<div className='flex items-center gap-3 overflow-hidden'>
-											<div
-												className={clsx(
-													"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
-													selectedService?.id === service.id
-														? "bg-primary-100 text-primary-600"
-														: "bg-slate-100 text-slate-400 group-hover:bg-white group-hover:text-primary-500 group-hover:shadow-sm"
-												)}
-											>
-												<Scissors className='w-4 h-4' />
-											</div>
-											<div className='truncate'>
-												<div
-													className={clsx(
-														"font-medium truncate transition-colors",
-														selectedService?.id === service.id
-															? "text-primary-900"
-															: "text-slate-900 group-hover:text-primary-700"
-													)}
-												>
-													{service.name}
-												</div>
-												<div className='text-xs text-slate-500 flex items-center gap-1'>
-													<Clock className='w-3 h-3' />
-													{service.duration} {t("profile.min")}
-												</div>
-											</div>
-										</div>
-										<div className='flex items-center gap-3 pl-2 flex-shrink-0'>
-											<div className='font-bold text-slate-900'>
-												{service.currency === "AZN" ? "₼" : service.currency}
-												{service.price}
-											</div>
-											{selectedService?.id === service.id && (
-												<Check className='w-4 h-4 text-primary-600' />
-											)}
-										</div>
-									</button>
-								))}
-							</div>
-						</>
-					)}
-				</div>
-			</div>
-
-			{/* Date Selection */}
-			<div
-				className={clsx(
-					"transition-all duration-500",
-					!selectedService && "opacity-50 pointer-events-none blur-sm"
-				)}
-			>
-				<label className='block text-sm font-bold text-slate-900 mb-4 flex items-center justify-between'>
-					{t("profile.select_date")}
-					<span className='text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded-full'>
-						{dates[0].fullLabel}
-					</span>
-				</label>
-				<div className='flex gap-3 overflow-x-auto py-4 scrollbar-hide -mx-2 px-2'>
-					{dates.map((d) => (
+		<div className='min-h-full flex flex-col'>
+			<div className='flex-1 p-4 space-y-5 sm:space-y-8'>
+				{/* Service Selection */}
+				<div>
+					<label className='block text-sm font-bold text-slate-900 mb-2 sm:mb-4'>
+						{t("profile.select_service")}
+					</label>
+					<div className='relative'>
 						<button
-							key={d.value}
-							onClick={() => {
-								setSelectedDate(d.value)
-								setSelectedTime("")
-							}}
-							className={clsx(
-								"flex-shrink-0 w-16 h-24 rounded-2xl flex flex-col items-center justify-center border transition-all duration-300",
-								selectedDate === d.value
-									? "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/30"
-									: "bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-slate-50 hover:shadow-md"
-							)}
+							onClick={() => setIsServiceDropdownOpen(!isServiceDropdownOpen)}
+							className='w-full p-3 sm:p-4 pr-4 bg-slate-50 border border-slate-200 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent font-medium text-slate-900 flex items-center justify-between transition-all hover:border-primary-300'
 						>
 							<span
 								className={clsx(
-									"text-xs font-medium mb-1",
-									selectedDate === d.value ? "opacity-80" : "opacity-60"
+									"truncate mr-2",
+									!selectedService && "text-slate-500 font-normal"
 								)}
 							>
-								{d.label.split(" ")[0]}
+								{selectedService ? (
+									<div className='flex items-center overflow-hidden'>
+										<span className='truncate'>{selectedService.name}</span>
+										<span className='mx-2 text-slate-300 flex-shrink-0'>|</span>
+										<span className='text-primary-600 flex-shrink-0'>
+											{selectedService.currency === "AZN"
+												? "₼"
+												: selectedService.currency}
+											{selectedService.price}
+										</span>
+										<span className='mx-2 text-slate-300 flex-shrink-0'>|</span>
+										<span className='text-slate-500 text-sm flex-shrink-0 flex items-center gap-1'>
+											<Clock className='w-3 h-3' />
+											{selectedService.duration} {t("profile.min")}
+										</span>
+									</div>
+								) : (
+									t("profile.select_service_placeholder") || "Select a service..."
+								)}
 							</span>
-							<span className='text-xl font-bold'>{d.label.split(" ")[1]}</span>
+							<ChevronDown
+								className={clsx(
+									"w-5 h-5 text-slate-400 transition-transform duration-200 flex-shrink-0",
+									isServiceDropdownOpen && "rotate-180 text-primary-500"
+								)}
+							/>
 						</button>
-					))}
+
+						{isServiceDropdownOpen && (
+							<>
+								<div
+									className='fixed inset-0 z-10'
+									onClick={() => setIsServiceDropdownOpen(false)}
+								></div>
+								<div className='absolute z-20 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-200/50 max-h-80 overflow-y-auto custom-scrollbar animate-in fade-in zoom-in-95 duration-200'>
+									{barber.services.map((service) => (
+										<button
+											key={service.id}
+											onClick={() => {
+												onServiceSelect(service)
+												setIsServiceDropdownOpen(false)
+											}}
+											className={clsx(
+												"w-full p-4 text-left hover:bg-primary-50/50 flex items-center justify-between group transition-all border-b border-slate-50 last:border-0",
+												selectedService?.id === service.id && "bg-primary-50/30"
+											)}
+										>
+											<div className='flex items-center gap-3 overflow-hidden'>
+												<div
+													className={clsx(
+														"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
+														selectedService?.id === service.id
+															? "bg-primary-100 text-primary-600"
+															: "bg-slate-100 text-slate-400 group-hover:bg-white group-hover:text-primary-500 group-hover:shadow-sm"
+													)}
+												>
+													<Scissors className='w-4 h-4' />
+												</div>
+												<div className='truncate'>
+													<div
+														className={clsx(
+															"font-medium truncate transition-colors",
+															selectedService?.id === service.id
+																? "text-primary-900"
+																: "text-slate-900 group-hover:text-primary-700"
+														)}
+													>
+														{service.name}
+													</div>
+													<div className='text-xs text-slate-500 flex items-center gap-1'>
+														<Clock className='w-3 h-3' />
+														{service.duration} {t("profile.min")}
+													</div>
+												</div>
+											</div>
+											<div className='flex items-center gap-3 pl-2 flex-shrink-0'>
+												<div className='font-bold text-slate-900'>
+													{service.currency === "AZN" ? "₼" : service.currency}
+													{service.price}
+												</div>
+												{selectedService?.id === service.id && (
+													<Check className='w-4 h-4 text-primary-600' />
+												)}
+											</div>
+										</button>
+									))}
+								</div>
+							</>
+						)}
+					</div>
 				</div>
-			</div>
 
-			{/* Time Selection */}
-			<div
-				className={clsx(
-					"transition-all duration-500",
-					(!selectedDate || !selectedService) && "opacity-50 pointer-events-none blur-sm"
-				)}
-			>
-				<label className='block text-sm font-bold text-slate-900 mb-2'>
-					{t("profile.available_times")}{" "}
-					{selectedDate && (
-						<span className='font-normal text-slate-500 ml-2'>
-							- {dates.find((d) => d.value === selectedDate)?.fullLabel}
-						</span>
+				{/* Date Selection */}
+				<div
+					className={clsx(
+						"transition-all duration-500",
+						!selectedService && "opacity-50 pointer-events-none blur-sm"
 					)}
-				</label>
-				<p className='text-xs text-slate-500 mb-4 flex items-start gap-1.5'>
-					<Clock className='w-3.5 h-3.5 mt-0.5 flex-shrink-0' />
-					{t("profile.dynamic_slots_hint") ||
-						"Time slots are calculated based on the service duration."}
-				</p>
-				<div className='grid grid-cols-3 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar'>
-					{availableSlots.length > 0 ? (
-						availableSlots.map((time) => {
-							// Check for overlap with any existing booking
-							// We need to check if the [time, time + duration] overlaps with any [booking.time, booking.time + booking.service.duration]
-
-							const isTaken = !isSlotAvailable(
-								time,
-								selectedService?.duration || 30,
-								bookings,
-								selectedDate
-							)
-
-							const isBusy = isTaken // Simplify for now
-
-							return (
-								<button
-									key={time}
-									onClick={() => !isTaken && setSelectedTime(time)}
-									disabled={isTaken}
+				>
+					<label className='block text-sm font-bold text-slate-900 mb-2 sm:mb-4 flex items-center justify-between'>
+						{t("profile.select_date")}
+						<span className='text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded-full'>
+							{dates[0].fullLabel}
+						</span>
+					</label>
+					<div className='flex gap-2 sm:gap-3 overflow-x-auto py-2 sm:py-4 scrollbar-hide -mx-2 px-2'>
+						{dates.map((d) => (
+							<button
+								key={d.value}
+								onClick={() => {
+									setSelectedDate(d.value)
+									setSelectedTime("")
+								}}
+								className={clsx(
+									"flex-shrink-0 w-14 h-20 sm:w-16 sm:h-24 rounded-2xl flex flex-col items-center justify-center border transition-all duration-300",
+									selectedDate === d.value
+										? "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/30"
+										: "bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-slate-50 hover:shadow-md"
+								)}
+							>
+								<span
 									className={clsx(
-										"py-2.5 px-1 text-sm font-medium rounded-xl border transition-all duration-200 relative",
-										isBusy
-											? "bg-red-50 border-red-100 text-red-300 cursor-not-allowed"
-											: selectedTime === time
-											? "bg-primary-600 text-white border-primary-600 shadow-md"
-											: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
+										"text-xs font-medium mb-1",
+										selectedDate === d.value ? "opacity-80" : "opacity-60"
 									)}
 								>
-									<span className={clsx(isTaken && "opacity-50 text-xs")}>{time}</span>
-									{isBusy && (
-										<span className='absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase text-red-500 leading-none'>
-											{t("profile.busy") || "Busy"}
-										</span>
-									)}
-								</button>
-							)
-						})
-					) : (
-						<div className='col-span-3 text-sm text-slate-400 text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
-							{t("profile.no_slots")}
-						</div>
+									{d.label.split(" ")[0]}
+								</span>
+								<span className='text-xl font-bold'>{d.label.split(" ")[1]}</span>
+							</button>
+						))}
+					</div>
+				</div>
+
+				{/* Time Selection */}
+				<div
+					className={clsx(
+						"transition-all duration-500",
+						(!selectedDate || !selectedService) &&
+							"opacity-50 pointer-events-none blur-sm"
 					)}
+				>
+					<label className='block text-sm font-bold text-slate-900 mb-2'>
+						{t("profile.available_times")}{" "}
+						{selectedDate && (
+							<span className='font-normal text-slate-500 ml-2'>
+								- {dates.find((d) => d.value === selectedDate)?.fullLabel}
+							</span>
+						)}
+					</label>
+					<p className='text-xs text-slate-500 mb-4 flex items-start gap-1.5'>
+						<Clock className='w-3.5 h-3.5 mt-0.5 flex-shrink-0' />
+						{t("profile.dynamic_slots_hint") ||
+							"Time slots are calculated based on the service duration."}
+					</p>
+					<div className='grid grid-cols-3 gap-3 max-h-48 sm:max-h-60 overflow-y-auto pr-1 custom-scrollbar'>
+						{availableSlots.length > 0 ? (
+							availableSlots.map((time) => {
+								// Check for overlap with any existing booking
+								// We need to check if the [time, time + duration] overlaps with any [booking.time, booking.time + booking.service.duration]
+
+								const isTaken = !isSlotAvailable(
+									time,
+									selectedService?.duration || 30,
+									bookings,
+									selectedDate
+								)
+
+								const isBusy = isTaken // Simplify for now
+
+								return (
+									<button
+										key={time}
+										onClick={() => !isTaken && setSelectedTime(time)}
+										disabled={isTaken}
+										className={clsx(
+											"py-2.5 px-1 text-sm font-medium rounded-xl border transition-all duration-200 relative",
+											isBusy
+												? "bg-red-50 border-red-100 text-red-300 cursor-not-allowed"
+												: selectedTime === time
+												? "bg-primary-600 text-white border-primary-600 shadow-md"
+												: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
+										)}
+									>
+										<span className={clsx(isTaken && "opacity-50 text-xs")}>{time}</span>
+										{isBusy && (
+											<span className='absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase text-red-500 leading-none'>
+												{t("profile.busy") || "Busy"}
+											</span>
+										)}
+									</button>
+								)
+							})
+						) : (
+							<div className='col-span-3 text-sm text-slate-400 text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
+								{t("profile.no_slots")}
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
-
 			{/* Summary & Action */}
-			<div className='pt-6 border-t border-slate-100'>
+			<div className='sticky bottom-0 bg-white p-4 border-t border-slate-100 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10'>
 				{selectedTime &&
 					bookings.some(
 						(b) =>
@@ -412,8 +416,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 							b.time === selectedTime &&
 							(b.status === "pending" || b.status === "upcoming")
 					) && (
-						<div className='mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2 text-sm text-amber-800 animate-fade-in'>
-							<AlertCircle className='w-5 h-5 flex-shrink-0 text-amber-600' />
+						<div className='mb-3 p-2.5 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2 text-xs text-amber-800 animate-fade-in'>
+							<AlertCircle className='w-4 h-4 flex-shrink-0 text-amber-600' />
 							<p>
 								{t("profile.pending_warning") ||
 									"This slot has a pending request. You can still request it, but availability is not guaranteed."}
@@ -421,37 +425,39 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						</div>
 					)}
 
-				<div className='flex justify-between items-end mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100'>
-					<div className='text-sm text-slate-500 font-medium'>
-						{t("profile.total_price")}
+				<div className='flex items-center gap-4'>
+					<div className='flex-shrink-0'>
+						<div className='text-xs text-slate-500 font-medium mb-0.5'>
+							{t("profile.total_price")}
+						</div>
+						<div className='text-2xl font-bold text-slate-900 leading-none'>
+							{selectedService
+								? `${
+										selectedService.currency === "AZN" ? "₼" : selectedService.currency
+								  }${selectedService.price}`
+								: "₼0"}
+						</div>
 					</div>
-					<div className='text-3xl font-bold text-slate-900'>
-						{selectedService
-							? `${selectedService.currency === "AZN" ? "₼" : selectedService.currency}${
-									selectedService.price
-							  }`
-							: "₼0"}
-					</div>
-				</div>
 
-				<button
-					onClick={handleBook}
-					disabled={
-						!selectedService ||
-						!selectedDate ||
-						!selectedTime ||
-						bookingStatus === "submitting"
-					}
-					className='btn-primary w-full flex items-center justify-center gap-2 py-4 text-lg shadow-xl shadow-primary-500/20 hover:shadow-primary-500/40'
-				>
-					{bookingStatus === "submitting" ? (
-						<>{t("profile.processing")}</>
-					) : (
-						<>
-							{t("profile.confirm")} <ArrowRight className='w-5 h-5' />
-						</>
-					)}
-				</button>
+					<button
+						onClick={handleBook}
+						disabled={
+							!selectedService ||
+							!selectedDate ||
+							!selectedTime ||
+							bookingStatus === "submitting"
+						}
+						className='btn-primary flex-1 flex items-center justify-center gap-2 py-3.5 text-base font-bold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 rounded-xl'
+					>
+						{bookingStatus === "submitting" ? (
+							<>{t("profile.processing")}</>
+						) : (
+							<>
+								{t("profile.confirm")} <ArrowRight className='w-5 h-5' />
+							</>
+						)}
+					</button>
+				</div>
 			</div>
 		</div>
 	)
