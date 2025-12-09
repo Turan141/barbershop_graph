@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { format } from "date-fns"
 import { enUS, ru, az } from "date-fns/locale"
-import { Check, ChevronDown, Clock, Scissors, ArrowRight } from "lucide-react"
+import { Check, ChevronDown, Clock, Scissors, ArrowRight, AlertCircle } from "lucide-react"
 import clsx from "clsx"
-import { Barber, Service } from "../types"
+import { Barber, Service, Booking } from "../types"
 import { api } from "../services/api"
 import { useAuthStore } from "../store/authStore"
 
@@ -38,6 +38,16 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	const [bookingStatus, setBookingStatus] = useState<
 		"idle" | "submitting" | "success" | "error"
 	>("idle")
+	const [bookings, setBookings] = useState<Booking[]>([])
+
+	useEffect(() => {
+		if (barber.id) {
+			api.bookings
+				.listForBarber(barber.id)
+				.then(setBookings)
+				.catch((err) => console.error("Failed to fetch bookings", err))
+		}
+	}, [barber.id])
 
 	const handleBook = async () => {
 		if (!user) return navigate("/login")
@@ -228,7 +238,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 							className={clsx(
 								"flex-shrink-0 w-16 h-24 rounded-2xl flex flex-col items-center justify-center border transition-all duration-300",
 								selectedDate === d.value
-									? "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/30 scale-105"
+									? "bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/30"
 									: "bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-slate-50 hover:shadow-md"
 							)}
 						>
@@ -263,20 +273,58 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 				</label>
 				<div className='grid grid-cols-3 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar'>
 					{availableSlots.length > 0 ? (
-						availableSlots.map((time) => (
-							<button
-								key={time}
-								onClick={() => setSelectedTime(time)}
-								className={clsx(
-									"py-2.5 px-1 text-sm font-medium rounded-xl border transition-all duration-200",
-									selectedTime === time
-										? "bg-primary-600 text-white border-primary-600 shadow-md scale-105"
-										: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
-								)}
-							>
-								{time}
-							</button>
-						))
+						availableSlots.map((time) => {
+							const booking = bookings.find(
+								(b) =>
+									b.date === selectedDate &&
+									b.time === time &&
+									b.status !== "cancelled"
+							)
+							const isBusy =
+								booking?.status === "confirmed" || booking?.status === "completed"
+							const isPending =
+								booking?.status === "pending" || booking?.status === "upcoming"
+							const isTaken = isBusy
+
+							return (
+								<button
+									key={time}
+									onClick={() => !isTaken && setSelectedTime(time)}
+									disabled={isTaken}
+									className={clsx(
+										"py-2.5 px-1 text-sm font-medium rounded-xl border transition-all duration-200 relative",
+										isBusy
+											? "bg-red-50 border-red-100 text-red-300 cursor-not-allowed"
+											: isPending
+											? selectedTime === time
+												? "bg-amber-500 text-white border-amber-500 shadow-md"
+												: "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100"
+											: selectedTime === time
+											? "bg-primary-600 text-white border-primary-600 shadow-md"
+											: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
+									)}
+								>
+									<span className={clsx(isTaken && "opacity-50 text-xs")}>
+										{time}
+									</span>
+									{isBusy && (
+										<span className='absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase text-red-500 leading-none'>
+											{t("profile.busy") || "Busy"}
+										</span>
+									)}
+									{isPending && (
+										<span
+											className={clsx(
+												"absolute inset-x-0 bottom-0.5 text-[9px] font-bold uppercase leading-none",
+												selectedTime === time ? "text-amber-100" : "text-amber-600"
+											)}
+										>
+											{t("profile.reserved") || "Reserved"}
+										</span>
+									)}
+								</button>
+							)
+						})
 					) : (
 						<div className='col-span-3 text-sm text-slate-400 text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
 							{t("profile.no_slots")}
@@ -287,6 +335,22 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
 			{/* Summary & Action */}
 			<div className='pt-6 border-t border-slate-100'>
+				{selectedTime &&
+					bookings.some(
+						(b) =>
+							b.date === selectedDate &&
+							b.time === selectedTime &&
+							(b.status === "pending" || b.status === "upcoming")
+					) && (
+						<div className='mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2 text-sm text-amber-800 animate-fade-in'>
+							<AlertCircle className='w-5 h-5 flex-shrink-0 text-amber-600' />
+							<p>
+								{t("profile.pending_warning") ||
+									"This slot has a pending request. You can still request it, but availability is not guaranteed."}
+							</p>
+						</div>
+					)}
+
 				<div className='flex justify-between items-end mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100'>
 					<div className='text-sm text-slate-500 font-medium'>
 						{t("profile.total_price")}
