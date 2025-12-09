@@ -30,18 +30,24 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({ barberId }) => {
 	}, [barberId])
 
 	if (loading) return <div className='animate-pulse h-64 bg-slate-100 rounded-xl'></div>
-	
+
 	if (!stats) {
 		return (
 			<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
 				<TrendingUp className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-				<h3 className='text-lg font-medium text-slate-900'>{t("dashboard.stats.no_data_title") || "No Stats Available"}</h3>
-				<p className='text-slate-500'>{t("dashboard.stats.no_data_desc") || "Start accepting bookings to see your analytics here."}</p>
+				<h3 className='text-lg font-medium text-slate-900'>
+					{t("dashboard.stats.no_data_title") || "No Stats Available"}
+				</h3>
+				<p className='text-slate-500'>
+					{t("dashboard.stats.no_data_desc") ||
+						"Start accepting bookings to see your analytics here."}
+				</p>
 			</div>
 		)
 	}
 
-	const hasData = stats.totalClients > 0 || stats.today.revenue > 0 || stats.month.revenue > 0
+	const hasData =
+		stats.totalClients > 0 || stats.today.revenue > 0 || stats.month.revenue > 0
 
 	if (!hasData) {
 		return (
@@ -95,8 +101,13 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({ barberId }) => {
 
 				<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
 					<TrendingUp className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-					<h3 className='text-lg font-medium text-slate-900'>{t("dashboard.stats.get_started_title") || "Ready for Business?"}</h3>
-					<p className='text-slate-500 max-w-md mx-auto'>{t("dashboard.stats.get_started_desc") || "Your analytics will appear here once you start receiving bookings."}</p>
+					<h3 className='text-lg font-medium text-slate-900'>
+						{t("dashboard.stats.get_started_title") || "Ready for Business?"}
+					</h3>
+					<p className='text-slate-500 max-w-md mx-auto'>
+						{t("dashboard.stats.get_started_desc") ||
+							"Your analytics will appear here once you start receiving bookings."}
+					</p>
 				</div>
 			</div>
 		)

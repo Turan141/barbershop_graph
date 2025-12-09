@@ -656,7 +656,9 @@ export const BarberDashboardPage = () => {
 									{(!formData.services || formData.services.length === 0) && (
 										<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
 											<Scissors className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-											<p className='text-slate-500'>{t("dashboard.services.no_services") || "No services added yet."}</p>
+											<p className='text-slate-500'>
+												{t("dashboard.services.no_services") || "No services added yet."}
+											</p>
 											<button
 												onClick={() => {
 													const newService: Service = {
@@ -776,12 +778,15 @@ export const BarberDashboardPage = () => {
 									{(!formData.portfolio || formData.portfolio.length === 0) && (
 										<div className='col-span-full text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
 											<ImageIcon className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-											<p className='text-slate-500'>{t("dashboard.portfolio.no_images") || "No images in portfolio."}</p>
+											<p className='text-slate-500'>
+												{t("dashboard.portfolio.no_images") || "No images in portfolio."}
+											</p>
 											<button
 												onClick={() => setIsUploadModalOpen(true)}
 												className='mt-4 text-primary-600 font-medium hover:underline'
 											>
-												{t("dashboard.portfolio.upload_first") || "Upload your first image"}
+												{t("dashboard.portfolio.upload_first") ||
+													"Upload your first image"}
 											</button>
 										</div>
 									)}
