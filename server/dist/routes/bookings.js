@@ -55,7 +55,10 @@ router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 
     try {
         const [barberProfile, service] = yield Promise.all([
             db_1.prisma.barberProfile.findUnique({ where: { id: barberId }, select: { id: true } }),
-            db_1.prisma.service.findUnique({ where: { id: serviceId }, select: { id: true, barberId: true } })
+            db_1.prisma.service.findUnique({
+                where: { id: serviceId },
+                select: { id: true, barberId: true }
+            })
         ]);
         if (!barberProfile) {
             return res.status(404).json({ error: "Barber not found" });

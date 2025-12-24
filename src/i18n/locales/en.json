@@ -42,7 +42,10 @@
 			"show_results": "Show {{count}} Results",
 			"no_results_title": "No Barbers Found",
 			"no_results_desc": "No results found matching your search. Try different keywords.",
-			"clear_filters_btn": "Clear all filters"
+			"clear_filters_btn": "Clear all filters",
+			"load_error_title": "Couldn't load barbers",
+			"load_error_desc": "Check your connection or API settings, then try again.",
+			"retry_btn": "Retry"
 		}
 	},
 	"categories": {

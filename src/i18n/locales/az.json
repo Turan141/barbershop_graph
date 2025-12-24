@@ -42,7 +42,10 @@
 			"show_results": "{{count}} Nəticəni Göstər",
 			"no_results_title": "Bərbər tapılmadı",
 			"no_results_desc": "Axtarışınıza uyğun nəticə tapılmadı. Başqa açar sözləri yoxlayın.",
-			"clear_filters_btn": "Bütün filterləri təmizlə"
+			"clear_filters_btn": "Bütün filterləri təmizlə",
+			"load_error_title": "Bərbərlər yüklənmədi",
+			"load_error_desc": "İnterneti və ya API ayarlarını yoxlayın, sonra yenidən cəhd edin.",
+			"retry_btn": "Yenidən"
 		}
 	},
 	"categories": {

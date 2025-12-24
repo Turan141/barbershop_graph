@@ -67,6 +67,8 @@ export const HomePage = () => {
 	const [barbers, setBarbers] = useState<Barber[]>([])
 	const [search, setSearch] = useState("")
 	const [loading, setLoading] = useState(true)
+	const [loadError, setLoadError] = useState(false)
+	const [reloadNonce, setReloadNonce] = useState(0)
 	const { t } = useTranslation()
 
 	// Filters
@@ -85,11 +87,13 @@ export const HomePage = () => {
 	useEffect(() => {
 		const fetchBarbers = async () => {
 			setLoading(true)
+			setLoadError(false)
 			try {
 				const data = await api.barbers.list(search)
 				setBarbers(data)
 			} catch (error) {
 				console.error(error)
+				setLoadError(true)
 			} finally {
 				setLoading(false)
 			}
@@ -97,7 +101,7 @@ export const HomePage = () => {
 
 		const debounce = setTimeout(fetchBarbers, 300)
 		return () => clearTimeout(debounce)
-	}, [search])
+	}, [search, reloadNonce])
 
 	// Derived Data for Filters
 	const locations = useMemo(() => {
@@ -338,6 +342,32 @@ export const HomePage = () => {
 			</div>
 
 			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6'>
+				{loadError && (
+					<div className='mb-6 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
+						<div>
+							<div className='text-sm font-bold text-slate-900'>
+								{t("home.filters.load_error_title")}
+							</div>
+							<div className='text-sm text-slate-500'>
+								{t("home.filters.load_error_desc")}
+							</div>
+						</div>
+						<div className='flex gap-2'>
+							<button
+								onClick={() => setReloadNonce((n) => n + 1)}
+								className='px-4 py-2 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-800 transition-colors'
+							>
+								{t("home.filters.retry_btn")}
+							</button>
+							<button
+								onClick={clearFilters}
+								className='px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-50 hover:border-slate-300 transition-colors'
+							>
+								{t("home.filters.clear_all")}
+							</button>
+						</div>
+					</div>
+				)}
 				{loading ? (
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
 						{[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
@@ -346,6 +376,22 @@ export const HomePage = () => {
 								className='bg-white rounded-3xl h-80 animate-pulse shadow-sm'
 							></div>
 						))}
+					</div>
+				) : loadError && filteredBarbers.length === 0 ? (
+					<div className='text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm'>
+						<div className='bg-slate-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4'>
+							<Search className='w-10 h-10 text-slate-300' />
+						</div>
+						<h3 className='text-xl font-bold text-slate-900 mb-2'>
+							{t("home.filters.load_error_title")}
+						</h3>
+						<p className='text-slate-500'>{t("home.filters.load_error_desc")}</p>
+						<button
+							onClick={() => setReloadNonce((n) => n + 1)}
+							className='mt-6 px-6 py-2 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-800 transition-colors'
+						>
+							{t("home.filters.retry_btn")}
+						</button>
 					</div>
 				) : filteredBarbers.length === 0 ? (
 					<div className='text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm'>

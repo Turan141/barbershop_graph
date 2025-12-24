@@ -67,7 +67,7 @@ router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 
 		// 1. Prevent Double Booking (fast path)
 		const existingBooking = await prisma.booking.findFirst({
-			where: { slotKey }
+			where: { slotKey } as any
 		})
 
 		if (existingBooking) {
@@ -104,7 +104,7 @@ router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 					time,
 					slotKey,
 					status: "pending"
-				},
+				} as any,
 				include: {
 					barber: { include: { user: true } },
 					service: true
@@ -194,7 +194,7 @@ router.patch("/:id/cancel", authenticateToken, async (req: AuthRequest, res) => 
 
 		const updatedBooking = await prisma.booking.update({
 			where: { id },
-			data: { status: "cancelled", slotKey: null }
+			data: { status: "cancelled", slotKey: null } as any
 		})
 		res.json(updatedBooking)
 	} catch (error) {
