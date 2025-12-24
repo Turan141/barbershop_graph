@@ -27,8 +27,8 @@ const express_1 = require("express");
 const db_1 = require("../db");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = require("../config");
 const router = (0, express_1.Router)();
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 // POST /api/auth/login
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
@@ -45,7 +45,9 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
             return res.status(401).json({ error: "Invalid credentials" });
         }
         // Generate real JWT
-        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
+        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, (0, config_1.getJwtSecret)(), {
+            expiresIn: "24h"
+        });
         const _a = user, { password: _ } = _a, userWithoutPassword = __rest(_a, ["password"]);
         res.json({ user: userWithoutPassword, token });
     }
@@ -101,7 +103,9 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
                 return res.status(500).json({ error: "Failed to create barber profile" });
             }
         }
-        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
+        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, (0, config_1.getJwtSecret)(), {
+            expiresIn: "24h"
+        });
         const _a = user, { password: _ } = _a, userWithoutPassword = __rest(_a, ["password"]);
         res.json({ user: userWithoutPassword, token });
     }

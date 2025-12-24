@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
-
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
+import { getJwtSecret } from "../config"
 
 export interface AuthRequest extends Request {
 	user?: {
@@ -23,7 +22,7 @@ export const authenticateToken = (
 	}
 
 	try {
-		const verified = jwt.verify(token, JWT_SECRET) as { id: string; role: string }
+		const verified = jwt.verify(token, getJwtSecret()) as { id: string; role: string }
 		req.user = verified
 		next()
 	} catch (error) {

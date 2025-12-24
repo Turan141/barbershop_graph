@@ -2,9 +2,25 @@ import { Router } from "express"
 import { prisma } from "../db"
 import { authenticateToken, AuthRequest } from "../middleware/auth"
 import jwt from "jsonwebtoken"
+import { getJwtSecret } from "../config"
 
 const router = Router()
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
+
+async function resolveBarberProfile(idOrUserId: string) {
+	let barber = await prisma.barberProfile.findUnique({
+		where: { id: idOrUserId },
+		select: { id: true, userId: true }
+	})
+
+	if (!barber) {
+		barber = await prisma.barberProfile.findUnique({
+			where: { userId: idOrUserId },
+			select: { id: true, userId: true }
+		})
+	}
+
+	return barber
+}
 
 const mapBarber = (profile: any) => {
 	const { user, ...rest } = profile
@@ -99,7 +115,7 @@ router.get("/:id/bookings", async (req, res) => {
 
 	if (token) {
 		try {
-			const verified = jwt.verify(token, JWT_SECRET) as { id: string }
+			const verified = jwt.verify(token, getJwtSecret()) as { id: string }
 			requesterId = verified.id
 		} catch (e) {
 			// Invalid token, treat as guest
@@ -108,17 +124,7 @@ router.get("/:id/bookings", async (req, res) => {
 
 	try {
 		// Resolve barber ID (could be profile ID or user ID)
-		let barber = await prisma.barberProfile.findUnique({
-			where: { id },
-			select: { id: true, userId: true }
-		})
-
-		if (!barber) {
-			barber = await prisma.barberProfile.findUnique({
-				where: { userId: id },
-				select: { id: true, userId: true }
-			})
-		}
+		const barber = await resolveBarberProfile(id)
 
 		if (!barber) {
 			return res.status(404).json({ error: "Barber not found" })
@@ -236,12 +242,28 @@ router.get("/:id/stats", authenticateToken, async (req: AuthRequest, res) => {
 })
 
 // POST /api/barbers/:id/reviews
-router.post("/:id/reviews", async (req, res) => {
+router.post("/:id/reviews", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
-	const { userId, rating, text } = req.body
+	const { rating, text } = req.body
+	const userId = req.user!.id
 
-	if (!userId || !rating) {
+	const barber = await resolveBarberProfile(id)
+	if (!barber) {
+		return res.status(404).json({ error: "Barber not found" })
+	}
+
+	// Optional: restrict reviews to clients only
+	if (req.user!.role !== "client") {
+		return res.status(403).json({ error: "Only clients can submit reviews" })
+	}
+
+	if (!rating) {
 		return res.status(400).json({ error: "Missing required fields" })
+	}
+
+	const ratingNum = Number(rating)
+	if (!Number.isFinite(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+		return res.status(400).json({ error: "Rating must be an integer between 1 and 5" })
 	}
 
 	try {
@@ -250,7 +272,7 @@ router.post("/:id/reviews", async (req, res) => {
 			where: {
 				userId_barberId: {
 					userId,
-					barberId: id
+					barberId: barber.id
 				}
 			}
 		})
@@ -263,8 +285,8 @@ router.post("/:id/reviews", async (req, res) => {
 		const review = await prisma.review.create({
 			data: {
 				userId,
-				barberId: id,
-				rating: Number(rating),
+				barberId: barber.id,
+				rating: ratingNum,
 				text
 			},
 			include: {
@@ -274,14 +296,14 @@ router.post("/:id/reviews", async (req, res) => {
 
 		// Update barber rating stats
 		const reviews = await prisma.review.findMany({
-			where: { barberId: id }
+			where: { barberId: barber.id }
 		})
 
 		const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
 		const averageRating = totalRating / reviews.length
 
 		await prisma.barberProfile.update({
-			where: { id },
+			where: { id: barber.id },
 			data: {
 				rating: parseFloat(averageRating.toFixed(1)),
 				reviewCount: reviews.length
@@ -440,12 +462,21 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 })
 
 // GET /api/barbers/:id/clients
-router.get("/:id/clients", async (req, res) => {
+router.get("/:id/clients", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
 	try {
+		const barber = await resolveBarberProfile(id)
+		if (!barber) {
+			return res.status(404).json({ error: "Barber not found" })
+		}
+
+		if (barber.userId !== req.user!.id) {
+			return res.status(403).json({ error: "Access denied" })
+		}
+
 		// Find all bookings for this barber to identify clients
 		const bookings = await prisma.booking.findMany({
-			where: { barberId: id },
+			where: { barberId: barber.id },
 			include: {
 				client: true,
 				service: true
@@ -479,7 +510,7 @@ router.get("/:id/clients", async (req, res) => {
 		const clientIds = Array.from(clientsMap.keys())
 		const notes = await prisma.barberClientNote.findMany({
 			where: {
-				barberId: id,
+				barberId: barber.id,
 				clientId: { in: clientIds }
 			}
 		})
@@ -509,34 +540,47 @@ router.get("/:id/clients", async (req, res) => {
 })
 
 // POST /api/barbers/:id/clients/:clientId/notes
-router.post("/:id/clients/:clientId/notes", async (req, res) => {
-	const { id, clientId } = req.params
-	const { notes, tags } = req.body
+router.post(
+	"/:id/clients/:clientId/notes",
+	authenticateToken,
+	async (req: AuthRequest, res) => {
+		const { id, clientId } = req.params
+		const { notes, tags } = req.body
 
-	try {
-		const note = await prisma.barberClientNote.upsert({
-			where: {
-				barberId_clientId: {
-					barberId: id,
-					clientId: clientId
-				}
-			},
-			update: {
-				notes,
-				tags: JSON.stringify(tags || [])
-			},
-			create: {
-				barberId: id,
-				clientId,
-				notes,
-				tags: JSON.stringify(tags || [])
+		try {
+			const barber = await resolveBarberProfile(id)
+			if (!barber) {
+				return res.status(404).json({ error: "Barber not found" })
 			}
-		})
-		res.json(note)
-	} catch (error) {
-		console.error("Save note error:", error)
-		res.status(500).json({ error: "Failed to save client notes" })
+
+			if (barber.userId !== req.user!.id) {
+				return res.status(403).json({ error: "Access denied" })
+			}
+
+			const note = await prisma.barberClientNote.upsert({
+				where: {
+					barberId_clientId: {
+						barberId: barber.id,
+						clientId: clientId
+					}
+				},
+				update: {
+					notes,
+					tags: JSON.stringify(tags || [])
+				},
+				create: {
+					barberId: barber.id,
+					clientId,
+					notes,
+					tags: JSON.stringify(tags || [])
+				}
+			})
+			res.json(note)
+		} catch (error) {
+			console.error("Save note error:", error)
+			res.status(500).json({ error: "Failed to save client notes" })
+		}
 	}
-})
+)
 
 export default router

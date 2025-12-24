@@ -24,6 +24,17 @@ const express_1 = require("express");
 const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
+// Helper to map barber profile to frontend interface
+const mapBarber = (profile) => {
+    const { user } = profile, rest = __rest(profile, ["user"]);
+    return Object.assign(Object.assign(Object.assign({}, user), rest), { specialties: typeof rest.specialties === "string"
+            ? JSON.parse(rest.specialties)
+            : rest.specialties, schedule: typeof rest.schedule === "string" ? JSON.parse(rest.schedule) : rest.schedule, portfolio: typeof rest.portfolio === "string" ? JSON.parse(rest.portfolio) : rest.portfolio, holidays: rest.holidays
+            ? typeof rest.holidays === "string"
+                ? JSON.parse(rest.holidays)
+                : rest.holidays
+            : undefined });
+};
 // GET /api/users/:id
 router.get("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -66,17 +77,13 @@ router.get("/:id/bookings", auth_1.authenticateToken, (req, res) => __awaiter(vo
             },
             orderBy: { date: "desc" }
         });
-        res.json(bookings);
+        const mappedBookings = bookings.map((booking) => (Object.assign(Object.assign({}, booking), { barber: booking.barber ? mapBarber(booking.barber) : null })));
+        res.json(mappedBookings);
     }
     catch (error) {
         res.status(500).json({ error: "Failed to fetch bookings" });
     }
 }));
-// Helper to map barber profile to frontend interface
-const mapBarber = (profile) => {
-    const { user } = profile, rest = __rest(profile, ["user"]);
-    return Object.assign(Object.assign(Object.assign({}, user), rest), { specialties: JSON.parse(rest.specialties), schedule: JSON.parse(rest.schedule), portfolio: JSON.parse(rest.portfolio), holidays: rest.holidays ? JSON.parse(rest.holidays) : undefined });
-};
 // GET /api/users/:id/favorites
 router.get("/:id/favorites", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

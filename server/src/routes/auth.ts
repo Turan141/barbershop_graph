@@ -2,9 +2,9 @@ import { Router } from "express"
 import { prisma } from "../db"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { getJwtSecret } from "../config"
 
 const router = Router()
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
 
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
 		}
 
 		// Generate real JWT
-		const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
+		const token = jwt.sign({ id: user.id, role: user.role }, getJwtSecret(), {
 			expiresIn: "24h"
 		})
 
@@ -92,7 +92,7 @@ router.post("/register", async (req, res) => {
 			}
 		}
 
-		const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
+		const token = jwt.sign({ id: user.id, role: user.role }, getJwtSecret(), {
 			expiresIn: "24h"
 		})
 		const { password: _, ...userWithoutPassword } = user as any

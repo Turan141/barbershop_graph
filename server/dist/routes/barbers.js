@@ -27,13 +27,28 @@ const express_1 = require("express");
 const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = require("../config");
 const router = (0, express_1.Router)();
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+function resolveBarberProfile(idOrUserId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let barber = yield db_1.prisma.barberProfile.findUnique({
+            where: { id: idOrUserId },
+            select: { id: true, userId: true }
+        });
+        if (!barber) {
+            barber = yield db_1.prisma.barberProfile.findUnique({
+                where: { userId: idOrUserId },
+                select: { id: true, userId: true }
+            });
+        }
+        return barber;
+    });
+}
 const mapBarber = (profile) => {
     const { user } = profile, rest = __rest(profile, ["user"]);
     return Object.assign(Object.assign(Object.assign({}, user), rest), { 
         // Ensure ID is the barber profile ID, not user ID (though spread order handles this, let's be explicit if needed, but rest.id comes after user.id)
-        specialties: JSON.parse(rest.specialties), schedule: JSON.parse(rest.schedule), portfolio: JSON.parse(rest.portfolio), holidays: rest.holidays ? JSON.parse(rest.holidays) : undefined });
+        specialties: JSON.parse(rest.specialties), schedule: JSON.parse(rest.schedule), portfolio: JSON.parse(rest.portfolio), previewImageUrl: rest.previewImageUrl, holidays: rest.holidays ? JSON.parse(rest.holidays) : undefined });
 };
 // GET /api/barbers
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -102,12 +117,12 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     // Check for auth token to determine if we show full details
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
     let requesterId = null;
     if (token) {
         try {
-            const verified = jsonwebtoken_1.default.verify(token, JWT_SECRET);
+            const verified = jsonwebtoken_1.default.verify(token, (0, config_1.getJwtSecret)());
             requesterId = verified.id;
         }
         catch (e) {
@@ -116,16 +131,7 @@ router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
     try {
         // Resolve barber ID (could be profile ID or user ID)
-        let barber = yield db_1.prisma.barberProfile.findUnique({
-            where: { id },
-            select: { id: true, userId: true }
-        });
-        if (!barber) {
-            barber = yield db_1.prisma.barberProfile.findUnique({
-                where: { userId: id },
-                select: { id: true, userId: true }
-            });
-        }
+        const barber = yield resolveBarberProfile(id);
         if (!barber) {
             return res.status(404).json({ error: "Barber not found" });
         }
@@ -145,12 +151,108 @@ router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).json({ error: "Failed to fetch bookings" });
     }
 }));
-// POST /api/barbers/:id/reviews
-router.post("/:id/reviews", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// GET /api/barbers/:id/stats
+router.get("/:id/stats", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { userId, rating, text } = req.body;
-    if (!userId || !rating) {
+    const userId = req.user.id;
+    try {
+        const profile = yield db_1.prisma.barberProfile.findUnique({
+            where: { id },
+            select: { userId: true }
+        });
+        if (!profile) {
+            return res.status(404).json({ error: "Barber not found" });
+        }
+        if (profile.userId !== userId) {
+            return res.status(403).json({ error: "Access denied" });
+        }
+        // Fetch all bookings for calculations
+        // In a real app with millions of rows, we would use aggregate queries or raw SQL for performance.
+        // For this scale, fetching and processing in memory is fine and flexible.
+        const bookings = yield db_1.prisma.booking.findMany({
+            where: { barberId: id },
+            include: { service: true }
+        });
+        const now = new Date();
+        const todayStr = now.toISOString().split("T")[0];
+        // Helper to get date string for X days ago
+        const getDayStr = (daysAgo) => {
+            const d = new Date(now);
+            d.setDate(d.getDate() - daysAgo);
+            return d.toISOString().split("T")[0];
+        };
+        const last7Days = Array.from({ length: 7 }, (_, i) => getDayStr(6 - i)); // [6 days ago, ..., today]
+        // Calculate Stats
+        let todayRevenue = 0;
+        let todayBookings = 0;
+        let monthRevenue = 0;
+        let monthBookings = 0;
+        let totalClients = new Set();
+        const currentMonth = now.toISOString().slice(0, 7); // YYYY-MM
+        const chartData = last7Days.map((date) => ({
+            date,
+            revenue: 0,
+            bookings: 0
+        }));
+        bookings.forEach((b) => {
+            var _a;
+            // Only count confirmed or completed for revenue
+            const isPaid = b.status === "completed" || b.status === "confirmed";
+            const price = ((_a = b.service) === null || _a === void 0 ? void 0 : _a.price) || 0;
+            // Today
+            if (b.date === todayStr) {
+                todayBookings++;
+                if (isPaid)
+                    todayRevenue += price;
+            }
+            // Month
+            if (b.date.startsWith(currentMonth)) {
+                monthBookings++;
+                if (isPaid)
+                    monthRevenue += price;
+            }
+            // Total Clients (Unique)
+            if (b.clientId)
+                totalClients.add(b.clientId);
+            // Chart Data
+            const dayStat = chartData.find((d) => d.date === b.date);
+            if (dayStat) {
+                dayStat.bookings++;
+                if (isPaid)
+                    dayStat.revenue += price;
+            }
+        });
+        res.json({
+            today: { revenue: todayRevenue, bookings: todayBookings },
+            month: { revenue: monthRevenue, bookings: monthBookings },
+            totalClients: totalClients.size,
+            chart: chartData
+        });
+    }
+    catch (error) {
+        console.error("Stats error:", error);
+        res.status(500).json({ error: "Failed to fetch stats" });
+    }
+}));
+// POST /api/barbers/:id/reviews
+router.post("/:id/reviews", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { rating, text } = req.body;
+    const userId = req.user.id;
+    const barber = yield resolveBarberProfile(id);
+    if (!barber) {
+        return res.status(404).json({ error: "Barber not found" });
+    }
+    // Optional: restrict reviews to clients only
+    if (req.user.role !== "client") {
+        return res.status(403).json({ error: "Only clients can submit reviews" });
+    }
+    if (!rating) {
         return res.status(400).json({ error: "Missing required fields" });
+    }
+    const ratingNum = Number(rating);
+    if (!Number.isFinite(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+        return res.status(400).json({ error: "Rating must be an integer between 1 and 5" });
     }
     try {
         // Check if user already reviewed
@@ -158,7 +260,7 @@ router.post("/:id/reviews", (req, res) => __awaiter(void 0, void 0, void 0, func
             where: {
                 userId_barberId: {
                     userId,
-                    barberId: id
+                    barberId: barber.id
                 }
             }
         });
@@ -169,8 +271,8 @@ router.post("/:id/reviews", (req, res) => __awaiter(void 0, void 0, void 0, func
         const review = yield db_1.prisma.review.create({
             data: {
                 userId,
-                barberId: id,
-                rating: Number(rating),
+                barberId: barber.id,
+                rating: ratingNum,
                 text
             },
             include: {
@@ -179,12 +281,12 @@ router.post("/:id/reviews", (req, res) => __awaiter(void 0, void 0, void 0, func
         });
         // Update barber rating stats
         const reviews = yield db_1.prisma.review.findMany({
-            where: { barberId: id }
+            where: { barberId: barber.id }
         });
         const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
         const averageRating = totalRating / reviews.length;
         yield db_1.prisma.barberProfile.update({
-            where: { id },
+            where: { id: barber.id },
             data: {
                 rating: parseFloat(averageRating.toFixed(1)),
                 reviewCount: reviews.length
@@ -244,6 +346,8 @@ router.put("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
         const updateData = {};
         if (data.location)
             updateData.location = data.location;
+        if (data.phone)
+            updateData.phone = data.phone;
         if (data.bio)
             updateData.bio = data.bio;
         if (data.specialties)
@@ -252,8 +356,14 @@ router.put("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
             updateData.schedule = JSON.stringify(data.schedule);
         if (data.portfolio)
             updateData.portfolio = JSON.stringify(data.portfolio);
+        if (data.previewImageUrl !== undefined)
+            updateData.previewImageUrl = data.previewImageUrl;
         if (data.holidays)
             updateData.holidays = JSON.stringify(data.holidays);
+        if (data.verificationDocumentUrl)
+            updateData.verificationDocumentUrl = data.verificationDocumentUrl;
+        if (data.verificationStatus === "pending")
+            updateData.verificationStatus = "pending";
         // Handle Services Update
         if (data.services && Array.isArray(data.services)) {
             const currentServices = yield db_1.prisma.service.findMany({
@@ -326,6 +436,112 @@ router.put("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
     catch (error) {
         console.error("Update error:", error);
         res.status(500).json({ error: "Failed to update profile" });
+    }
+}));
+// GET /api/barbers/:id/clients
+router.get("/:id/clients", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const barber = yield resolveBarberProfile(id);
+        if (!barber) {
+            return res.status(404).json({ error: "Barber not found" });
+        }
+        if (barber.userId !== req.user.id) {
+            return res.status(403).json({ error: "Access denied" });
+        }
+        // Find all bookings for this barber to identify clients
+        const bookings = yield db_1.prisma.booking.findMany({
+            where: { barberId: barber.id },
+            include: {
+                client: true,
+                service: true
+            },
+            orderBy: { date: "desc" }
+        });
+        // Group by client
+        const clientsMap = new Map();
+        for (const booking of bookings) {
+            if (!clientsMap.has(booking.clientId)) {
+                clientsMap.set(booking.clientId, {
+                    user: booking.client,
+                    bookings: [],
+                    totalRevenue: 0,
+                    lastBooking: booking.date
+                });
+            }
+            const clientData = clientsMap.get(booking.clientId);
+            clientData.bookings.push(booking);
+            // Calculate revenue from completed bookings
+            // In a real app, we'd check payment status too
+            if (booking.status === "completed" || booking.status === "confirmed") {
+                clientData.totalRevenue += booking.service.price;
+            }
+        }
+        // Fetch notes for these clients
+        const clientIds = Array.from(clientsMap.keys());
+        const notes = yield db_1.prisma.barberClientNote.findMany({
+            where: {
+                barberId: barber.id,
+                clientId: { in: clientIds }
+            }
+        });
+        const notesMap = new Map(notes.map((n) => [n.clientId, n]));
+        const result = Array.from(clientsMap.values()).map((c) => {
+            const note = notesMap.get(c.user.id);
+            return {
+                id: c.user.id,
+                name: c.user.name,
+                email: c.user.email,
+                avatarUrl: c.user.avatarUrl,
+                totalBookings: c.bookings.length,
+                totalRevenue: c.totalRevenue,
+                lastBookingDate: c.lastBooking,
+                notes: (note === null || note === void 0 ? void 0 : note.notes) || "",
+                tags: (note === null || note === void 0 ? void 0 : note.tags) ? JSON.parse(note.tags) : []
+            };
+        });
+        res.json(result);
+    }
+    catch (error) {
+        console.error("Fetch clients error:", error);
+        res.status(500).json({ error: "Failed to fetch clients" });
+    }
+}));
+// POST /api/barbers/:id/clients/:clientId/notes
+router.post("/:id/clients/:clientId/notes", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, clientId } = req.params;
+    const { notes, tags } = req.body;
+    try {
+        const barber = yield resolveBarberProfile(id);
+        if (!barber) {
+            return res.status(404).json({ error: "Barber not found" });
+        }
+        if (barber.userId !== req.user.id) {
+            return res.status(403).json({ error: "Access denied" });
+        }
+        const note = yield db_1.prisma.barberClientNote.upsert({
+            where: {
+                barberId_clientId: {
+                    barberId: barber.id,
+                    clientId: clientId
+                }
+            },
+            update: {
+                notes,
+                tags: JSON.stringify(tags || [])
+            },
+            create: {
+                barberId: barber.id,
+                clientId,
+                notes,
+                tags: JSON.stringify(tags || [])
+            }
+        });
+        res.json(note);
+    }
+    catch (error) {
+        console.error("Save note error:", error);
+        res.status(500).json({ error: "Failed to save client notes" });
     }
 }));
 exports.default = router;
