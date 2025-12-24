@@ -22,17 +22,27 @@ async function resolveBarberProfile(idOrUserId: string) {
 	return barber
 }
 
+const safeJsonParse = (jsonString: string | null | undefined, fallback: any = []) => {
+	if (!jsonString) return fallback
+	try {
+		return JSON.parse(jsonString)
+	} catch (e) {
+		console.error("Failed to parse JSON:", jsonString, e)
+		return fallback
+	}
+}
+
 const mapBarber = (profile: any) => {
 	const { user, ...rest } = profile
 	return {
 		...user, // name, email, role, avatarUrl
 		...rest, // id, rating, location, etc.
 		// Ensure ID is the barber profile ID, not user ID (though spread order handles this, let's be explicit if needed, but rest.id comes after user.id)
-		specialties: JSON.parse(rest.specialties),
-		schedule: JSON.parse(rest.schedule),
-		portfolio: JSON.parse(rest.portfolio),
+		specialties: safeJsonParse(rest.specialties, []),
+		schedule: safeJsonParse(rest.schedule, {}),
+		portfolio: safeJsonParse(rest.portfolio, []),
 		previewImageUrl: rest.previewImageUrl,
-		holidays: rest.holidays ? JSON.parse(rest.holidays) : undefined
+		holidays: rest.holidays ? safeJsonParse(rest.holidays, []) : undefined
 	}
 }
 
@@ -552,7 +562,7 @@ router.get("/:id/clients", authenticateToken, async (req: AuthRequest, res) => {
 				totalRevenue: c.totalRevenue,
 				lastBookingDate: c.lastBooking,
 				notes: note?.notes || "",
-				tags: note?.tags ? JSON.parse(note.tags) : []
+				tags: note?.tags ? safeJsonParse(note.tags, []) : []
 			}
 		})
 

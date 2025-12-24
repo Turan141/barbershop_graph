@@ -4,25 +4,26 @@ import { authenticateToken, AuthRequest } from "../middleware/auth"
 
 const router = Router()
 
+const safeJsonParse = (jsonString: string | null | undefined, fallback: any = []) => {
+	if (!jsonString) return fallback
+	try {
+		return JSON.parse(jsonString)
+	} catch (e) {
+		console.error("Failed to parse JSON:", jsonString, e)
+		return fallback
+	}
+}
+
 // Helper to map barber profile to frontend interface
 const mapBarber = (profile: any) => {
 	const { user, ...rest } = profile
 	return {
 		...user,
 		...rest,
-		specialties:
-			typeof rest.specialties === "string"
-				? JSON.parse(rest.specialties)
-				: rest.specialties,
-		schedule:
-			typeof rest.schedule === "string" ? JSON.parse(rest.schedule) : rest.schedule,
-		portfolio:
-			typeof rest.portfolio === "string" ? JSON.parse(rest.portfolio) : rest.portfolio,
-		holidays: rest.holidays
-			? typeof rest.holidays === "string"
-				? JSON.parse(rest.holidays)
-				: rest.holidays
-			: undefined
+		specialties: safeJsonParse(rest.specialties, []),
+		schedule: safeJsonParse(rest.schedule, {}),
+		portfolio: safeJsonParse(rest.portfolio, []),
+		holidays: rest.holidays ? safeJsonParse(rest.holidays, []) : undefined
 	}
 }
 
