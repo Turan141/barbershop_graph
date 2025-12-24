@@ -49,6 +49,8 @@ const mapBarber = (profile: any) => {
 // GET /api/barbers
 router.get("/", async (req, res) => {
 	const { query } = req.query
+	const page = req.query.page ? Number(req.query.page) : undefined
+	const limit = req.query.limit ? Number(req.query.limit) : 20
 
 	const where: any = {}
 	if (query) {
@@ -61,6 +63,26 @@ router.get("/", async (req, res) => {
 	}
 
 	try {
+		if (page) {
+			const skip = (page - 1) * limit
+			const [barbers, total] = await prisma.$transaction([
+				prisma.barberProfile.findMany({
+					where,
+					include: {
+						user: true,
+						services: true
+					},
+					skip,
+					take: limit
+				}),
+				prisma.barberProfile.count({ where })
+			])
+			return res.json({
+				data: barbers.map(mapBarber),
+				meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+			})
+		}
+
 		const barbers = await prisma.barberProfile.findMany({
 			where,
 			include: {

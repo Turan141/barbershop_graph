@@ -8,8 +8,33 @@ const router = Router()
 // GET /api/bookings (User's bookings)
 router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 	const userId = req.user!.id
+	const page = req.query.page ? Number(req.query.page) : undefined
+	const limit = req.query.limit ? Number(req.query.limit) : 20
 
 	try {
+		if (page) {
+			const skip = (page - 1) * limit
+			const [bookings, total] = await prisma.$transaction([
+				prisma.booking.findMany({
+					where: { clientId: userId },
+					include: {
+						barber: {
+							include: { user: true }
+						},
+						service: true
+					},
+					orderBy: { date: "desc" },
+					skip,
+					take: limit
+				}),
+				prisma.booking.count({ where: { clientId: userId } })
+			])
+			return res.json({
+				data: bookings,
+				meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+			})
+		}
+
 		const bookings = await prisma.booking.findMany({
 			where: { clientId: userId },
 			include: {

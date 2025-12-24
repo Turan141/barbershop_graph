@@ -57,11 +57,13 @@ export const api = {
 	},
 
 	barbers: {
-		list: (query?: string) => {
+		list: (query?: string, page?: number, limit?: number) => {
 			const params = new URLSearchParams()
 			if (query) params.append("query", query)
+			if (page) params.append("page", page.toString())
+			if (limit) params.append("limit", limit.toString())
 			return fetch(`${API_BASE}/barbers?${params.toString()}`).then((res) =>
-				handleResponse<Barber[]>(res)
+				handleResponse<any>(res)
 			)
 		},
 		get: (id: string) =>
@@ -125,10 +127,15 @@ export const api = {
 			}).then((res) => handleResponse<Booking[]>(res))
 		},
 
-		listForClient: (clientId: string) =>
-			fetch(`${API_BASE}/users/${clientId}/bookings`, {
+		listForClient: (clientId: string, page?: number, limit?: number) => {
+			const params = new URLSearchParams()
+			if (page) params.append("page", page.toString())
+			if (limit) params.append("limit", limit.toString())
+			const suffix = params.toString() ? `?${params.toString()}` : ""
+			return fetch(`${API_BASE}/users/${clientId}/bookings${suffix}`, {
 				headers: getHeaders()
-			}).then((res) => handleResponse<Booking[]>(res)),
+			}).then((res) => handleResponse<any>(res))
+		},
 
 		updateStatus: (id: string, status: Booking["status"], comment?: string) =>
 			fetch(`${API_BASE}/bookings/${id}`, {

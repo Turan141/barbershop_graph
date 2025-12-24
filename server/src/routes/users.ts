@@ -61,12 +61,41 @@ router.get("/:id", authenticateToken, async (req: AuthRequest, res) => {
 // GET /api/users/:id/bookings
 router.get("/:id/bookings", authenticateToken, async (req: AuthRequest, res) => {
 	const { id } = req.params
+	const page = req.query.page ? Number(req.query.page) : undefined
+	const limit = req.query.limit ? Number(req.query.limit) : 20
 
 	if (req.user!.id !== id) {
 		return res.status(403).json({ error: "Access denied" })
 	}
 
 	try {
+		if (page) {
+			const skip = (page - 1) * limit
+			const [bookings, total] = await prisma.$transaction([
+				prisma.booking.findMany({
+					where: { clientId: id },
+					include: {
+						barber: { include: { user: true } },
+						service: true
+					},
+					orderBy: { date: "desc" },
+					skip,
+					take: limit
+				}),
+				prisma.booking.count({ where: { clientId: id } })
+			])
+
+			const mappedBookings = bookings.map((booking) => ({
+				...booking,
+				barber: booking.barber ? mapBarber(booking.barber) : null
+			}))
+
+			return res.json({
+				data: mappedBookings,
+				meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+			})
+		}
+
 		const bookings = await prisma.booking.findMany({
 			where: { clientId: id },
 			include: {

@@ -90,6 +90,7 @@ model Booking {
   service   Service @relation(fields: [serviceId], references: [id])
 
   @@index([barberId, date])
+  @@index([clientId])
 }
 
 model Favorite {
