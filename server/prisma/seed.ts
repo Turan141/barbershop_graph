@@ -435,7 +435,7 @@ async function main() {
 		const user = await prisma.user.upsert({
 			where: { email: u.email },
 			update: {
-				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
+				password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
 			},
 			create: {
 				id: u.id, // Ensure ID is used
@@ -443,7 +443,7 @@ async function main() {
 				email: u.email,
 				role: u.role as any,
 				avatarUrl: u.avatarUrl,
-				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
+				password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
 			}
 		})
 		console.log(`Created/Updated user with id: ${user.id}`)
@@ -455,7 +455,7 @@ async function main() {
 		const user = await prisma.user.upsert({
 			where: { email: b.email },
 			update: {
-				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
+				password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
 			},
 			create: {
 				id: b.id + "_user", // e.g. b1_user
@@ -463,7 +463,7 @@ async function main() {
 				email: b.email,
 				role: "barber",
 				avatarUrl: b.avatarUrl,
-				password: "$2b$10$3AnU7N5dg3X4cXcfzkNRDeW/x4TCg2SCu8aAmyUYogtycF0Z87P/2"
+				password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
 			}
 		})
 
