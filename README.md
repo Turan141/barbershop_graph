@@ -96,6 +96,39 @@ npx prisma migrate resolve --applied 20251224180000_baseline
 
 After baselining, ship future schema changes via new migrations + `prisma migrate deploy`.
 
+Database has old migrations recorded that are not present in this repo:
+
+- This usually means the database was previously managed by a different set of migration folders (or they were deleted/renamed).
+- Recommended fix for production is to use a fresh database, then run `prisma migrate deploy`, and seed/create barbers.
+- If you must keep the existing database, you need to re-baseline its migration history to match this repo.
+
+One approach (advanced; be careful):
+
+1. Back up the database.
+2. Clear Prisma migration history table (this does **not** drop your actual tables/data):
+
+```sql
+DELETE FROM "_prisma_migrations";
+```
+
+3. Mark the baseline as applied:
+
+```bash
+cd server
+npx prisma migrate resolve --applied 20251224180000_baseline
+```
+
+### Production note: "No barbers"
+
+If the production UI shows "No barbers" with no load error, the API is responding with an empty list (typically because the production database is empty or points to a different `DATABASE_URL`).
+
+- To seed demo barbers into the currently configured database:
+
+```bash
+cd server
+npm run seed
+```
+
 ### Testing the Flow
 
 1. **Login**: Go to `/login`. Use the pre-filled demo credentials (`client@test.com`).

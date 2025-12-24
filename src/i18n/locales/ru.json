@@ -142,6 +142,10 @@
 		"book_another": "Записаться еще",
 		"booking_failed": "Не удалось записаться",
 		"dynamic_slots_hint": "Доступное время рассчитывается исходя из длительности выбранной услуги.",
+		"loading_availability": "Загружаем доступные слоты...",
+		"availability_load_failed": "Не удалось загрузить доступность.",
+		"retry": "Повторить",
+		"closed_day": "В этот день барбер не работает.",
 		"errors": {
 			"SLOT_ALREADY_BOOKED": "Это время уже занято",
 			"MAX_ACTIVE_BOOKINGS_REACHED": "Вы достигли лимита в 3 активные записи."

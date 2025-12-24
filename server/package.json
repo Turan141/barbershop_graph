@@ -7,6 +7,10 @@
 		"start": "node dist/index.js",
 		"dev": "nodemon src/index.ts",
 		"build": "tsc",
+		"prisma:generate": "prisma generate",
+		"prisma:migrate:deploy": "prisma migrate deploy",
+		"prisma:migrate:status": "prisma migrate status",
+		"prisma:migrate:resolve:baseline": "prisma migrate resolve --applied 20251224180000_baseline",
 		"postinstall": "prisma generate",
 		"seed": "ts-node prisma/seed.ts"
 	},

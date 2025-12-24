@@ -347,6 +347,10 @@
 		"book_another": "Book Another",
 		"booking_failed": "Failed to book appointment",
 		"dynamic_slots_hint": "Available time slots are calculated based on the duration of the selected service.",
+		"loading_availability": "Loading availability...",
+		"availability_load_failed": "Failed to load availability.",
+		"retry": "Retry",
+		"closed_day": "This barber is not available on this day.",
 		"errors": {
 			"SLOT_ALREADY_BOOKED": "This time slot is already booked",
 			"MAX_ACTIVE_BOOKINGS_REACHED": "You have reached the maximum limit of 3 active bookings."

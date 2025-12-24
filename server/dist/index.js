@@ -23,10 +23,12 @@ const auth_1 = __importDefault(require("./routes/auth"));
 const barbers_1 = __importDefault(require("./routes/barbers"));
 const bookings_1 = __importDefault(require("./routes/bookings"));
 const users_1 = __importDefault(require("./routes/users"));
+const debug_1 = __importDefault(require("./routes/debug"));
 app.use("/api/auth", rateLimit_1.authLimiter, auth_1.default);
 app.use("/api/barbers", barbers_1.default);
 app.use("/api/bookings", rateLimit_1.bookingsLimiter, bookings_1.default);
 app.use("/api/users", users_1.default);
+app.use("/api/debug", debug_1.default);
 if (require.main === module) {
     app.listen(Number(PORT), "0.0.0.0", () => {
         console.log(`Server running on http://0.0.0.0:${PORT}`);

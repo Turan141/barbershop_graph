@@ -50,6 +50,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	>("idle")
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const [availabilityLoading, setAvailabilityLoading] = useState(false)
+	const [availabilityError, setAvailabilityError] = useState(false)
+	const [availabilityReloadNonce, setAvailabilityReloadNonce] = useState(0)
 
 	useEffect(() => {
 		let cancelled = false
@@ -61,13 +63,17 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		}
 
 		setAvailabilityLoading(true)
+		setAvailabilityError(false)
 		setBookings([])
 		api.bookings
 			.listForBarber(barber.id, { date: selectedDate })
 			.then((data) => {
 				if (!cancelled) setBookings(data)
 			})
-			.catch((err) => console.error("Failed to fetch bookings", err))
+			.catch((err) => {
+				console.error("Failed to fetch bookings", err)
+				if (!cancelled) setAvailabilityError(true)
+			})
 			.finally(() => {
 				if (!cancelled) setAvailabilityLoading(false)
 			})
@@ -75,7 +81,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		return () => {
 			cancelled = true
 		}
-	}, [barber.id, selectedDate])
+	}, [barber.id, selectedDate, availabilityReloadNonce])
 
 	const handleBook = async () => {
 		if (!user) return navigate("/login")
@@ -171,6 +177,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	}
 
 	const availableSlots = generateSlots()
+	const selectedDayName = dates.find((d) => d.value === selectedDate)?.dayName || ""
+	const daySchedule = selectedDayName ? barber.schedule[selectedDayName] : undefined
 
 	if (bookingStatus === "success") {
 		return (
@@ -372,6 +380,32 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						{t("profile.dynamic_slots_hint") ||
 							"Time slots are calculated based on the service duration."}
 					</p>
+
+					{availabilityLoading && (
+						<div className='mb-3 p-2.5 bg-slate-50 border border-slate-200 rounded-lg flex items-start gap-2 text-xs text-slate-700'>
+							<Clock className='w-4 h-4 flex-shrink-0 text-slate-500' />
+							<p>{t("profile.loading_availability") || "Loading availability..."}</p>
+						</div>
+					)}
+
+					{availabilityError && !availabilityLoading && (
+						<div className='mb-3 p-2.5 bg-amber-50 border border-amber-200 rounded-lg flex items-start justify-between gap-3 text-xs text-amber-900'>
+							<div className='flex items-start gap-2'>
+								<AlertCircle className='w-4 h-4 flex-shrink-0 text-amber-700' />
+								<p>
+									{t("profile.availability_load_failed") ||
+										"Failed to load availability."}
+								</p>
+							</div>
+							<button
+								onClick={() => setAvailabilityReloadNonce((n) => n + 1)}
+								className='text-amber-800 font-bold underline underline-offset-2 whitespace-nowrap'
+								type='button'
+							>
+								{t("profile.retry") || "Retry"}
+							</button>
+						</div>
+					)}
 					<div className='grid grid-cols-3 gap-3 max-h-48 sm:max-h-60 overflow-y-auto pr-1 custom-scrollbar'>
 						{availableSlots.length > 0 ? (
 							availableSlots.map((time) => {
@@ -412,7 +446,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 							})
 						) : (
 							<div className='col-span-3 text-sm text-slate-400 text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
-								{t("profile.no_slots")}
+								{selectedService && selectedDate && !daySchedule
+									? t("profile.closed_day") || "This barber is not available on this day."
+									: t("profile.no_slots")}
 							</div>
 						)}
 					</div>

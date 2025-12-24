@@ -24,11 +24,13 @@ import authRoutes from "./routes/auth"
 import barberRoutes from "./routes/barbers"
 import bookingRoutes from "./routes/bookings"
 import userRoutes from "./routes/users"
+import debugRoutes from "./routes/debug"
 
 app.use("/api/auth", authLimiter, authRoutes)
 app.use("/api/barbers", barberRoutes)
 app.use("/api/bookings", bookingsLimiter, bookingRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/debug", debugRoutes)
 
 if (require.main === module) {
 	app.listen(Number(PORT), "0.0.0.0", () => {
