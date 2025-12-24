@@ -32,8 +32,11 @@ export function getCorsOptions(): cors.CorsOptions {
 		origin: (origin, callback) => {
 			// Allow non-browser clients (no Origin header) like curl/Capacitor native.
 			if (!origin) return callback(null, true)
-			if (allowList.includes("*") || allowList.includes(origin)) return callback(null, true)
-			console.error(`CORS blocked origin: ${origin}. Allowed: ${JSON.stringify(allowList)}`)
+			if (allowList.includes("*") || allowList.includes(origin))
+				return callback(null, true)
+			console.error(
+				`CORS blocked origin: ${origin}. Allowed: ${JSON.stringify(allowList)}`
+			)
 			return callback(new Error("Not allowed by CORS"))
 		},
 		credentials: true,
