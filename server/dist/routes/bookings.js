@@ -19,7 +19,7 @@ router.get("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0
     const userId = req.user.id;
     try {
         const bookings = yield db_1.prisma.booking.findMany({
-            where: { clientId: String(userId) }, // Assuming clientId is stored as string in DB based on previous code, but user.id is number. Let's check schema if possible, but previous code used string.
+            where: { clientId: userId },
             include: {
                 barber: {
                     include: { user: true }
@@ -36,18 +36,39 @@ router.get("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0
 }));
 // POST /api/bookings
 router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { barberId, serviceId, date, time } = req.body;
     const clientId = req.user.id;
+    if (((_a = req.user) === null || _a === void 0 ? void 0 : _a.role) !== "client") {
+        return res.status(403).json({ error: "Only clients can create bookings" });
+    }
+    if (typeof barberId !== "string" || typeof serviceId !== "string") {
+        return res.status(400).json({ error: "Invalid barberId or serviceId" });
+    }
+    if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return res.status(400).json({ error: "Invalid date. Expected YYYY-MM-DD" });
+    }
+    if (typeof time !== "string" || !/^\d{2}:\d{2}$/.test(time)) {
+        return res.status(400).json({ error: "Invalid time. Expected HH:mm" });
+    }
     const slotKey = `${barberId}:${date}:${time}`;
     try {
+        const [barberProfile, service] = yield Promise.all([
+            db_1.prisma.barberProfile.findUnique({ where: { id: barberId }, select: { id: true } }),
+            db_1.prisma.service.findUnique({ where: { id: serviceId }, select: { id: true, barberId: true } })
+        ]);
+        if (!barberProfile) {
+            return res.status(404).json({ error: "Barber not found" });
+        }
+        if (!service) {
+            return res.status(404).json({ error: "Service not found" });
+        }
+        if (service.barberId !== barberId) {
+            return res.status(400).json({ error: "Service does not belong to this barber" });
+        }
         // 1. Prevent Double Booking (fast path)
         const existingBooking = yield db_1.prisma.booking.findFirst({
-            where: {
-                barberId,
-                date,
-                time,
-                status: { not: "cancelled" }
-            }
+            where: { slotKey }
         });
         if (existingBooking) {
             return res.status(409).json({
@@ -89,7 +110,8 @@ router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 
         }
         catch (error) {
             // Race-safe: DB unique index rejects duplicate active slots
-            if (error instanceof client_1.Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+            if (error instanceof client_1.Prisma.PrismaClientKnownRequestError &&
+                error.code === "P2002") {
                 return res.status(409).json({
                     error: "This time slot is already booked",
                     errorCode: "SLOT_ALREADY_BOOKED"

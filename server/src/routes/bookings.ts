@@ -11,7 +11,7 @@ router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 
 	try {
 		const bookings = await prisma.booking.findMany({
-			where: { clientId: String(userId) }, // Assuming clientId is stored as string in DB based on previous code, but user.id is number. Let's check schema if possible, but previous code used string.
+			where: { clientId: userId },
 			include: {
 				barber: {
 					include: { user: true }
@@ -30,17 +30,44 @@ router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 	const { barberId, serviceId, date, time } = req.body
 	const clientId = req.user!.id
+	if (req.user?.role !== "client") {
+		return res.status(403).json({ error: "Only clients can create bookings" })
+	}
+
+	if (typeof barberId !== "string" || typeof serviceId !== "string") {
+		return res.status(400).json({ error: "Invalid barberId or serviceId" })
+	}
+	if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+		return res.status(400).json({ error: "Invalid date. Expected YYYY-MM-DD" })
+	}
+	if (typeof time !== "string" || !/^\d{2}:\d{2}$/.test(time)) {
+		return res.status(400).json({ error: "Invalid time. Expected HH:mm" })
+	}
+
 	const slotKey = `${barberId}:${date}:${time}`
 
 	try {
+		const [barberProfile, service] = await Promise.all([
+			prisma.barberProfile.findUnique({ where: { id: barberId }, select: { id: true } }),
+			prisma.service.findUnique({
+				where: { id: serviceId },
+				select: { id: true, barberId: true }
+			})
+		])
+
+		if (!barberProfile) {
+			return res.status(404).json({ error: "Barber not found" })
+		}
+		if (!service) {
+			return res.status(404).json({ error: "Service not found" })
+		}
+		if (service.barberId !== barberId) {
+			return res.status(400).json({ error: "Service does not belong to this barber" })
+		}
+
 		// 1. Prevent Double Booking (fast path)
 		const existingBooking = await prisma.booking.findFirst({
-			where: {
-				barberId,
-				date,
-				time,
-				status: { not: "cancelled" }
-			}
+			where: { slotKey }
 		})
 
 		if (existingBooking) {

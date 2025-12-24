@@ -11,9 +11,7 @@ const getApiBase = () => {
 		return "https://barbershop-graph-api.vercel.app/api"
 	}
 	// If running in Browser (Development or Production)
-	return (
-		import.meta.env.PROD ? "/api" : "http://localhost:3000/api"
-	)
+	return import.meta.env.PROD ? "/api" : "http://localhost:3000/api"
 }
 
 const API_BASE = getApiBase()
@@ -74,7 +72,7 @@ export const api = {
 				handleResponse<Review[]>(res)
 			),
 
-		addReview: (id: string, data: { userId: string; rating: number; text?: string }) =>
+		addReview: (id: string, data: { rating: number; text?: string }) =>
 			fetch(`${API_BASE}/barbers/${id}/reviews`, {
 				method: "POST",
 				headers: getHeaders(),

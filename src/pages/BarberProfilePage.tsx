@@ -73,7 +73,6 @@ export const BarberProfilePage = () => {
 		setSubmittingReview(true)
 		try {
 			const newReview = await api.barbers.addReview(id, {
-				userId: user.id,
 				rating,
 				text: reviewText
 			})

@@ -1,15 +1,19 @@
 # Barber Booking App
 
-A frontend-only React application for booking barber appointments, using MSW (Mock Service Worker) to simulate a backend.
+Full-stack barber booking app.
+
+- Frontend: React + Vite + TypeScript
+- Backend: Node.js (Express) + Prisma
+- Database: PostgreSQL (Neon)
 
 ## Features
 
 - **Search Barbers**: Filter by name, location, or service.
 - **Barber Profile**: View portfolio, services, and schedule.
 - **Booking System**: Select service, date, and time to book an appointment.
-- **Authentication**: Mock login/register flow.
+- **Authentication**: JWT login/register.
 - **Favorites**: Save your favorite barbers.
-- **Persistence**: All data is saved to `localStorage`.
+- **Persistence**: Stored in PostgreSQL via Prisma.
 
 ## Tech Stack
 
@@ -18,7 +22,8 @@ A frontend-only React application for booking barber appointments, using MSW (Mo
 - **Styling**: Tailwind CSS
 - **State Management**: Zustand
 - **Routing**: React Router DOM
-- **Mocking**: MSW (Mock Service Worker)
+- **Backend**: Express + Prisma
+- **Database**: PostgreSQL (Neon)
 - **Icons**: Lucide React
 
 ## Getting Started
@@ -37,17 +42,59 @@ A frontend-only React application for booking barber appointments, using MSW (Mo
 npm install
 ```
 
+Install backend dependencies:
+
+```bash
+npm -C server install
+```
+
 ### Running the App
 
-1. Start the development server:
+1. Configure backend env:
+
+- Create `server/.env` (see `server/.env.example`)
+- Required: `DATABASE_URL`, `JWT_SECRET`
+
+2. Start the backend:
+
+```bash
+npm -C server run dev
+```
+
+3. (Optional) Seed sample data:
+
+```bash
+npm -C server run seed
+```
+
+4. Start the frontend:
 
 ```bash
 npm run dev
 ```
 
-2. Open your browser at `http://localhost:5173`.
+Open your browser at the Vite URL printed in the terminal.
 
-**Note**: On the first load, MSW will initialize and intercept network requests. You might see a console message `[MSW] Mocking enabled`.
+### Database & Prisma migrations
+
+This repo includes a single baseline migration at `server/prisma/migrations/20251224180000_baseline`.
+
+Fresh database (recommended for CI / new environments):
+
+```bash
+cd server
+npx prisma migrate deploy
+npx prisma generate
+```
+
+Existing database that was created via `prisma db push` (no migrations history yet):
+
+```bash
+cd server
+npx prisma migrate resolve --applied 20251224180000_baseline
+```
+
+After baselining, ship future schema changes via new migrations + `prisma migrate deploy`.
 
 ### Testing the Flow
 
@@ -63,15 +110,15 @@ npm run dev
 
 ## Project Structure
 
-- `src/mocks`: MSW handlers and local database simulation.
 - `src/services`: API wrapper functions.
 - `src/store`: Zustand stores for global state.
 - `src/pages`: Main application pages.
 - `src/components`: Reusable UI components.
+- `server/src`: Express API.
+- `server/prisma`: Prisma schema, migrations, seed.
 
 ## Future Improvements
 
 - **Barber Dashboard**: Interface for barbers to manage bookings.
-- **Real Backend**: Replace MSW with a Node.js/Express server.
 - **Payments**: Integrate Stripe for payments.
 - **Notifications**: Email/SMS reminders.
