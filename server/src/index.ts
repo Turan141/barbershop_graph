@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import { getCorsOptions, requireEnv } from "./config"
+import { authLimiter, bookingsLimiter } from "./middleware/rateLimit"
 
 dotenv.config()
 
@@ -10,6 +11,9 @@ requireEnv("JWT_SECRET")
 
 const app = express()
 const PORT = process.env.PORT || 3000
+
+// Needed when running behind proxies (e.g., Vercel) so rate limiting uses the real client IP.
+app.set("trust proxy", 1)
 
 app.use(cors(getCorsOptions()))
 app.use(express.json({ limit: "10mb" }))
@@ -21,9 +25,9 @@ import barberRoutes from "./routes/barbers"
 import bookingRoutes from "./routes/bookings"
 import userRoutes from "./routes/users"
 
-app.use("/api/auth", authRoutes)
+app.use("/api/auth", authLimiter, authRoutes)
 app.use("/api/barbers", barberRoutes)
-app.use("/api/bookings", bookingRoutes)
+app.use("/api/bookings", bookingsLimiter, bookingRoutes)
 app.use("/api/users", userRoutes)
 
 if (require.main === module) {

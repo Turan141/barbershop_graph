@@ -107,6 +107,7 @@ router.get("/:id", async (req, res) => {
 // GET /api/barbers/:id/bookings
 router.get("/:id/bookings", async (req, res) => {
 	const { id } = req.params
+	const date = typeof req.query.date === "string" ? req.query.date : undefined
 
 	// Check for auth token to determine if we show full details
 	const authHeader = req.headers["authorization"]
@@ -132,14 +133,37 @@ router.get("/:id/bookings", async (req, res) => {
 
 		const isOwner = requesterId === barber.userId
 
-		const bookings = await prisma.booking.findMany({
-			where: { barberId: barber.id },
-			include: {
-				client: isOwner, // Only include client details if owner
-				service: true
-			},
-			orderBy: { date: "desc" }
-		})
+		let bookings: any[] = []
+		if (date) {
+			// Availability use-case: keep payload small and exclude cancelled slots.
+			bookings = await prisma.booking.findMany({
+				where: {
+					barberId: barber.id,
+					date,
+					status: { not: "cancelled" }
+				},
+				select: {
+					id: true,
+					date: true,
+					time: true,
+					status: true,
+					clientId: true,
+					barberId: true,
+					serviceId: true,
+					service: { select: { id: true, duration: true } },
+					...(isOwner ? { client: true } : {})
+				}
+			})
+		} else {
+			bookings = await prisma.booking.findMany({
+				where: { barberId: barber.id },
+				include: {
+					client: isOwner, // Only include client details if owner
+					service: true
+				},
+				orderBy: { date: "desc" }
+			})
+		}
 		res.json(bookings)
 	} catch (error) {
 		console.error("Error fetching bookings:", error)

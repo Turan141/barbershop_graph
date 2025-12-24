@@ -116,6 +116,7 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // GET /api/barbers/:id/bookings
 router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const date = typeof req.query.date === "string" ? req.query.date : undefined;
     // Check for auth token to determine if we show full details
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -136,14 +137,28 @@ router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, func
             return res.status(404).json({ error: "Barber not found" });
         }
         const isOwner = requesterId === barber.userId;
-        const bookings = yield db_1.prisma.booking.findMany({
-            where: { barberId: barber.id },
-            include: {
-                client: isOwner, // Only include client details if owner
-                service: true
-            },
-            orderBy: { date: "desc" }
-        });
+        let bookings = [];
+        if (date) {
+            // Availability use-case: keep payload small and exclude cancelled slots.
+            bookings = yield db_1.prisma.booking.findMany({
+                where: {
+                    barberId: barber.id,
+                    date,
+                    status: { not: "cancelled" }
+                },
+                select: Object.assign({ id: true, date: true, time: true, status: true, clientId: true, barberId: true, serviceId: true, service: { select: { id: true, duration: true } } }, (isOwner ? { client: true } : {}))
+            });
+        }
+        else {
+            bookings = yield db_1.prisma.booking.findMany({
+                where: { barberId: barber.id },
+                include: {
+                    client: isOwner, // Only include client details if owner
+                    service: true
+                },
+                orderBy: { date: "desc" }
+            });
+        }
         res.json(bookings);
     }
     catch (error) {

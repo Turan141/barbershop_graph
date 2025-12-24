@@ -49,23 +49,33 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		"idle" | "submitting" | "success" | "error"
 	>("idle")
 	const [bookings, setBookings] = useState<Booking[]>([])
+	const [availabilityLoading, setAvailabilityLoading] = useState(false)
 
 	useEffect(() => {
-		if (barber.id) {
-			const fetchBookings = () => {
-				api.bookings
-					.listForBarber(barber.id)
-					.then(setBookings)
-					.catch((err) => console.error("Failed to fetch bookings", err))
-			}
+		let cancelled = false
 
-			fetchBookings()
-			// Poll every 5 seconds to keep availability updated
-			const interval = setInterval(fetchBookings, 5000)
-
-			return () => clearInterval(interval)
+		if (!barber.id || !selectedDate) {
+			setBookings([])
+			setAvailabilityLoading(false)
+			return
 		}
-	}, [barber.id])
+
+		setAvailabilityLoading(true)
+		setBookings([])
+		api.bookings
+			.listForBarber(barber.id, { date: selectedDate })
+			.then((data) => {
+				if (!cancelled) setBookings(data)
+			})
+			.catch((err) => console.error("Failed to fetch bookings", err))
+			.finally(() => {
+				if (!cancelled) setAvailabilityLoading(false)
+			})
+
+		return () => {
+			cancelled = true
+		}
+	}, [barber.id, selectedDate])
 
 	const handleBook = async () => {
 		if (!user) return navigate("/login")
@@ -345,7 +355,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 					className={clsx(
 						"transition-all duration-500",
 						(!selectedDate || !selectedService) &&
-							"opacity-50 pointer-events-none blur-sm"
+							"opacity-50 pointer-events-none blur-sm",
+						availabilityLoading && "opacity-60 pointer-events-none"
 					)}
 				>
 					<label className='block text-sm font-bold text-slate-900 mb-2'>

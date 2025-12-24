@@ -3,14 +3,16 @@ import { useAuthStore } from "../store/authStore"
 import { Capacitor } from "@capacitor/core"
 
 const getApiBase = () => {
+	const override = import.meta.env.VITE_API_URL
+	if (override) return override
+
 	// If running in Capacitor (Native Mobile App)
 	if (Capacitor.isNativePlatform()) {
 		return "https://barbershop-graph-api.vercel.app/api"
 	}
 	// If running in Browser (Development or Production)
 	return (
-		import.meta.env.VITE_API_URL ||
-		(import.meta.env.PROD ? "/api" : "http://localhost:3000/api")
+		import.meta.env.PROD ? "/api" : "http://localhost:3000/api"
 	)
 }
 
@@ -116,10 +118,14 @@ export const api = {
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Booking>(res)),
 
-		listForBarber: (barberId: string) =>
-			fetch(`${API_BASE}/barbers/${barberId}/bookings`, {
+		listForBarber: (barberId: string, params?: { date?: string }) => {
+			const query = new URLSearchParams()
+			if (params?.date) query.set("date", params.date)
+			const suffix = query.toString() ? `?${query.toString()}` : ""
+			return fetch(`${API_BASE}/barbers/${barberId}/bookings${suffix}`, {
 				headers: getHeaders()
-			}).then((res) => handleResponse<Booking[]>(res)),
+			}).then((res) => handleResponse<Booking[]>(res))
+		},
 
 		listForClient: (clientId: string) =>
 			fetch(`${API_BASE}/users/${clientId}/bookings`, {

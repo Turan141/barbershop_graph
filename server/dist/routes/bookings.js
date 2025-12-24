@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
+const client_1 = require("@prisma/client");
 const router = (0, express_1.Router)();
 // GET /api/bookings (User's bookings)
 router.get("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,8 +38,9 @@ router.get("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0
 router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { barberId, serviceId, date, time } = req.body;
     const clientId = req.user.id;
+    const slotKey = `${barberId}:${date}:${time}`;
     try {
-        // 1. Prevent Double Booking
+        // 1. Prevent Double Booking (fast path)
         const existingBooking = yield db_1.prisma.booking.findFirst({
             where: {
                 barberId,
@@ -67,20 +69,34 @@ router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 
                 errorCode: "MAX_ACTIVE_BOOKINGS_REACHED"
             });
         }
-        const booking = yield db_1.prisma.booking.create({
-            data: {
-                clientId,
-                barberId,
-                serviceId,
-                date,
-                time,
-                status: "pending"
-            },
-            include: {
-                barber: { include: { user: true } },
-                service: true
+        let booking;
+        try {
+            booking = yield db_1.prisma.booking.create({
+                data: {
+                    clientId,
+                    barberId,
+                    serviceId,
+                    date,
+                    time,
+                    slotKey,
+                    status: "pending"
+                },
+                include: {
+                    barber: { include: { user: true } },
+                    service: true
+                }
+            });
+        }
+        catch (error) {
+            // Race-safe: DB unique index rejects duplicate active slots
+            if (error instanceof client_1.Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+                return res.status(409).json({
+                    error: "This time slot is already booked",
+                    errorCode: "SLOT_ALREADY_BOOKED"
+                });
             }
-        });
+            throw error;
+        }
         res.json(booking);
     }
     catch (error) {
@@ -114,7 +130,8 @@ router.patch("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, v
         }
         const updatedBooking = yield db_1.prisma.booking.update({
             where: { id },
-            data: { status, comment }
+            data: Object.assign({ status,
+                comment }, (status === "cancelled" ? { slotKey: null } : {}))
         });
         res.json(updatedBooking);
     }
@@ -140,7 +157,7 @@ router.patch("/:id/cancel", auth_1.authenticateToken, (req, res) => __awaiter(vo
         }
         const updatedBooking = yield db_1.prisma.booking.update({
             where: { id },
-            data: { status: "cancelled" }
+            data: { status: "cancelled", slotKey: null }
         });
         res.json(updatedBooking);
     }

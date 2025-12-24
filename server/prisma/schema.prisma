@@ -72,6 +72,10 @@ model Booking {
   id        String   @id @default(uuid())
   date      String   // YYYY-MM-DD
   time      String   // HH:mm
+  // Uniqueness for active bookings without partial indexes:
+  // - Set to `${barberId}:${date}:${time}` on create
+  // - Set to null when cancelled
+  slotKey   String?  @unique
   status    String   // "pending" | "confirmed" | "cancelled" | "completed"
   comment   String?  // Reason for cancellation or other notes
   createdAt DateTime @default(now())
@@ -84,6 +88,8 @@ model Booking {
 
   serviceId String
   service   Service @relation(fields: [serviceId], references: [id])
+
+  @@index([barberId, date])
 }
 
 model Favorite {

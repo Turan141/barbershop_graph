@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { prisma } from "../db"
 import { authenticateToken, AuthRequest } from "../middleware/auth"
+import { Prisma } from "@prisma/client"
 
 const router = Router()
 
@@ -29,9 +30,10 @@ router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 	const { barberId, serviceId, date, time } = req.body
 	const clientId = req.user!.id
+	const slotKey = `${barberId}:${date}:${time}`
 
 	try {
-		// 1. Prevent Double Booking
+		// 1. Prevent Double Booking (fast path)
 		const existingBooking = await prisma.booking.findFirst({
 			where: {
 				barberId,
@@ -64,20 +66,36 @@ router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 			})
 		}
 
-		const booking = await prisma.booking.create({
-			data: {
-				clientId,
-				barberId,
-				serviceId,
-				date,
-				time,
-				status: "pending"
-			},
-			include: {
-				barber: { include: { user: true } },
-				service: true
+		let booking
+		try {
+			booking = await prisma.booking.create({
+				data: {
+					clientId,
+					barberId,
+					serviceId,
+					date,
+					time,
+					slotKey,
+					status: "pending"
+				},
+				include: {
+					barber: { include: { user: true } },
+					service: true
+				}
+			})
+		} catch (error) {
+			// Race-safe: DB unique index rejects duplicate active slots
+			if (
+				error instanceof Prisma.PrismaClientKnownRequestError &&
+				error.code === "P2002"
+			) {
+				return res.status(409).json({
+					error: "This time slot is already booked",
+					errorCode: "SLOT_ALREADY_BOOKED"
+				})
 			}
-		})
+			throw error
+		}
 		res.json(booking)
 	} catch (error) {
 		res.status(500).json({ error: "Booking failed" })
@@ -115,7 +133,11 @@ router.patch("/:id", authenticateToken, async (req: AuthRequest, res) => {
 
 		const updatedBooking = await prisma.booking.update({
 			where: { id },
-			data: { status, comment } as any
+			data: {
+				status,
+				comment,
+				...(status === "cancelled" ? { slotKey: null } : {})
+			} as any
 		})
 		res.json(updatedBooking)
 	} catch (error) {
@@ -145,7 +167,7 @@ router.patch("/:id/cancel", authenticateToken, async (req: AuthRequest, res) => 
 
 		const updatedBooking = await prisma.booking.update({
 			where: { id },
-			data: { status: "cancelled" }
+			data: { status: "cancelled", slotKey: null }
 		})
 		res.json(updatedBooking)
 	} catch (error) {
