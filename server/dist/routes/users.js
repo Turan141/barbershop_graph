@@ -24,16 +24,21 @@ const express_1 = require("express");
 const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
+const safeJsonParse = (jsonString, fallback = []) => {
+    if (!jsonString)
+        return fallback;
+    try {
+        return JSON.parse(jsonString);
+    }
+    catch (e) {
+        console.error("Failed to parse JSON:", jsonString, e);
+        return fallback;
+    }
+};
 // Helper to map barber profile to frontend interface
 const mapBarber = (profile) => {
     const { user } = profile, rest = __rest(profile, ["user"]);
-    return Object.assign(Object.assign(Object.assign({}, user), rest), { specialties: typeof rest.specialties === "string"
-            ? JSON.parse(rest.specialties)
-            : rest.specialties, schedule: typeof rest.schedule === "string" ? JSON.parse(rest.schedule) : rest.schedule, portfolio: typeof rest.portfolio === "string" ? JSON.parse(rest.portfolio) : rest.portfolio, holidays: rest.holidays
-            ? typeof rest.holidays === "string"
-                ? JSON.parse(rest.holidays)
-                : rest.holidays
-            : undefined });
+    return Object.assign(Object.assign(Object.assign({}, user), rest), { specialties: safeJsonParse(rest.specialties, []), schedule: safeJsonParse(rest.schedule, {}), portfolio: safeJsonParse(rest.portfolio, []), holidays: rest.holidays ? safeJsonParse(rest.holidays, []) : undefined });
 };
 // GET /api/users/:id
 router.get("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,10 +70,33 @@ router.get("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
 // GET /api/users/:id/bookings
 router.get("/:id/bookings", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const page = req.query.page ? Number(req.query.page) : undefined;
+    const limit = req.query.limit ? Number(req.query.limit) : 20;
     if (req.user.id !== id) {
         return res.status(403).json({ error: "Access denied" });
     }
     try {
+        if (page) {
+            const skip = (page - 1) * limit;
+            const [bookings, total] = yield db_1.prisma.$transaction([
+                db_1.prisma.booking.findMany({
+                    where: { clientId: id },
+                    include: {
+                        barber: { include: { user: true } },
+                        service: true
+                    },
+                    orderBy: { date: "desc" },
+                    skip,
+                    take: limit
+                }),
+                db_1.prisma.booking.count({ where: { clientId: id } })
+            ]);
+            const mappedBookings = bookings.map((booking) => (Object.assign(Object.assign({}, booking), { barber: booking.barber ? mapBarber(booking.barber) : null })));
+            return res.json({
+                data: mappedBookings,
+                meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+            });
+        }
         const bookings = yield db_1.prisma.booking.findMany({
             where: { clientId: id },
             include: {

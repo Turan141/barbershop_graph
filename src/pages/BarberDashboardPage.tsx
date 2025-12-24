@@ -29,6 +29,7 @@ import clsx from "clsx"
 import { DashboardStats } from "../components/DashboardStats"
 import { ClientList } from "../components/ClientList"
 import { Modal } from "../components/Modal"
+import { TrialBanner } from "../components/TrialBanner"
 import { compressImage } from "../utils/imageUtils"
 
 export const BarberDashboardPage = () => {
@@ -253,6 +254,7 @@ export const BarberDashboardPage = () => {
 
 				{/* Main Content */}
 				<div className='lg:col-span-9'>
+					{barber && <TrialBanner barber={barber} />}
 					<div className='bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8'>
 						{message && (
 							<div

@@ -44,25 +44,73 @@ function resolveBarberProfile(idOrUserId) {
         return barber;
     });
 }
+const safeJsonParse = (jsonString, fallback = []) => {
+    if (!jsonString)
+        return fallback;
+    try {
+        return JSON.parse(jsonString);
+    }
+    catch (e) {
+        console.error("Failed to parse JSON:", jsonString, e);
+        return fallback;
+    }
+};
 const mapBarber = (profile) => {
     const { user } = profile, rest = __rest(profile, ["user"]);
     return Object.assign(Object.assign(Object.assign({}, user), rest), { 
         // Ensure ID is the barber profile ID, not user ID (though spread order handles this, let's be explicit if needed, but rest.id comes after user.id)
-        specialties: JSON.parse(rest.specialties), schedule: JSON.parse(rest.schedule), portfolio: JSON.parse(rest.portfolio), previewImageUrl: rest.previewImageUrl, holidays: rest.holidays ? JSON.parse(rest.holidays) : undefined });
+        specialties: safeJsonParse(rest.specialties, []), schedule: safeJsonParse(rest.schedule, {}), portfolio: safeJsonParse(rest.portfolio, []), previewImageUrl: rest.previewImageUrl, holidays: rest.holidays ? safeJsonParse(rest.holidays, []) : undefined });
 };
 // GET /api/barbers
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { query } = req.query;
-    const where = {};
+    const page = req.query.page ? Number(req.query.page) : undefined;
+    const limit = req.query.limit ? Number(req.query.limit) : 20;
+    const where = {
+        OR: [
+            { subscriptionStatus: "active" },
+            {
+                AND: [
+                    { subscriptionStatus: "trial" },
+                    { subscriptionEndDate: { gt: new Date() } }
+                ]
+            },
+            // For backward compatibility with seeded data that might have nulls
+            { subscriptionStatus: null }
+        ]
+    };
     if (query) {
         const search = query;
-        where.OR = [
-            { user: { name: { contains: search, mode: "insensitive" } } },
-            { location: { contains: search, mode: "insensitive" } },
-            { services: { some: { name: { contains: search, mode: "insensitive" } } } }
+        where.AND = [
+            {
+                OR: [
+                    { user: { name: { contains: search, mode: "insensitive" } } },
+                    { location: { contains: search, mode: "insensitive" } },
+                    { services: { some: { name: { contains: search, mode: "insensitive" } } } }
+                ]
+            }
         ];
     }
     try {
+        if (page) {
+            const skip = (page - 1) * limit;
+            const [barbers, total] = yield db_1.prisma.$transaction([
+                db_1.prisma.barberProfile.findMany({
+                    where,
+                    include: {
+                        user: true,
+                        services: true
+                    },
+                    skip,
+                    take: limit
+                }),
+                db_1.prisma.barberProfile.count({ where })
+            ]);
+            return res.json({
+                data: barbers.map(mapBarber),
+                meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+            });
+        }
         const barbers = yield db_1.prisma.barberProfile.findMany({
             where,
             include: {
@@ -512,7 +560,7 @@ router.get("/:id/clients", auth_1.authenticateToken, (req, res) => __awaiter(voi
                 totalRevenue: c.totalRevenue,
                 lastBookingDate: c.lastBooking,
                 notes: (note === null || note === void 0 ? void 0 : note.notes) || "",
-                tags: (note === null || note === void 0 ? void 0 : note.tags) ? JSON.parse(note.tags) : []
+                tags: (note === null || note === void 0 ? void 0 : note.tags) ? safeJsonParse(note.tags, []) : []
             };
         });
         res.json(result);

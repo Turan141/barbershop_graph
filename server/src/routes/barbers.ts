@@ -52,13 +52,32 @@ router.get("/", async (req, res) => {
 	const page = req.query.page ? Number(req.query.page) : undefined
 	const limit = req.query.limit ? Number(req.query.limit) : 20
 
-	const where: any = {}
+	const where: any = {
+		OR: [
+			{ subscriptionStatus: "active" },
+			{
+				AND: [
+					{ subscriptionStatus: "trial" },
+					{
+						OR: [
+							{ subscriptionEndDate: { gt: new Date() } },
+							{ subscriptionEndDate: null }
+						]
+					}
+				]
+			}
+		]
+	}
 	if (query) {
 		const search = query as string
-		where.OR = [
-			{ user: { name: { contains: search, mode: "insensitive" } } },
-			{ location: { contains: search, mode: "insensitive" } },
-			{ services: { some: { name: { contains: search, mode: "insensitive" } } } }
+		where.AND = [
+			{
+				OR: [
+					{ user: { name: { contains: search, mode: "insensitive" } } },
+					{ location: { contains: search, mode: "insensitive" } },
+					{ services: { some: { name: { contains: search, mode: "insensitive" } } } }
+				]
+			}
 		]
 	}
 

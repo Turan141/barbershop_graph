@@ -50,6 +50,8 @@ export interface Barber extends User {
 	holidays?: string[] // ISO date strings YYYY-MM-DD
 	tier?: "vip" | "standard"
 	isAddressVerified?: boolean
+	subscriptionStatus?: "trial" | "active" | "expired"
+	subscriptionEndDate?: string // ISO date string
 }
 
 export interface Booking {

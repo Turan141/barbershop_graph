@@ -45,6 +45,11 @@ model BarberProfile {
   portfolio   String   // JSON string: string[]
   previewImageUrl String?
   
+  // Subscription & Trial
+  createdAt           DateTime @default(now())
+  subscriptionStatus  String   @default("trial") // "trial", "active", "expired"
+  subscriptionEndDate DateTime?
+
   // Verification
   verificationStatus      String   @default("none") // "none" | "pending" | "verified" | "rejected"
   verificationDocumentUrl String?

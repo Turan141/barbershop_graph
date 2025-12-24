@@ -68,6 +68,9 @@ router.post("/register", async (req, res) => {
 		if (normalizedRole === "barber") {
 			console.log(`Creating barber profile for user ${user.id}`)
 			try {
+				const trialEndDate = new Date()
+				trialEndDate.setDate(trialEndDate.getDate() + 30)
+
 				await prisma.barberProfile.create({
 					data: {
 						userId: user.id,
@@ -81,7 +84,9 @@ router.post("/register", async (req, res) => {
 							Wednesday: ["09:00", "18:00"],
 							Thursday: ["09:00", "18:00"],
 							Friday: ["09:00", "18:00"]
-						})
+						}),
+						subscriptionStatus: "trial",
+						subscriptionEndDate: trialEndDate
 					}
 				})
 				console.log(`Barber profile created for user ${user.id}`)

@@ -89,7 +89,9 @@ export const HomePage = () => {
 			setLoading(true)
 			setLoadError(false)
 			try {
-				const data = await api.barbers.list(search)
+				const response = await api.barbers.list(search)
+				// Handle both paginated and flat responses
+				const data = Array.isArray(response) ? response : response.data
 				setBarbers(data)
 			} catch (error) {
 				console.error(error)
