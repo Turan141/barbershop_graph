@@ -561,7 +561,11 @@ export const HomePage = () => {
 									.filter((b) => b.tier !== "vip")
 									.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
 									.map((barber) => (
-										<Link key={barber.id} to={`/barbers/${barber.id}`} className='group relative'>
+										<Link
+											key={barber.id}
+											to={`/barbers/${barber.id}`}
+											className='group relative'
+										>
 											<div className='bg-white rounded-2xl sm:rounded-[1.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative z-0'>
 												<div className='aspect-[4/5] sm:aspect-square relative overflow-hidden bg-slate-100'>
 													{barber.previewImageUrl || barber.portfolio[0] ? (
