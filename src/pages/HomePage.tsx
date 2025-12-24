@@ -214,17 +214,17 @@ export const HomePage = () => {
 
 					{/* Quick Categories (Pills) */}
 					{!showFilters && (
-						<div className='hidden sm:flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 mb-6'>
+						<div className='hidden sm:flex gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 mb-8'>
 							<button
 								onClick={() => {
 									setSelectedCategory("")
 									setSearch("")
 								}}
 								className={clsx(
-									"px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all",
+									"px-6 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-300 border",
 									!selectedCategory && !search
-										? "bg-slate-900 text-white shadow-md"
-										: "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+										? "bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20 scale-105"
+										: "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
 								)}
 							>
 								{t("categories.All")}
@@ -234,10 +234,10 @@ export const HomePage = () => {
 									key={cat}
 									onClick={() => setSelectedCategory(selectedCategory === cat ? "" : cat)}
 									className={clsx(
-										"px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all",
+										"px-6 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-300 border",
 										selectedCategory === cat
-											? "bg-slate-900 text-white shadow-md"
-											: "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+											? "bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20 scale-105"
+											: "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
 									)}
 								>
 									{t(`categories.${cat}`)}
@@ -247,13 +247,13 @@ export const HomePage = () => {
 					)}
 
 					{/* Compact Search Bar */}
-					<div className='relative w-full max-w-md group mb-6'>
-						<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+					<div className='relative w-full max-w-2xl group mb-10'>
+						<div className='absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none'>
 							<Search className='h-5 w-5 text-slate-400 group-focus-within:text-primary-500 transition-colors' />
 						</div>
 						<input
 							type='text'
-							className='block w-full pl-10 pr-12 py-3 border-0 bg-slate-100 rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary-500/20 focus:bg-white transition-all duration-200 font-medium'
+							className='block w-full pl-12 pr-14 py-4 border-0 bg-white shadow-xl shadow-slate-200/40 rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary-500/20 focus:shadow-2xl focus:shadow-primary-500/10 transition-all duration-300 font-medium text-lg'
 							placeholder={t("home.search_placeholder")}
 							value={search}
 							onChange={(e) => setSearch(e.target.value)}
@@ -261,15 +261,15 @@ export const HomePage = () => {
 						<button
 							onClick={() => setShowFilters(!showFilters)}
 							className={clsx(
-								"absolute inset-y-1 right-1 px-3 rounded-xl flex items-center justify-center transition-colors",
+								"absolute inset-y-2 right-2 px-4 rounded-xl flex items-center justify-center transition-all duration-200",
 								showFilters || activeFiltersCount > 0
-									? "bg-white text-primary-600 shadow-sm"
-									: "text-slate-400 hover:text-slate-600 hover:bg-white/50"
+									? "bg-primary-50 text-primary-600 shadow-sm"
+									: "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
 							)}
 						>
-							<Filter className='h-4 w-4' />
+							<Filter className='h-5 w-5' />
 							{activeFiltersCount > 0 && (
-								<span className='absolute top-2 right-2 w-2 h-2 bg-primary-500 rounded-full'></span>
+								<span className='absolute top-3 right-3 w-2 h-2 bg-primary-500 rounded-full ring-2 ring-white'></span>
 							)}
 						</button>
 					</div>
@@ -447,63 +447,65 @@ export const HomePage = () => {
 
 						{/* VIP Section - Horizontal Scroll on Mobile, Grid on Desktop */}
 						{filteredBarbers.some((b) => b.tier === "vip") && (
-							<div className='mb-12'>
-								<div className='flex items-center justify-between mb-6'>
-									<h2 className='text-2xl font-bold text-slate-900 flex items-center gap-2'>
+							<div className='mb-16'>
+								<div className='flex items-center justify-between mb-8'>
+									<h2 className='text-3xl font-extrabold text-slate-900 flex items-center gap-3'>
 										{t("home.vip_section")}
-										<Star className='w-5 h-5 fill-yellow-400 text-yellow-400' />
+										<span className='bg-yellow-100 p-1.5 rounded-full'>
+											<Star className='w-6 h-6 fill-yellow-400 text-yellow-500' />
+										</span>
 									</h2>
 								</div>
 
-								<div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6'>
+								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8'>
 									{filteredBarbers
 										.filter((b) => b.tier === "vip")
 										.map((barber) => (
 											<Link
 												key={barber.id}
 												to={`/barbers/${barber.id}`}
-												className='group relative block h-64 sm:h-96 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500 ring-1 ring-slate-200 hover:ring-2 hover:ring-yellow-400/50'
+												className='group relative block h-80 sm:h-[28rem] rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-yellow-500/30 transition-all duration-500 ring-1 ring-slate-200 hover:ring-4 hover:ring-yellow-400/30 transform hover:-translate-y-2'
 											>
 												<div className='absolute inset-0 bg-slate-200'>
 													{barber.previewImageUrl || barber.portfolio[0] ? (
 														<img
 															src={barber.previewImageUrl || barber.portfolio[0]}
 															alt={barber.name}
-															className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
+															className='w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110'
 														/>
 													) : (
 														<div className='w-full h-full flex items-center justify-center text-slate-400'>
-															<Scissors className='w-12 h-12 opacity-20' />
+															<Scissors className='w-16 h-16 opacity-20' />
 														</div>
 													)}
 												</div>
 
 												{/* Rich Gradient Overlay */}
-												<div className='absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500'></div>
+												<div className='absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-500'></div>
 
 												{/* Gold Shine Effect */}
-												<div className='absolute inset-0 bg-gradient-to-tr from-yellow-500/0 via-yellow-500/0 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
+												<div className='absolute inset-0 bg-gradient-to-tr from-yellow-500/0 via-yellow-500/0 to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
 
 												{/* Top Right Rating */}
-												<div className='absolute top-4 right-4 z-10'>
-													<div className='flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 shadow-sm'>
-														<Star className='w-3.5 h-3.5 fill-yellow-400 text-yellow-400' />
-														<span className='font-bold text-sm text-white'>
+												<div className='absolute top-5 right-5 z-10'>
+													<div className='flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 shadow-lg'>
+														<Star className='w-4 h-4 fill-yellow-400 text-yellow-400' />
+														<span className='font-bold text-base text-white'>
 															{barber.rating}
 														</span>
 													</div>
 												</div>
 
 												{/* Content */}
-												<div className='absolute bottom-0 left-0 right-0 p-3 sm:p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500'>
-													<div className='flex items-center justify-between mb-2 sm:mb-3'>
-														<div className='bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-extrabold tracking-wider shadow-lg shadow-yellow-500/20 flex items-center gap-1'>
-															<Crown className='w-2.5 h-2.5 sm:w-3 sm:h-3' />
+												<div className='absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500'>
+													<div className='flex items-center justify-between mb-3 sm:mb-4'>
+														<div className='bg-gradient-to-r from-yellow-300 to-yellow-600 text-black px-3 py-1 rounded-full text-xs font-extrabold tracking-widest shadow-lg shadow-yellow-500/30 flex items-center gap-1.5 uppercase'>
+															<Crown className='w-3.5 h-3.5' />
 															VIP
 														</div>
 													</div>
 
-													<h3 className='text-lg sm:text-2xl font-bold mb-1 sm:mb-1.5 text-white group-hover:text-yellow-50 transition-colors truncate'>
+													<h3 className='text-2xl sm:text-3xl font-bold mb-2 text-white group-hover:text-yellow-200 transition-colors truncate'>
 														{barber.name}
 													</h3>
 
