@@ -33,6 +33,7 @@ router.post("/login", async (req, res) => {
 		const { password: _, ...userWithoutPassword } = user as any
 		res.json({ user: userWithoutPassword, token })
 	} catch (error) {
+		console.error("Login error:", error)
 		res.status(500).json({ error: "Login failed" })
 	}
 })
