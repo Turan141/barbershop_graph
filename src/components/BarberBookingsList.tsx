@@ -138,14 +138,14 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 											</div>
 											<div>
 												<div className='font-medium text-slate-900 flex items-center gap-2'>
-													{booking.client?.name ||
-														booking.guestName ||
+													{booking.guestName ||
+														booking.client?.name ||
 														t("dashboard.bookings.unknown_client")}
-													{(booking.client?.phone || booking.guestPhone) && (
+													{(booking.guestPhone || booking.client?.phone) && (
 														<a
 															href={`https://wa.me/${(
-																booking.client?.phone ||
 																booking.guestPhone ||
+																booking.client?.phone ||
 																""
 															).replace(/\D/g, "")}`}
 															target='_blank'

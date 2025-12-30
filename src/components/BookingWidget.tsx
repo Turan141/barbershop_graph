@@ -45,6 +45,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	const [selectedTime, setSelectedTime] = useState<string>("")
 	const [guestName, setGuestName] = useState("")
 	const [guestPhone, setGuestPhone] = useState("")
+	const [bookForSomeoneElse, setBookForSomeoneElse] = useState(false)
 	const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false)
 	const [bookingStatus, setBookingStatus] = useState<
 		"idle" | "submitting" | "success" | "error"
@@ -108,7 +109,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		if (!selectedService || !selectedDate || !selectedTime || !barber.id) return
 
 		// Guest validation
-		if (!user) {
+		if (!user || bookForSomeoneElse) {
 			if (!guestName.trim() || !guestPhone.trim()) {
 				toast.error(
 					t("auth.guest_details_required") || "Please enter your name and phone"
@@ -121,12 +122,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		try {
 			const booking = await api.bookings.create({
 				barberId: barber.id,
-				clientId: user?.id, // Optional now
-				guestName: !user ? guestName : undefined,
-				guestPhone: !user ? guestPhone : undefined,
+				clientId: user && !bookForSomeoneElse ? user.id : undefined,
+				guestName: !user || bookForSomeoneElse ? guestName : undefined,
+				guestPhone: !user || bookForSomeoneElse ? guestPhone : undefined,
 				serviceId: selectedService.id,
 				date: selectedDate,
-				time: selectedTime
+				time: selectedTime,
+				asGuest: bookForSomeoneElse
 			})
 
 			// Schedule local notification
@@ -474,7 +476,23 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 				</div>
 
 				{/* Guest Details */}
-				{!user && (
+				{user && (
+					<div className='mb-4'>
+						<label className='flex items-center gap-2 cursor-pointer select-none'>
+							<input
+								type='checkbox'
+								checked={bookForSomeoneElse}
+								onChange={(e) => setBookForSomeoneElse(e.target.checked)}
+								className='w-4 h-4 text-primary-600 rounded border-slate-300 focus:ring-primary-500'
+							/>
+							<span className='text-sm text-slate-700 font-medium'>
+								{t("profile.book_for_someone_else") || "Book for someone else"}
+							</span>
+						</label>
+					</div>
+				)}
+
+				{(!user || bookForSomeoneElse) && (
 					<div className='mb-6 animate-fade-in'>
 						<h3 className='text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2'>
 							<User className='w-4 h-4 text-primary-500' />
@@ -499,6 +517,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 								</label>
 								<input
 									type='tel'
+									inputMode='numeric'
 									value={guestPhone}
 									onChange={(e) => setGuestPhone(e.target.value)}
 									placeholder={t("auth.phone_placeholder") || "Enter your phone number"}

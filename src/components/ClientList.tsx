@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Search, User, Mail, Calendar, DollarSign, FileText, X, Plus } from "lucide-react"
+import { Search, User, Mail, Calendar, DollarSign, FileText, X, Plus, Share2 } from "lucide-react"
 import { api } from "../services/api"
 import { Modal } from "./Modal"
+import toast from "react-hot-toast"
 
 interface Client {
 	id: string
@@ -116,7 +117,25 @@ export const ClientList: React.FC<ClientListProps> = ({ barberId }) => {
 			{filteredClients.length === 0 ? (
 				<div className='text-center py-12 bg-slate-50 rounded-2xl border border-slate-100'>
 					<User className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-					<p className='text-slate-500'>{t("dashboard.clients.no_clients")}</p>
+					<h3 className='text-lg font-medium text-slate-900 mb-1'>
+						{t("dashboard.clients.no_clients_title") || "No clients yet"}
+					</h3>
+					<p className='text-slate-500 mb-6 max-w-xs mx-auto'>
+						{t("dashboard.clients.no_clients_desc") ||
+							"Share your profile link to start getting bookings."}
+					</p>
+					<button
+						onClick={() => {
+							navigator.clipboard.writeText(
+								window.location.origin + "/barber/" + barberId
+							)
+							toast.success(t("common.link_copied") || "Link copied!")
+						}}
+						className='btn-primary inline-flex items-center gap-2'
+					>
+						<Share2 className='w-4 h-4' />
+						{t("dashboard.clients.share_profile") || "Share Profile"}
+					</button>
 				</div>
 			) : (
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>

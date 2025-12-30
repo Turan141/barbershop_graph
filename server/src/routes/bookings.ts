@@ -53,13 +53,14 @@ router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 
 // POST /api/bookings
 router.post("/", optionalAuth, async (req: AuthRequest, res) => {
-	const { barberId, serviceId, date, time, guestName, guestPhone } = req.body
+	const { barberId, serviceId, date, time, guestName, guestPhone, asGuest } = req.body
 
 	let clientId: string | undefined
-	if (req.user) {
-		if (req.user.role !== "client") {
-			return res.status(403).json({ error: "Only clients can create bookings" })
-		}
+	if (req.user && !asGuest) {
+		// Allow barbers to book too (e.g. for themselves or testing)
+		// if (req.user.role !== "client") {
+		// 	return res.status(403).json({ error: "Only clients can create bookings" })
+		// }
 		clientId = req.user.id
 	} else {
 		// Guest validation

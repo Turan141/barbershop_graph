@@ -31,9 +31,9 @@
 			"all_categories": "Bütün Kateqoriyalar",
 			"price_level": "Qiymət Aralığı",
 			"any_price": "İstənilən Qiymət",
-			"price_low": "$ (20-dən az)",
-			"price_medium": "$$ (20 - 50)",
-			"price_high": "$$$ (50+)",
+			"price_low": "₼ (20-dən az)",
+			"price_medium": "₼₼ (20 - 50)",
+			"price_high": "₼₼₼ (50+)",
 			"rating": "Reytinq",
 			"any_rating": "İstənilən Reytinq",
 			"stars_4_5": "4.5+ Ulduz",
@@ -418,7 +418,11 @@
 			"starter": {
 				"title": "Başlanğıc",
 				"price": "Pulsuz",
-				"features": ["50 pulsuz rezervasiya", "Tam funksionallıq", "Ödəniş kartı tələb olunmur"]
+				"features": [
+					"50 pulsuz rezervasiya",
+					"Tam funksionallıq",
+					"Ödəniş kartı tələb olunmur"
+				]
 			},
 			"pro": {
 				"title": "Böyümə",

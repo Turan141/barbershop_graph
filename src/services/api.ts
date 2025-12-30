@@ -111,7 +111,9 @@ export const api = {
 	},
 
 	bookings: {
-		create: (data: Omit<Booking, "id" | "status" | "createdAt">) =>
+		create: (
+			data: Omit<Booking, "id" | "status" | "createdAt"> & { asGuest?: boolean }
+		) =>
 			fetch(`${API_BASE}/bookings`, {
 				method: "POST",
 				headers: getHeaders(),
