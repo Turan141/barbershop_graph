@@ -28,6 +28,7 @@ import {
 import clsx from "clsx"
 import { DashboardStats } from "../components/DashboardStats"
 import { ClientList } from "../components/ClientList"
+import { BarberBookingsList } from "../components/BarberBookingsList"
 import { Modal } from "../components/Modal"
 import { TrialBanner } from "../components/TrialBanner"
 import { compressImage } from "../utils/imageUtils"
@@ -46,7 +47,13 @@ export const BarberDashboardPage = () => {
 	const [barber, setBarber] = useState<Barber | null>(null)
 	const [loading, setLoading] = useState(true)
 	const [activeTab, setActiveTab] = useState<
-		"overview" | "clients" | "profile" | "schedule" | "services" | "portfolio"
+		| "overview"
+		| "bookings"
+		| "clients"
+		| "profile"
+		| "schedule"
+		| "services"
+		| "portfolio"
 	>("overview")
 	const [saving, setSaving] = useState(false)
 	const [message, setMessage] = useState<{
@@ -216,9 +223,10 @@ export const BarberDashboardPage = () => {
 
 	const tabs = [
 		{ id: "overview", label: t("dashboard.tabs.overview"), icon: LayoutDashboard },
+		{ id: "bookings", label: t("dashboard.tabs.bookings") || "Bookings", icon: Calendar },
 		{ id: "clients", label: t("dashboard.clients.title"), icon: Users },
 		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
-		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Calendar },
+		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Clock },
 		{ id: "services", label: t("dashboard.tabs.services"), icon: Scissors },
 		{ id: "portfolio", label: t("dashboard.tabs.portfolio"), icon: ImageIcon }
 	] as const
@@ -277,6 +285,11 @@ export const BarberDashboardPage = () => {
 						{/* Overview Tab */}
 						{activeTab === "overview" && barber && (
 							<DashboardStats barberId={barber.id} />
+						)}
+
+						{/* Bookings Tab */}
+						{activeTab === "bookings" && barber && (
+							<BarberBookingsList barberId={barber.id} />
 						)}
 
 						{/* Clients Tab */}
@@ -1149,22 +1162,24 @@ export const BarberDashboardPage = () => {
 						)}
 
 						{/* Save Button */}
-						<div className='mt-8 pt-6 border-t border-slate-100 flex justify-end'>
-							<button
-								onClick={handleSave}
-								disabled={saving}
-								className='btn-primary flex items-center gap-2 px-8'
-							>
-								{saving ? (
-									t("dashboard.saving")
-								) : (
-									<>
-										<Save className='w-4 h-4' />
-										{t("dashboard.save")}
-									</>
-								)}
-							</button>
-						</div>
+						{["profile", "schedule", "services", "portfolio"].includes(activeTab) && (
+							<div className='mt-8 pt-6 border-t border-slate-100 flex justify-end'>
+								<button
+									onClick={handleSave}
+									disabled={saving}
+									className='btn-primary flex items-center gap-2 px-8'
+								>
+									{saving ? (
+										t("dashboard.saving")
+									) : (
+										<>
+											<Save className='w-4 h-4' />
+											{t("dashboard.save")}
+										</>
+									)}
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

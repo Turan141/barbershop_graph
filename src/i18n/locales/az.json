@@ -176,19 +176,31 @@
 		"save": "Yadda saxla",
 		"bookings": {
 			"title": "Randevular",
+			"load_error": "Randevular yüklənmədi",
+			"update_success": "Randevu yeniləndi",
+			"update_error": "Yeniləmə xətası",
 			"no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
+			"share_link": "Randevu almaq üçün profil linkinizi paylaşın.",
+			"client": "Müştəri",
+			"service": "Xidmət",
+			"date_time": "Tarix və Saat",
+			"status_label": "Status",
+			"actions_label": "Əməliyyatlar",
 			"unknown_client": "Naməlum Müştəri",
+			"unknown_service": "Naməlum Xidmət",
 			"service_deleted": "Xidmət silinib",
 			"status": {
 				"confirmed": "Təsdiqlənib",
 				"pending": "Gözləyir",
 				"cancelled": "Ləğv edilib",
-				"completed": "Tamamlanıb"
+				"completed": "Tamamlanıb",
+				"no_show": "Gəlmədi"
 			},
 			"actions": {
 				"confirm": "Təsdiqlə",
 				"cancel": "Ləğv et",
-				"complete": "Tamamla"
+				"complete": "Tamamla",
+				"no_show": "Gəlmədi"
 			},
 			"cancel_reason_prompt": "Ləğv səbəbi (könüllü):",
 			"note": "Qeyd"
@@ -319,7 +331,8 @@
 	},
 	"common": {
 		"loading": "Yüklənir...",
-		"check_map": "Xəritəni yoxla"
+		"check_map": "Xəritəni yoxla",
+		"refresh": "Yenilə"
 	},
 	"pages": {
 		"features": {

@@ -713,6 +713,28 @@ export const HomePage = () => {
 					</>
 				)}
 			</div>
+
+			{/* For Barbers CTA */}
+			<div className='mt-20 bg-slate-900 rounded-3xl p-8 sm:p-12 text-center text-white relative overflow-hidden'>
+				<div className='absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-primary-500 blur-3xl opacity-20 pointer-events-none'></div>
+				<div className='absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-blue-500 blur-3xl opacity-20 pointer-events-none'></div>
+
+				<div className='relative z-10'>
+					<h2 className='text-2xl sm:text-3xl font-bold mb-4'>
+						{t("home.banner_title") || "Are you a barber?"}
+					</h2>
+					<p className='text-slate-300 mb-8 max-w-2xl mx-auto'>
+						{t("home.banner_desc") ||
+							"Join our platform to manage your bookings and grow your client base."}
+					</p>
+					<Link
+						to='/partners'
+						className='inline-flex items-center justify-center px-8 py-3 text-base font-bold text-slate-900 bg-white rounded-xl hover:bg-slate-100 transition-colors'
+					>
+						{t("home.banner_badge") || "For Barbers"}
+					</Link>
+				</div>
+			</div>
 		</div>
 	)
 }

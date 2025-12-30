@@ -18,6 +18,7 @@ import {
 	Scissors,
 	Image as ImageIcon,
 	MessageSquare,
+	MessageCircle,
 	X
 } from "lucide-react"
 import clsx from "clsx"
@@ -161,6 +162,17 @@ export const BarberProfilePage = () => {
 
 										{/* Actions */}
 										<div className='flex items-center gap-2 justify-center sm:justify-end w-full sm:w-auto'>
+											{barber.phone && (
+												<a
+													href={`https://wa.me/${barber.phone.replace(/\D/g, "")}`}
+													target='_blank'
+													rel='noopener noreferrer'
+													className='group flex items-center justify-center w-12 h-12 rounded-full bg-green-50 border border-green-100 text-green-600 hover:bg-green-100 hover:scale-105 transition-all shadow-sm'
+													title='WhatsApp'
+												>
+													<MessageCircle className='w-6 h-6' />
+												</a>
+											)}
 											<button
 												onClick={toggleFavorite}
 												className={clsx(

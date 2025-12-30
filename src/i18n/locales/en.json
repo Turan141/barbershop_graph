@@ -382,19 +382,31 @@
 		"save": "Save Changes",
 		"bookings": {
 			"title": "Bookings",
+			"load_error": "Failed to load bookings",
+			"update_success": "Booking updated",
+			"update_error": "Update error",
 			"no_bookings": "You have no bookings yet.",
+			"share_link": "Share your profile link to get bookings.",
+			"client": "Client",
+			"service": "Service",
+			"date_time": "Date & Time",
+			"status_label": "Status",
+			"actions_label": "Actions",
 			"unknown_client": "Unknown Client",
+			"unknown_service": "Unknown Service",
 			"service_deleted": "Service Deleted",
 			"status": {
 				"confirmed": "Confirmed",
 				"pending": "Pending",
 				"cancelled": "Cancelled",
-				"completed": "Completed"
+				"completed": "Completed",
+				"no_show": "No Show"
 			},
 			"actions": {
 				"confirm": "Confirm",
 				"cancel": "Cancel",
-				"complete": "Complete"
+				"complete": "Complete",
+				"no_show": "No Show"
 			},
 			"cancel_reason_prompt": "Reason for cancellation (optional):",
 			"note": "Note"
@@ -524,7 +536,8 @@
 	},
 	"common": {
 		"loading": "Loading...",
-		"check_map": "Check Map"
+		"check_map": "Check Map",
+		"refresh": "Refresh"
 	},
 	"user_bookings": {
 		"title": "My Appointments",

@@ -178,19 +178,31 @@
 
 		"bookings": {
 			"title": "Бронирования",
+			"load_error": "Не удалось загрузить бронирования",
+			"update_success": "Бронирование обновлено",
+			"update_error": "Ошибка обновления",
 			"no_bookings": "У вас пока нет бронирований.",
+			"share_link": "Поделитесь ссылкой на профиль, чтобы получать бронирования.",
+			"client": "Клиент",
+			"service": "Услуга",
+			"date_time": "Дата и время",
+			"status_label": "Статус",
+			"actions_label": "Действия",
 			"unknown_client": "Неизвестный клиент",
+			"unknown_service": "Неизвестная услуга",
 			"service_deleted": "Услуга удалена",
 			"status": {
 				"confirmed": "Подтверждено",
 				"pending": "Ожидает",
 				"cancelled": "Отменено",
-				"completed": "Завершено"
+				"completed": "Завершено",
+				"no_show": "Не пришел"
 			},
 			"actions": {
 				"confirm": "Подтвердить",
 				"cancel": "Отменить",
-				"complete": "Завершить"
+				"complete": "Завершить",
+				"no_show": "Не пришел"
 			},
 			"cancel_reason_prompt": "Причина отмены (необязательно):",
 			"note": "Примечание"
@@ -320,7 +332,8 @@
 	},
 	"common": {
 		"loading": "Загрузка...",
-		"check_map": "Проверить карту"
+		"check_map": "Проверить карту",
+		"refresh": "Обновить"
 	},
 	"pages": {
 		"features": {
