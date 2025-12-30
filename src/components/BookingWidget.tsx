@@ -597,7 +597,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						className='w-full mt-3 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-green-600 bg-green-50 hover:bg-green-100 rounded-xl transition-colors border border-green-200'
 					>
 						<MessageCircle className='w-4 h-4' />
-						{t("profile.whatsapp_message") || "Contact via WhatsApp"}
+						{t("profile.contact_whatsapp") || "Contact via WhatsApp"}
 					</button>
 				)}
 			</div>

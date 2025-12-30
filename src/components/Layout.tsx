@@ -97,7 +97,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 												{user.name}
 											</span>
 											<span className='text-xs text-slate-500 capitalize'>
-												{user.role}
+												{user.role === "barber"
+													? t("auth.role_barber")
+													: t("auth.role_client")}
 											</span>
 										</div>
 										<img
@@ -163,7 +165,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 										/>
 										<div>
 											<div className='font-semibold text-slate-900'>{user.name}</div>
-											<div className='text-xs text-slate-500 capitalize'>{user.role}</div>
+											<div className='text-xs text-slate-500 capitalize'>
+												{user.role === "barber"
+													? t("auth.role_barber")
+													: t("auth.role_client")}
+											</div>
 										</div>
 									</div>
 									{user.role === "barber" && (

@@ -39,11 +39,17 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 	const [submitting, setSubmitting] = useState(false)
 
 	const categories = [
-		{ id: "rent", label: t("expenses.categories.rent") || "Rent" },
-		{ id: "supplies", label: t("expenses.categories.supplies") || "Supplies" },
-		{ id: "utilities", label: t("expenses.categories.utilities") || "Utilities" },
-		{ id: "marketing", label: t("expenses.categories.marketing") || "Marketing" },
-		{ id: "other", label: t("expenses.categories.other") || "Other" }
+		{ id: "rent", label: t("dashboard.expenses.categories.rent") || "Rent" },
+		{ id: "supplies", label: t("dashboard.expenses.categories.supplies") || "Supplies" },
+		{
+			id: "utilities",
+			label: t("dashboard.expenses.categories.utilities") || "Utilities"
+		},
+		{
+			id: "marketing",
+			label: t("dashboard.expenses.categories.marketing") || "Marketing"
+		},
+		{ id: "other", label: t("dashboard.expenses.categories.other") || "Other" }
 	]
 
 	useEffect(() => {
@@ -101,7 +107,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 			}
 
 			setExpenses([newExpense, ...expenses])
-			toast.success(t("expenses.added_success") || "Expense added successfully")
+			toast.success(t("dashboard.expenses.added_success") || "Expense added successfully")
 			setIsAddModalOpen(false)
 
 			// Reset form
@@ -110,7 +116,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 			setNote("")
 			setDate(format(new Date(), "yyyy-MM-dd"))
 		} catch (error) {
-			toast.error(t("expenses.add_error") || "Failed to add expense")
+			toast.error(t("dashboard.expenses.add_error") || "Failed to add expense")
 		} finally {
 			setSubmitting(false)
 		}
@@ -122,9 +128,9 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 		try {
 			// await api.expenses.delete(id)
 			setExpenses(expenses.filter((e) => e.id !== id))
-			toast.success(t("expenses.deleted_success") || "Expense deleted")
+			toast.success(t("dashboard.expenses.deleted_success") || "Expense deleted")
 		} catch (error) {
-			toast.error(t("expenses.delete_error") || "Failed to delete expense")
+			toast.error(t("dashboard.expenses.delete_error") || "Failed to delete expense")
 		}
 	}
 
@@ -138,10 +144,10 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 			<div className='flex items-center justify-between'>
 				<div>
 					<h2 className='text-xl font-bold text-slate-900'>
-						{t("expenses.title") || "Expenses"}
+						{t("dashboard.expenses.title") || "Expenses"}
 					</h2>
 					<p className='text-sm text-slate-500'>
-						{t("expenses.subtitle") || "Track your business costs"}
+						{t("dashboard.expenses.subtitle") || "Track your business costs"}
 					</p>
 				</div>
 				<button
@@ -149,7 +155,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 					className='btn-primary flex items-center gap-2'
 				>
 					<Plus className='w-4 h-4' />
-					{t("expenses.add_btn") || "Add Expense"}
+					{t("dashboard.expenses.add_btn") || "Add Expense"}
 				</button>
 			</div>
 
@@ -161,7 +167,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 							<TrendingDown className='w-5 h-5 text-red-500' />
 						</div>
 						<span className='text-sm font-medium text-red-700'>
-							{t("expenses.total_cost") || "Total Cost"}
+							{t("dashboard.expenses.total_cost") || "Total Cost"}
 						</span>
 					</div>
 					<div className='text-2xl font-bold text-slate-900'>
@@ -177,16 +183,16 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 						<thead className='bg-slate-50 border-b border-slate-100'>
 							<tr>
 								<th className='px-6 py-4 font-semibold text-slate-700'>
-									{t("expenses.date") || "Date"}
+									{t("dashboard.expenses.date") || "Date"}
 								</th>
 								<th className='px-6 py-4 font-semibold text-slate-700'>
-									{t("expenses.category") || "Category"}
+									{t("dashboard.expenses.category") || "Category"}
 								</th>
 								<th className='px-6 py-4 font-semibold text-slate-700'>
-									{t("expenses.note") || "Note"}
+									{t("dashboard.expenses.note") || "Note"}
 								</th>
 								<th className='px-6 py-4 font-semibold text-slate-700 text-right'>
-									{t("expenses.amount") || "Amount"}
+									{t("dashboard.expenses.amount") || "Amount"}
 								</th>
 								<th className='px-6 py-4 font-semibold text-slate-700'></th>
 							</tr>
@@ -195,7 +201,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 							{expenses.length === 0 ? (
 								<tr>
 									<td colSpan={5} className='px-6 py-8 text-center text-slate-500'>
-										{t("expenses.no_data") || "No expenses recorded yet."}
+										{t("dashboard.expenses.no_data") || "No expenses recorded yet."}
 									</td>
 								</tr>
 							) : (
@@ -208,7 +214,8 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 										</td>
 										<td className='px-6 py-4'>
 											<span className='px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 capitalize'>
-												{t(`expenses.categories.${expense.category}`) || expense.category}
+												{t(`dashboard.expenses.categories.${expense.category}`) ||
+													expense.category}
 											</span>
 										</td>
 										<td className='px-6 py-4 text-slate-600 max-w-xs truncate'>
@@ -236,12 +243,12 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 			<Modal
 				isOpen={isAddModalOpen}
 				onClose={() => setIsAddModalOpen(false)}
-				title={t("expenses.add_title") || "Add New Expense"}
+				title={t("dashboard.expenses.add_title") || "Add New Expense"}
 			>
 				<form onSubmit={handleAddExpense} className='space-y-4'>
 					<div>
 						<label className='block text-sm font-medium text-slate-700 mb-1'>
-							{t("expenses.amount") || "Amount"} (₼)
+							{t("dashboard.expenses.amount") || "Amount"} (₼)
 						</label>
 						<input
 							type='number'
@@ -256,7 +263,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 
 					<div>
 						<label className='block text-sm font-medium text-slate-700 mb-1'>
-							{t("expenses.category") || "Category"}
+							{t("dashboard.expenses.category") || "Category"}
 						</label>
 						<select
 							value={category}
@@ -273,7 +280,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 
 					<div>
 						<label className='block text-sm font-medium text-slate-700 mb-1'>
-							{t("expenses.date") || "Date"}
+							{t("dashboard.expenses.date") || "Date"}
 						</label>
 						<input
 							type='date'
@@ -286,7 +293,7 @@ export const ExpensesManager: React.FC<ExpensesManagerProps> = ({ barberId }) =>
 
 					<div>
 						<label className='block text-sm font-medium text-slate-700 mb-1'>
-							{t("expenses.note") || "Note"} (Optional)
+							{t("dashboard.expenses.note") || "Note"} (Optional)
 						</label>
 						<textarea
 							value={note}

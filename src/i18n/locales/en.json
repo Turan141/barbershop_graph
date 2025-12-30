@@ -332,6 +332,7 @@
 	"profile": {
 		"book_for_someone_else": "Book for someone else",
 		"whatsapp_message": "Hello, I would like to book an appointment.",
+		"contact_whatsapp": "Contact via WhatsApp",
 		"rating": "Rating",
 		"avatar_url": "Profile Picture URL",
 		"available_times": "Available Times",
@@ -434,6 +435,8 @@
 				"completed": "Completed",
 				"no_show": "No Show"
 			},
+			"no_filtered_bookings": "No bookings found with this status",
+			"try_different_filter": "Try selecting a different status.",
 			"actions": {
 				"confirm": "Confirm",
 				"cancel": "Cancel",
@@ -571,7 +574,9 @@
 			"unique_clients": "unique clients served",
 			"weekly_overview": "Weekly Overview",
 			"revenue": "Revenue",
-			"bookings": "Bookings"
+			"bookings": "Bookings",
+			"no_data_title": "No Stats Available",
+			"no_data_desc": "Start accepting bookings to see your analytics here."
 		},
 		"clients": {
 			"title": "My Clients",
@@ -587,14 +592,24 @@
 			"no_clients": "No clients found",
 			"details": "Client Details",
 			"contact": "Contact Info",
-			"add_tag": "Add Tag"
+			"add_tag": "Add Tag",
+			"share_profile": "Share Profile",
+			"no_clients_title": "No clients yet",
+			"no_clients_desc": "Share your profile link to start getting bookings."
 		}
 	},
 	"common": {
 		"loading": "Loading...",
 		"check_map": "Check Map",
 		"refresh": "Refresh",
-		"days": "days"
+		"days": "days",
+		"all": "All Statuses",
+		"page": "Page",
+		"link_copied": "Link copied!",
+		"confirm_delete": "Are you sure?",
+		"cancel": "Cancel",
+		"saving": "Saving...",
+		"save": "Save"
 	},
 	"user_bookings": {
 		"title": "My Appointments",

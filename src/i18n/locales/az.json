@@ -119,6 +119,7 @@
 	"profile": {
 		"book_for_someone_else": "Başqa biri üçün randevu al",
 		"whatsapp_message": "Salam, mən randevu almaq istəyirəm.",
+		"contact_whatsapp": "WhatsApp ilə əlaqə",
 		"rating": "Reytinq",
 		"back_to_search": "Axtarışa qayıt",
 		"open": "AÇIQ",
@@ -220,6 +221,8 @@
 				"completed": "Tamamlanıb",
 				"no_show": "Gəlmədi"
 			},
+			"no_filtered_bookings": "Bu statusda randevu tapılmadı",
+			"try_different_filter": "Başqa status seçməyə çalışın.",
 			"actions": {
 				"confirm": "Təsdiqlə",
 				"cancel": "Ləğv et",
@@ -358,7 +361,9 @@
 			"unique_clients": "unikal müştəri",
 			"weekly_overview": "Həftəlik İcmal",
 			"revenue": "Gəlir",
-			"bookings": "Randevular"
+			"bookings": "Randevular",
+			"no_data_title": "Statistika yoxdur",
+			"no_data_desc": "Analitikanı görmək üçün randevuları qəbul etməyə başlayın."
 		},
 		"clients": {
 			"title": "Müştərilərim",
@@ -374,14 +379,24 @@
 			"no_clients": "Müştəri tapılmadı",
 			"details": "Müştəri Məlumatları",
 			"contact": "Əlaqə",
-			"add_tag": "Teq əlavə et"
+			"add_tag": "Teq əlavə et",
+			"share_profile": "Profili Paylaş",
+			"no_clients_title": "Hələ müştəri yoxdur",
+			"no_clients_desc": "Randevu almaq üçün profil linkinizi paylaşın."
 		}
 	},
 	"common": {
 		"loading": "Yüklənir...",
 		"check_map": "Xəritəni yoxla",
 		"refresh": "Yenilə",
-		"days": "gün"
+		"days": "gün",
+		"all": "Bütün Statuslar",
+		"page": "Səhifə",
+		"link_copied": "Link kopyalandı!",
+		"confirm_delete": "Əminsiniz?",
+		"cancel": "Ləğv et",
+		"saving": "Yadda saxlanılır...",
+		"save": "Yadda saxla"
 	},
 	"pages": {
 		"features": {

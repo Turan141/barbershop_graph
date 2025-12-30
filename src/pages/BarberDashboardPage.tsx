@@ -37,6 +37,12 @@ import { TrialBanner } from "@/components/TrialBanner"
 import { compressImage } from "@/utils/imageUtils"
 import { ExpensesManager } from "@/components/ExpensesManager"
 
+const TIME_SLOTS = Array.from({ length: 48 }, (_, i) => {
+	const h = Math.floor(i / 2)
+	const m = i % 2 === 0 ? "00" : "30"
+	return `${h.toString().padStart(2, "0")}:${m}`
+})
+
 export const BarberDashboardPage = () => {
 	const { t } = useTranslation()
 	const { user } = useAuthStore()
@@ -860,27 +866,37 @@ export const BarberDashboardPage = () => {
 															<label className='block text-xs font-medium text-slate-500 mb-1'>
 																Start Time
 															</label>
-															<input
-																type='time'
+															<select
 																value={formData.schedule?.[day]?.start || "09:00"}
 																onChange={(e) =>
 																	updateSchedule(day, "start", e.target.value)
 																}
 																className='input-field py-1 text-sm'
-															/>
+															>
+																{TIME_SLOTS.map((time) => (
+																	<option key={`start-${time}`} value={time}>
+																		{time}
+																	</option>
+																))}
+															</select>
 														</div>
 														<div>
 															<label className='block text-xs font-medium text-slate-500 mb-1'>
 																End Time
 															</label>
-															<input
-																type='time'
+															<select
 																value={formData.schedule?.[day]?.end || "18:00"}
 																onChange={(e) =>
 																	updateSchedule(day, "end", e.target.value)
 																}
 																className='input-field py-1 text-sm'
-															/>
+															>
+																{TIME_SLOTS.map((time) => (
+																	<option key={`end-${time}`} value={time}>
+																		{time}
+																	</option>
+																))}
+															</select>
 														</div>
 													</div>
 												)}
