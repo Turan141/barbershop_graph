@@ -1,4 +1,11 @@
 {
+	"trial": {
+		"expiring_title": "Sınaq müddəti bitir",
+		"expiring_desc": "Sınaq müddətinin bitməsinə {{days}} gün qaldı. Fasiləsiz xidmət üçün paketinizi yeniləyin.",
+		"expired_title": "Sınaq müddəti bitdi",
+		"expired_desc": "Sizin pulsuz ayınız bitdi. Cəmi 9 AZN ödəyərək onlayn qəbula davam edin.",
+		"upgrade_btn": "Paketi Seçin"
+	},
 	"nav": {
 		"dashboard": "İdarə Paneli",
 		"login": "Giriş",
@@ -107,6 +114,7 @@
 		"registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin."
 	},
 	"profile": {
+		"book_for_someone_else": "Başqa biri üçün randevu al",
 		"whatsapp_message": "Salam, mən randevu almaq istəyirəm.",
 		"rating": "Reytinq",
 		"back_to_search": "Axtarışa qayıt",
@@ -410,38 +418,29 @@
 		},
 		"pricing": {
 			"title": "Sadə, Şəffaf Qiymətlər",
-			"subtitle": "İlk 50 müştəri pulsuz. Sonra hər müştəri üçün sadəcə 1 ₼.",
+			"subtitle": "İlk ay pulsuz. Sonra isə bir saç kəsimi qiymətinə bütün ay rahatlıq.",
 			"selected": "Seçildi",
-			"button": "Başlayın",
-			"popular": "MƏŞHUR",
-			"period": "müştəri",
+			"button": "WhatsApp ilə Qoşul",
+			"popular": "ƏN SƏRFƏLİ",
+			"period": "ay",
 			"starter": {
-				"title": "Başlanğıc",
-				"price": "Pulsuz",
+				"title": "Sərbəst (Solo)",
+				"price": "9 ₼",
 				"features": [
-					"50 pulsuz rezervasiya",
-					"Tam funksionallıq",
-					"Ödəniş kartı tələb olunmur"
+					"Onlayn növbə (24/7)",
+					"WhatsApp xatırlatmalar",
+					"Şəxsi iş qrafiki",
+					"Gəlir hesabatı"
 				]
 			},
 			"pro": {
-				"title": "Böyümə",
-				"price": "1 ₼",
+				"title": "Komanda (Team)",
+				"price": "29 ₼",
 				"features": [
-					"Limitsiz rezervasiya",
-					"Yalnız gələn müştəri üçün ödəniş",
-					"SMS Xatırlatmalar",
-					"Analitik İdarə Paneli"
-				]
-			},
-			"enterprise": {
-				"title": "Biznes",
-				"price": "99 ₼",
-				"features": [
-					"Peşəkar paketindəki hər şey",
-					"Çoxlu İşçi",
-					"Prioritet Dəstək",
-					"Xüsusi Brendinq"
+					"Solo paketindəki hər şey",
+					"5 işçiyə qədər",
+					"Ümumi statistika",
+					"Admin paneli"
 				]
 			}
 		},

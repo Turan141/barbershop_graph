@@ -1,4 +1,11 @@
 {
+	"trial": {
+		"expiring_title": "Trial Ending Soon",
+		"expiring_desc": "You have {{days}} days left in your trial. Upgrade now to avoid interruption.",
+		"expired_title": "Trial Expired",
+		"expired_desc": "Your free month has ended. Keep your online booking active for just 9 AZN.",
+		"upgrade_btn": "Upgrade Now"
+	},
 	"nav": {
 		"dashboard": "Dashboard",
 		"login": "Login",
@@ -118,34 +125,29 @@
 		},
 		"pricing": {
 			"title": "Simple, Transparent Pricing",
-			"subtitle": "First 50 clients are free. Then just 1 ₼ per client.",
+			"subtitle": "First month free. Then peace of mind for the price of one haircut.",
 			"selected": "Selected",
-			"button": "Get Started",
-			"popular": "POPULAR",
-			"period": "client",
+			"button": "Join via WhatsApp",
+			"popular": "BEST VALUE",
+			"period": "month",
 			"starter": {
-				"title": "Start",
-				"price": "Free",
-				"features": ["50 free bookings", "Full functionality", "No credit card required"]
-			},
-			"pro": {
-				"title": "Growth",
-				"price": "1 ₼",
+				"title": "Solo",
+				"price": "9 ₼",
 				"features": [
-					"Unlimited Bookings",
-					"Pay only per client",
-					"SMS Reminders",
-					"Analytics Dashboard"
+					"Online booking (24/7)",
+					"WhatsApp reminders",
+					"Personal schedule",
+					"Income reports"
 				]
 			},
-			"enterprise": {
-				"title": "Enterprise",
-				"price": "99 ₼",
+			"pro": {
+				"title": "Team",
+				"price": "29 ₼",
 				"features": [
-					"Everything in Pro",
-					"Multiple Staff Members",
-					"Priority Support",
-					"Custom Branding"
+					"Everything in Solo",
+					"Up to 5 staff members",
+					"Team statistics",
+					"Admin panel"
 				]
 			}
 		},
@@ -312,6 +314,7 @@
 		"registration_failed": "Registration failed. Please try again."
 	},
 	"profile": {
+		"book_for_someone_else": "Book for someone else",
 		"whatsapp_message": "Hello, I would like to book an appointment.",
 		"rating": "Rating",
 		"avatar_url": "Profile Picture URL",

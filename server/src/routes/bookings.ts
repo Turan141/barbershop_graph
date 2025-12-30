@@ -85,7 +85,15 @@ router.post("/", optionalAuth, async (req: AuthRequest, res) => {
 
 	try {
 		const [barberProfile, service] = await Promise.all([
-			prisma.barberProfile.findUnique({ where: { id: barberId }, select: { id: true } }),
+			prisma.barberProfile.findUnique({
+				where: { id: barberId },
+				select: {
+					id: true,
+					userId: true,
+					subscriptionStatus: true,
+					subscriptionEndDate: true
+				}
+			}),
 			prisma.service.findUnique({
 				where: { id: serviceId },
 				select: { id: true, barberId: true }
@@ -95,6 +103,24 @@ router.post("/", optionalAuth, async (req: AuthRequest, res) => {
 		if (!barberProfile) {
 			return res.status(404).json({ error: "Barber not found" })
 		}
+
+		// Check subscription status (Soft Lock)
+		// Allow the barber themselves to book (manual entry), but block clients if expired
+		const isBarberOwner = req.user?.id === barberProfile.userId
+		if (!isBarberOwner) {
+			const isExpired =
+				barberProfile.subscriptionStatus !== "active" &&
+				barberProfile.subscriptionEndDate &&
+				new Date(barberProfile.subscriptionEndDate) < new Date()
+
+			if (isExpired) {
+				return res.status(403).json({
+					error: "This barber is currently not accepting online bookings.",
+					errorCode: "BARBER_SUBSCRIPTION_EXPIRED"
+				})
+			}
+		}
+
 		if (!service) {
 			return res.status(404).json({ error: "Service not found" })
 		}

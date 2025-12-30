@@ -190,7 +190,7 @@ export const HomePage = () => {
 
 			{/* Modern Header / Hero */}
 			<div className='relative z-10 pt-6 pb-6 px-4 sm:px-6 lg:px-8'>
-				<div className='max-w-7xl mx-auto'>
+				<div className='max-w-7xl mx-auto pl-0 md:pl-8'>
 					{/* Mobile Branding */}
 					<div className='sm:hidden mb-6 flex items-center justify-between'>
 						<div>
@@ -531,28 +531,6 @@ export const HomePage = () => {
 							</div>
 						)}
 
-						{/* Marketing Banner - Clean Style */}
-						<div className='bg-slate-900 rounded-[2rem] p-8 mb-12 relative overflow-hidden text-white shadow-xl shadow-slate-200'>
-							<div className='absolute top-0 right-0 w-64 h-64 bg-primary-500 rounded-full blur-[100px] opacity-20 -mr-16 -mt-16'></div>
-							<div className='relative z-10 flex flex-col md:flex-row items-center justify-between gap-8'>
-								<div className='text-center md:text-left max-w-xl'>
-									<div className='inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-primary-300 text-xs font-bold uppercase tracking-wider mb-4 border border-white/10'>
-										<QrCode className='w-3 h-3' />
-										{t("home.banner_badge")}
-									</div>
-									<h3 className='text-2xl md:text-3xl font-bold mb-3'>
-										{t("home.banner_title")}
-									</h3>
-									<p className='text-slate-400 leading-relaxed'>
-										{t("home.banner_desc")}
-									</p>
-								</div>
-								<div className='bg-white p-4 rounded-2xl shadow-lg transform rotate-2 hover:rotate-0 transition-transform duration-300'>
-									<QrCode className='w-24 h-24 text-slate-900' />
-								</div>
-							</div>
-						</div>
-
 						{/* Standard List - Clean Cards */}
 						<div>
 							<h2 className='text-2xl font-bold text-slate-900 mb-6'>
@@ -713,26 +691,25 @@ export const HomePage = () => {
 					</>
 				)}
 			</div>
-
-			{/* For Barbers CTA */}
-			<div className='mt-20 bg-slate-900 rounded-3xl p-8 sm:p-12 text-center text-white relative overflow-hidden'>
-				<div className='absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-primary-500 blur-3xl opacity-20 pointer-events-none'></div>
-				<div className='absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-blue-500 blur-3xl opacity-20 pointer-events-none'></div>
-
-				<div className='relative z-10'>
-					<h2 className='text-2xl sm:text-3xl font-bold mb-4'>
-						{t("home.banner_title") || "Are you a barber?"}
-					</h2>
-					<p className='text-slate-300 mb-8 max-w-2xl mx-auto'>
-						{t("home.banner_desc") ||
-							"Join our platform to manage your bookings and grow your client base."}
-					</p>
-					<Link
-						to='/partners'
-						className='inline-flex items-center justify-center px-8 py-3 text-base font-bold text-slate-900 bg-white rounded-xl hover:bg-slate-100 transition-colors'
-					>
-						{t("home.banner_badge") || "For Barbers"}
-					</Link>
+			{/* Marketing Banner - Clean Style */}
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12'>
+				<div className='bg-slate-900 rounded-[2rem] p-8 mb-0 relative overflow-hidden text-white shadow-xl shadow-slate-200'>
+					<div className='absolute top-0 right-0 w-64 h-64 bg-primary-500 rounded-full blur-[100px] opacity-20 -mr-16 -mt-16'></div>
+					<div className='relative z-10 flex flex-col md:flex-row items-center justify-between gap-8'>
+						<div className='text-center md:text-left max-w-xl'>
+							<div className='inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-primary-300 text-xs font-bold uppercase tracking-wider mb-4 border border-white/10'>
+								<QrCode className='w-3 h-3' />
+								{t("home.banner_badge")}
+							</div>
+							<h3 className='text-2xl md:text-3xl font-bold mb-3'>
+								{t("home.banner_title")}
+							</h3>
+							<p className='text-slate-400 leading-relaxed'>{t("home.banner_desc")}</p>
+						</div>
+						<div className='hidden md:block bg-white p-4 rounded-2xl shadow-lg transform rotate-2 hover:rotate-0 transition-transform duration-300'>
+							<QrCode className='w-24 h-24 text-slate-900' />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
