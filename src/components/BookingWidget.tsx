@@ -594,7 +594,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 				{barber.phone && (
 					<button
 						onClick={handleWhatsAppClick}
-						className='w-full mt-3 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-green-600 bg-green-50 hover:bg-green-100 rounded-xl transition-colors border border-green-200'
+						className='w-full mt-3 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-green-600 hover:text-green-800 rounded-xl transition-colors'
 					>
 						<MessageCircle className='w-4 h-4' />
 						{t("profile.contact_whatsapp") || "Contact via WhatsApp"}
