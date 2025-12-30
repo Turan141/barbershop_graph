@@ -296,8 +296,13 @@
 		"create_account": "Create an account",
 		"register_subtitle": "Join us to book or manage appointments",
 		"full_name_label": "Full Name",
-		"name_placeholder": "John Doe",
 		"i_am_a": "I am a...",
+		"guest_details": "Your Details",
+		"name": "Name",
+		"name_placeholder": "Enter your name",
+		"phone": "Phone Number",
+		"phone_placeholder": "Enter your phone number",
+		"guest_details_required": "Please enter your name and phone",
 		"role_client": "Client",
 		"role_barber": "Barber",
 		"creating_account": "Creating account...",
@@ -307,6 +312,7 @@
 		"registration_failed": "Registration failed. Please try again."
 	},
 	"profile": {
+		"whatsapp_message": "Hello, I would like to book an appointment.",
 		"rating": "Rating",
 		"avatar_url": "Profile Picture URL",
 		"available_times": "Available Times",

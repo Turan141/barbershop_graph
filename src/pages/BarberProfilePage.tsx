@@ -164,7 +164,13 @@ export const BarberProfilePage = () => {
 										<div className='flex items-center gap-2 justify-center sm:justify-end w-full sm:w-auto'>
 											{barber.phone && (
 												<a
-													href={`https://wa.me/${barber.phone.replace(/\D/g, "")}`}
+													href={`https://wa.me/${barber.phone.replace(
+														/\D/g,
+														""
+													)}?text=${encodeURIComponent(
+														t("profile.whatsapp_message") ||
+															"Hello, I would like to book an appointment."
+													)}`}
 													target='_blank'
 													rel='noopener noreferrer'
 													className='group flex items-center justify-center w-12 h-12 rounded-full bg-green-50 border border-green-100 text-green-600 hover:bg-green-100 hover:scale-105 transition-all shadow-sm'

@@ -91,8 +91,13 @@
 		"create_account": "Создать аккаунт",
 		"register_subtitle": "Присоединяйтесь к нам, чтобы бронировать и управлять записями",
 		"full_name_label": "Полное имя",
-		"name_placeholder": "Иван Иванов",
 		"i_am_a": "Я...",
+		"guest_details": "Ваши данные",
+		"name": "Имя",
+		"name_placeholder": "Введите ваше имя",
+		"phone": "Номер телефона",
+		"phone_placeholder": "Введите ваш номер телефона",
+		"guest_details_required": "Пожалуйста, введите ваше имя и телефон",
 		"role_client": "Клиент",
 		"role_barber": "Барбер",
 		"creating_account": "Создание аккаунта...",
@@ -102,6 +107,7 @@
 		"registration_failed": "Ошибка регистрации. Пожалуйста, попробуйте снова."
 	},
 	"profile": {
+		"whatsapp_message": "Здравствуйте, я хотел бы записаться на прием.",
 		"rating": "Рейтинг",
 		"avatar_url": "URL изображения профиля",
 		"back_to_search": "Назад к поиску",

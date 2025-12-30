@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { format } from "date-fns"
 import { enUS, ru, az } from "date-fns/locale"
@@ -9,7 +8,8 @@ import {
 	Clock,
 	Scissors,
 	ArrowRight,
-	AlertCircle
+	AlertCircle,
+	User
 } from "lucide-react"
 import clsx from "clsx"
 import { Barber, Service, Booking } from "../types"
@@ -39,11 +39,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	onSuccess
 }) => {
 	const { t, i18n } = useTranslation()
-	const navigate = useNavigate()
 	const { user } = useAuthStore()
 
 	const [selectedDate, setSelectedDate] = useState<string>("")
 	const [selectedTime, setSelectedTime] = useState<string>("")
+	const [guestName, setGuestName] = useState("")
+	const [guestPhone, setGuestPhone] = useState("")
 	const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false)
 	const [bookingStatus, setBookingStatus] = useState<
 		"idle" | "submitting" | "success" | "error"
@@ -52,6 +53,26 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	const [availabilityLoading, setAvailabilityLoading] = useState(false)
 	const [availabilityError, setAvailabilityError] = useState(false)
 	const [availabilityReloadNonce, setAvailabilityReloadNonce] = useState(0)
+
+	// Generate next 7 days for calendar
+	const dates = Array.from({ length: 7 }, (_, i) => {
+		const d = new Date()
+		d.setDate(d.getDate() + i)
+		const currentLocale = locales[i18n.language] || enUS
+		return {
+			label: format(d, "EEE, d", { locale: currentLocale }),
+			fullLabel: format(d, "EEEE, d MMMM", { locale: currentLocale }),
+			value: format(d, "yyyy-MM-dd"),
+			dayName: format(d, "EEEE", { locale: enUS }) // Keep en-US for schedule lookup
+		}
+	})
+
+	// Set default date to today on mount
+	useEffect(() => {
+		if (dates.length > 0 && !selectedDate) {
+			setSelectedDate(dates[0].value)
+		}
+	}, [])
 
 	useEffect(() => {
 		let cancelled = false
@@ -84,14 +105,25 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 	}, [barber.id, selectedDate, availabilityReloadNonce])
 
 	const handleBook = async () => {
-		if (!user) return navigate("/login")
 		if (!selectedService || !selectedDate || !selectedTime || !barber.id) return
+
+		// Guest validation
+		if (!user) {
+			if (!guestName.trim() || !guestPhone.trim()) {
+				toast.error(
+					t("auth.guest_details_required") || "Please enter your name and phone"
+				)
+				return
+			}
+		}
 
 		setBookingStatus("submitting")
 		try {
 			const booking = await api.bookings.create({
 				barberId: barber.id,
-				clientId: user.id,
+				clientId: user?.id, // Optional now
+				guestName: !user ? guestName : undefined,
+				guestPhone: !user ? guestPhone : undefined,
 				serviceId: selectedService.id,
 				date: selectedDate,
 				time: selectedTime
@@ -140,19 +172,6 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 		}
 	}
 
-	// Generate next 7 days for calendar
-	const dates = Array.from({ length: 7 }, (_, i) => {
-		const d = new Date()
-		d.setDate(d.getDate() + i)
-		const currentLocale = locales[i18n.language] || enUS
-		return {
-			label: format(d, "EEE, d", { locale: currentLocale }),
-			fullLabel: format(d, "EEEE, d MMMM", { locale: currentLocale }),
-			value: d.toISOString().split("T")[0],
-			dayName: format(d, "EEEE", { locale: enUS }) // Keep en-US for schedule lookup
-		}
-	})
-
 	const generateSlots = () => {
 		if (!selectedDate || !selectedService) return []
 		const dayName = dates.find((d) => d.value === selectedDate)?.dayName || ""
@@ -173,7 +192,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 			end = (schedule as any).end || "18:00"
 		}
 
-		return generateTimeSlots(start, end, selectedService.duration)
+		return generateTimeSlots(start, end, selectedService.duration, 30, selectedDate)
 	}
 
 	const availableSlots = generateSlots()
@@ -453,6 +472,42 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						)}
 					</div>
 				</div>
+
+				{/* Guest Details */}
+				{!user && (
+					<div className='mb-6 animate-fade-in'>
+						<h3 className='text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2'>
+							<User className='w-4 h-4 text-primary-500' />
+							{t("auth.guest_details") || "Your Details"}
+						</h3>
+						<div className='space-y-3'>
+							<div>
+								<label className='block text-xs font-medium text-slate-700 mb-1'>
+									{t("auth.name") || "Name"}
+								</label>
+								<input
+									type='text'
+									value={guestName}
+									onChange={(e) => setGuestName(e.target.value)}
+									placeholder={t("auth.name_placeholder") || "Enter your name"}
+									className='w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm'
+								/>
+							</div>
+							<div>
+								<label className='block text-xs font-medium text-slate-700 mb-1'>
+									{t("auth.phone") || "Phone Number"}
+								</label>
+								<input
+									type='tel'
+									value={guestPhone}
+									onChange={(e) => setGuestPhone(e.target.value)}
+									placeholder={t("auth.phone_placeholder") || "Enter your phone number"}
+									className='w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm'
+								/>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 			{/* Summary & Action */}
 			<div className='sticky bottom-0 bg-white p-4 border-t border-slate-100 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10'>

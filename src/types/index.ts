@@ -57,7 +57,9 @@ export interface Barber extends User {
 export interface Booking {
 	id: string
 	barberId: string
-	clientId: string
+	clientId?: string
+	guestName?: string
+	guestPhone?: string
 	serviceId: string
 	date: string // ISO date string YYYY-MM-DD
 	time: string // HH:mm

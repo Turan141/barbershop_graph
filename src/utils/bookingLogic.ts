@@ -5,14 +5,29 @@ export const generateTimeSlots = (
 	start: string,
 	end: string,
 	serviceDuration: number,
-	interval: number = 30
+	interval: number = 30,
+	selectedDate?: string
 ): string[] => {
 	const slots: string[] = []
 	let currentTime = new Date(`2000-01-01T${start}`)
 	const endTime = new Date(`2000-01-01T${end}`)
 
+	const now = new Date()
+	const isToday = selectedDate === format(now, "yyyy-MM-dd")
+	const currentMinutes = now.getHours() * 60 + now.getMinutes()
+
 	while (currentTime < endTime) {
 		const timeString = format(currentTime, "HH:mm")
+
+		// Filter past times if today
+		if (isToday) {
+			const slotMinutes = currentTime.getHours() * 60 + currentTime.getMinutes()
+			// Add buffer of 30 mins
+			if (slotMinutes < currentMinutes + 30) {
+				currentTime = new Date(currentTime.getTime() + interval * 60000)
+				continue
+			}
+		}
 
 		const slotEnd = new Date(currentTime.getTime() + serviceDuration * 60000)
 		if (slotEnd <= endTime) {

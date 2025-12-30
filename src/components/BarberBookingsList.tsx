@@ -2,16 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { api } from "../services/api"
 import { Booking } from "../types"
-import {
-	Check,
-	X,
-	UserX,
-	Calendar,
-	Clock,
-	Phone,
-	MessageSquare,
-	AlertCircle
-} from "lucide-react"
+import { Check, X, UserX, Calendar } from "lucide-react"
 import clsx from "clsx"
 import toast from "react-hot-toast"
 

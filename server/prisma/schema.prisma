@@ -81,12 +81,15 @@ model Booking {
   // - Set to `${barberId}:${date}:${time}` on create
   // - Set to null when cancelled
   slotKey   String?  @unique
-  status    String   // "pending" | "confirmed" | "cancelled" | "completed"
+  status    String   // "pending" | "confirmed" | "cancelled" | "completed" | "no_show"
   comment   String?  // Reason for cancellation or other notes
   createdAt DateTime @default(now())
 
-  clientId  String
-  client    User     @relation("ClientBookings", fields: [clientId], references: [id])
+  clientId  String?
+  client    User?    @relation("ClientBookings", fields: [clientId], references: [id])
+  
+  guestName  String?
+  guestPhone String?
 
   barberId  String
   barber    BarberProfile @relation(fields: [barberId], references: [id])

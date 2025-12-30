@@ -91,8 +91,13 @@
 		"create_account": "Hesab yarat",
 		"register_subtitle": "Randevu almaq və idarə etmək üçün bizə qoşulun",
 		"full_name_label": "Ad Soyad",
-		"name_placeholder": "Ad Soyad",
 		"i_am_a": "Mən...",
+		"guest_details": "Sizin Məlumatlarınız",
+		"name": "Ad",
+		"name_placeholder": "Adınızı daxil edin",
+		"phone": "Telefon Nömrəsi",
+		"phone_placeholder": "Telefon nömrənizi daxil edin",
+		"guest_details_required": "Zəhmət olmasa adınızı və telefon nömrənizi daxil edin",
 		"role_client": "Müştəri",
 		"role_barber": "Bərbər",
 		"creating_account": "Hesab yaradılır...",
@@ -102,6 +107,7 @@
 		"registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin."
 	},
 	"profile": {
+		"whatsapp_message": "Salam, mən randevu almaq istəyirəm.",
 		"rating": "Reytinq",
 		"back_to_search": "Axtarışa qayıt",
 		"open": "AÇIQ",

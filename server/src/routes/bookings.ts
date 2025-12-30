@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { prisma } from "../db"
-import { authenticateToken, AuthRequest } from "../middleware/auth"
+import { authenticateToken, optionalAuth, AuthRequest } from "../middleware/auth"
 import { Prisma } from "@prisma/client"
 
 const router = Router()
@@ -52,11 +52,22 @@ router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 })
 
 // POST /api/bookings
-router.post("/", authenticateToken, async (req: AuthRequest, res) => {
-	const { barberId, serviceId, date, time } = req.body
-	const clientId = req.user!.id
-	if (req.user?.role !== "client") {
-		return res.status(403).json({ error: "Only clients can create bookings" })
+router.post("/", optionalAuth, async (req: AuthRequest, res) => {
+	const { barberId, serviceId, date, time, guestName, guestPhone } = req.body
+
+	let clientId: string | undefined
+	if (req.user) {
+		if (req.user.role !== "client") {
+			return res.status(403).json({ error: "Only clients can create bookings" })
+		}
+		clientId = req.user.id
+	} else {
+		// Guest validation
+		if (!guestName || !guestPhone) {
+			return res
+				.status(400)
+				.json({ error: "Name and phone are required for guest booking" })
+		}
 	}
 
 	if (typeof barberId !== "string" || typeof serviceId !== "string") {
@@ -102,20 +113,21 @@ router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 			})
 		}
 
-		// 2. Limit Active Bookings (Anti-Spam)
-		// Limit to 3 active (pending or confirmed) bookings per user
-		const activeBookingsCount = await prisma.booking.count({
-			where: {
-				clientId,
-				status: { in: ["pending", "confirmed"] }
-			}
-		})
-
-		if (activeBookingsCount >= 3) {
-			return res.status(429).json({
-				error: "You have reached the maximum limit of 3 active bookings.",
-				errorCode: "MAX_ACTIVE_BOOKINGS_REACHED"
+		// 2. Limit Active Bookings (Anti-Spam) - Only for registered users
+		if (clientId) {
+			const activeBookingsCount = await prisma.booking.count({
+				where: {
+					clientId,
+					status: { in: ["pending", "confirmed"] }
+				}
 			})
+
+			if (activeBookingsCount >= 3) {
+				return res.status(429).json({
+					error: "You have reached the maximum limit of 3 active bookings.",
+					errorCode: "MAX_ACTIVE_BOOKINGS_REACHED"
+				})
+			}
 		}
 
 		let booking
@@ -123,6 +135,8 @@ router.post("/", authenticateToken, async (req: AuthRequest, res) => {
 			booking = await prisma.booking.create({
 				data: {
 					clientId,
+					guestName,
+					guestPhone,
 					barberId,
 					serviceId,
 					date,

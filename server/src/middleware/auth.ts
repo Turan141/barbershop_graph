@@ -29,3 +29,21 @@ export const authenticateToken = (
 		res.status(403).json({ error: "Invalid token." })
 	}
 }
+
+export const optionalAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
+	const authHeader = req.headers["authorization"]
+	const token = authHeader && authHeader.split(" ")[1]
+
+	if (!token) {
+		return next()
+	}
+
+	try {
+		const verified = jwt.verify(token, getJwtSecret()) as { id: string; role: string }
+		req.user = verified
+		next()
+	} catch (error) {
+		// If token is invalid, just proceed as guest
+		next()
+	}
+}
