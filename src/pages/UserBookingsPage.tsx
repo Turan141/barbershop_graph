@@ -58,7 +58,7 @@ export const UserBookingsPage = () => {
 					// Extract clients from bookings
 					const clientsData: Record<string, User> = {}
 					data.forEach((booking) => {
-						if (booking.client) {
+						if (booking.client && booking.clientId) {
 							clientsData[booking.clientId] = booking.client
 						}
 					})
@@ -104,7 +104,8 @@ export const UserBookingsPage = () => {
 
 	const renderBookingCard = (booking: Booking) => {
 		const barber = barbers[booking.barberId]
-		const client = isBarber ? clients[booking.clientId] : null
+		const client =
+			isBarber && booking.clientId ? clients[booking.clientId] : null
 		// @ts-ignore - service is included in the API response
 		const service =
 			booking.service || barber?.services?.find((s) => s.id === booking.serviceId)

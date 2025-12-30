@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { api } from "../services/api"
 import { Booking } from "../types"
-import { Check, X, UserX, Calendar } from "lucide-react"
+import { Check, X, UserX, Calendar, MessageCircle } from "lucide-react"
 import clsx from "clsx"
 import toast from "react-hot-toast"
 
@@ -137,12 +137,35 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 												{booking.client?.name?.[0] || "U"}
 											</div>
 											<div>
-												<div className='font-medium text-slate-900'>
-													{booking.client?.name || t("dashboard.bookings.unknown_client")}
+												<div className='font-medium text-slate-900 flex items-center gap-2'>
+													{booking.client?.name ||
+														booking.guestName ||
+														t("dashboard.bookings.unknown_client")}
+													{(booking.client?.phone || booking.guestPhone) && (
+														<a
+															href={`https://wa.me/${(
+																booking.client?.phone ||
+																booking.guestPhone ||
+																""
+															).replace(/\D/g, "")}`}
+															target='_blank'
+															rel='noopener noreferrer'
+															className='text-green-500 hover:text-green-600 transition-colors'
+															title='WhatsApp'
+															onClick={(e) => e.stopPropagation()}
+														>
+															<MessageCircle className='w-4 h-4' />
+														</a>
+													)}
 												</div>
 												{booking.client?.email && (
 													<div className='text-xs text-slate-500'>
 														{booking.client.email}
+													</div>
+												)}
+												{booking.guestPhone && (
+													<div className='text-xs text-slate-500'>
+														{booking.guestPhone}
 													</div>
 												)}
 											</div>
@@ -237,8 +260,26 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 									{booking.client?.name?.[0] || "U"}
 								</div>
 								<div>
-									<div className='font-bold text-slate-900'>
-										{booking.client?.name || t("dashboard.bookings.unknown_client")}
+									<div className='font-bold text-slate-900 flex items-center gap-2'>
+										{booking.client?.name ||
+											booking.guestName ||
+											t("dashboard.bookings.unknown_client")}
+										{(booking.client?.phone || booking.guestPhone) && (
+											<a
+												href={`https://wa.me/${(
+													booking.client?.phone ||
+													booking.guestPhone ||
+													""
+												).replace(/\D/g, "")}`}
+												target='_blank'
+												rel='noopener noreferrer'
+												className='text-green-500 hover:text-green-600 transition-colors'
+												title='WhatsApp'
+												onClick={(e) => e.stopPropagation()}
+											>
+												<MessageCircle className='w-4 h-4' />
+											</a>
+										)}
 									</div>
 									<div className='text-xs text-slate-500'>
 										{booking.date} • {booking.time}

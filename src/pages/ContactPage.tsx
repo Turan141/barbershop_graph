@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react"
+import { Mail, Phone } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 export const ContactPage = () => {
@@ -49,7 +49,7 @@ export const ContactPage = () => {
 								</p>
 							</div>
 						</div>
-						<div className='flex items-start gap-4'>
+						{/* <div className='flex items-start gap-4'>
 							<div className='w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600 flex-shrink-0'>
 								<MapPin className='h-5 w-5' />
 							</div>
@@ -63,7 +63,7 @@ export const ContactPage = () => {
 									Baku, Azerbaijan
 								</p>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 

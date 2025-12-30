@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { Link } from "react-router-dom"
-import { api } from "../services/api"
-import { Barber } from "../types"
+import { api } from "@/services/api"
+import { Barber } from "@/types"
 import {
 	Star,
 	MapPin,
@@ -15,7 +15,7 @@ import {
 	Crown
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
-import { useAuthStore } from "../store/authStore"
+import { useAuthStore } from "@/store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"
 import clsx from "clsx"
 

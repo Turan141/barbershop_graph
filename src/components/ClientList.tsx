@@ -190,7 +190,7 @@ export const ClientList: React.FC<ClientListProps> = ({ barberId }) => {
 				title={t("dashboard.clients.details")}
 			>
 				{selectedClient && (
-					<div className='space-y-6'>
+					<div className='space-y-6 p-8'>
 						<div className='flex items-center gap-4 pb-6 border-b border-slate-100'>
 							<div className='w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden'>
 								{selectedClient.avatarUrl ? (

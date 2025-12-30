@@ -1,8 +1,8 @@
 import { useState, FormEvent, useEffect } from "react"
 import { useNavigate, Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { useAuthStore } from "../store/authStore"
-import { api } from "../services/api"
+import { useAuthStore } from "@/store/authStore"
+import { api } from "@/services/api"
 import { Scissors, ArrowRight, Mail, Lock } from "lucide-react"
 
 export const LoginPage = () => {

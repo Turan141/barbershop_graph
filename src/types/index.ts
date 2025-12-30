@@ -4,6 +4,7 @@ export interface User {
 	email: string
 	role: "client" | "barber"
 	avatarUrl?: string
+	phone?: string
 }
 
 export interface PaginatedResponse<T> {

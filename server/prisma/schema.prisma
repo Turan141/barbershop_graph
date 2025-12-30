@@ -17,6 +17,7 @@ model User {
   password  String
   role      String   // "client" | "barber"
   avatarUrl String?
+  phone     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -26,6 +27,18 @@ model User {
   favorites     Favorite[]
   reviews       Review[]
   clientNotes   BarberClientNote[]
+  expenses      Expense[]
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  barberId    String
+  barber      User     @relation(fields: [barberId], references: [id])
+  amount      Float
+  category    String   // "rent", "supplies", "utilities", "other"
+  date        DateTime
+  note        String?
+  createdAt   DateTime @default(now())
 }
 
 model BarberProfile {

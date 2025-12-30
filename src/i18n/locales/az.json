@@ -305,7 +305,31 @@
 			"bookings": "Randevular",
 			"schedule": "İş Saatları",
 			"services": "Xidmətlər",
-			"portfolio": "Portfolio"
+			"portfolio": "Portfolio",
+			"expenses": "Xərclər"
+		},
+		"expenses": {
+			"title": "Xərclər",
+			"subtitle": "Biznes xərclərinizi izləyin",
+			"add_btn": "Xərc Əlavə Et",
+			"total_cost": "Ümumi Xərc",
+			"date": "Tarix",
+			"category": "Kateqoriya",
+			"note": "Qeyd",
+			"amount": "Məbləğ",
+			"no_data": "Hələ heç bir xərc qeydə alınmayıb.",
+			"add_title": "Yeni Xərc Əlavə Et",
+			"added_success": "Xərc uğurla əlavə edildi",
+			"add_error": "Xərc əlavə edilə bilmədi",
+			"deleted_success": "Xərc silindi",
+			"delete_error": "Xərc silinə bilmədi",
+			"categories": {
+				"rent": "İcarə",
+				"supplies": "Ləvazimatlar",
+				"utilities": "Kommunal",
+				"marketing": "Marketinq",
+				"other": "Digər"
+			}
 		},
 		"stats": {
 			"today_revenue": "Bugünkü Gəlir",

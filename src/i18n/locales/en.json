@@ -510,7 +510,31 @@
 			"bookings": "Bookings",
 			"schedule": "Working Hours",
 			"services": "Services",
-			"portfolio": "Portfolio"
+			"portfolio": "Portfolio",
+			"expenses": "Expenses"
+		},
+		"expenses": {
+			"title": "Expenses",
+			"subtitle": "Track your business costs",
+			"add_btn": "Add Expense",
+			"total_cost": "Total Cost",
+			"date": "Date",
+			"category": "Category",
+			"note": "Note",
+			"amount": "Amount",
+			"no_data": "No expenses recorded yet.",
+			"add_title": "Add New Expense",
+			"added_success": "Expense added successfully",
+			"add_error": "Failed to add expense",
+			"deleted_success": "Expense deleted",
+			"delete_error": "Failed to delete expense",
+			"categories": {
+				"rent": "Rent",
+				"supplies": "Supplies",
+				"utilities": "Utilities",
+				"marketing": "Marketing",
+				"other": "Other"
+			}
 		},
 		"stats": {
 			"today_revenue": "Today's Revenue",

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { useAuthStore } from "../store/authStore"
-import { Barber, Service } from "../types"
-import { api } from "../services/api"
+import { useAuthStore } from "@/store/authStore"
+import { Barber, Service } from "@/types"
+import { api } from "@/services/api"
 import {
 	User,
 	Users,
@@ -23,15 +23,17 @@ import {
 	Camera,
 	ShieldCheck,
 	ExternalLink,
-	AlertCircle
+	AlertCircle,
+	DollarSign
 } from "lucide-react"
 import clsx from "clsx"
-import { DashboardStats } from "../components/DashboardStats"
-import { ClientList } from "../components/ClientList"
-import { BarberBookingsList } from "../components/BarberBookingsList"
-import { Modal } from "../components/Modal"
-import { TrialBanner } from "../components/TrialBanner"
-import { compressImage } from "../utils/imageUtils"
+import { DashboardStats } from "@/components/DashboardStats"
+import { ClientList } from "@/components/ClientList"
+import { BarberBookingsList } from "@/components/BarberBookingsList"
+import { Modal } from "@/components/Modal"
+import { TrialBanner } from "@/components/TrialBanner"
+import { compressImage } from "@/utils/imageUtils"
+import { ExpensesManager } from "@/components/ExpensesManager"
 
 export const BarberDashboardPage = () => {
 	const { t } = useTranslation()
@@ -54,7 +56,8 @@ export const BarberDashboardPage = () => {
 		| "schedule"
 		| "services"
 		| "portfolio"
-	>("overview")
+		| "expenses"
+	>("bookings")
 	const [saving, setSaving] = useState(false)
 	const [message, setMessage] = useState<{
 		type: "success" | "error"
@@ -222,9 +225,14 @@ export const BarberDashboardPage = () => {
 		return <div className='p-8 text-center'>{t("dashboard.profile_not_found")}</div>
 
 	const tabs = [
-		{ id: "overview", label: t("dashboard.tabs.overview"), icon: LayoutDashboard },
 		{ id: "bookings", label: t("dashboard.tabs.bookings") || "Bookings", icon: Calendar },
+		{ id: "overview", label: t("dashboard.tabs.overview"), icon: LayoutDashboard },
 		{ id: "clients", label: t("dashboard.clients.title"), icon: Users },
+		{
+			id: "expenses",
+			label: t("dashboard.tabs.expenses") || "Expenses",
+			icon: DollarSign
+		},
 		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
 		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Clock },
 		{ id: "services", label: t("dashboard.tabs.services"), icon: Scissors },
@@ -294,6 +302,11 @@ export const BarberDashboardPage = () => {
 
 						{/* Clients Tab */}
 						{activeTab === "clients" && barber && <ClientList barberId={barber.id} />}
+
+						{/* Expenses Tab */}
+						{activeTab === "expenses" && barber && (
+							<ExpensesManager barberId={barber.id} />
+						)}
 
 						{/* Profile Tab */}
 						{activeTab === "profile" && (
