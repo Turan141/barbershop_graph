@@ -3,36 +3,204 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 const FIRST_NAMES = [
-	"James", "Robert", "John", "Michael", "David", "William", "Richard", "Joseph", "Thomas", "Charles",
-	"Daniel", "Matthew", "Anthony", "Mark", "Donald", "Steven", "Paul", "Andrew", "Joshua", "Kenneth",
-	"Kevin", "Brian", "George", "Edward", "Ronald", "Timothy", "Jason", "Jeffrey", "Ryan", "Jacob",
-	"Gary", "Nicholas", "Eric", "Jonathan", "Stephen", "Larry", "Justin", "Scott", "Brandon", "Benjamin",
-	"Samuel", "Gregory", "Frank", "Alexander", "Raymond", "Patrick", "Jack", "Dennis", "Jerry", "Tyler",
-	"Aaron", "Jose", "Adam", "Henry", "Nathan", "Douglas", "Zachary", "Peter", "Kyle", "Walter", "Ethan",
-	"Jeremy", "Harold", "Keith", "Christian", "Roger", "Noah", "Gerald", "Carl", "Terry", "Sean", "Austin",
-	"Arthur", "Lawrence", "Jesse", "Dylan", "Bryan", "Joe", "Jordan", "Billy", "Bruce", "Albert", "Willie",
-	"Gabriel", "Logan", "Alan", "Juan", "Wayne", "Roy", "Ralph", "Randy", "Eugene", "Vincent", "Russell",
-	"Elijah", "Louis", "Bobby", "Philip", "Johnny", "Murad", "Elvin", "Samir", "Tural", "Anar", "Vusal",
-	"Rashad", "Orkhan", "Farid", "Ilgar"
+	"James",
+	"Robert",
+	"John",
+	"Michael",
+	"David",
+	"William",
+	"Richard",
+	"Joseph",
+	"Thomas",
+	"Charles",
+	"Daniel",
+	"Matthew",
+	"Anthony",
+	"Mark",
+	"Donald",
+	"Steven",
+	"Paul",
+	"Andrew",
+	"Joshua",
+	"Kenneth",
+	"Kevin",
+	"Brian",
+	"George",
+	"Edward",
+	"Ronald",
+	"Timothy",
+	"Jason",
+	"Jeffrey",
+	"Ryan",
+	"Jacob",
+	"Gary",
+	"Nicholas",
+	"Eric",
+	"Jonathan",
+	"Stephen",
+	"Larry",
+	"Justin",
+	"Scott",
+	"Brandon",
+	"Benjamin",
+	"Samuel",
+	"Gregory",
+	"Frank",
+	"Alexander",
+	"Raymond",
+	"Patrick",
+	"Jack",
+	"Dennis",
+	"Jerry",
+	"Tyler",
+	"Aaron",
+	"Jose",
+	"Adam",
+	"Henry",
+	"Nathan",
+	"Douglas",
+	"Zachary",
+	"Peter",
+	"Kyle",
+	"Walter",
+	"Ethan",
+	"Jeremy",
+	"Harold",
+	"Keith",
+	"Christian",
+	"Roger",
+	"Noah",
+	"Gerald",
+	"Carl",
+	"Terry",
+	"Sean",
+	"Austin",
+	"Arthur",
+	"Lawrence",
+	"Jesse",
+	"Dylan",
+	"Bryan",
+	"Joe",
+	"Jordan",
+	"Billy",
+	"Bruce",
+	"Albert",
+	"Willie",
+	"Gabriel",
+	"Logan",
+	"Alan",
+	"Juan",
+	"Wayne",
+	"Roy",
+	"Ralph",
+	"Randy",
+	"Eugene",
+	"Vincent",
+	"Russell",
+	"Elijah",
+	"Louis",
+	"Bobby",
+	"Philip",
+	"Johnny",
+	"Murad",
+	"Elvin",
+	"Samir",
+	"Tural",
+	"Anar",
+	"Vusal",
+	"Rashad",
+	"Orkhan",
+	"Farid",
+	"Ilgar"
 ]
 
 const LAST_NAMES = [
-	"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
-	"Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin",
-	"Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson",
-	"Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green",
-	"Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts",
-	"Mammadov", "Aliyev", "Huseynov", "Guliyev", "Ismayilov", "Hasanov", "Abdullayev", "Jafarov"
+	"Smith",
+	"Johnson",
+	"Williams",
+	"Brown",
+	"Jones",
+	"Garcia",
+	"Miller",
+	"Davis",
+	"Rodriguez",
+	"Martinez",
+	"Hernandez",
+	"Lopez",
+	"Gonzalez",
+	"Wilson",
+	"Anderson",
+	"Thomas",
+	"Taylor",
+	"Moore",
+	"Jackson",
+	"Martin",
+	"Lee",
+	"Perez",
+	"Thompson",
+	"White",
+	"Harris",
+	"Sanchez",
+	"Clark",
+	"Ramirez",
+	"Lewis",
+	"Robinson",
+	"Walker",
+	"Young",
+	"Allen",
+	"King",
+	"Wright",
+	"Scott",
+	"Torres",
+	"Nguyen",
+	"Hill",
+	"Flores",
+	"Green",
+	"Adams",
+	"Nelson",
+	"Baker",
+	"Hall",
+	"Rivera",
+	"Campbell",
+	"Mitchell",
+	"Carter",
+	"Roberts",
+	"Mammadov",
+	"Aliyev",
+	"Huseynov",
+	"Guliyev",
+	"Ismayilov",
+	"Hasanov",
+	"Abdullayev",
+	"Jafarov"
 ]
 
 const LOCATIONS = [
-	"Mərkəz, Bakı", "Yasamal, Bakı", "Gənclik, Bakı", "Nərimanov, Bakı", "Xətai, Bakı",
-	"Nizami, Bakı", "Səbail, Bakı", "Nəsimi, Bakı", "Binəqədi, Bakı", "Suraxanı, Bakı"
+	"Mərkəz, Bakı",
+	"Yasamal, Bakı",
+	"Gənclik, Bakı",
+	"Nərimanov, Bakı",
+	"Xətai, Bakı",
+	"Nizami, Bakı",
+	"Səbail, Bakı",
+	"Nəsimi, Bakı",
+	"Binəqədi, Bakı",
+	"Suraxanı, Bakı"
 ]
 
 const SPECIALTIES_LIST = [
-	"Fade", "Saqqal Düzəltmə", "Klassik Kəsim", "Rəngləmə", "Stilləşdirmə",
-	"Uzun Saç", "Maşınla Kəsim", "Təraş", "Uşaq Saçı", "Keratin", "Üz Baxımı", "Masaj"
+	"Fade",
+	"Saqqal Düzəltmə",
+	"Klassik Kəsim",
+	"Rəngləmə",
+	"Stilləşdirmə",
+	"Uzun Saç",
+	"Maşınla Kəsim",
+	"Təraş",
+	"Uşaq Saçı",
+	"Keratin",
+	"Üz Baxımı",
+	"Masaj"
 ]
 
 const PORTFOLIO_IMAGES = [
@@ -70,35 +238,39 @@ const SCHEDULE_TEMPLATE = {
 }
 
 class UniqueGenerator {
-	private usedNames = new Set<string>();
-	private usedEmails = new Set<string>();
+	private usedNames = new Set<string>()
+	private usedEmails = new Set<string>()
 
-	generateName(): { firstName: string, lastName: string, fullName: string } {
-		let attempts = 0;
+	generateName(): { firstName: string; lastName: string; fullName: string } {
+		let attempts = 0
 		while (attempts < 100) {
-			const firstName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
-			const lastName = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
-			const fullName = `${firstName} ${lastName}`;
+			const firstName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)]
+			const lastName = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)]
+			const fullName = `${firstName} ${lastName}`
 			if (!this.usedNames.has(fullName)) {
-				this.usedNames.add(fullName);
-				return { firstName, lastName, fullName };
+				this.usedNames.add(fullName)
+				return { firstName, lastName, fullName }
 			}
-			attempts++;
+			attempts++
 		}
 		// Fallback if we run out of combinations (unlikely with this list size)
-		return { firstName: "Barber", lastName: `Gen${Date.now()}`, fullName: `Barber Gen${Date.now()}` };
+		return {
+			firstName: "Barber",
+			lastName: `Gen${Date.now()}`,
+			fullName: `Barber Gen${Date.now()}`
+		}
 	}
 
 	generateEmail(firstName: string, lastName: string): string {
-		let baseEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@barber.com`;
-		let email = baseEmail;
-		let counter = 1;
+		let baseEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@barber.com`
+		let email = baseEmail
+		let counter = 1
 		while (this.usedEmails.has(email)) {
-			email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${counter}@barber.com`;
-			counter++;
+			email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${counter}@barber.com`
+			counter++
 		}
-		this.usedEmails.add(email);
-		return email;
+		this.usedEmails.add(email)
+		return email
 	}
 }
 
@@ -111,45 +283,46 @@ function getRandomItem<T>(arr: T[]): T {
 	return arr[Math.floor(Math.random() * arr.length)]
 }
 
-const generator = new UniqueGenerator();
+const generator = new UniqueGenerator()
 
-function generateBarberData(index: number, plan: 'basic' | 'standard' | 'pro') {
-	const { firstName, lastName, fullName } = generator.generateName();
-	const email = generator.generateEmail(firstName, lastName);
-	const location = getRandomItem(LOCATIONS);
-	const specialties = getRandomItems(SPECIALTIES_LIST, Math.floor(Math.random() * 3) + 2);
-	
-	let rating, reviewCount, tier, subscriptionPlan;
+function generateBarberData(index: number, plan: "basic" | "standard" | "pro") {
+	const { firstName, lastName, fullName } = generator.generateName()
+	const email = generator.generateEmail(firstName, lastName)
+	const location = getRandomItem(LOCATIONS)
+	const specialties = getRandomItems(SPECIALTIES_LIST, Math.floor(Math.random() * 3) + 2)
 
-	if (plan === 'basic') {
-		rating = (Math.random() * (4.2 - 3.5) + 3.5).toFixed(1);
-		reviewCount = Math.floor(Math.random() * 30) + 5;
-		tier = "standard";
-		subscriptionPlan = "basic";
-	} else if (plan === 'standard') {
-		rating = (Math.random() * (4.8 - 4.2) + 4.2).toFixed(1);
-		reviewCount = Math.floor(Math.random() * 100) + 30;
-		tier = "vip"; // Giving them VIP tier for better visibility
-		subscriptionPlan = "standard";
-	} else { // pro
-		rating = (Math.random() * (5.0 - 4.8) + 4.8).toFixed(1);
-		reviewCount = Math.floor(Math.random() * 300) + 100;
-		tier = "vip";
-		subscriptionPlan = "pro";
+	let rating, reviewCount, tier, subscriptionPlan
+
+	if (plan === "basic") {
+		rating = (Math.random() * (4.2 - 3.5) + 3.5).toFixed(1)
+		reviewCount = Math.floor(Math.random() * 30) + 5
+		tier = "standard"
+		subscriptionPlan = "basic"
+	} else if (plan === "standard") {
+		rating = (Math.random() * (4.8 - 4.2) + 4.2).toFixed(1)
+		reviewCount = Math.floor(Math.random() * 100) + 30
+		tier = "vip" // Giving them VIP tier for better visibility
+		subscriptionPlan = "standard"
+	} else {
+		// pro
+		rating = (Math.random() * (5.0 - 4.8) + 4.8).toFixed(1)
+		reviewCount = Math.floor(Math.random() * 300) + 100
+		tier = "vip"
+		subscriptionPlan = "pro"
 	}
 
 	// Use pravatar.cc for unique realistic avatars based on email hash (simulated by index/random)
 	// Adding a random query param to ensure uniqueness
-	const avatarUrl = `https://i.pravatar.cc/300?u=${email}`;
+	const avatarUrl = `https://i.pravatar.cc/300?u=${email}`
 
-	const portfolio = getRandomItems(PORTFOLIO_IMAGES, Math.floor(Math.random() * 4) + 2);
+	const portfolio = getRandomItems(PORTFOLIO_IMAGES, Math.floor(Math.random() * 4) + 2)
 	const services = getRandomItems(
 		SERVICES_TEMPLATE,
 		Math.floor(Math.random() * 4) + 3
 	).map((s, i) => ({
 		id: `s_gen_${index}_${i}`,
 		...s
-	}));
+	}))
 
 	return {
 		id: `b_gen_${index}`,
@@ -161,7 +334,9 @@ function generateBarberData(index: number, plan: 'basic' | 'standard' | 'pro') {
 		rating: parseFloat(rating),
 		reviewCount,
 		location,
-		bio: `Professional barber with over ${Math.floor(Math.random() * 15) + 2} years of experience. Expert in ${specialties.join(", ")}.`,
+		bio: `Professional barber with over ${
+			Math.floor(Math.random() * 15) + 2
+		} years of experience. Expert in ${specialties.join(", ")}.`,
 		tier,
 		subscriptionPlan,
 		portfolio,
@@ -209,7 +384,8 @@ async function main() {
 			name: "Test Barber",
 			email: "barber@test.com",
 			role: "barber",
-			avatarUrl: "https://ui-avatars.com/api/?name=Test+Barber&background=random&size=200",
+			avatarUrl:
+				"https://ui-avatars.com/api/?name=Test+Barber&background=random&size=200",
 			password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
 		}
 	})
@@ -225,7 +401,9 @@ async function main() {
 			bio: "A test barber account for development purposes.",
 			tier: "vip",
 			subscriptionPlan: "pro",
-			portfolio: JSON.stringify(["https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=300"]),
+			portfolio: JSON.stringify([
+				"https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=300"
+			]),
 			schedule: JSON.stringify({
 				Monday: { start: "09:00", end: "17:00" },
 				Tuesday: { start: "09:00", end: "17:00" },
@@ -236,7 +414,13 @@ async function main() {
 			}),
 			services: {
 				create: [
-					{ id: "s_test_1", name: "Test Service", duration: 30, price: 10, currency: "AZN" }
+					{
+						id: "s_test_1",
+						name: "Test Service",
+						duration: 30,
+						price: 10,
+						currency: "AZN"
+					}
 				]
 			}
 		}
@@ -245,15 +429,15 @@ async function main() {
 
 	// 4. Create Realistic Barbers
 	// 5 Basic, 3 Standard, 1 Pro
-	const plans: ('basic' | 'standard' | 'pro')[] = [
-		...Array(5).fill('basic'),
-		...Array(3).fill('standard'),
-		...Array(1).fill('pro')
-	];
+	const plans: ("basic" | "standard" | "pro")[] = [
+		...Array(5).fill("basic"),
+		...Array(3).fill("standard"),
+		...Array(1).fill("pro")
+	]
 
 	for (let i = 0; i < plans.length; i++) {
-		const plan = plans[i];
-		const b = generateBarberData(i + 1, plan);
+		const plan = plans[i]
+		const b = generateBarberData(i + 1, plan)
 
 		const user = await prisma.user.create({
 			data: {
