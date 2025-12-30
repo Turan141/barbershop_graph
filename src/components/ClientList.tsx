@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Search, User, Mail, Calendar, DollarSign, FileText, X, Plus, Share2 } from "lucide-react"
+import {
+	Search,
+	User,
+	Mail,
+	Calendar,
+	DollarSign,
+	FileText,
+	X,
+	Plus,
+	Share2
+} from "lucide-react"
 import { api } from "../services/api"
 import { Modal } from "./Modal"
 import toast from "react-hot-toast"
