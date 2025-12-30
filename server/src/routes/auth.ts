@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
 
 // POST /api/auth/register
 router.post("/register", async (req, res) => {
-	const { name, email, password, role } = req.body
+	const { name, email, password, role, phone } = req.body
 	console.log("Register request received:", { name, email, role })
 
 	const normalizedRole = role ? String(role).trim().toLowerCase() : "client"
@@ -59,6 +59,7 @@ router.post("/register", async (req, res) => {
 				email,
 				password: hashedPassword,
 				role: normalizedRole,
+				phone,
 				avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
 					name
 				)}&background=random`

@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import {
-	differenceInDays,
-	startOfMonth,
-	endOfMonth,
-	isWithinInterval,
-	parseISO
-} from "date-fns"
+import { differenceInDays } from "date-fns"
 import { useAuthStore } from "@/store/authStore"
 import { Barber, Service } from "@/types"
 import { api } from "@/services/api"
@@ -82,16 +76,7 @@ export const BarberDashboardPage = () => {
 	const [checkingMap, setCheckingMap] = useState(false)
 
 	// Calculate bookings usage for Basic plan
-	const bookingsUsed = barber?.bookings
-		? barber.bookings.filter((b) => {
-				const bookingDate = parseISO(b.date)
-				const now = new Date()
-				return isWithinInterval(bookingDate, {
-					start: startOfMonth(now),
-					end: endOfMonth(now)
-				})
-		  }).length
-		: 0
+	const bookingsUsed = barber?.bookingsUsed || 0
 	const bookingsLimit = 50
 
 	const handleCheckMap = async () => {

@@ -3,12 +3,13 @@ import { useNavigate, Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { api } from "../services/api"
-import { Scissors, User, Mail, Briefcase, Lock } from "lucide-react"
+import { Scissors, User, Mail, Briefcase, Lock, Phone } from "lucide-react"
 
 export const RegisterPage = () => {
 	const { t } = useTranslation()
 	const [name, setName] = useState("")
 	const [email, setEmail] = useState("")
+	const [phone, setPhone] = useState("")
 	const [password, setPassword] = useState("")
 	const [role, setRole] = useState<"client" | "barber">("client")
 	const [loading, setLoading] = useState(false)
@@ -21,7 +22,13 @@ export const RegisterPage = () => {
 		setLoading(true)
 		setError("")
 		try {
-			const { user, token } = await api.auth.register({ name, email, password, role })
+			const { user, token } = await api.auth.register({
+				name,
+				email,
+				phone,
+				password,
+				role
+			})
 			login(user, token)
 			navigate(role === "barber" ? "/bookings" : "/")
 		} catch (err: any) {
@@ -106,6 +113,29 @@ export const RegisterPage = () => {
 									placeholder={t("auth.email_placeholder")}
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
+								/>
+							</div>
+						</div>
+
+						<div>
+							<label
+								htmlFor='phone'
+								className='block text-sm font-medium text-slate-700 mb-1'
+							>
+								{t("auth.phone")}
+							</label>
+							<div className='relative'>
+								<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+									<Phone className='h-5 w-5 text-slate-400' />
+								</div>
+								<input
+									id='phone'
+									name='phone'
+									type='tel'
+									className='input pl-10 w-full'
+									placeholder={t("auth.phone_placeholder")}
+									value={phone}
+									onChange={(e) => setPhone(e.target.value)}
 								/>
 							</div>
 						</div>

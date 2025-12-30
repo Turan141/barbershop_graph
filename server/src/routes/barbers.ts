@@ -164,8 +164,7 @@ router.get("/:id", async (req, res) => {
 			where: { id },
 			include: {
 				user: true,
-				services: true,
-				bookings: true
+				services: true
 			}
 		})
 
@@ -176,8 +175,7 @@ router.get("/:id", async (req, res) => {
 				where: { userId: id },
 				include: {
 					user: true,
-					services: true,
-					bookings: true
+					services: true
 				}
 			})
 		}
@@ -187,8 +185,24 @@ router.get("/:id", async (req, res) => {
 			return res.status(404).json({ error: "Barber not found" })
 		}
 
+		// Calculate bookings used this month for Basic plan limit
+		const now = new Date()
+		const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+		const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+
+		const bookingsUsed = await prisma.booking.count({
+			where: {
+				barberId: barber.id,
+				date: {
+					gte: startOfMonth.toISOString().split("T")[0],
+					lte: endOfMonth.toISOString().split("T")[0]
+				},
+				status: { not: "cancelled" }
+			}
+		})
+
 		console.log(`Barber found: ${barber.id}`)
-		res.json(mapBarber(barber))
+		res.json({ ...mapBarber(barber), bookingsUsed })
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch barber" })
 	}
@@ -198,6 +212,9 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/bookings", async (req, res) => {
 	const { id } = req.params
 	const date = typeof req.query.date === "string" ? req.query.date : undefined
+	const page = req.query.page ? Number(req.query.page) : undefined
+	const limit = req.query.limit ? Number(req.query.limit) : 20
+	const status = typeof req.query.status === "string" ? req.query.status : undefined
 
 	// Check for auth token to determine if we show full details
 	const authHeader = req.headers["authorization"]
@@ -244,17 +261,44 @@ router.get("/:id/bookings", async (req, res) => {
 					...(isOwner ? { client: true } : {})
 				}
 			})
+			res.json(bookings)
 		} else {
-			bookings = await prisma.booking.findMany({
-				where: { barberId: barber.id },
-				include: {
-					client: isOwner, // Only include client details if owner
-					service: true
-				},
-				orderBy: { date: "desc" }
-			})
+			const where: any = { barberId: barber.id }
+			if (status && status !== "all") {
+				where.status = status
+			}
+
+			if (page) {
+				const skip = (page - 1) * limit
+				const [items, total] = await prisma.$transaction([
+					prisma.booking.findMany({
+						where,
+						include: {
+							client: isOwner, // Only include client details if owner
+							service: true
+						},
+						orderBy: { date: "desc" },
+						skip,
+						take: limit
+					}),
+					prisma.booking.count({ where })
+				])
+				res.json({
+					data: items,
+					meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+				})
+			} else {
+				bookings = await prisma.booking.findMany({
+					where,
+					include: {
+						client: isOwner, // Only include client details if owner
+						service: true
+					},
+					orderBy: { date: "desc" }
+				})
+				res.json(bookings)
+			}
 		}
-		res.json(bookings)
 	} catch (error) {
 		console.error("Error fetching bookings:", error)
 		res.status(500).json({ error: "Failed to fetch bookings" })

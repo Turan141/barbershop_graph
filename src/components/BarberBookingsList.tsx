@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { api } from "../services/api"
 import { Booking } from "../types"
-import { Check, X, UserX, Calendar, MessageCircle } from "lucide-react"
+import {
+	Check,
+	X,
+	UserX,
+	Calendar,
+	MessageCircle,
+	ChevronLeft,
+	ChevronRight
+} from "lucide-react"
 import clsx from "clsx"
 import toast from "react-hot-toast"
 
@@ -15,12 +23,27 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const [loading, setLoading] = useState(true)
 	const [processingId, setProcessingId] = useState<string | null>(null)
+	const [page, setPage] = useState(1)
+	const [totalPages, setTotalPages] = useState(1)
+	const [statusFilter, setStatusFilter] = useState<string>("all")
+	const ITEMS_PER_PAGE = 20
 
 	const fetchBookings = async () => {
 		setLoading(true)
 		try {
-			const data = await api.bookings.listForBarber(barberId)
-			setBookings(data)
+			const response = await api.bookings.listForBarber(barberId, {
+				page,
+				limit: ITEMS_PER_PAGE,
+				status: statusFilter
+			})
+			// Handle both paginated and non-paginated responses (for backward compatibility)
+			if (response.data && Array.isArray(response.data)) {
+				setBookings(response.data)
+				setTotalPages(response.meta?.totalPages || 1)
+			} else if (Array.isArray(response)) {
+				setBookings(response)
+				setTotalPages(1)
+			}
 		} catch (error) {
 			console.error("Failed to fetch bookings", error)
 			toast.error(t("dashboard.bookings.load_error") || "Failed to load bookings")
@@ -31,7 +54,7 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 
 	useEffect(() => {
 		fetchBookings()
-	}, [barberId])
+	}, [barberId, page, statusFilter])
 
 	const handleStatusUpdate = async (
 		bookingId: string,
@@ -76,34 +99,55 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 		)
 	}
 
-	if (bookings.length === 0) {
-		return (
-			<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
-				<Calendar className='w-12 h-12 text-slate-300 mx-auto mb-3' />
-				<h3 className='text-lg font-medium text-slate-900'>
-					{t("dashboard.bookings.no_bookings") || "No bookings yet"}
-				</h3>
-				<p className='text-slate-500'>
-					{t("dashboard.bookings.share_link") ||
-						"Share your profile link to get bookings."}
-				</p>
-			</div>
-		)
-	}
-
 	return (
 		<div className='space-y-4'>
-			<div className='flex justify-between items-center mb-4'>
+			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4'>
 				<h2 className='text-xl font-bold text-slate-900'>
 					{t("dashboard.bookings.title") || "Bookings"}
 				</h2>
-				<button
-					onClick={fetchBookings}
-					className='text-sm text-primary-600 hover:text-primary-700 font-medium'
-				>
-					{t("common.refresh") || "Refresh"}
-				</button>
+				<div className="flex items-center gap-3 w-full sm:w-auto">
+					<select
+						value={statusFilter}
+						onChange={(e) => {
+							setStatusFilter(e.target.value)
+							setPage(1)
+						}}
+						className="text-sm border-slate-200 rounded-lg focus:ring-primary-500 focus:border-primary-500 flex-1 sm:flex-none"
+					>
+						<option value="all">{t("common.all") || "All Statuses"}</option>
+						<option value="pending">{t("status.pending") || "Pending"}</option>
+						<option value="confirmed">{t("status.confirmed") || "Confirmed"}</option>
+						<option value="completed">{t("status.completed") || "Completed"}</option>
+						<option value="cancelled">{t("status.cancelled") || "Cancelled"}</option>
+						<option value="no_show">{t("status.no_show") || "No Show"}</option>
+					</select>
+					<button
+						onClick={fetchBookings}
+						className='text-sm text-primary-600 hover:text-primary-700 font-medium whitespace-nowrap'
+					>
+						{t("common.refresh") || "Refresh"}
+					</button>
+				</div>
 			</div>
+
+			{bookings.length === 0 ? (
+				<div className='text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200'>
+					<Calendar className='w-12 h-12 text-slate-300 mx-auto mb-3' />
+					<h3 className='text-lg font-medium text-slate-900'>
+						{statusFilter === 'all' 
+							? (t("dashboard.bookings.no_bookings") || "No bookings yet")
+							: (t("dashboard.bookings.no_filtered_bookings") || "No bookings found with this status")
+						}
+					</h3>
+					<p className='text-slate-500'>
+						{statusFilter === 'all'
+							? (t("dashboard.bookings.share_link") || "Share your profile link to get bookings.")
+							: (t("dashboard.bookings.try_different_filter") || "Try selecting a different status.")
+						}
+					</p>
+				</div>
+			) : (
+				<>
 
 			{/* Desktop Table View */}
 			<div className='hidden sm:block bg-white rounded-xl border border-slate-200 overflow-hidden'>
@@ -355,6 +399,31 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 					</div>
 				))}
 			</div>
+
+			{/* Pagination */}
+			{totalPages > 1 && (
+				<div className='flex justify-center items-center gap-4 mt-6'>
+					<button
+						onClick={() => setPage((p) => Math.max(1, p - 1))}
+						disabled={page === 1}
+						className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed'
+					>
+						<ChevronLeft className='w-5 h-5 text-slate-600' />
+					</button>
+					<span className='text-sm font-medium text-slate-600'>
+						{t("common.page") || "Page"} {page} / {totalPages}
+					</span>
+					<button
+						onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+						disabled={page === totalPages}
+						className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed'
+					>
+						<ChevronRight className='w-5 h-5 text-slate-600' />
+					</button>
+				</div>
+			)}
+				</>
+			)}
 		</div>
 	)
 }

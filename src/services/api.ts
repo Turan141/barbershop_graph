@@ -126,13 +126,19 @@ export const api = {
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Booking>(res)),
 
-		listForBarber: (barberId: string, params?: { date?: string }) => {
+		listForBarber: (
+			barberId: string,
+			params?: { date?: string; page?: number; limit?: number; status?: string }
+		) => {
 			const query = new URLSearchParams()
 			if (params?.date) query.set("date", params.date)
+			if (params?.page) query.set("page", params.page.toString())
+			if (params?.limit) query.set("limit", params.limit.toString())
+			if (params?.status) query.set("status", params.status)
 			const suffix = query.toString() ? `?${query.toString()}` : ""
 			return fetch(`${API_BASE}/barbers/${barberId}/bookings${suffix}`, {
 				headers: getHeaders()
-			}).then((res) => handleResponse<Booking[]>(res))
+			}).then((res) => handleResponse<any>(res))
 		},
 
 		listForClient: (clientId: string, page?: number, limit?: number) => {

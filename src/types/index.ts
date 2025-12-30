@@ -55,6 +55,7 @@ export interface Barber extends User {
 	subscriptionEndDate?: string // ISO date string
 	subscriptionPlan?: "demo" | "basic" | "premium"
 	bookings?: Booking[]
+	bookingsUsed?: number
 }
 
 export interface Booking {
