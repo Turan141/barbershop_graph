@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import {
-	Plus,
-	Trash2,
-	TrendingDown
-} from "lucide-react"
+import { Plus, Trash2, TrendingDown } from "lucide-react"
 import { format } from "date-fns"
 import { enUS, ru, az } from "date-fns/locale"
 import { Modal } from "./Modal"

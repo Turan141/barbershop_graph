@@ -104,8 +104,7 @@ export const UserBookingsPage = () => {
 
 	const renderBookingCard = (booking: Booking) => {
 		const barber = barbers[booking.barberId]
-		const client =
-			isBarber && booking.clientId ? clients[booking.clientId] : null
+		const client = isBarber && booking.clientId ? clients[booking.clientId] : null
 		// @ts-ignore - service is included in the API response
 		const service =
 			booking.service || barber?.services?.find((s) => s.id === booking.serviceId)
