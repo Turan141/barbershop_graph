@@ -410,29 +410,29 @@
 		},
 		"pricing": {
 			"title": "Sadə, Şəffaf Qiymətlər",
-			"subtitle": "Ehtiyaclarınıza uyğun planı seçin. Gizli ödənişlər yoxdur.",
+			"subtitle": "İlk 50 müştəri pulsuz. Sonra hər müştəri üçün sadəcə 1 ₼.",
 			"selected": "Seçildi",
 			"button": "Başlayın",
 			"popular": "MƏŞHUR",
-			"period": "ay",
+			"period": "müştəri",
 			"starter": {
 				"title": "Başlanğıc",
 				"price": "Pulsuz",
-				"features": ["Onlayn Rezervasiya", "Əsas Profil", "Ayda 50-yə qədər rezervasiya"]
+				"features": ["50 pulsuz rezervasiya", "Tam funksionallıq", "Ödəniş kartı tələb olunmur"]
 			},
 			"pro": {
-				"title": "Peşəkar",
-				"price": "$29",
+				"title": "Böyümə",
+				"price": "1 ₼",
 				"features": [
-					"Başlanğıc paketindəki hər şey",
-					"Limitsiz Rezervasiya",
+					"Limitsiz rezervasiya",
+					"Yalnız gələn müştəri üçün ödəniş",
 					"SMS Xatırlatmalar",
 					"Analitik İdarə Paneli"
 				]
 			},
 			"enterprise": {
 				"title": "Biznes",
-				"price": "$99",
+				"price": "99 ₼",
 				"features": [
 					"Peşəkar paketindəki hər şey",
 					"Çoxlu İşçi",

@@ -118,29 +118,29 @@
 		},
 		"pricing": {
 			"title": "Simple, Transparent Pricing",
-			"subtitle": "Choose the plan that fits your needs. No hidden fees.",
+			"subtitle": "First 50 clients are free. Then just 1 ₼ per client.",
 			"selected": "Selected",
 			"button": "Get Started",
 			"popular": "POPULAR",
-			"period": "/mo",
+			"period": "client",
 			"starter": {
-				"title": "Starter",
+				"title": "Start",
 				"price": "Free",
-				"features": ["Online Booking", "Basic Profile", "Up to 50 bookings/mo"]
+				"features": ["50 free bookings", "Full functionality", "No credit card required"]
 			},
 			"pro": {
-				"title": "Professional",
-				"price": "$29",
+				"title": "Growth",
+				"price": "1 ₼",
 				"features": [
-					"Everything in Starter",
 					"Unlimited Bookings",
+					"Pay only per client",
 					"SMS Reminders",
 					"Analytics Dashboard"
 				]
 			},
 			"enterprise": {
 				"title": "Enterprise",
-				"price": "$99",
+				"price": "99 ₼",
 				"features": [
 					"Everything in Pro",
 					"Multiple Staff Members",

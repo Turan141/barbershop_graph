@@ -21,7 +21,7 @@ export const PricingPage = () => {
 				</p>
 			</div>
 
-			<div className='grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto  pointer-events-none opacity-30'>
+			<div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto'>
 				{/* Basic Plan */}
 				<div
 					className={`card p-8 border transition-all cursor-pointer ${
@@ -36,9 +36,6 @@ export const PricingPage = () => {
 					</h3>
 					<div className='text-4xl font-bold text-slate-900 mb-6'>
 						{t("pages.pricing.starter.price")}
-						<span className='text-lg font-normal text-slate-500'>
-							/{t("pages.pricing.period")}
-						</span>
 					</div>
 					<ul className='space-y-4 mb-8'>
 						<li className='flex items-center gap-3 text-slate-600'>
@@ -110,53 +107,6 @@ export const PricingPage = () => {
 						}`}
 					>
 						{selectedPlan === "pro"
-							? t("pages.pricing.selected")
-							: t("pages.pricing.button")}
-					</button>
-				</div>
-
-				{/* Enterprise Plan */}
-				<div
-					className={`card p-8 border transition-all cursor-pointer ${
-						selectedPlan === "enterprise"
-							? "border-primary-600 ring-2 ring-primary-600 ring-offset-2"
-							: "border-slate-200 hover:border-primary-500"
-					}`}
-					onClick={() => handleSelectPlan("enterprise")}
-				>
-					<h3 className='text-xl font-semibold text-slate-900 mb-2'>
-						{t("pages.pricing.enterprise.title")}
-					</h3>
-					<div className='text-4xl font-bold text-slate-900 mb-6'>
-						{t("pages.pricing.enterprise.price")}
-						<span className='text-lg font-normal text-slate-500'>
-							/{t("pages.pricing.period")}
-						</span>
-					</div>
-					<ul className='space-y-4 mb-8'>
-						<li className='flex items-center gap-3 text-slate-600'>
-							<Check className='h-5 w-5 text-green-500' />
-							<span>{t("pages.pricing.enterprise.features.0")}</span>
-						</li>
-						<li className='flex items-center gap-3 text-slate-600'>
-							<Check className='h-5 w-5 text-green-500' />
-							<span>{t("pages.pricing.enterprise.features.1")}</span>
-						</li>
-						<li className='flex items-center gap-3 text-slate-600'>
-							<Check className='h-5 w-5 text-green-500' />
-							<span>{t("pages.pricing.enterprise.features.2")}</span>
-						</li>
-						<li className='flex items-center gap-3 text-slate-600'>
-							<Check className='h-5 w-5 text-green-500' />
-							<span>{t("pages.pricing.enterprise.features.3")}</span>
-						</li>
-					</ul>
-					<button
-						className={`btn w-full ${
-							selectedPlan === "enterprise" ? "btn-primary" : "btn-outline"
-						}`}
-					>
-						{selectedPlan === "enterprise"
 							? t("pages.pricing.selected")
 							: t("pages.pricing.button")}
 					</button>

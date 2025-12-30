@@ -13,35 +13,35 @@ export const TrialBanner: React.FC<TrialBannerProps> = ({ barber }) => {
 
 	const endDate = new Date(barber.subscriptionEndDate)
 	const daysLeft = differenceInDays(endDate, new Date())
-	const isExpired = daysLeft < 0
+	// const isExpired = daysLeft < 0
 
-	if (isExpired) {
-		return (
-			<div className='bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg shadow-sm'>
-				<div className='flex items-start'>
-					<div className='flex-shrink-0'>
-						<AlertTriangle className='h-5 w-5 text-red-500' />
-					</div>
-					<div className='ml-3'>
-						<h3 className='text-sm font-medium text-red-800'>Trial Period Expired</h3>
-						<div className='mt-2 text-sm text-red-700'>
-							<p>
-								Your 30-day trial period has ended. Your profile is currently hidden from
-								the public directory.
-							</p>
-							<p className='mt-2 font-medium'>
-								To reactivate your profile and continue getting bookings, please upgrade
-								your subscription.
-							</p>
-							<button className='mt-3 bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 transition-colors'>
-								Upgrade Now
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		)
-	}
+	// if (isExpired) {
+	// 	return (
+	// 		<div className='bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg shadow-sm'>
+	// 			<div className='flex items-start'>
+	// 				<div className='flex-shrink-0'>
+	// 					<AlertTriangle className='h-5 w-5 text-red-500' />
+	// 				</div>
+	// 				<div className='ml-3'>
+	// 					<h3 className='text-sm font-medium text-red-800'>Trial Period Expired</h3>
+	// 					<div className='mt-2 text-sm text-red-700'>
+	// 						<p>
+	// 							Your 30-day trial period has ended. Your profile is currently hidden from
+	// 							the public directory.
+	// 						</p>
+	// 						<p className='mt-2 font-medium'>
+	// 							To reactivate your profile and continue getting bookings, please upgrade
+	// 							your subscription.
+	// 						</p>
+	// 						<button className='mt-3 bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 transition-colors'>
+	// 							Upgrade Now
+	// 						</button>
+	// 					</div>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	)
+	// }
 
 	return (
 		<div className='bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6 rounded-r-lg shadow-sm'>
