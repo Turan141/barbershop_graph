@@ -91,6 +91,7 @@ router.post("/", optionalAuth, async (req: AuthRequest, res) => {
 					id: true,
 					userId: true,
 					subscriptionStatus: true,
+					subscriptionPlan: true,
 					subscriptionEndDate: true
 				}
 			}),
@@ -118,6 +119,30 @@ router.post("/", optionalAuth, async (req: AuthRequest, res) => {
 					error: "This barber is currently not accepting online bookings.",
 					errorCode: "BARBER_SUBSCRIPTION_EXPIRED"
 				})
+			}
+
+			// Check Basic Plan Limit (50 bookings/month)
+			if (barberProfile.subscriptionPlan === "basic") {
+				const now = new Date()
+				const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+				const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+
+				const monthlyBookings = await prisma.booking.count({
+					where: {
+						barberId: barberProfile.id,
+						date: {
+							gte: startOfMonth.toISOString().split("T")[0],
+							lte: endOfMonth.toISOString().split("T")[0]
+						}
+					}
+				})
+
+				if (monthlyBookings >= 50) {
+					return res.status(403).json({
+						error: "This barber has reached their monthly booking limit.",
+						errorCode: "BARBER_LIMIT_REACHED"
+					})
+				}
 			}
 		}
 

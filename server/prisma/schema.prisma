@@ -61,6 +61,7 @@ model BarberProfile {
   // Subscription & Trial
   createdAt           DateTime @default(now())
   subscriptionStatus  String   @default("trial") // "trial", "active", "expired"
+  subscriptionPlan    String?  @default("demo")  // "demo", "basic", "standard", "pro"
   subscriptionEndDate DateTime?
 
   // Verification

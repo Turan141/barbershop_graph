@@ -53,6 +53,8 @@ export interface Barber extends User {
 	isAddressVerified?: boolean
 	subscriptionStatus?: "trial" | "active" | "expired"
 	subscriptionEndDate?: string // ISO date string
+	subscriptionPlan?: "demo" | "basic" | "premium"
+	bookings?: Booking[]
 }
 
 export interface Booking {

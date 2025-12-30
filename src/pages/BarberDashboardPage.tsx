@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import {
+	differenceInDays,
+	startOfMonth,
+	endOfMonth,
+	isWithinInterval,
+	parseISO
+} from "date-fns"
 import { useAuthStore } from "@/store/authStore"
 import { Barber, Service } from "@/types"
 import { api } from "@/services/api"
@@ -24,7 +31,8 @@ import {
 	ShieldCheck,
 	ExternalLink,
 	AlertCircle,
-	DollarSign
+	DollarSign,
+	Star
 } from "lucide-react"
 import clsx from "clsx"
 import { DashboardStats } from "@/components/DashboardStats"
@@ -72,6 +80,19 @@ export const BarberDashboardPage = () => {
 	const [formData, setFormData] = useState<Partial<Barber>>({})
 	const [previewAddress, setPreviewAddress] = useState<string>("")
 	const [checkingMap, setCheckingMap] = useState(false)
+
+	// Calculate bookings usage for Basic plan
+	const bookingsUsed = barber?.bookings
+		? barber.bookings.filter((b) => {
+				const bookingDate = parseISO(b.date)
+				const now = new Date()
+				return isWithinInterval(bookingDate, {
+					start: startOfMonth(now),
+					end: endOfMonth(now)
+				})
+		  }).length
+		: 0
+	const bookingsLimit = 50
 
 	const handleCheckMap = async () => {
 		if (!formData.location) return
@@ -266,6 +287,128 @@ export const BarberDashboardPage = () => {
 							</button>
 						))}
 					</nav>
+
+					{barber && (
+						<div className='mt-6 bg-slate-50 rounded-xl p-4 border border-slate-200'>
+							<div className='flex items-center justify-between mb-3'>
+								<h3 className='text-sm font-semibold text-slate-900'>
+									{t("dashboard.subscription.title") || "Subscription"}
+								</h3>
+								<div className='inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400 text-slate-900 text-[10px] font-bold uppercase tracking-wider border border-yellow-300 shadow-sm animate-pulse'>
+									<Star className='w-3 h-3 fill-slate-900' />
+									{t("home.banner_badge") || "1 Month Free"}
+								</div>
+							</div>
+							<div className='space-y-3'>
+								<div className='flex justify-between items-center text-sm'>
+									<span className='text-slate-500'>
+										{t("dashboard.subscription.plan") || "Plan"}
+									</span>
+									<span className='font-medium capitalize px-2 py-0.5 bg-white rounded border border-slate-200 text-slate-700'>
+										{barber.subscriptionPlan || "Demo"}
+									</span>
+								</div>
+								<div className='flex justify-between items-center text-sm'>
+									<span className='text-slate-500'>
+										{t("dashboard.subscription.status") || "Status"}
+									</span>
+									<span
+										className={clsx(
+											"font-medium capitalize",
+											barber.subscriptionStatus === "active"
+												? "text-green-600"
+												: barber.subscriptionStatus === "trial"
+												? "text-indigo-600"
+												: "text-red-600"
+										)}
+									>
+										{barber.subscriptionStatus || "Trial"}
+									</span>
+								</div>
+								{barber.subscriptionEndDate && (
+									<div className='pt-3 border-t border-slate-200'>
+										<div className='flex justify-between items-baseline'>
+											<span className='text-xs text-slate-500'>
+												{t("dashboard.subscription.expires") || "Expires in"}
+											</span>
+											<span className='font-medium text-slate-900'>
+												{Math.max(
+													0,
+													differenceInDays(
+														new Date(barber.subscriptionEndDate),
+														new Date()
+													)
+												)}{" "}
+												{t("common.days") || "days"}
+											</span>
+										</div>
+										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
+											<div
+												className={clsx(
+													"h-1.5 rounded-full transition-all duration-500",
+													barber.subscriptionStatus === "active"
+														? "bg-green-500"
+														: barber.subscriptionStatus === "trial"
+														? "bg-indigo-500"
+														: "bg-red-500"
+												)}
+												style={{
+													width: `${Math.min(
+														100,
+														Math.max(
+															0,
+															(differenceInDays(
+																new Date(barber.subscriptionEndDate),
+																new Date()
+															) /
+																30) *
+																100
+														)
+													)}%`
+												}}
+											/>
+										</div>
+									</div>
+								)}
+
+								{/* Booking Limit for Basic Plan */}
+								{barber.subscriptionPlan === "basic" && (
+									<div className='pt-3 border-t border-slate-200'>
+										<div className='flex justify-between items-baseline'>
+											<span className='text-xs text-slate-500'>
+												{t("dashboard.subscription.bookings_used") || "Bookings used"}
+											</span>
+											<span
+												className={clsx(
+													"font-medium",
+													bookingsUsed >= bookingsLimit
+														? "text-red-600"
+														: "text-slate-900"
+												)}
+											>
+												{bookingsUsed} / {bookingsLimit}
+											</span>
+										</div>
+										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
+											<div
+												className={clsx(
+													"h-1.5 rounded-full transition-all duration-500",
+													bookingsUsed >= bookingsLimit
+														? "bg-red-500"
+														: bookingsUsed >= bookingsLimit * 0.8
+														? "bg-yellow-500"
+														: "bg-blue-500"
+												)}
+												style={{
+													width: `${Math.min(100, (bookingsUsed / bookingsLimit) * 100)}%`
+												}}
+											/>
+										</div>
+									</div>
+								)}
+							</div>
+						</div>
+					)}
 				</div>
 
 				{/* Main Content */}

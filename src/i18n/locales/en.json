@@ -26,7 +26,7 @@
 		"all_barbers": "All Masters",
 		"view_all": "View All",
 		"more": "more",
-		"banner_badge": "For Barbers",
+		"banner_badge": "1 Month Free",
 		"banner_title": "Grow Your Client Base with QR Code",
 		"banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online.",
 		"mid_banner_title": "Are you a Barber?",
@@ -127,31 +127,44 @@
 			}
 		},
 		"pricing": {
-			"title": "Simple, Transparent Pricing",
-			"subtitle": "First month free. Then peace of mind for the price of one haircut.",
+			"title": "Pricing",
+			"subtitle": "Choose the best plan for your business",
 			"selected": "Selected",
 			"button": "Join via WhatsApp",
 			"popular": "BEST VALUE",
 			"period": "month",
-			"starter": {
-				"title": "Solo",
-				"price": "9 ₼",
-				"features": [
-					"Online booking (24/7)",
-					"WhatsApp reminders",
-					"Personal schedule",
-					"Income reports"
-				]
+			"demo": {
+				"title": "Pro Demo",
+				"price": "Free",
+				"features": ["Full calendar", "Bookings", "WhatsApp button", "Statistics"],
+				"button": "Try 1 month free",
+				"description": "You will test all features during this period, no payment required."
+			},
+			"basic": {
+				"title": "Basic",
+				"price": "10 ₼",
+				"features": ["1 chair", "All features", "Max 50 bookings/mo"],
+				"button": "Get Basic",
+				"description": "50 bookings per month, full access to calendar and clients."
+			},
+			"standard": {
+				"title": "Standard",
+				"price": "20 ₼",
+				"features": ["1-2 chairs", "Unlimited bookings", "Access to statistics"],
+				"button": "Get Standard",
+				"description": "Unlimited bookings, client statistics, convenient workflow."
 			},
 			"pro": {
-				"title": "Team",
-				"price": "29 ₼",
+				"title": "Pro",
+				"price": "30 ₼",
 				"features": [
-					"Everything in Solo",
-					"Up to 5 staff members",
-					"Team statistics",
-					"Admin panel"
-				]
+					"3-5 chairs",
+					"Unlimited bookings",
+					"Advanced statistics",
+					"Priority support"
+				],
+				"button": "Get Pro",
+				"description": "Maximum load, priority support, advanced statistics."
 			}
 		},
 		"about": {
@@ -381,6 +394,13 @@
 	"dashboard": {
 		"title": "Dashboard",
 		"subtitle": "Manage your profile and schedule",
+		"subscription": {
+			"title": "Subscription",
+			"plan": "Plan",
+			"status": "Status",
+			"expires": "Expires in",
+			"bookings_used": "Bookings used"
+		},
 		"loading": "Loading...",
 		"profile_load_error": "Profile failed to load",
 		"unknown_error": "Unknown error",
@@ -573,7 +593,8 @@
 	"common": {
 		"loading": "Loading...",
 		"check_map": "Check Map",
-		"refresh": "Refresh"
+		"refresh": "Refresh",
+		"days": "days"
 	},
 	"user_bookings": {
 		"title": "My Appointments",

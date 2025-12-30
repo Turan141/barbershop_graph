@@ -102,6 +102,12 @@ export const api = {
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<any>(res)),
 
+		activateTrial: () =>
+			fetch(`${API_BASE}/barbers/trial`, {
+				method: "POST",
+				headers: getHeaders()
+			}).then((res) => handleResponse<{ success: boolean; message: string }>(res)),
+
 		update: (id: string, data: Partial<Barber>) =>
 			fetch(`${API_BASE}/barbers/${id}`, {
 				method: "PUT",

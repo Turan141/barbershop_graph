@@ -697,10 +697,6 @@ export const HomePage = () => {
 					<div className='absolute top-0 right-0 w-64 h-64 bg-primary-500 rounded-full blur-[100px] opacity-20 -mr-16 -mt-16'></div>
 					<div className='relative z-10 flex flex-col md:flex-row items-center justify-between gap-8'>
 						<div className='text-center md:text-left max-w-xl'>
-							<div className='inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-primary-300 text-xs font-bold uppercase tracking-wider mb-4 border border-white/10'>
-								<QrCode className='w-3 h-3' />
-								{t("home.banner_badge")}
-							</div>
 							<h3 className='text-2xl md:text-3xl font-bold mb-3'>
 								{t("home.banner_title")}
 							</h3>

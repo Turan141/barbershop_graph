@@ -46,6 +46,45 @@ const mapBarber = (profile: any) => {
 	}
 }
 
+// POST /api/barbers/trial
+router.post("/trial", authenticateToken, async (req: AuthRequest, res) => {
+	try {
+		const userId = req.user?.id
+		if (!userId) return res.status(401).json({ error: "Unauthorized" })
+
+		const barber = await prisma.barberProfile.findUnique({
+			where: { userId }
+		})
+
+		if (!barber) {
+			return res.status(404).json({ error: "Barber profile not found" })
+		}
+
+		// Check if already used trial or has active subscription
+		if (barber.subscriptionStatus === "active") {
+			return res.status(400).json({ error: "Already have an active subscription" })
+		}
+
+		// Activate Trial
+		const endDate = new Date()
+		endDate.setDate(endDate.getDate() + 30) // 30 days trial
+
+		await prisma.barberProfile.update({
+			where: { userId },
+			data: {
+				subscriptionStatus: "trial",
+				subscriptionPlan: "demo",
+				subscriptionEndDate: endDate
+			}
+		})
+
+		res.json({ success: true, message: "Trial activated successfully" })
+	} catch (error) {
+		console.error("Trial activation error:", error)
+		res.status(500).json({ error: "Failed to activate trial" })
+	}
+})
+
 // GET /api/barbers
 router.get("/", async (req, res) => {
 	const { query } = req.query

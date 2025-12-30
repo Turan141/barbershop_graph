@@ -26,7 +26,7 @@
 		"all_barbers": "Bütün Ustalar",
 		"view_all": "Hamısına bax",
 		"more": "daha çox",
-		"banner_badge": "Bərbərlər üçün",
+		"banner_badge": "1 Ay Pulsuz",
 		"banner_title": "QR Kod ilə Müştəri Bazasını Artırın",
 		"banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər.",
 		"mid_banner_title": "Bərbərsiniz?",
@@ -180,6 +180,13 @@
 	"dashboard": {
 		"title": "İdarə Paneli",
 		"subtitle": "Profilinizi və iş qrafikinizi idarə edin",
+		"subscription": {
+			"title": "Abunəlik",
+			"plan": "Tarif",
+			"status": "Status",
+			"expires": "Bitmə vaxtı",
+			"bookings_used": "İstifadə olunan randevular"
+		},
 		"loading": "Yüklənir...",
 		"profile_load_error": "Profil yüklənmədi",
 		"unknown_error": "Naməlum xəta",
@@ -373,7 +380,8 @@
 	"common": {
 		"loading": "Yüklənir...",
 		"check_map": "Xəritəni yoxla",
-		"refresh": "Yenilə"
+		"refresh": "Yenilə",
+		"days": "gün"
 	},
 	"pages": {
 		"features": {
@@ -420,31 +428,44 @@
 			}
 		},
 		"pricing": {
-			"title": "Sadə, Şəffaf Qiymətlər",
-			"subtitle": "İlk ay pulsuz. Sonra isə bir saç kəsimi qiymətinə bütün ay rahatlıq.",
+			"title": "Tariflər",
+			"subtitle": "Biznesiniz üçün ən uyğun paketi seçin",
 			"selected": "Seçildi",
 			"button": "WhatsApp ilə Qoşul",
 			"popular": "ƏN SƏRFƏLİ",
 			"period": "ay",
-			"starter": {
-				"title": "Sərbəst (Solo)",
-				"price": "9 ₼",
-				"features": [
-					"Onlayn növbə (24/7)",
-					"WhatsApp xatırlatmalar",
-					"Şəxsi iş qrafiki",
-					"Gəlir hesabatı"
-				]
+			"demo": {
+				"title": "Pro Demo",
+				"price": "Pulsuz",
+				"features": ["Tam təqvim", "Randevular", "WhatsApp düyməsi", "Statistika"],
+				"button": "Sına 1 ay pulsuz",
+				"description": "Bu müddət ərzində bütün funksiyaları sınayacaqsınız, ödəniş yoxdur."
+			},
+			"basic": {
+				"title": "Basic",
+				"price": "10 ₼",
+				"features": ["1 kreslo", "Bütün funksiyalar", "Maks. 50 randevu/ay"],
+				"button": "Basic al",
+				"description": "Ayda 50 randevu, təqvim və müştərilərə tam çıxış."
+			},
+			"standard": {
+				"title": "Standard",
+				"price": "20 ₼",
+				"features": ["1-2 kreslo", "Limitsiz randevu", "Statistikaya çıxış"],
+				"button": "Standard al",
+				"description": "Limitsiz randevu, müştəri statistikası, rahat iş."
 			},
 			"pro": {
-				"title": "Komanda (Team)",
-				"price": "29 ₼",
+				"title": "Pro",
+				"price": "30 ₼",
 				"features": [
-					"Solo paketindəki hər şey",
-					"5 işçiyə qədər",
-					"Ümumi statistika",
-					"Admin paneli"
-				]
+					"3-5 kreslo",
+					"Limitsiz randevu",
+					"Genişləndirilmiş statistika",
+					"Prioritet dəstək"
+				],
+				"button": "Pro al",
+				"description": "Maksimum yüklənmə, prioritet dəstək, genişləndirilmiş statistika."
 			}
 		},
 		"about": {

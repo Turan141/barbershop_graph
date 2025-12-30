@@ -9,7 +9,8 @@ import {
 	Scissors,
 	ArrowRight,
 	AlertCircle,
-	User
+	User,
+	MessageCircle
 } from "lucide-react"
 import clsx from "clsx"
 import { Barber, Service, Booking } from "../types"
@@ -74,6 +75,17 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 			setSelectedDate(dates[0].value)
 		}
 	}, [])
+
+	const handleWhatsAppClick = () => {
+		if (!barber.phone) return
+		const message =
+			t("profile.whatsapp_message") || "Hello, I would like to book an appointment."
+		const url = `https://wa.me/${barber.phone.replace(
+			/\D/g,
+			""
+		)}?text=${encodeURIComponent(message)}`
+		window.open(url, "_blank")
+	}
 
 	useEffect(() => {
 		let cancelled = false
@@ -579,6 +591,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 						)}
 					</button>
 				</div>
+				{barber.phone && (
+					<button
+						onClick={handleWhatsAppClick}
+						className='w-full mt-3 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-green-600 bg-green-50 hover:bg-green-100 rounded-xl transition-colors border border-green-200'
+					>
+						<MessageCircle className='w-4 h-4' />
+						{t("profile.whatsapp_message") || "Contact via WhatsApp"}
+					</button>
+				)}
 			</div>
 		</div>
 	)
