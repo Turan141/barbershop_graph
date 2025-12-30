@@ -1,5 +1,5 @@
 import React from "react"
-import { AlertTriangle, Clock } from "lucide-react"
+import { Clock } from "lucide-react"
 import { differenceInDays } from "date-fns"
 import { Barber } from "../types"
 
