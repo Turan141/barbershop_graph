@@ -29,6 +29,9 @@
 		"banner_badge": "For Barbers",
 		"banner_title": "Grow Your Client Base with QR Code",
 		"banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online.",
+		"mid_banner_title": "Are you a Barber?",
+		"mid_banner_desc": "Join our platform to manage bookings, grow your client base, and showcase your portfolio.",
+		"mid_banner_btn": "Get Started",
 		"filters": {
 			"title": "Filters",
 			"clear_all": "Clear all",

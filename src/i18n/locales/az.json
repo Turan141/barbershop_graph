@@ -29,6 +29,9 @@
 		"banner_badge": "Bərbərlər üçün",
 		"banner_title": "QR Kod ilə Müştəri Bazasını Artırın",
 		"banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər.",
+		"mid_banner_title": "Bərbərsiniz?",
+		"mid_banner_desc": "Rezervasiyaları idarə etmək, müştəri bazanızı artırmaq və portfelinizi nümayiş etdirmək üçün platformamıza qoşulun.",
+		"mid_banner_btn": "Başla",
 		"filters": {
 			"title": "Filterlər",
 			"clear_all": "Təmizlə",

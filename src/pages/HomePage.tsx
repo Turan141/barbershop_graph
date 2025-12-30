@@ -419,32 +419,6 @@ export const HomePage = () => {
 					</div>
 				) : (
 					<>
-						{/* External Ad Placement - Subtle / Native Style */}
-						<div className='relative overflow-hidden rounded-xl bg-slate-50 mb-8 border border-slate-200 group cursor-pointer hover:bg-slate-100 transition-colors'>
-							<div className='p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
-								<div className='flex-1'>
-									<div className='flex items-center gap-2 mb-2'>
-										<span className='text-[10px] font-semibold text-slate-400 uppercase tracking-wider border border-slate-300 px-1.5 rounded'>
-											Ad
-										</span>
-										<span className='text-xs font-bold text-slate-500 flex items-center gap-1'>
-											Advertisement Space
-										</span>
-									</div>
-									<h3 className='text-lg font-bold text-slate-900 mb-1'>
-										Your Ad Could Be Here
-									</h3>
-									<p className='text-slate-500 text-xs sm:text-sm max-w-md'>
-										Reach thousands of potential customers. Contact us to place your
-										banner here.
-									</p>
-								</div>
-								<button className='w-full sm:w-auto px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg font-semibold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm whitespace-nowrap'>
-									Contact Us
-								</button>
-							</div>
-						</div>
-
 						{/* VIP Section - Horizontal Scroll on Mobile, Grid on Desktop */}
 						{filteredBarbers.some((b) => b.tier === "vip") && (
 							<div className='mb-16'>
@@ -530,6 +504,32 @@ export const HomePage = () => {
 								</div>
 							</div>
 						)}
+
+						{/* External Ad Placement - Subtle / Native Style */}
+						<div className='relative overflow-hidden rounded-xl bg-slate-50 mb-16 border border-slate-200 group cursor-pointer hover:bg-slate-100 transition-colors'>
+							<div className='p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
+								<div className='flex-1'>
+									<div className='flex items-center gap-2 mb-2'>
+										<span className='text-[10px] font-semibold text-slate-400 uppercase tracking-wider border border-slate-300 px-1.5 rounded'>
+											Ad
+										</span>
+										<span className='text-xs font-bold text-slate-500 flex items-center gap-1'>
+											Advertisement Space
+										</span>
+									</div>
+									<h3 className='text-lg font-bold text-slate-900 mb-1'>
+										Your Ad Could Be Here
+									</h3>
+									<p className='text-slate-500 text-xs sm:text-sm max-w-md'>
+										Reach thousands of potential customers. Contact us to place your
+										banner here.
+									</p>
+								</div>
+								<button className='w-full sm:w-auto px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg font-semibold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm whitespace-nowrap'>
+									Contact Us
+								</button>
+							</div>
+						</div>
 
 						{/* Standard List - Clean Cards */}
 						<div>
