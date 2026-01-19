@@ -478,16 +478,41 @@ router.post("/:id/reviews", authenticateToken, async (req: AuthRequest, res) => 
 // GET /api/barbers/:id/reviews
 router.get("/:id/reviews", async (req, res) => {
 	const { id } = req.params
+	const page = req.query.page ? Number(req.query.page) : 1
+	const limit = req.query.limit ? Number(req.query.limit) : 10
+
 	try {
-		const reviews = await prisma.review.findMany({
-			where: { barberId: id },
-			include: {
-				user: true
-			},
-			orderBy: { createdAt: "desc" }
+		const skip = (page - 1) * limit
+		const [reviews, total] = await prisma.$transaction([
+			prisma.review.findMany({
+				where: { barberId: id },
+				include: {
+					user: {
+						select: {
+							id: true,
+							name: true,
+							avatarUrl: true
+						}
+					}
+				},
+				orderBy: { createdAt: "desc" },
+				skip,
+				take: limit
+			}),
+			prisma.review.count({ where: { barberId: id } })
+		])
+
+		res.json({
+			data: reviews,
+			meta: {
+				total,
+				page,
+				limit,
+				totalPages: Math.ceil(total / limit)
+			}
 		})
-		res.json(reviews)
 	} catch (error) {
+		console.error("Failed to fetch reviews:", error)
 		res.status(500).json({ error: "Failed to fetch reviews" })
 	}
 })

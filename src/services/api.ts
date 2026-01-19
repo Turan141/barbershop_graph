@@ -69,9 +69,12 @@ export const api = {
 		get: (id: string) =>
 			fetch(`${API_BASE}/barbers/${id}`).then((res) => handleResponse<Barber>(res)),
 
-		getReviews: (id: string) =>
-			fetch(`${API_BASE}/barbers/${id}/reviews`).then((res) =>
-				handleResponse<Review[]>(res)
+		getReviews: (id: string, page: number = 1, limit: number = 5) =>
+			fetch(`${API_BASE}/barbers/${id}/reviews?page=${page}&limit=${limit}`).then((res) =>
+				handleResponse<{
+					data: Review[]
+					meta: { total: number; page: number; limit: number; totalPages: number }
+				}>(res)
 			),
 
 		addReview: (id: string, data: { rating: number; text?: string }) =>

@@ -58,7 +58,7 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 // POST /api/auth/register
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, phone } = req.body;
     console.log("Register request received:", { name, email, role });
     const normalizedRole = role ? String(role).trim().toLowerCase() : "client";
     try {
@@ -73,6 +73,7 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
                 email,
                 password: hashedPassword,
                 role: normalizedRole,
+                phone,
                 avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
             }
         });

@@ -568,15 +568,17 @@
 		"stats": {
 			"today_revenue": "Today's Revenue",
 			"bookings_today": "bookings today",
-			"month_revenue": "Month's Revenue",
+			"month_revenue": "Month Revenue",
 			"bookings_month": "bookings this month",
 			"total_clients": "Total Clients",
-			"unique_clients": "unique clients served",
+			"unique_clients": "unique clients",
 			"weekly_overview": "Weekly Overview",
 			"revenue": "Revenue",
 			"bookings": "Bookings",
 			"no_data_title": "No Stats Available",
-			"no_data_desc": "Start accepting bookings to see your analytics here."
+			"no_data_desc": "Start accepting bookings to see your analytics here.",
+			"get_started_title": "Ready for Business?",
+			"get_started_desc": "Your analytics will appear here once you start receiving bookings."
 		},
 		"clients": {
 			"title": "My Clients",

@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { prisma } from "../db"
 import { authenticateToken, optionalAuth, AuthRequest } from "../middleware/auth"
+import { createBookingLimiter } from "../middleware/rateLimit"
 import { Prisma } from "@prisma/client"
 
 const router = Router()
@@ -52,7 +53,7 @@ router.get("/", authenticateToken, async (req: AuthRequest, res) => {
 })
 
 // POST /api/bookings
-router.post("/", optionalAuth, async (req: AuthRequest, res) => {
+router.post("/", createBookingLimiter, optionalAuth, async (req: AuthRequest, res) => {
 	const { barberId, serviceId, date, time, guestName, guestPhone, asGuest } = req.body
 
 	let clientId: string | undefined
@@ -68,6 +69,24 @@ router.post("/", optionalAuth, async (req: AuthRequest, res) => {
 			return res
 				.status(400)
 				.json({ error: "Name and phone are required for guest booking" })
+		}
+
+		// Security: Check for spamming from same guest phone number
+		// Limit: Max 2 pending bookings per phone number
+		const pendingGuestBookings = await prisma.booking.count({
+			where: {
+				guestPhone,
+				status: { in: ["pending", "confirmed"] },
+				date: { gte: new Date().toISOString().split("T")[0] } // Only count future/today bookings
+			}
+		})
+
+		if (pendingGuestBookings >= 2) {
+			return res.status(429).json({
+				error:
+					"You have reached the maximum limit of active bookings for this phone number.",
+				errorCode: "MAX_GUEST_BOOKINGS_REACHED"
+			})
 		}
 	}
 

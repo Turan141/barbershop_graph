@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
+const rateLimit_1 = require("../middleware/rateLimit");
 const client_1 = require("@prisma/client");
 const router = (0, express_1.Router)();
 // GET /api/bookings (User's bookings)
@@ -59,12 +60,39 @@ router.get("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0
     }
 }));
 // POST /api/bookings
-router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/", rateLimit_1.createBookingLimiter, auth_1.optionalAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const { barberId, serviceId, date, time } = req.body;
-    const clientId = req.user.id;
-    if (((_a = req.user) === null || _a === void 0 ? void 0 : _a.role) !== "client") {
-        return res.status(403).json({ error: "Only clients can create bookings" });
+    const { barberId, serviceId, date, time, guestName, guestPhone, asGuest } = req.body;
+    let clientId;
+    if (req.user && !asGuest) {
+        // Allow barbers to book too (e.g. for themselves or testing)
+        // if (req.user.role !== "client") {
+        // 	return res.status(403).json({ error: "Only clients can create bookings" })
+        // }
+        clientId = req.user.id;
+    }
+    else {
+        // Guest validation
+        if (!guestName || !guestPhone) {
+            return res
+                .status(400)
+                .json({ error: "Name and phone are required for guest booking" });
+        }
+        // Security: Check for spamming from same guest phone number
+        // Limit: Max 2 pending bookings per phone number
+        const pendingGuestBookings = yield db_1.prisma.booking.count({
+            where: {
+                guestPhone,
+                status: { in: ["pending", "confirmed"] },
+                date: { gte: new Date().toISOString().split("T")[0] } // Only count future/today bookings
+            }
+        });
+        if (pendingGuestBookings >= 2) {
+            return res.status(429).json({
+                error: "You have reached the maximum limit of active bookings for this phone number.",
+                errorCode: "MAX_GUEST_BOOKINGS_REACHED"
+            });
+        }
     }
     if (typeof barberId !== "string" || typeof serviceId !== "string") {
         return res.status(400).json({ error: "Invalid barberId or serviceId" });
@@ -78,7 +106,16 @@ router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 
     const slotKey = `${barberId}:${date}:${time}`;
     try {
         const [barberProfile, service] = yield Promise.all([
-            db_1.prisma.barberProfile.findUnique({ where: { id: barberId }, select: { id: true } }),
+            db_1.prisma.barberProfile.findUnique({
+                where: { id: barberId },
+                select: {
+                    id: true,
+                    userId: true,
+                    subscriptionStatus: true,
+                    subscriptionPlan: true,
+                    subscriptionEndDate: true
+                }
+            }),
             db_1.prisma.service.findUnique({
                 where: { id: serviceId },
                 select: { id: true, barberId: true }
@@ -86,6 +123,41 @@ router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 
         ]);
         if (!barberProfile) {
             return res.status(404).json({ error: "Barber not found" });
+        }
+        // Check subscription status (Soft Lock)
+        // Allow the barber themselves to book (manual entry), but block clients if expired
+        const isBarberOwner = ((_a = req.user) === null || _a === void 0 ? void 0 : _a.id) === barberProfile.userId;
+        if (!isBarberOwner) {
+            const isExpired = barberProfile.subscriptionStatus !== "active" &&
+                barberProfile.subscriptionEndDate &&
+                new Date(barberProfile.subscriptionEndDate) < new Date();
+            if (isExpired) {
+                return res.status(403).json({
+                    error: "This barber is currently not accepting online bookings.",
+                    errorCode: "BARBER_SUBSCRIPTION_EXPIRED"
+                });
+            }
+            // Check Basic Plan Limit (50 bookings/month)
+            if (barberProfile.subscriptionPlan === "basic") {
+                const now = new Date();
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                const monthlyBookings = yield db_1.prisma.booking.count({
+                    where: {
+                        barberId: barberProfile.id,
+                        date: {
+                            gte: startOfMonth.toISOString().split("T")[0],
+                            lte: endOfMonth.toISOString().split("T")[0]
+                        }
+                    }
+                });
+                if (monthlyBookings >= 50) {
+                    return res.status(403).json({
+                        error: "This barber has reached their monthly booking limit.",
+                        errorCode: "BARBER_LIMIT_REACHED"
+                    });
+                }
+            }
         }
         if (!service) {
             return res.status(404).json({ error: "Service not found" });
@@ -103,25 +175,28 @@ router.post("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 
                 errorCode: "SLOT_ALREADY_BOOKED"
             });
         }
-        // 2. Limit Active Bookings (Anti-Spam)
-        // Limit to 3 active (pending or confirmed) bookings per user
-        const activeBookingsCount = yield db_1.prisma.booking.count({
-            where: {
-                clientId,
-                status: { in: ["pending", "confirmed"] }
-            }
-        });
-        if (activeBookingsCount >= 3) {
-            return res.status(429).json({
-                error: "You have reached the maximum limit of 3 active bookings.",
-                errorCode: "MAX_ACTIVE_BOOKINGS_REACHED"
+        // 2. Limit Active Bookings (Anti-Spam) - Only for registered users
+        if (clientId) {
+            const activeBookingsCount = yield db_1.prisma.booking.count({
+                where: {
+                    clientId,
+                    status: { in: ["pending", "confirmed"] }
+                }
             });
+            if (activeBookingsCount >= 3) {
+                return res.status(429).json({
+                    error: "You have reached the maximum limit of 3 active bookings.",
+                    errorCode: "MAX_ACTIVE_BOOKINGS_REACHED"
+                });
+            }
         }
         let booking;
         try {
             booking = yield db_1.prisma.booking.create({
                 data: {
                     clientId,
+                    guestName,
+                    guestPhone,
                     barberId,
                     serviceId,
                     date,

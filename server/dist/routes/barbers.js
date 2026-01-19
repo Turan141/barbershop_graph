@@ -61,6 +61,41 @@ const mapBarber = (profile) => {
         // Ensure ID is the barber profile ID, not user ID (though spread order handles this, let's be explicit if needed, but rest.id comes after user.id)
         specialties: safeJsonParse(rest.specialties, []), schedule: safeJsonParse(rest.schedule, {}), portfolio: safeJsonParse(rest.portfolio, []), previewImageUrl: rest.previewImageUrl, holidays: rest.holidays ? safeJsonParse(rest.holidays, []) : undefined });
 };
+// POST /api/barbers/trial
+router.post("/trial", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        if (!userId)
+            return res.status(401).json({ error: "Unauthorized" });
+        const barber = yield db_1.prisma.barberProfile.findUnique({
+            where: { userId }
+        });
+        if (!barber) {
+            return res.status(404).json({ error: "Barber profile not found" });
+        }
+        // Check if already used trial or has active subscription
+        if (barber.subscriptionStatus === "active") {
+            return res.status(400).json({ error: "Already have an active subscription" });
+        }
+        // Activate Trial
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 30); // 30 days trial
+        yield db_1.prisma.barberProfile.update({
+            where: { userId },
+            data: {
+                subscriptionStatus: "trial",
+                subscriptionPlan: "demo",
+                subscriptionEndDate: endDate
+            }
+        });
+        res.json({ success: true, message: "Trial activated successfully" });
+    }
+    catch (error) {
+        console.error("Trial activation error:", error);
+        res.status(500).json({ error: "Failed to activate trial" });
+    }
+}));
 // GET /api/barbers
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { query } = req.query;
@@ -72,11 +107,14 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             {
                 AND: [
                     { subscriptionStatus: "trial" },
-                    { subscriptionEndDate: { gt: new Date() } }
+                    {
+                        OR: [
+                            { subscriptionEndDate: { gt: new Date() } },
+                            { subscriptionEndDate: null }
+                        ]
+                    }
                 ]
-            },
-            // For backward compatibility with seeded data that might have nulls
-            { subscriptionStatus: null }
+            }
         ]
     };
     if (query) {
@@ -134,8 +172,7 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id },
             include: {
                 user: true,
-                services: true,
-                bookings: true
+                services: true
             }
         });
         if (!barber) {
@@ -145,8 +182,7 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 where: { userId: id },
                 include: {
                     user: true,
-                    services: true,
-                    bookings: true
+                    services: true
                 }
             });
         }
@@ -154,8 +190,22 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             console.log(`Barber not found by userId ${id} either.`);
             return res.status(404).json({ error: "Barber not found" });
         }
+        // Calculate bookings used this month for Basic plan limit
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        const bookingsUsed = yield db_1.prisma.booking.count({
+            where: {
+                barberId: barber.id,
+                date: {
+                    gte: startOfMonth.toISOString().split("T")[0],
+                    lte: endOfMonth.toISOString().split("T")[0]
+                },
+                status: { not: "cancelled" }
+            }
+        });
         console.log(`Barber found: ${barber.id}`);
-        res.json(mapBarber(barber));
+        res.json(Object.assign(Object.assign({}, mapBarber(barber)), { bookingsUsed }));
     }
     catch (error) {
         res.status(500).json({ error: "Failed to fetch barber" });
@@ -165,6 +215,9 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const date = typeof req.query.date === "string" ? req.query.date : undefined;
+    const page = req.query.page ? Number(req.query.page) : undefined;
+    const limit = req.query.limit ? Number(req.query.limit) : 20;
+    const status = typeof req.query.status === "string" ? req.query.status : undefined;
     // Check for auth token to determine if we show full details
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -196,18 +249,45 @@ router.get("/:id/bookings", (req, res) => __awaiter(void 0, void 0, void 0, func
                 },
                 select: Object.assign({ id: true, date: true, time: true, status: true, clientId: true, barberId: true, serviceId: true, service: { select: { id: true, duration: true } } }, (isOwner ? { client: true } : {}))
             });
+            res.json(bookings);
         }
         else {
-            bookings = yield db_1.prisma.booking.findMany({
-                where: { barberId: barber.id },
-                include: {
-                    client: isOwner, // Only include client details if owner
-                    service: true
-                },
-                orderBy: { date: "desc" }
-            });
+            const where = { barberId: barber.id };
+            if (status && status !== "all") {
+                where.status = status;
+            }
+            if (page) {
+                const skip = (page - 1) * limit;
+                const [items, total] = yield db_1.prisma.$transaction([
+                    db_1.prisma.booking.findMany({
+                        where,
+                        include: {
+                            client: isOwner, // Only include client details if owner
+                            service: true
+                        },
+                        orderBy: { date: "desc" },
+                        skip,
+                        take: limit
+                    }),
+                    db_1.prisma.booking.count({ where })
+                ]);
+                res.json({
+                    data: items,
+                    meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+                });
+            }
+            else {
+                bookings = yield db_1.prisma.booking.findMany({
+                    where,
+                    include: {
+                        client: isOwner, // Only include client details if owner
+                        service: true
+                    },
+                    orderBy: { date: "desc" }
+                });
+                res.json(bookings);
+            }
         }
-        res.json(bookings);
     }
     catch (error) {
         console.error("Error fetching bookings:", error);
@@ -365,17 +445,40 @@ router.post("/:id/reviews", auth_1.authenticateToken, (req, res) => __awaiter(vo
 // GET /api/barbers/:id/reviews
 router.get("/:id/reviews", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 10;
     try {
-        const reviews = yield db_1.prisma.review.findMany({
-            where: { barberId: id },
-            include: {
-                user: true
-            },
-            orderBy: { createdAt: "desc" }
+        const skip = (page - 1) * limit;
+        const [reviews, total] = yield db_1.prisma.$transaction([
+            db_1.prisma.review.findMany({
+                where: { barberId: id },
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            avatarUrl: true
+                        }
+                    }
+                },
+                orderBy: { createdAt: "desc" },
+                skip,
+                take: limit
+            }),
+            db_1.prisma.review.count({ where: { barberId: id } })
+        ]);
+        res.json({
+            data: reviews,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit)
+            }
         });
-        res.json(reviews);
     }
     catch (error) {
+        console.error("Failed to fetch reviews:", error);
         res.status(500).json({ error: "Failed to fetch reviews" });
     }
 }));

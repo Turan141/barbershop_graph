@@ -39,6 +39,8 @@ export const BarberProfilePage = () => {
 
 	// Reviews state
 	const [reviews, setReviews] = useState<Review[]>([])
+	const [totalReviews, setTotalReviews] = useState(0)
+	const [totalPages, setTotalPages] = useState(1)
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [rating, setRating] = useState(0)
 	const [reviewText, setReviewText] = useState("")
@@ -48,10 +50,19 @@ export const BarberProfilePage = () => {
 	useEffect(() => {
 		if (id) {
 			api.barbers.get(id).then(setBarbers)
-			api.barbers.getReviews(id).then(setReviews)
 			if (user) fetchFavorites(user.id)
 		}
 	}, [id, user])
+
+	useEffect(() => {
+		if (id) {
+			api.barbers.getReviews(id, reviewsPage, REVIEWS_PER_PAGE).then((response) => {
+				setReviews(response.data)
+				setTotalReviews(response.meta.total)
+				setTotalPages(response.meta.totalPages)
+			})
+		}
+	}, [id, reviewsPage])
 
 	if (!barber)
 		return (
@@ -77,7 +88,14 @@ export const BarberProfilePage = () => {
 				rating,
 				text: reviewText
 			})
-			setReviews([newReview, ...reviews])
+			// Optimistically add to top if on first page, or just refetch
+			if (reviewsPage === 1) {
+				setReviews([newReview, ...reviews].slice(0, REVIEWS_PER_PAGE))
+			} else {
+				setReviewsPage(1) // Go to first page to see new review
+			}
+			setTotalReviews((prev) => prev + 1)
+
 			setShowReviewModal(false)
 			setRating(0)
 			setReviewText("")
@@ -382,7 +400,7 @@ export const BarberProfilePage = () => {
 						<div className='flex justify-between items-center mb-6'>
 							<h2 className='text-xl font-bold text-slate-900 flex items-center gap-2'>
 								<MessageSquare className='w-5 h-5 text-primary-600' />
-								{t("profile.reviews_section_title")} ({reviews.length})
+								{t("profile.reviews_section_title")} ({totalReviews})
 							</h2>
 							{user && !reviews.find((r) => r.userId === user.id) && (
 								<button
@@ -397,51 +415,46 @@ export const BarberProfilePage = () => {
 						<div className='space-y-4'>
 							{reviews.length > 0 ? (
 								<>
-									{reviews
-										.slice(
-											(reviewsPage - 1) * REVIEWS_PER_PAGE,
-											reviewsPage * REVIEWS_PER_PAGE
-										)
-										.map((review) => (
-											<div
-												key={review.id}
-												className='bg-white p-6 rounded-2xl border border-slate-100'
-											>
-												<div className='flex justify-between items-start mb-2'>
-													<div className='flex items-center gap-3'>
-														<div className='w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold'>
-															{review.user?.name?.[0] || "U"}
-														</div>
-														<div>
-															<div className='font-bold text-slate-900'>
-																{review.user?.name || "User"}
-															</div>
-															<div className='text-xs text-slate-500'>
-																{new Date(review.createdAt).toLocaleDateString()}
-															</div>
-														</div>
+									{reviews.map((review) => (
+										<div
+											key={review.id}
+											className='bg-white p-6 rounded-2xl border border-slate-100'
+										>
+											<div className='flex justify-between items-start mb-2'>
+												<div className='flex items-center gap-3'>
+													<div className='w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold'>
+														{review.user?.name?.[0] || "U"}
 													</div>
-													<div className='flex gap-1'>
-														{Array.from({ length: 5 }).map((_, i) => (
-															<Star
-																key={i}
-																className={clsx(
-																	"w-4 h-4",
-																	i < review.rating
-																		? "text-yellow-400 fill-yellow-400"
-																		: "text-slate-200"
-																)}
-															/>
-														))}
+													<div>
+														<div className='font-bold text-slate-900'>
+															{review.user?.name || "User"}
+														</div>
+														<div className='text-xs text-slate-500'>
+															{new Date(review.createdAt).toLocaleDateString()}
+														</div>
 													</div>
 												</div>
-												{review.text && (
-													<p className='text-slate-600 mt-2'>{review.text}</p>
-												)}
+												<div className='flex gap-1'>
+													{Array.from({ length: 5 }).map((_, i) => (
+														<Star
+															key={i}
+															className={clsx(
+																"w-4 h-4",
+																i < review.rating
+																	? "text-yellow-400 fill-yellow-400"
+																	: "text-slate-200"
+															)}
+														/>
+													))}
+												</div>
 											</div>
-										))}
+											{review.text && (
+												<p className='text-slate-600 mt-2'>{review.text}</p>
+											)}
+										</div>
+									))}
 
-									{reviews.length > REVIEWS_PER_PAGE && (
+									{totalPages > 1 && (
 										<div className='flex justify-center items-center gap-2 mt-6'>
 											<button
 												onClick={() => setReviewsPage((p) => Math.max(1, p - 1))}
@@ -451,17 +464,11 @@ export const BarberProfilePage = () => {
 												<ChevronLeft className='w-4 h-4 text-slate-600' />
 											</button>
 											<span className='text-sm font-medium text-slate-600'>
-												{reviewsPage} / {Math.ceil(reviews.length / REVIEWS_PER_PAGE)}
+												{reviewsPage} / {totalPages}
 											</span>
 											<button
-												onClick={() =>
-													setReviewsPage((p) =>
-														Math.min(Math.ceil(reviews.length / REVIEWS_PER_PAGE), p + 1)
-													)
-												}
-												disabled={
-													reviewsPage === Math.ceil(reviews.length / REVIEWS_PER_PAGE)
-												}
+												onClick={() => setReviewsPage((p) => Math.min(totalPages, p + 1))}
+												disabled={reviewsPage === totalPages}
 												className='p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
 											>
 												<ChevronRight className='w-4 h-4 text-slate-600' />

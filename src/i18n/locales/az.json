@@ -354,16 +354,18 @@
 		},
 		"stats": {
 			"today_revenue": "Bugünkü Gəlir",
-			"bookings_today": "bugünkü randevular",
+			"bookings_today": "bugünkü rezervasiyalar",
 			"month_revenue": "Aylıq Gəlir",
-			"bookings_month": "bu aykı randevular",
+			"bookings_month": "bu aykı rezervasiyalar",
 			"total_clients": "Ümumi Müştərilər",
-			"unique_clients": "unikal müştəri",
+			"unique_clients": "unikal müştərilər",
 			"weekly_overview": "Həftəlik İcmal",
 			"revenue": "Gəlir",
-			"bookings": "Randevular",
-			"no_data_title": "Statistika yoxdur",
-			"no_data_desc": "Analitikanı görmək üçün randevuları qəbul etməyə başlayın."
+			"bookings": "Rezervasiyalar",
+			"no_data_title": "Statistika Mövcud Deyil",
+			"no_data_desc": "Analitikanı görmək üçün rezervasiyaları qəbul etməyə başlayın.",
+			"get_started_title": "İşə başlamağa hazırsınız?",
+			"get_started_desc": "Rezervasiyalar qəbul etməyə başladıqdan sonra statistikanız burada görünəcək."
 		},
 		"clients": {
 			"title": "Müştərilərim",

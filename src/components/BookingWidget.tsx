@@ -163,18 +163,33 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
 				// Check for error code first for translation
 				if (parsed.errorCode) {
-					const translatedError = t(`profile.errors.${parsed.errorCode}`)
-					// If translation exists and is not the key itself (basic check, though i18next usually returns key if missing)
-					if (
-						translatedError &&
-						translatedError !== `profile.errors.${parsed.errorCode}`
-					) {
-						message = translatedError
+					const safeCode = (parsed.errorCode as string).toLowerCase() // Ensure safe key
+					const distinct = t(`profile.errors.${safeCode}`) // Translation for error code
+
+					// If translation exists and differs from key
+					if (distinct && distinct !== `profile.errors.${safeCode}`) {
+						message = distinct
 					} else if (parsed.error) {
 						message = parsed.error
 					}
 				} else if (parsed.error) {
-					message = parsed.error
+					// Handling the specific server error for missing guest details
+					if (parsed.error.includes("Name and phone are required")) {
+						// This means we are considered a guest but didn't provide details.
+						// This usually happens when the token is invalid/expired but the client state says we are logged in.
+						if (user && !bookForSomeoneElse) {
+							// Force logout or warn
+							useAuthStore.getState().logout()
+							message =
+								t("auth.session_expired") || "Session expired. Please log in again."
+							// Optionally redirect to login?
+						} else {
+							message =
+								t("auth.guest_details_required") || "Please enter your name and phone"
+						}
+					} else {
+						message = parsed.error
+					}
 				}
 			} catch (e) {
 				// If parsing fails, use the error message directly if available
@@ -464,8 +479,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 											isBusy
 												? "bg-red-50 border-red-100 text-red-300 cursor-not-allowed"
 												: selectedTime === time
-												? "bg-primary-600 text-white border-primary-600 shadow-md"
-												: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
+													? "bg-primary-600 text-white border-primary-600 shadow-md"
+													: "bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-600 hover:shadow-sm"
 										)}
 									>
 										<span className={clsx(isTaken && "opacity-50 text-xs")}>{time}</span>
@@ -494,7 +509,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 							<input
 								type='checkbox'
 								checked={bookForSomeoneElse}
-								onChange={(e) => setBookForSomeoneElse(e.target.checked)}
+								onChange={(e) => {
+									setBookForSomeoneElse(e.target.checked)
+									if (!e.target.checked) {
+										setGuestName("")
+										setGuestPhone("")
+									}
+								}}
 								className='w-4 h-4 text-primary-600 rounded border-slate-300 focus:ring-primary-500'
 							/>
 							<span className='text-sm text-slate-700 font-medium'>
@@ -567,7 +588,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 							{selectedService
 								? `${
 										selectedService.currency === "AZN" ? "₼" : selectedService.currency
-								  }${selectedService.price}`
+									}${selectedService.price}`
 								: "₼0"}
 						</div>
 					</div>
