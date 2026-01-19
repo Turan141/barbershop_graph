@@ -90,6 +90,9 @@ router.get("/", async (req, res) => {
 	const { query } = req.query
 	const page = req.query.page ? Number(req.query.page) : undefined
 	const limit = req.query.limit ? Number(req.query.limit) : 20
+	const lat = req.query.lat ? Number(req.query.lat) : undefined
+	const lng = req.query.lng ? Number(req.query.lng) : undefined
+	const radius = req.query.radius ? Number(req.query.radius) : 20 // Default 20km radius
 
 	const where: any = {
 		OR: [
@@ -121,6 +124,54 @@ router.get("/", async (req, res) => {
 	}
 
 	try {
+		// If we need to sort by distance (lat/lng present), we must fetch all matching records first
+		if (lat && lng) {
+			const barbers = await prisma.barberProfile.findMany({
+				where,
+				include: {
+					user: true,
+					services: true
+				}
+			})
+
+			let mappedBarbers = barbers.map(mapBarber)
+
+			// Calculate distance and filter
+			mappedBarbers = mappedBarbers
+				.map((b) => {
+					let distance = Infinity
+					if (b.latitude && b.longitude) {
+						// Haversine formula
+						const R = 6371 // Radius of the earth in km
+						const dLat = (b.latitude - lat) * (Math.PI / 180)
+						const dLon = (b.longitude - lng) * (Math.PI / 180)
+						const a =
+							Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+							Math.cos(lat * (Math.PI / 180)) *
+								Math.cos(b.latitude * (Math.PI / 180)) *
+								Math.sin(dLon / 2) *
+								Math.sin(dLon / 2)
+						const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+						distance = R * c // Distance in km
+					}
+					return { ...b, distance }
+				})
+				.filter((b) => b.distance <= radius)
+				.sort((a, b) => a.distance - b.distance)
+
+			// Handle pagination in memory
+			if (page) {
+				const total = mappedBarbers.length
+				const paginated = mappedBarbers.slice((page - 1) * limit, page * limit)
+				return res.json({
+					data: paginated,
+					meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
+				})
+			}
+
+			return res.json(mappedBarbers)
+		}
+
 		if (page) {
 			const skip = (page - 1) * limit
 			const [barbers, total] = await prisma.$transaction([
@@ -551,6 +602,8 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 		// Update BarberProfile info
 		const updateData: any = {}
 		if (data.location) updateData.location = data.location
+		if (data.latitude) updateData.latitude = data.latitude
+		if (data.longitude) updateData.longitude = data.longitude
 		if (data.phone) updateData.phone = data.phone
 		if (data.bio) updateData.bio = data.bio
 		if (data.specialties) updateData.specialties = JSON.stringify(data.specialties)

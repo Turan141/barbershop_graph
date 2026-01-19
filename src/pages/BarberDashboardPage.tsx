@@ -99,7 +99,14 @@ export const BarberDashboardPage = () => {
 
 			if (data && data.length > 0) {
 				const fullAddress = data[0].display_name
-				setFormData((prev) => ({ ...prev, location: fullAddress }))
+				const lat = parseFloat(data[0].lat)
+				const lon = parseFloat(data[0].lon)
+				setFormData((prev) => ({
+					...prev,
+					location: fullAddress,
+					latitude: lat,
+					longitude: lon
+				}))
 				setPreviewAddress(fullAddress)
 			} else {
 				// Fallback if not found
@@ -111,6 +118,54 @@ export const BarberDashboardPage = () => {
 		} finally {
 			setCheckingMap(false)
 		}
+	}
+
+	const handleUseCurrentLocation = () => {
+		if (!navigator.geolocation) {
+			setMessage({
+				type: "error",
+				text: "Geolocation is not supported by your browser"
+			})
+			return
+		}
+
+		setCheckingMap(true)
+		navigator.geolocation.getCurrentPosition(
+			async (position) => {
+				const { latitude, longitude } = position.coords
+				try {
+					const response = await fetch(
+						`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+					)
+					const data = await response.json()
+
+					setFormData((prev) => ({
+						...prev,
+						location: data.display_name || "",
+						latitude,
+						longitude
+					}))
+					setPreviewAddress(data.display_name || "")
+				} catch (error) {
+					console.error("Geocoding error:", error)
+					setFormData((prev) => ({
+						...prev,
+						latitude,
+						longitude
+					}))
+				} finally {
+					setCheckingMap(false)
+				}
+			},
+			(error) => {
+				console.error("Geolocation error:", error)
+				setMessage({
+					type: "error",
+					text: "Unable to retrieve your location"
+				})
+				setCheckingMap(false)
+			}
+		)
 	}
 
 	useEffect(() => {
@@ -309,8 +364,8 @@ export const BarberDashboardPage = () => {
 											barber.subscriptionStatus === "active"
 												? "text-green-600"
 												: barber.subscriptionStatus === "trial"
-												? "text-indigo-600"
-												: "text-red-600"
+													? "text-indigo-600"
+													: "text-red-600"
 										)}
 									>
 										{barber.subscriptionStatus || "Trial"}
@@ -340,8 +395,8 @@ export const BarberDashboardPage = () => {
 													barber.subscriptionStatus === "active"
 														? "bg-green-500"
 														: barber.subscriptionStatus === "trial"
-														? "bg-indigo-500"
-														: "bg-red-500"
+															? "bg-indigo-500"
+															: "bg-red-500"
 												)}
 												style={{
 													width: `${Math.min(
@@ -387,8 +442,8 @@ export const BarberDashboardPage = () => {
 													bookingsUsed >= bookingsLimit
 														? "bg-red-500"
 														: bookingsUsed >= bookingsLimit * 0.8
-														? "bg-yellow-500"
-														: "bg-blue-500"
+															? "bg-yellow-500"
+															: "bg-blue-500"
 												)}
 												style={{
 													width: `${Math.min(100, (bookingsUsed / bookingsLimit) * 100)}%`
@@ -597,10 +652,20 @@ export const BarberDashboardPage = () => {
 												{t("common.check_map") || "Check Map"}
 											</button>
 										</div>
-										<p className='text-xs text-slate-500 mt-1 mb-3'>
-											{t("dashboard.profile.address_hint") ||
-												"Enter the full address (City, Street, Building) to ensure clients can find you."}
-										</p>
+										<div className='flex justify-between items-center mt-1 mb-3 gap-2'>
+											<p className='text-xs text-slate-500'>
+												{t("dashboard.profile.address_hint") ||
+													"Enter the full address (City, Street, Building) to ensure clients can find you."}
+											</p>
+											<button
+												type='button'
+												onClick={handleUseCurrentLocation}
+												className='text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 whitespace-nowrap'
+											>
+												<MapPin className='w-3 h-3' />
+												{t("common.use_current_location") || "Use My Location"}
+											</button>
+										</div>
 										{previewAddress && (
 											<div className='bg-slate-50 p-3 rounded-xl border border-slate-200'>
 												<div className='flex justify-between items-center mb-2'>
@@ -717,8 +782,8 @@ export const BarberDashboardPage = () => {
 													formData.verificationStatus === "verified"
 														? "bg-green-100 text-green-600"
 														: formData.verificationStatus === "pending"
-														? "bg-yellow-100 text-yellow-600"
-														: "bg-slate-200 text-slate-500"
+															? "bg-yellow-100 text-yellow-600"
+															: "bg-slate-200 text-slate-500"
 												)}
 											>
 												{formData.verificationStatus === "verified" ? (
@@ -734,20 +799,20 @@ export const BarberDashboardPage = () => {
 													{formData.verificationStatus === "verified"
 														? t("dashboard.profile.status_verified") || "Verified Account"
 														: formData.verificationStatus === "pending"
-														? t("dashboard.profile.status_pending") ||
-														  "Verification Pending"
-														: t("dashboard.profile.status_unverified") ||
-														  "Unverified Account"}
+															? t("dashboard.profile.status_pending") ||
+																"Verification Pending"
+															: t("dashboard.profile.status_unverified") ||
+																"Unverified Account"}
 												</div>
 												<div className='text-sm text-slate-500'>
 													{formData.verificationStatus === "verified"
 														? t("dashboard.profile.verified_desc") ||
-														  "Your account is verified and displays a badge."
+															"Your account is verified and displays a badge."
 														: formData.verificationStatus === "pending"
-														? t("dashboard.profile.pending_desc") ||
-														  "We are reviewing your documents."
-														: t("dashboard.profile.unverified_desc") ||
-														  "Upload a document to get verified."}
+															? t("dashboard.profile.pending_desc") ||
+																"We are reviewing your documents."
+															: t("dashboard.profile.unverified_desc") ||
+																"Upload a document to get verified."}
 												</div>
 											</div>
 										</div>

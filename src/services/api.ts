@@ -57,11 +57,22 @@ export const api = {
 	},
 
 	barbers: {
-		list: (query?: string, page?: number, limit?: number) => {
+		list: (
+			query?: string,
+			page?: number,
+			limit?: number,
+			lat?: number,
+			lng?: number,
+			radius?: number
+		) => {
 			const params = new URLSearchParams()
 			if (query) params.append("query", query)
 			if (page) params.append("page", page.toString())
 			if (limit) params.append("limit", limit.toString())
+			if (lat) params.append("lat", lat.toString())
+			if (lng) params.append("lng", lng.toString())
+			if (radius) params.append("radius", radius.toString())
+
 			return fetch(`${API_BASE}/barbers?${params.toString()}`).then((res) =>
 				handleResponse<any>(res)
 			)

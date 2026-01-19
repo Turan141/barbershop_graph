@@ -38,6 +38,9 @@ export interface Barber extends User {
 	rating: number
 	reviewCount: number
 	location: string
+	latitude?: number
+	longitude?: number
+	distance?: number
 	phone?: string
 	services: Service[]
 	portfolio: string[]

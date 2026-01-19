@@ -66,6 +66,12 @@ export const HomePage = () => {
 	const { user } = useAuthStore()
 	const [barbers, setBarbers] = useState<Barber[]>([])
 	const [search, setSearch] = useState("")
+	// Location state
+	const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | undefined>(
+		undefined
+	)
+	const [usingLocation, setUsingLocation] = useState(false)
+
 	const [loading, setLoading] = useState(true)
 	const [loadError, setLoadError] = useState(false)
 	const [reloadNonce, setReloadNonce] = useState(0)
@@ -89,7 +95,14 @@ export const HomePage = () => {
 			setLoading(true)
 			setLoadError(false)
 			try {
-				const response = await api.barbers.list(search)
+				const response = await api.barbers.list(
+					search,
+					undefined,
+					undefined,
+					userCoords?.lat,
+					userCoords?.lng,
+					usingLocation ? 20 : undefined
+				)
 				// Handle both paginated and flat responses
 				const data = Array.isArray(response) ? response : response.data
 				setBarbers(data)
@@ -103,7 +116,36 @@ export const HomePage = () => {
 
 		const debounce = setTimeout(fetchBarbers, 300)
 		return () => clearTimeout(debounce)
-	}, [search, reloadNonce])
+	}, [search, reloadNonce, userCoords, usingLocation])
+
+	const handleUseLocation = () => {
+		if (usingLocation) {
+			setUsingLocation(false)
+			setUserCoords(undefined)
+			return
+		}
+
+		if (!navigator.geolocation) {
+			alert(t("common.geolocation_not_supported") || "Geolocation is not supported")
+			return
+		}
+
+		setLoading(true)
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				const { latitude, longitude } = position.coords
+				setUserCoords({ lat: latitude, lng: longitude })
+				setUsingLocation(true)
+				setSelectedLocation("") // Clear text location filter
+				setLoading(false)
+			},
+			(error) => {
+				console.error(error)
+				setLoading(false)
+				alert(t("common.geolocation_denied") || "Unable to retrieve location")
+			}
+		)
+	}
 
 	// Derived Data for Filters
 	const locations = useMemo(() => {
@@ -171,13 +213,16 @@ export const HomePage = () => {
 		setPriceLevel("all")
 		setMinRating(0)
 		setSearch("")
+		setUsingLocation(false)
+		setUserCoords(undefined)
 	}
 
 	const activeFiltersCount = [
 		selectedLocation,
 		selectedCategory,
 		priceLevel !== "all",
-		minRating > 0
+		minRating > 0,
+		usingLocation
 	].filter(Boolean).length
 
 	return (
@@ -253,25 +298,40 @@ export const HomePage = () => {
 						</div>
 						<input
 							type='text'
-							className='block w-full pl-12 pr-14 py-4 border-0 bg-white shadow-xl shadow-slate-200/40 rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary-500/20 focus:shadow-2xl focus:shadow-primary-500/10 transition-all duration-300 font-medium text-lg'
+							className='block w-full pl-12 pr-32 py-4 border-0 bg-white shadow-xl shadow-slate-200/40 rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary-500/20 focus:shadow-2xl focus:shadow-primary-500/10 transition-all duration-300 font-medium text-lg'
 							placeholder={t("home.search_placeholder")}
 							value={search}
 							onChange={(e) => setSearch(e.target.value)}
 						/>
-						<button
-							onClick={() => setShowFilters(!showFilters)}
-							className={clsx(
-								"absolute inset-y-2 right-2 px-4 rounded-xl flex items-center justify-center transition-all duration-200",
-								showFilters || activeFiltersCount > 0
-									? "bg-primary-50 text-primary-600 shadow-sm"
-									: "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
-							)}
-						>
-							<Filter className='h-5 w-5' />
-							{activeFiltersCount > 0 && (
-								<span className='absolute top-3 right-3 w-2 h-2 bg-primary-500 rounded-full ring-2 ring-white'></span>
-							)}
-						</button>
+						<div className='absolute inset-y-2 right-2 flex items-center gap-1'>
+							<button
+								onClick={handleUseLocation}
+								title={t("home.filters.near_me") || "Near Me"}
+								className={clsx(
+									"px-3 h-full rounded-xl flex items-center justify-center transition-all duration-200",
+									usingLocation
+										? "bg-primary-500 text-white shadow-md shadow-primary-500/30"
+										: "text-slate-400 hover:text-primary-600 hover:bg-primary-50"
+								)}
+							>
+								<MapPin className='h-5 w-5' />
+							</button>
+							<div className='w-px h-8 bg-slate-200 mx-1'></div>
+							<button
+								onClick={() => setShowFilters(!showFilters)}
+								className={clsx(
+									"px-3 h-full rounded-xl flex items-center justify-center transition-all duration-200",
+									showFilters || activeFiltersCount > 0
+										? "bg-primary-50 text-primary-600 shadow-sm"
+										: "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+								)}
+							>
+								<Filter className='h-5 w-5' />
+								{activeFiltersCount > 0 && (
+									<span className='absolute top-3 right-3 w-2 h-2 bg-primary-500 rounded-full ring-2 ring-white'></span>
+								)}
+							</button>
+						</div>
 					</div>
 
 					{/* Filters Panel (Collapsible) */}
@@ -486,6 +546,12 @@ export const HomePage = () => {
 													<div className='flex items-center text-slate-300 text-xs sm:text-sm mb-2 sm:mb-4 font-medium truncate'>
 														<MapPin className='w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-1.5 text-yellow-500 flex-shrink-0' />
 														<span className='truncate'>{barber.location}</span>
+														{barber.distance !== undefined && (
+															<span className='ml-2 text-yellow-400 font-bold flex items-center gap-1'>
+																<span>•</span>
+																{barber.distance.toFixed(1)} km
+															</span>
+														)}
 													</div>
 
 													<div className='flex flex-wrap gap-1 sm:gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 hidden sm:flex'>
@@ -606,6 +672,11 @@ export const HomePage = () => {
 														<div className='flex items-center text-slate-500 text-sm truncate'>
 															<MapPin className='w-3.5 h-3.5 mr-1.5 text-slate-400 flex-shrink-0' />
 															<span className='truncate'>{barber.location}</span>
+															{barber.distance !== undefined && (
+																<span className='ml-2 text-primary-600 font-bold text-xs bg-primary-50 px-1.5 py-0.5 rounded-full flex-shrink-0'>
+																	{barber.distance.toFixed(1)} km
+																</span>
+															)}
 														</div>
 													</div>
 

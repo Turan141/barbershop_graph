@@ -50,6 +50,8 @@ model BarberProfile {
   rating      Float    @default(0)
   reviewCount Int      @default(0)
   location    String
+  latitude    Float?
+  longitude   Float?
   phone       String?
   bio         String
   schedule    String   // JSON string: { [key: string]: string[] }
