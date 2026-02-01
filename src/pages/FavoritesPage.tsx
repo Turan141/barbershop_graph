@@ -62,9 +62,9 @@ export const FavoritesPage = () => {
 							<Link to={`/barbers/${barber.id}`} className='block h-full'>
 								<div className='card overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col bg-white'>
 									<div className='aspect-[4/3] relative overflow-hidden'>
-										{barber.portfolio && barber.portfolio[0] ? (
+										{barber.previewImageUrl || barber.portfolio[0] || barber.avatarUrl ? (
 											<img
-												src={barber.portfolio[0]}
+												src={barber.previewImageUrl || barber.portfolio[0] || barber.avatarUrl}
 												alt={barber.name}
 												className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
 											/>

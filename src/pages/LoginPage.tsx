@@ -7,8 +7,8 @@ import { Scissors, ArrowRight, Mail, Lock } from "lucide-react"
 
 export const LoginPage = () => {
 	const { t } = useTranslation()
-	const [email, setEmail] = useState("client@test.com")
-	const [password, setPassword] = useState("password")
+	const [email, setEmail] = useState("barber@demo.com")
+	const [password, setPassword] = useState("password123")
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState("")
 	const login = useAuthStore((state) => state.login)
@@ -158,13 +158,19 @@ export const LoginPage = () => {
 
 						<div className='mt-6 grid grid-cols-2 gap-3'>
 							<button
-								onClick={() => setEmail("client@test.com")}
+								onClick={() => {
+									setEmail("client0@demo.com")
+									setPassword("password123")
+								}}
 								className='flex justify-center items-center px-4 py-2 border border-slate-200 shadow-sm text-sm font-medium rounded-xl text-slate-700 bg-white hover:bg-slate-50 transition-colors'
 							>
 								{t("auth.client_demo")}
 							</button>
 							<button
-								onClick={() => setEmail("barber@test.com")}
+								onClick={() => {
+									setEmail("barber@demo.com")
+									setPassword("password123")
+								}}
 								className='flex justify-center items-center px-4 py-2 border border-slate-200 shadow-sm text-sm font-medium rounded-xl text-slate-700 bg-white hover:bg-slate-50 transition-colors'
 							>
 								{t("auth.barber_demo")}

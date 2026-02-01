@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { differenceInDays } from "date-fns"
+import { QRCodeCanvas } from "qrcode.react"
 import { useAuthStore } from "@/store/authStore"
 import { Barber, Service } from "@/types"
 import { api } from "@/services/api"
@@ -26,7 +27,8 @@ import {
 	ExternalLink,
 	AlertCircle,
 	DollarSign,
-	Star
+	Star,
+	QrCode
 } from "lucide-react"
 import clsx from "clsx"
 import { DashboardStats } from "@/components/DashboardStats"
@@ -65,6 +67,7 @@ export const BarberDashboardPage = () => {
 		| "services"
 		| "portfolio"
 		| "expenses"
+		| "qrcode"
 	>("bookings")
 	const [saving, setSaving] = useState(false)
 	const [message, setMessage] = useState<{
@@ -303,7 +306,8 @@ export const BarberDashboardPage = () => {
 		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
 		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Clock },
 		{ id: "services", label: t("dashboard.tabs.services"), icon: Scissors },
-		{ id: "portfolio", label: t("dashboard.tabs.portfolio"), icon: ImageIcon }
+		{ id: "portfolio", label: t("dashboard.tabs.portfolio"), icon: ImageIcon },
+		{ id: "qrcode", label: "QR Code", icon: QrCode }
 	] as const
 
 	return (
@@ -1378,6 +1382,48 @@ export const BarberDashboardPage = () => {
 												</div>
 											)
 										})}
+									</div>
+								</div>
+							</div>
+						)}
+
+						{/* QR Code Tab */}
+						{activeTab === "qrcode" && (
+							<div className='space-y-6'>
+								<h2 className='text-xl font-bold text-slate-900 mb-6'>
+									Your Personal QR Code
+								</h2>
+								<div className='bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center'>
+									<h3 className='text-lg font-medium text-slate-900 mb-4 text-center'>
+										Scan to book appointment with {barber.name}
+									</h3>
+
+									<div className='bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6'>
+										<QRCodeCanvas
+											value={`${window.location.origin}/barbers/${barber.id}`}
+											size={256}
+											level={"H"}
+											includeMargin={true}
+										/>
+									</div>
+
+									<p className='text-slate-500 text-center max-w-sm mb-6'>
+										Print this QR code and place it on your mirror or desk. Clients can scan it to
+										book their next appointment instantly.
+									</p>
+
+									<div className='flex gap-4'>
+										<a
+											href={`${window.location.origin}/barbers/${barber.id}`}
+											target='_blank'
+											rel='noreferrer'
+											className='btn-secondary'
+										>
+											Preview Profile
+										</a>
+										<button className='btn-primary' onClick={() => window.print()}>
+											Print Page
+										</button>
 									</div>
 								</div>
 							</div>

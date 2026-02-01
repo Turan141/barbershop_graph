@@ -1,490 +1,447 @@
-import { PrismaClient } from "@prisma/client"
+﻿import { PrismaClient } from "@prisma/client"
+import bcrypt from "bcryptjs"
 
 const prisma = new PrismaClient()
 
-const FIRST_NAMES = [
-	"James",
-	"Robert",
-	"John",
-	"Michael",
-	"David",
-	"William",
-	"Richard",
-	"Joseph",
-	"Thomas",
-	"Charles",
-	"Daniel",
-	"Matthew",
-	"Anthony",
-	"Mark",
-	"Donald",
-	"Steven",
-	"Paul",
-	"Andrew",
-	"Joshua",
-	"Kenneth",
-	"Kevin",
-	"Brian",
-	"George",
-	"Edward",
-	"Ronald",
-	"Timothy",
-	"Jason",
-	"Jeffrey",
-	"Ryan",
-	"Jacob",
-	"Gary",
-	"Nicholas",
-	"Eric",
-	"Jonathan",
-	"Stephen",
-	"Larry",
-	"Justin",
-	"Scott",
-	"Brandon",
-	"Benjamin",
-	"Samuel",
-	"Gregory",
-	"Frank",
-	"Alexander",
-	"Raymond",
-	"Patrick",
-	"Jack",
-	"Dennis",
-	"Jerry",
-	"Tyler",
-	"Aaron",
-	"Jose",
-	"Adam",
-	"Henry",
-	"Nathan",
-	"Douglas",
-	"Zachary",
-	"Peter",
-	"Kyle",
-	"Walter",
-	"Ethan",
-	"Jeremy",
-	"Harold",
-	"Keith",
-	"Christian",
-	"Roger",
-	"Noah",
-	"Gerald",
-	"Carl",
-	"Terry",
-	"Sean",
-	"Austin",
-	"Arthur",
-	"Lawrence",
-	"Jesse",
-	"Dylan",
-	"Bryan",
-	"Joe",
-	"Jordan",
-	"Billy",
-	"Bruce",
-	"Albert",
-	"Willie",
-	"Gabriel",
-	"Logan",
-	"Alan",
-	"Juan",
-	"Wayne",
-	"Roy",
-	"Ralph",
-	"Randy",
-	"Eugene",
-	"Vincent",
-	"Russell",
-	"Elijah",
-	"Louis",
-	"Bobby",
-	"Philip",
-	"Johnny",
-	"Murad",
-	"Elvin",
-	"Samir",
-	"Tural",
-	"Anar",
-	"Vusal",
-	"Rashad",
-	"Orkhan",
-	"Farid",
-	"Ilgar"
-]
+// --- Utility Functions ---
 
-const LAST_NAMES = [
-	"Smith",
-	"Johnson",
-	"Williams",
-	"Brown",
-	"Jones",
-	"Garcia",
-	"Miller",
-	"Davis",
-	"Rodriguez",
-	"Martinez",
-	"Hernandez",
-	"Lopez",
-	"Gonzalez",
-	"Wilson",
-	"Anderson",
-	"Thomas",
-	"Taylor",
-	"Moore",
-	"Jackson",
-	"Martin",
-	"Lee",
-	"Perez",
-	"Thompson",
-	"White",
-	"Harris",
-	"Sanchez",
-	"Clark",
-	"Ramirez",
-	"Lewis",
-	"Robinson",
-	"Walker",
-	"Young",
-	"Allen",
-	"King",
-	"Wright",
-	"Scott",
-	"Torres",
-	"Nguyen",
-	"Hill",
-	"Flores",
-	"Green",
-	"Adams",
-	"Nelson",
-	"Baker",
-	"Hall",
-	"Rivera",
-	"Campbell",
-	"Mitchell",
-	"Carter",
-	"Roberts",
-	"Mammadov",
-	"Aliyev",
-	"Huseynov",
-	"Guliyev",
-	"Ismayilov",
-	"Hasanov",
-	"Abdullayev",
-	"Jafarov"
-]
-
-const LOCATIONS = [
-	"Mərkəz, Bakı",
-	"Yasamal, Bakı",
-	"Gənclik, Bakı",
-	"Nərimanov, Bakı",
-	"Xətai, Bakı",
-	"Nizami, Bakı",
-	"Səbail, Bakı",
-	"Nəsimi, Bakı",
-	"Binəqədi, Bakı",
-	"Suraxanı, Bakı"
-]
-
-const SPECIALTIES_LIST = [
-	"Fade",
-	"Saqqal Düzəltmə",
-	"Klassik Kəsim",
-	"Rəngləmə",
-	"Stilləşdirmə",
-	"Uzun Saç",
-	"Maşınla Kəsim",
-	"Təraş",
-	"Uşaq Saçı",
-	"Keratin",
-	"Üz Baxımı",
-	"Masaj"
-]
-
-const PORTFOLIO_IMAGES = [
-	"https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1593702295094-aea22597af65?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1595476103518-3c8add20d758?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=300",
-	"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=300"
-]
-
-const SERVICES_TEMPLATE = [
-	{ name: "Klassik Saç Kəsimi", duration: 45, price: 30, currency: "AZN" },
-	{ name: "Saqqal Düzəltmə", duration: 30, price: 20, currency: "AZN" },
-	{ name: "Uşaq Saçı Kəsimi", duration: 30, price: 15, currency: "AZN" },
-	{ name: "VIP Xidmət", duration: 90, price: 70, currency: "AZN" },
-	{ name: "Saç Rəngləmə", duration: 120, price: 100, currency: "AZN" },
-	{ name: "Təraş", duration: 30, price: 15, currency: "AZN" },
-	{ name: "Saç Yuma və Fen", duration: 20, price: 10, currency: "AZN" }
-]
-
-const SCHEDULE_TEMPLATE = {
-	Monday: { start: "09:00", end: "18:00" },
-	Tuesday: { start: "09:00", end: "18:00" },
-	Wednesday: { start: "09:00", end: "18:00" },
-	Thursday: { start: "09:00", end: "18:00" },
-	Friday: { start: "09:00", end: "18:00" },
-	Saturday: { start: "10:00", end: "16:00" }
+function randomDate(start: Date, end: Date) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 }
 
-class UniqueGenerator {
-	private usedNames = new Set<string>()
-	private usedEmails = new Set<string>()
-
-	generateName(): { firstName: string; lastName: string; fullName: string } {
-		let attempts = 0
-		while (attempts < 100) {
-			const firstName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)]
-			const lastName = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)]
-			const fullName = `${firstName} ${lastName}`
-			if (!this.usedNames.has(fullName)) {
-				this.usedNames.add(fullName)
-				return { firstName, lastName, fullName }
-			}
-			attempts++
-		}
-		// Fallback if we run out of combinations (unlikely with this list size)
-		return {
-			firstName: "Barber",
-			lastName: `Gen${Date.now()}`,
-			fullName: `Barber Gen${Date.now()}`
-		}
-	}
-
-	generateEmail(firstName: string, lastName: string): string {
-		let baseEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@barber.com`
-		let email = baseEmail
-		let counter = 1
-		while (this.usedEmails.has(email)) {
-			email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${counter}@barber.com`
-			counter++
-		}
-		this.usedEmails.add(email)
-		return email
-	}
+function formatDate(date: Date): string {
+  return date.toISOString().split("T")[0] // YYYY-MM-DD
 }
 
-function getRandomItems<T>(arr: T[], count: number): T[] {
-	const shuffled = [...arr].sort(() => 0.5 - Math.random())
-	return shuffled.slice(0, count)
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function getRandomItem<T>(arr: T[]): T {
-	return arr[Math.floor(Math.random() * arr.length)]
-}
-
-const generator = new UniqueGenerator()
-
-function generateBarberData(index: number, plan: "basic" | "standard" | "pro") {
-	const { firstName, lastName, fullName } = generator.generateName()
-	const email = generator.generateEmail(firstName, lastName)
-	const location = getRandomItem(LOCATIONS)
-	const specialties = getRandomItems(SPECIALTIES_LIST, Math.floor(Math.random() * 3) + 2)
-
-	let rating, reviewCount, tier, subscriptionPlan
-
-	if (plan === "basic") {
-		rating = (Math.random() * (4.2 - 3.5) + 3.5).toFixed(1)
-		reviewCount = Math.floor(Math.random() * 30) + 5
-		tier = "standard"
-		subscriptionPlan = "basic"
-	} else if (plan === "standard") {
-		rating = (Math.random() * (4.8 - 4.2) + 4.2).toFixed(1)
-		reviewCount = Math.floor(Math.random() * 100) + 30
-		tier = "vip" // Giving them VIP tier for better visibility
-		subscriptionPlan = "standard"
-	} else {
-		// pro
-		rating = (Math.random() * (5.0 - 4.8) + 4.8).toFixed(1)
-		reviewCount = Math.floor(Math.random() * 300) + 100
-		tier = "vip"
-		subscriptionPlan = "pro"
-	}
-
-	// Use pravatar.cc for unique realistic avatars based on email hash (simulated by index/random)
-	// Adding a random query param to ensure uniqueness
-	const avatarUrl = `https://i.pravatar.cc/300?u=${email}`
-
-	const portfolio = getRandomItems(PORTFOLIO_IMAGES, Math.floor(Math.random() * 4) + 2)
-	const services = getRandomItems(
-		SERVICES_TEMPLATE,
-		Math.floor(Math.random() * 4) + 3
-	).map((s, i) => ({
-		id: `s_gen_${index}_${i}`,
-		...s
-	}))
-
-	return {
-		id: `b_gen_${index}`,
-		name: fullName,
-		email,
-		role: "barber",
-		avatarUrl,
-		specialties,
-		rating: parseFloat(rating),
-		reviewCount,
-		location,
-		bio: `Professional barber with over ${
-			Math.floor(Math.random() * 15) + 2
-		} years of experience. Expert in ${specialties.join(", ")}.`,
-		tier,
-		subscriptionPlan,
-		portfolio,
-		services,
-		schedule: SCHEDULE_TEMPLATE
-	}
-}
+// --- Main Seed ---
 
 async function main() {
-	console.log("Start seeding ...")
+  console.log(" Starting seed...")
 
-	// 1. Cleanup
-	try {
-		console.log("Cleaning up all data...")
-		await prisma.booking.deleteMany({})
-		await prisma.review.deleteMany({})
-		await prisma.favorite.deleteMany({})
-		await prisma.service.deleteMany({})
-		await prisma.expense.deleteMany({})
-		await prisma.barberClientNote.deleteMany({})
-		await prisma.barberProfile.deleteMany({})
-		await prisma.user.deleteMany({})
-		console.log("Cleanup complete")
-	} catch (e) {
-		console.log("Cleanup failed:", e)
-	}
+  // 1. Clean up database
+  await prisma.expense.deleteMany()
+  await prisma.barberClientNote.deleteMany()
+  await prisma.review.deleteMany()
+  // await prisma.activityLog.deleteMany().catch(() => {}) // In case it doesnt exist yet
+  await prisma.booking.deleteMany()
+  await prisma.service.deleteMany()
+  await prisma.favorite.deleteMany()
+  await prisma.barberProfile.deleteMany()
+  await prisma.user.deleteMany()
 
-	// 2. Create Demo User
-	const demoUser = await prisma.user.create({
-		data: {
-			id: "u1",
-			name: "John Doe",
-			email: "client@test.com",
-			role: "client",
-			avatarUrl: "https://ui-avatars.com/api/?name=John+Doe&background=random",
-			password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
-		}
-	})
-	console.log(`Created demo user: ${demoUser.email}`)
+  console.log(" Database cleared")
 
-	// 3. Create Demo Barber
-	const demoBarberUser = await prisma.user.create({
-		data: {
-			id: "b_test_user",
-			name: "Test Barber",
-			email: "barber@test.com",
-			role: "barber",
-			avatarUrl:
-				"https://ui-avatars.com/api/?name=Test+Barber&background=random&size=200",
-			password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
-		}
-	})
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash("password123", salt)
 
-	await prisma.barberProfile.create({
-		data: {
-			id: "b_test",
-			userId: demoBarberUser.id,
-			specialties: JSON.stringify(["Test Cut", "Debug Shave"]),
-			rating: 5.0,
-			reviewCount: 999,
-			location: "Test Location",
-			bio: "A test barber account for development purposes.",
-			tier: "vip",
-			subscriptionPlan: "pro",
-			portfolio: JSON.stringify([
-				"https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=300"
-			]),
-			schedule: JSON.stringify({
-				Monday: { start: "09:00", end: "17:00" },
-				Tuesday: { start: "09:00", end: "17:00" },
-				Wednesday: { start: "09:00", end: "17:00" },
-				Thursday: { start: "09:00", end: "17:00" },
-				Friday: { start: "09:00", end: "17:00" },
-				Saturday: { start: "10:00", end: "15:00" }
-			}),
-			services: {
-				create: [
-					{
-						id: "s_test_1",
-						name: "Test Service",
-						duration: 30,
-						price: 10,
-						currency: "AZN"
-					}
-				]
-			}
-		}
-	})
-	console.log(`Created demo barber: ${demoBarberUser.email}`)
+  // 2. Create "Hero" Barber (Murad)
+  const heroBarber = await prisma.user.create({
+    data: {
+      name: "Murad Aliyev",
+      email: "barber@demo.com",
+      password: hashedPassword,
+      role: "barber",
+      phone: "+994501234567",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1588731234159-8b9963143fca?q=80&w=400&auto=format&fit=crop"
+    }
+  })
 
-	// 4. Create Realistic Barbers
-	// 5 Basic, 3 Standard, 1 Pro
-	const plans: ("basic" | "standard" | "pro")[] = [
-		...Array(5).fill("basic"),
-		...Array(3).fill("standard"),
-		...Array(1).fill("pro")
-	]
+  console.log(" Created hero barber: Murad Aliyev")
 
-	for (let i = 0; i < plans.length; i++) {
-		const plan = plans[i]
-		const b = generateBarberData(i + 1, plan)
+  // 3. Create Barber Profile
+  // Portfolio images
+  const portfolioImages = [
+    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800", // Fade
+    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800", // Beard
+    "https://images.unsplash.com/photo-1532710093739-9470acff878f?q=80&w=800", // Tools
+    "https://images.unsplash.com/photo-1503951914875-befbb713346b?q=80&w=800", // Styling
+    "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800" // Shopvibe
+  ]
 
-		const user = await prisma.user.create({
-			data: {
-				id: b.id + "_user",
-				name: b.name,
-				email: b.email,
-				role: "barber",
-				avatarUrl: b.avatarUrl,
-				password: "$2b$10$GGR4GMr2Y60eTwPlR3prDeGlERNBTdI.2a5QxbtxEFFoqiIQStDde"
-			}
-		})
+  const profile = await prisma.barberProfile.create({
+    data: {
+      userId: heroBarber.id,
+      bio: "Professional barber with 7 years of experience. I specialize in classic cuts and modern fades. Founder of \"Style & Blade\" academy. My goal is to make every client look and feel their best.",
+      location: "Baku, Nizami St. 23",
+      latitude: 40.377,
+      longitude: 49.854,
+      specialties: JSON.stringify([
+        "Fuls",
+        "Skin Fade",
+        "Royal Shave",
+        "Beard Sculpting",
+        "Kids Cut"
+      ]),
+      portfolio: JSON.stringify(portfolioImages),
+      previewImageUrl: portfolioImages[0],
+      phone: "+994 50 123 45 67",
+      rating: 4.9,
+      reviewCount: 42,
+      tier: "vip",
+      subscriptionStatus: "active",
+      subscriptionPlan: "pro", // Premium plan
+      subscriptionEndDate: new Date("2030-01-01"), // Long expiry
+      verificationStatus: "verified",
+      schedule: JSON.stringify({
+        monday: { start: "10:00", end: "20:00" },
+        tuesday: { start: "10:00", end: "20:00" },
+        wednesday: { start: "10:00", end: "20:00" },
+        thursday: { start: "10:00", end: "20:00" },
+        friday: { start: "10:00", end: "21:00" },
+        saturday: { start: "11:00", end: "19:00" }
+        // Sunday off
+      })
+    }
+  })
 
-		await prisma.barberProfile.create({
-			data: {
-				id: b.id,
-				userId: user.id,
-				specialties: JSON.stringify(b.specialties),
-				rating: b.rating,
-				reviewCount: b.reviewCount,
-				location: b.location,
-				bio: b.bio,
-				tier: b.tier,
-				subscriptionPlan: b.subscriptionPlan,
-				portfolio: JSON.stringify(b.portfolio),
-				schedule: JSON.stringify(b.schedule),
-				services: {
-					create: b.services.map((s: any) => ({
-						id: s.id,
-						name: s.name,
-						duration: s.duration,
-						price: s.price,
-						currency: s.currency
-					}))
-				}
-			}
-		})
-		console.log(`Created ${plan} barber: ${b.name} (${b.email})`)
-	}
+  console.log(" Created barber profile")
 
-	console.log("Seeding finished.")
+  // 4. Create Services
+  const servicesData = [
+    { name: "Haircut (Classic)", duration: 45, price: 20 },
+    { name: "Haircut & Beard", duration: 75, price: 35 },
+    { name: "Beard Trim & Shape", duration: 30, price: 15 },
+    { name: "Royal Shave", duration: 45, price: 25 },
+    { name: "Father & Son", duration: 75, price: 35 },
+    { name: "Hair Styling", duration: 20, price: 10 }
+  ]
+
+  const services = []
+  for (const s of servicesData) {
+    const service = await prisma.service.create({
+      data: {
+        ...s,
+        currency: "AZN",
+        barberId: profile.id
+      }
+    })
+    services.push(service)
+  }
+  console.log(" Created services")
+
+  // 5. Create Clients
+  const clientNames = [
+    "Anar Mammadov",
+    "Farid Guliyev",
+    "Elvin Huseynov",
+    "Rashad Babayev",
+    "Orkhan Aliyev",
+    "Teymur Mirzayev",
+    "Nijat Ibrahimov",
+    "Kanan Ismayilov",
+    "Vusal Hasanov",
+    "Samir Jafarov",
+    "Ilgar Abdullayev",
+    "Ruslan Rustamov"
+  ]
+
+  const clients = []
+  for (let i = 0; i < clientNames.length; i++) {
+    const client = await prisma.user.create({
+      data: {
+        name: clientNames[i],
+        email: `client${i}@demo.com`,
+        password: hashedPassword,
+        role: "client",
+        phone: `+9945000000${i.toString().padStart(2, "0")}`
+      }
+    })
+    clients.push(client)
+  }
+  console.log(` Created ${clients.length} clients`)
+
+  // 5.5 Create Extra Barbers (15 total mockup barbers)
+  const extraBarberNames = [
+    "Kamran Aliyev", "Eldar Mammadov", "Rasim Hasanov", "Javid Guliyev", "Sanan Ismayilov",
+    "Tural Huseynov", "Vugar Abdullayev", "Zaur Jafarov", "Rauf Babayev", "Nurlan Mirzayev",
+    "Hikmat Ibrahimov", "Elchin Rustamov", "Azar Suleymanov", "Fariz Orujov", "Ramil Khalilov"
+  ]
+
+  const avatarUrls = [
+    "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1583864697784-a0efc8379f70?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&fit=crop&q=60",
+    "https://images.unsplash.com/photo-1596387430636-24e52622416f?w=400&fit=crop&q=60",
+  ]
+
+  for (let i = 0; i < extraBarberNames.length; i++) {
+    const bName = extraBarberNames[i]
+    // Create User
+    const bUser = await prisma.user.create({
+      data: {
+        name: bName,
+        email: `barber${i + 2}@demo.com`,
+        password: hashedPassword,
+        role: "barber",
+        phone: `+99450777${i.toString().padStart(2, "0")}00`,
+        avatarUrl: avatarUrls[i % avatarUrls.length]
+      }
+    })
+
+    // Create Profile
+    const bProfile = await prisma.barberProfile.create({
+      data: {
+        userId: bUser.id,
+        bio: `Experienced barber ${bName}. Specializing in classic and modern cuts.`,
+        location: "Baku, Center",
+        latitude: 40.37 + (Math.random() * 0.04 - 0.02),
+        longitude: 49.84 + (Math.random() * 0.04 - 0.02),
+        specialties: JSON.stringify(["Haircut", "Beard", "Styling"]),
+        portfolio: "[]",
+        phone: bUser.phone,
+        rating: Number((4.0 + Math.random()).toFixed(1)),
+        reviewCount: getRandomInt(5, 50),
+        tier: "standard",
+        subscriptionStatus: "active",
+        schedule: JSON.stringify({
+            monday: { start: "10:00", end: "20:00" },
+            tuesday: { start: "10:00", end: "20:00" },
+            wednesday: { start: "10:00", end: "20:00" },
+            thursday: { start: "10:00", end: "20:00" },
+            friday: { start: "10:00", end: "21:00" },
+            saturday: { start: "11:00", end: "19:00" }
+        })
+      }
+    })
+
+    // Create Services for this barber
+    const bServices = []
+    for (const s of servicesData) {
+      const serv = await prisma.service.create({
+        data: { ...s, currency: "AZN", barberId: bProfile.id }
+      })
+      bServices.push(serv)
+    }
+
+    // Reserved Slots (Future Bookings)
+    const bFutureStart = new Date()
+    const bFutureEnd = new Date()
+    bFutureEnd.setDate(bFutureEnd.getDate() + 7)
+
+    for (let d = new Date(bFutureStart); d <= bFutureEnd; d.setDate(d.getDate() + 1)) {
+      if (Math.random() > 0.7) continue // some days off
+      const slots = getRandomInt(1, 3)
+      for (let k = 0; k < slots; k++) {
+        const time = `${getRandomInt(10, 18)}:${getRandomInt(0, 1) === 0 ? "00" : "30"}`
+        const dateStr = formatDate(d)
+        try {
+          await prisma.booking.create({
+            data: {
+              date: dateStr,
+              time: time,
+              status: "confirmed",
+              barberId: bProfile.id,
+              clientId: clients[getRandomInt(0, clients.length - 1)].id,
+              serviceId: bServices[getRandomInt(0, bServices.length - 1)].id,
+              slotKey: `${bProfile.id}:${dateStr}:${time}`
+            }
+          })
+        } catch (e) {}
+      }
+    }
+  }
+  console.log(` Created ${extraBarberNames.length} extra barbers with reserved slots`)
+
+  // 6. Generate Past Bookings & Reviews (1 month back)
+  const startDate = new Date()
+  startDate.setMonth(startDate.getMonth() - 1)
+  const endDate = new Date()
+
+  let totalBookings = 0
+  let totalRevenue = 0
+
+  // Loop through each day from 6 months ago to today
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6
+    const dayBookingsCount = isWeekend ? getRandomInt(5, 8) : getRandomInt(2, 6)
+
+    // 10% chance day off
+    if (Math.random() < 0.1 && !isWeekend) continue
+
+    for (let i = 0; i < dayBookingsCount; i++) {
+      const client = clients[getRandomInt(0, clients.length - 1)]
+      const service = services[getRandomInt(0, services.length - 1)]
+      const time = `${getRandomInt(10, 19)}:${getRandomInt(0, 1) === 0 ? "00" : "30"}`
+      const dateStr = formatDate(d)
+
+      const statusRoll = Math.random()
+      let status = "completed"
+      if (statusRoll < 0.05) status = "cancelled"
+      if (statusRoll < 0.02) status = "no_show"
+
+      try {
+        const booking = await prisma.booking.create({
+          data: {
+            date: dateStr,
+            time: time,
+            status: status,
+            barberId: profile.id,
+            clientId: client.id,
+            serviceId: service.id,
+            slotKey: status === "cancelled" ? null : `${profile.id}:${dateStr}:${time}`
+          }
+        })
+
+        if (status === "completed") {
+          totalRevenue += service.price
+
+          // Add Review (30% chance)
+          if (Math.random() < 0.3) {
+            const rating = Math.random() > 0.8 ? 5 : 4
+            const comments = [
+              "Great cut as always!",
+              "Murad is the best in town.",
+              "Very professional.",
+              "Nice atmosphere.",
+              "Perfect fade.",
+              "Recommended!",
+              "Clean and fast.",
+              "Best barber ever."
+            ]
+            await prisma.review.create({
+              data: {
+                barberId: profile.id,
+                userId: client.id,
+                rating: rating,
+                text: comments[getRandomInt(0, comments.length - 1)],
+                createdAt: d // Review date same as booking date
+              }
+            })
+          }
+        }
+        totalBookings++
+      } catch (e) {
+        // Ignore slot collisions
+      }
+    }
+  }
+  console.log(` Generated ~${totalBookings} past bookings`)
+
+  // 7. Generate Future Bookings (Next 2 weeks)
+  const futureStart = new Date()
+  const futureEnd = new Date()
+  futureEnd.setDate(futureEnd.getDate() + 14)
+
+  for (let d = new Date(futureStart); d <= futureEnd; d.setDate(d.getDate() + 1)) {
+    const count = getRandomInt(1, 4)
+    for (let i = 0; i < count; i++) {
+      const client = clients[getRandomInt(0, clients.length - 1)]
+      const service = services[getRandomInt(0, services.length - 1)]
+      const time = `${getRandomInt(10, 18)}:${getRandomInt(0, 1) === 0 ? "00" : "30"}`
+      const dateStr = formatDate(d)
+
+      try {
+        await prisma.booking.create({
+          data: {
+            date: dateStr,
+            time: time,
+            status: "confirmed",
+            barberId: profile.id,
+            clientId: client.id,
+            serviceId: service.id,
+            slotKey: `${profile.id}:${dateStr}:${time}`
+          }
+        })
+      } catch (e) {}
+    }
+  }
+  console.log(" Generated future bookings")
+
+  // 8. Generate Expenses
+  const expenseCategories = ["rent", "supplies", "utilities", "marketing", "other"]
+  const expenseNotes = {
+    rent: "Monthly Seat Rent",
+    supplies: "Shampoo, blades, talc",
+    utilities: "Electricity share",
+    marketing: "Instagram Ads",
+    other: "Coffee for clients"
+  }
+
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    // Rent on 1st of month
+    if (d.getDate() === 1) {
+      await prisma.expense.create({
+        data: {
+          barberId: heroBarber.id,
+          amount: 500,
+          category: "rent",
+          date: d,
+          note: expenseNotes.rent
+        }
+      })
+    }
+
+    // Supplies every 2 weeks
+    if (d.getDate() === 15 || d.getDate() === 28) {
+      await prisma.expense.create({
+        data: {
+          barberId: heroBarber.id,
+          amount: getRandomInt(50, 150),
+          category: "supplies",
+          date: d,
+          note: expenseNotes.supplies
+        }
+      })
+    }
+
+    // Random coffee/marketing
+    if (Math.random() < 0.1) {
+      await prisma.expense.create({
+        data: {
+          barberId: heroBarber.id,
+          amount: getRandomInt(10, 50),
+          category: Math.random() > 0.5 ? "marketing" : "other",
+          date: d,
+          note: Math.random() > 0.5 ? expenseNotes.marketing : expenseNotes.other
+        }
+      })
+    }
+  }
+  console.log(" Generated expenses")
+
+  // 9. Client Notes & Tags (CRM)
+  for (const client of clients) {
+    if (Math.random() > 0.5) {
+      await prisma.barberClientNote.create({
+        data: {
+          barberId: profile.id,
+          clientId: client.id,
+          notes: "Prefers silent appointments. Likes matte clay finish.",
+          tags: JSON.stringify(["vip", "messy crop", "silent"])
+        }
+      })
+    }
+  }
+  console.log(" Generated client notes")
+
+  console.log(" Seed completed successfully!")
+  console.log("-----------------------------------------")
+  console.log("Login Email: barber@demo.com")
+  console.log("Login Password: password123")
+  console.log("-----------------------------------------")
 }
 
 main()
-	.catch((e) => {
-		console.error(e)
-		process.exit(1)
-	})
-	.finally(async () => {
-		await prisma.$disconnect()
-	})
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })

@@ -64,14 +64,7 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
-					<Route
-						path='/barbers/:id'
-						element={
-							<ProtectedRoute>
-								<BarberProfilePage />
-							</ProtectedRoute>
-						}
-					/>
+					<Route path='/barbers/:id' element={<BarberProfilePage />} />
 					<Route path='*' element={<Navigate to='/' replace />} />
 				</Routes>
 			</Layout>
