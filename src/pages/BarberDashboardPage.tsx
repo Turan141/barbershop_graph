@@ -1408,8 +1408,8 @@ export const BarberDashboardPage = () => {
 									</div>
 
 									<p className='text-slate-500 text-center max-w-sm mb-6'>
-										Print this QR code and place it on your mirror or desk. Clients can scan it to
-										book their next appointment instantly.
+										Print this QR code and place it on your mirror or desk. Clients can
+										scan it to book their next appointment instantly.
 									</p>
 
 									<div className='flex gap-4'>

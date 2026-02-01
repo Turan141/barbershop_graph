@@ -614,9 +614,15 @@ export const HomePage = () => {
 										>
 											<div className='bg-white rounded-2xl sm:rounded-[1.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative z-0'>
 												<div className='aspect-[4/5] sm:aspect-square relative overflow-hidden bg-slate-100'>
-													{barber.previewImageUrl || barber.portfolio[0] || barber.avatarUrl ? (
+													{barber.previewImageUrl ||
+													barber.portfolio[0] ||
+													barber.avatarUrl ? (
 														<img
-															src={barber.previewImageUrl || barber.portfolio[0] || barber.avatarUrl}
+															src={
+																barber.previewImageUrl ||
+																barber.portfolio[0] ||
+																barber.avatarUrl
+															}
 															alt={barber.name}
 															className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-700'
 														/>

@@ -64,7 +64,11 @@ export const FavoritesPage = () => {
 									<div className='aspect-[4/3] relative overflow-hidden'>
 										{barber.previewImageUrl || barber.portfolio[0] || barber.avatarUrl ? (
 											<img
-												src={barber.previewImageUrl || barber.portfolio[0] || barber.avatarUrl}
+												src={
+													barber.previewImageUrl ||
+													barber.portfolio[0] ||
+													barber.avatarUrl
+												}
 												alt={barber.name}
 												className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
 											/>
