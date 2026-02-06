@@ -157,14 +157,14 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 						{statusFilter === "all"
 							? t("dashboard.bookings.no_bookings") || "No bookings yet"
 							: t("dashboard.bookings.no_filtered_bookings") ||
-							  "No bookings found with this status"}
+								"No bookings found with this status"}
 					</h3>
 					<p className='text-slate-500'>
 						{statusFilter === "all"
 							? t("dashboard.bookings.share_link") ||
-							  "Share your profile link to get bookings."
+								"Share your profile link to get bookings."
 							: t("dashboard.bookings.try_different_filter") ||
-							  "Try selecting a different status."}
+								"Try selecting a different status."}
 					</p>
 				</div>
 			) : (
