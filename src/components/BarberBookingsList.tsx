@@ -142,7 +142,10 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 						</option>
 					</select>
 					<button
-						onClick={fetchBookings}
+						onClick={async () => {
+							await fetchBookings(false)
+							toast.success(t("common.refreshed") || "Refreshed")
+						}}
 						className='text-sm text-primary-600 hover:text-primary-700 font-medium whitespace-nowrap'
 					>
 						{t("common.refresh") || "Refresh"}

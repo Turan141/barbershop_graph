@@ -90,7 +90,7 @@ export const BarberDashboardPage = () => {
 	useEffect(() => {
 		if (barber?.id) {
 			const socket = connectSocket(barber.id)
-			socket.on("bookingCreated", (booking) => {
+			socket.on("bookingCreated", () => {
 				toast.success(
 					t("dashboard.bookings.new_booking_notification") || "New booking received!",
 					{
