@@ -2,6 +2,7 @@ import { Router } from "express"
 import { prisma } from "../db"
 import { authenticateToken, optionalAuth, AuthRequest } from "../middleware/auth"
 import { createBookingLimiter } from "../middleware/rateLimit"
+import { getIO } from "../socket"
 import { Prisma } from "@prisma/client"
 
 const router = Router()
@@ -220,6 +221,13 @@ router.post("/", createBookingLimiter, optionalAuth, async (req: AuthRequest, re
 					service: true
 				}
 			})
+
+			try {
+				getIO().to(`barber_${barberId}`).emit("bookingCreated", booking)
+			} catch (e) {
+				// Socket io might not be initialized (e.g. in Vercel serverless functions)
+				console.warn("Socket.io emit failed")
+			}
 		} catch (error) {
 			// Race-safe: DB unique index rejects duplicate active slots
 			if (

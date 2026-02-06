@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { differenceInDays } from "date-fns"
 import { QRCodeCanvas } from "qrcode.react"
+import { toast } from "react-hot-toast"
 import { useAuthStore } from "@/store/authStore"
 import { Barber, Service } from "@/types"
 import { api } from "@/services/api"
+import { connectSocket } from "@/services/socket"
 import {
 	User,
 	Users,
@@ -83,6 +85,39 @@ export const BarberDashboardPage = () => {
 	const [formData, setFormData] = useState<Partial<Barber>>({})
 	const [previewAddress, setPreviewAddress] = useState<string>("")
 	const [checkingMap, setCheckingMap] = useState(false)
+	const [refreshTrigger, setRefreshTrigger] = useState(0)
+
+	useEffect(() => {
+		if (barber?.id) {
+			const socket = connectSocket(barber.id)
+			socket.on("bookingCreated", (booking) => {
+				toast.success(
+					t("dashboard.bookings.new_booking_notification") || "New booking received!",
+					{
+						duration: 5000,
+						icon: "📅"
+					}
+				)
+				setRefreshTrigger((prev) => prev + 1)
+			})
+
+			return () => {
+				socket.off("bookingCreated")
+				// disconnectSocket() // Optional: keep connection alive if navigating between pages
+			}
+		}
+	}, [barber?.id, t])
+
+	// Polling fallback for production (e.g. Vercel) where sockets might not remain connected
+	useEffect(() => {
+		if (barber?.id && import.meta.env.PROD) {
+			const interval = setInterval(() => {
+				setRefreshTrigger((prev) => prev + 1)
+			}, 5000) // Poll every 5 seconds
+
+			return () => clearInterval(interval)
+		}
+	}, [barber?.id])
 
 	// Calculate bookings usage for Basic plan
 	const bookingsUsed = barber?.bookingsUsed || 0
@@ -490,7 +525,7 @@ export const BarberDashboardPage = () => {
 
 						{/* Bookings Tab */}
 						{activeTab === "bookings" && barber && (
-							<BarberBookingsList barberId={barber.id} />
+							<BarberBookingsList barberId={barber.id} refreshTrigger={refreshTrigger} />
 						)}
 
 						{/* Clients Tab */}

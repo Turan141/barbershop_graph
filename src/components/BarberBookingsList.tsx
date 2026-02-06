@@ -16,9 +16,13 @@ import toast from "react-hot-toast"
 
 interface BarberBookingsListProps {
 	barberId: string
+	refreshTrigger?: number
 }
 
-export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId }) => {
+export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
+	barberId,
+	refreshTrigger = 0
+}) => {
 	const { t } = useTranslation()
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const [loading, setLoading] = useState(true)
@@ -28,8 +32,8 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 	const [statusFilter, setStatusFilter] = useState<string>("all")
 	const ITEMS_PER_PAGE = 20
 
-	const fetchBookings = async () => {
-		setLoading(true)
+	const fetchBookings = async (showLoading = true) => {
+		if (showLoading) setLoading(true)
 		try {
 			const response = await api.bookings.listForBarber(barberId, {
 				page,
@@ -48,13 +52,19 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({ barberId
 			console.error("Failed to fetch bookings", error)
 			toast.error(t("dashboard.bookings.load_error") || "Failed to load bookings")
 		} finally {
-			setLoading(false)
+			if (showLoading) setLoading(false)
 		}
 	}
 
 	useEffect(() => {
-		fetchBookings()
+		fetchBookings(true)
 	}, [barberId, page, statusFilter])
+
+	useEffect(() => {
+		if (refreshTrigger > 0) {
+			fetchBookings(false)
+		}
+	}, [refreshTrigger])
 
 	const handleStatusUpdate = async (
 		bookingId: string,
