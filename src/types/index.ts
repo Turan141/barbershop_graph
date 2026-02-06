@@ -5,6 +5,8 @@ export interface User {
 	role: "client" | "barber"
 	avatarUrl?: string
 	phone?: string
+	rating?: number
+	reviewCount?: number
 }
 
 export interface PaginatedResponse<T> {

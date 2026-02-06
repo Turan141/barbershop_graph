@@ -9,7 +9,8 @@ import {
 	Calendar,
 	MessageCircle,
 	ChevronLeft,
-	ChevronRight
+	ChevronRight,
+	Star
 } from "lucide-react"
 import clsx from "clsx"
 import toast from "react-hot-toast"
@@ -235,6 +236,17 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 																{booking.guestPhone}
 															</div>
 														)}
+														{booking.client?.rating && (
+															<div className='flex items-center gap-1 text-xs text-yellow-600 mt-0.5'>
+																<Star className='w-3 h-3 fill-current' />
+																<span className='font-medium'>
+																	{booking.client.rating.toFixed(1)}
+																</span>
+																<span className='text-slate-400'>
+																	({booking.client.reviewCount || 0})
+																</span>
+															</div>
+														)}
 													</div>
 												</div>
 											</td>
@@ -364,6 +376,17 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 													</a>
 												)}
 											</div>
+											{booking.client?.rating && (
+												<div className='flex items-center gap-1 text-xs text-yellow-600 mb-1'>
+													<Star className='w-3 h-3 fill-current' />
+													<span className='font-medium'>
+														{booking.client.rating.toFixed(1)}
+													</span>
+													<span className='text-slate-400'>
+														({booking.client.reviewCount || 0})
+													</span>
+												</div>
+											)}
 											<div className='text-xs text-slate-500'>
 												{booking.date} • {booking.time}
 											</div>
