@@ -59,6 +59,25 @@
 		height: 8px;
 	}
 
+	@keyframes brand-float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-2px);
+		}
+	}
+
+	@keyframes brand-spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
 	::-webkit-scrollbar-track {
 		@apply bg-transparent;
 	}

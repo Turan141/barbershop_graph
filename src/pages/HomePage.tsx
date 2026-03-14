@@ -238,7 +238,7 @@ export const HomePage = () => {
 			<div className='relative z-10 pt-6 pb-6 px-4 sm:px-6 lg:px-8'>
 				<div className='max-w-7xl mx-auto pl-0 md:pl-8'>
 					{/* Mobile Branding */}
-					{/* <div className='sm:hidden mb-6 flex items-center justify-between'>
+					<div className='sm:hidden mb-6 flex items-center justify-between'>
 						<div>
 							<div className='flex items-center gap-3'>
 								<BrandLogo size='sm' />
@@ -247,7 +247,7 @@ export const HomePage = () => {
 								{t("home.hero_desc").split(".")[0]}.
 							</p>
 						</div>
-					</div> */}
+					</div>
 
 					<div className='hidden sm:flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8'>
 						<div className='max-w-2xl'>
