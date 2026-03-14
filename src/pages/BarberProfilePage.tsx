@@ -26,7 +26,7 @@ import clsx from "clsx"
 const REVIEWS_PER_PAGE = 5
 
 export const BarberProfilePage = () => {
-	const { t } = useTranslation()
+	const { t, i18n } = useTranslation()
 	const { id } = useParams<{ id: string }>()
 	const navigate = useNavigate()
 	const { user } = useAuthStore()
@@ -430,7 +430,9 @@ export const BarberProfilePage = () => {
 															{review.user?.name || "User"}
 														</div>
 														<div className='text-xs text-slate-500'>
-															{new Date(review.createdAt).toLocaleDateString()}
+															{new Date(review.createdAt).toLocaleDateString(
+																i18n.language
+															)}
 														</div>
 													</div>
 												</div>

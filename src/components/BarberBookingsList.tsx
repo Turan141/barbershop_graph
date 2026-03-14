@@ -18,6 +18,13 @@ import {
 import clsx from "clsx"
 import toast from "react-hot-toast"
 import { format, isToday, isTomorrow, isYesterday } from "date-fns"
+import { enUS, ru, az } from "date-fns/locale"
+
+const locales: Record<string, any> = {
+	en: enUS,
+	ru: ru,
+	az: az
+}
 
 interface BarberBookingsListProps {
 	barberId: string
@@ -28,13 +35,15 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 	barberId,
 	refreshTrigger = 0
 }) => {
-	const { t } = useTranslation()
+	const { t, i18n } = useTranslation()
+	const currentLocale = locales[i18n.language] || enUS
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const [loading, setLoading] = useState(true)
 	const [processingId, setProcessingId] = useState<string | null>(null)
 	const [page, setPage] = useState(1)
 	const [totalPages, setTotalPages] = useState(1)
 	const [statusFilter, setStatusFilter] = useState<string>("all")
+	const [showPastBookings, setShowPastBookings] = useState(false)
 	const ITEMS_PER_PAGE = 20
 
 	const fetchBookings = async (showLoading = true) => {
@@ -109,10 +118,22 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 		try {
 			const date = new Date(dateStr)
 			if (isNaN(date.getTime())) return dateStr
-			if (isToday(date)) return (t("common.today") || "Today") + `, ${format(date, "MMM d")}`
-			if (isTomorrow(date)) return (t("common.tomorrow") || "Tomorrow") + `, ${format(date, "MMM d")}`
-			if (isYesterday(date)) return (t("common.yesterday") || "Yesterday") + `, ${format(date, "MMM d")}`
-			return format(date, "EEEE, MMMM d")
+			if (isToday(date))
+				return (
+					(t("common.today") || "Today") +
+					`, ${format(date, "MMM d", { locale: currentLocale })}`
+				)
+			if (isTomorrow(date))
+				return (
+					(t("common.tomorrow") || "Tomorrow") +
+					`, ${format(date, "MMM d", { locale: currentLocale })}`
+				)
+			if (isYesterday(date))
+				return (
+					(t("common.yesterday") || "Yesterday") +
+					`, ${format(date, "MMM d", { locale: currentLocale })}`
+				)
+			return format(date, "EEEE, MMMM d", { locale: currentLocale })
 		} catch {
 			return dateStr
 		}
@@ -129,14 +150,23 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 		)
 	}
 
-	const groupedBookings = bookings.reduce((acc, booking) => {
-		const key = booking.date
-		if (!acc[key]) acc[key] = []
-		acc[key].push(booking)
-		return acc
-	}, {} as Record<string, Booking[]>)
+	const groupedBookings = bookings.reduce(
+		(acc, booking) => {
+			const key = booking.date
+			if (!acc[key]) acc[key] = []
+			acc[key].push(booking)
+			return acc
+		},
+		{} as Record<string, Booking[]>
+	)
 
-	const sortedDates = Object.keys(groupedBookings).sort()
+	const todayStr = format(new Date(), "yyyy-MM-dd")
+	const allDates = Object.keys(groupedBookings)
+	const upcomingDates = allDates.filter((d) => d >= todayStr).sort()
+	const pastDates = allDates
+		.filter((d) => d < todayStr)
+		.sort()
+		.reverse()
 
 	const filterTabs = [
 		{ id: "all", label: t("common.all") || "All" },
@@ -205,19 +235,19 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 						{statusFilter === "all"
 							? t("dashboard.bookings.no_bookings") || "Your schedule is clear"
 							: t("dashboard.bookings.no_filtered_bookings") ||
-							  "No bookings found with this status"}
+								"No bookings found with this status"}
 					</h3>
 					<p className='text-slate-500 max-w-sm'>
 						{statusFilter === "all"
 							? t("dashboard.bookings.share_link") ||
-							  "Share your profile link to your clients to start seeing appointments here."
+								"Share your profile link to your clients to start seeing appointments here."
 							: t("dashboard.bookings.try_different_filter") ||
-							  "Try changing the filter tabs above to find what you are looking for."}
+								"Try changing the filter tabs above to find what you are looking for."}
 					</p>
 				</div>
 			) : (
 				<div className='space-y-10'>
-					{sortedDates.map((date) => (
+					{upcomingDates.map((date) => (
 						<div key={date} className='relative'>
 							{/* Date Header */}
 							<div className='sticky top-0 z-10 bg-slate-50/90 backdrop-blur-md py-3 mb-4 border-y border-slate-200/50 -mx-4 px-4 sm:mx-0 sm:px-0 sm:bg-transparent sm:backdrop-blur-none sm:border-none sm:py-0'>
@@ -249,7 +279,8 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 													getStatusColor(booking.status)
 												)}
 											>
-												{t(`dashboard.bookings.status.${booking.status}`) || booking.status}
+												{t(`dashboard.bookings.status.${booking.status}`) ||
+													booking.status}
 											</span>
 										</div>
 
@@ -296,7 +327,9 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 											{booking.client?.rating && (
 												<div className='flex items-center gap-1 text-xs text-yellow-600 mt-2 ml-16'>
 													<Star className='w-3.5 h-3.5 fill-current' />
-													<span className='font-bold'>{booking.client.rating.toFixed(1)}</span>
+													<span className='font-bold'>
+														{booking.client.rating.toFixed(1)}
+													</span>
 													<span className='text-slate-400 font-medium'>
 														({booking.client.reviewCount || 0} reviews)
 													</span>
@@ -340,7 +373,9 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 															onClick={() => handleStatusUpdate(booking.id, "completed")}
 															disabled={processingId === booking.id}
 															className='p-2.5 text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/20 active:scale-95 rounded-xl transition-all'
-															title={t("dashboard.bookings.actions.complete") || "Complete"}
+															title={
+																t("dashboard.bookings.actions.complete") || "Complete"
+															}
 														>
 															<Check className='w-5 h-5' />
 														</button>
@@ -361,6 +396,95 @@ export const BarberBookingsList: React.FC<BarberBookingsListProps> = ({
 							</div>
 						</div>
 					))}
+				</div>
+			)}
+
+			{pastDates.length > 0 && (
+				<div className='pt-8 mt-12 border-t border-slate-200'>
+					<button
+						onClick={() => setShowPastBookings(!showPastBookings)}
+						className='w-full flex items-center justify-center gap-2 py-4 bg-slate-50 text-slate-600 rounded-xl hover:bg-slate-100 transition-colors font-medium border border-slate-200'
+					>
+						<Calendar className='w-5 h-5' />
+						{showPastBookings
+							? t("dashboard.hide_past", "Hide Past Appointments")
+							: t("dashboard.show_past", "Show Past Appointments")}
+					</button>
+
+					{showPastBookings && (
+						<div className='mt-8 space-y-10'>
+							{pastDates.map((date) => (
+								<div key={"past-" + date} className='relative opacity-75 grayscale-[0.3]'>
+									<div className='sticky top-0 z-10 bg-slate-50/90 backdrop-blur-md py-3 mb-4 border-y border-slate-200/50 -mx-4 px-4 sm:mx-0 sm:px-0 sm:bg-transparent sm:backdrop-blur-none sm:border-none sm:py-0'>
+										<h3 className='text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2'>
+											<div className='w-1.5 h-1.5 rounded-full bg-slate-400'></div>
+											{formatGroupDate(date)}
+										</h3>
+									</div>
+									<div className='space-y-3 relative'>
+										<div className='absolute left-[60px] sm:left-[80px] top-4 bottom-4 w-px bg-slate-200 hidden sm:block'></div>
+										{groupedBookings[date].map((booking) => (
+											<div
+												key={booking.id}
+												className='group relative bg-white sm:bg-transparent sm:hover:bg-white rounded-2xl sm:p-2 border border-slate-200 sm:border-transparent sm:hover:border-slate-200 sm:shadow-none shadow-sm sm:hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row gap-4 sm:items-center'
+											>
+												<div className='flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center sm:w-[140px] sm:pr-6 shrink-0 bg-slate-50 sm:bg-transparent p-4 sm:p-0 rounded-t-2xl sm:rounded-none border-b sm:border-b-0 border-slate-100'>
+													<span className='text-2xl sm:text-lg font-black text-slate-900 tracking-tight flex items-center gap-2'>
+														<Clock className='w-5 h-5 sm:hidden text-slate-400' />
+														{booking.time}
+													</span>
+													<span
+														className={clsx(
+															"px-3 py-1 sm:px-2 sm:py-0.5 rounded-full text-xs font-bold sm:mt-1 border border-transparent sm:border-current cursor-default transition-transform",
+															getStatusColor(booking.status)
+														)}
+													>
+														{t(`dashboard.bookings.status.${booking.status}`) ||
+															booking.status}
+													</span>
+												</div>
+												<div className='flex-1 p-4 pt-1 sm:p-0'>
+													<div className='flex items-start justify-between gap-4'>
+														<div className='flex items-center gap-3'>
+															<div className='w-10 h-10 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0'>
+																{booking.client?.avatarUrl ? (
+																	<img
+																		src={booking.client?.avatarUrl}
+																		alt={
+																			booking.client?.name || booking.guestName || "Guest"
+																		}
+																		className='w-full h-full object-cover'
+																	/>
+																) : (
+																	<div className='w-full h-full flex items-center justify-center text-slate-400 font-bold'>
+																		{(
+																			booking.client?.name ||
+																			booking.guestName ||
+																			"Guest"
+																		).charAt(0)}
+																	</div>
+																)}
+															</div>
+															<div>
+																<div className='font-bold text-slate-900 text-base flex items-center gap-2'>
+																	{booking.client?.name || booking.guestName || "Guest"}
+																</div>
+																<div className='text-sm text-slate-500'>
+																	{booking.service?.name || "Service"} •{" "}
+																	{booking.service?.duration || 0}{" "}
+																	{t("common.min") || "min"}
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										))}
+									</div>
+								</div>
+							))}
+						</div>
+					)}
 				</div>
 			)}
 

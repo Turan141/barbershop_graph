@@ -32,7 +32,7 @@ import {
 	QrCode,
 	Bell,
 	MessageCircle
-} from "lucide-react"
+, BellRing, ChevronRight} from "lucide-react"
 import clsx from "clsx"
 import { DashboardStats } from "@/components/DashboardStats"
 import { ClientList } from "@/components/ClientList"
@@ -62,6 +62,33 @@ export const BarberDashboardPage = () => {
 
 	const [barber, setBarber] = useState<Barber | null>(null)
 	const [loading, setLoading] = useState(true)
+	const [showNotifModal, setShowNotifModal] = useState(false)
+
+	useEffect(() => {
+		const forever = localStorage.getItem("hideNotifModalForever")
+		const session = sessionStorage.getItem("hideNotifModalSession")
+		if (!forever && !session) {
+			const t = setTimeout(() => setShowNotifModal(true), 1200)
+			return () => clearTimeout(t)
+		}
+	}, [])
+
+	const handleSustainForNow = () => {
+		sessionStorage.setItem("hideNotifModalSession", "true")
+		setShowNotifModal(false)
+	}
+
+	const handleSustainForever = () => {
+		localStorage.setItem("hideNotifModalForever", "true")
+		setShowNotifModal(false)
+	}
+
+	const handleEnableNotifs = () => {
+		localStorage.setItem("hideNotifModalForever", "true")
+		setActiveTab("notifications")
+		setShowNotifModal(false)
+	}
+
 	const [activeTab, setActiveTab] = useState<
 		| "overview"
 		| "bookings"
@@ -396,7 +423,13 @@ export const BarberDashboardPage = () => {
 			<div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
 				{/* Sidebar Navigation */}
 				<div className='lg:col-span-3'>
-					<nav className='flex space-x-2 overflow-x-auto lg:flex-col lg:space-y-1 lg:space-x-0 pb-4 lg:pb-0 hide-scrollbar scroll-smooth snap-x'>
+					
+					<div className="relative group/nav">
+						<div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-slate-50 to-transparent lg:hidden pointer-events-none z-10 flex justify-end items-center pr-1 opacity-70">
+							<ChevronRight className='w-5 h-5 text-slate-400 animate-pulse' />
+						</div>
+						<nav className='flex space-x-2 overflow-x-auto lg:flex-col lg:space-y-1 lg:space-x-0 pb-4 lg:pb-0 hide-scrollbar scroll-smooth'>
+
 						{tabs.map((tab) => (
 							<button
 								key={tab.id}
@@ -418,128 +451,8 @@ export const BarberDashboardPage = () => {
 							</button>
 						))}
 					</nav>
+					</div>
 
-					{barber && (
-						<div className='mt-6 bg-slate-50 rounded-xl p-4 border border-slate-200'>
-							<div className='flex items-center justify-between mb-3'>
-								<h3 className='text-sm font-semibold text-slate-900'>
-									{t("dashboard.subscription.title") || "Subscription"}
-								</h3>
-								<div className='inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400 text-slate-900 text-[10px] font-bold uppercase tracking-wider border border-yellow-300 shadow-sm animate-pulse'>
-									<Star className='w-3 h-3 fill-slate-900' />
-									{t("home.banner_badge") || "1 Month Free"}
-								</div>
-							</div>
-							<div className='space-y-3'>
-								<div className='flex justify-between items-center text-sm'>
-									<span className='text-slate-500'>
-										{t("dashboard.subscription.plan") || "Plan"}
-									</span>
-									<span className='font-medium capitalize px-2 py-0.5 bg-white rounded border border-slate-200 text-slate-700'>
-										{barber.subscriptionPlan || "Demo"}
-									</span>
-								</div>
-								<div className='flex justify-between items-center text-sm'>
-									<span className='text-slate-500'>
-										{t("dashboard.subscription.status") || "Status"}
-									</span>
-									<span
-										className={clsx(
-											"font-medium capitalize",
-											barber.subscriptionStatus === "active"
-												? "text-green-600"
-												: barber.subscriptionStatus === "trial"
-													? "text-indigo-600"
-													: "text-red-600"
-										)}
-									>
-										{barber.subscriptionStatus || "Trial"}
-									</span>
-								</div>
-								{barber.subscriptionEndDate && (
-									<div className='pt-3 border-t border-slate-200'>
-										<div className='flex justify-between items-baseline'>
-											<span className='text-xs text-slate-500'>
-												{t("dashboard.subscription.expires") || "Expires in"}
-											</span>
-											<span className='font-medium text-slate-900'>
-												{Math.max(
-													0,
-													differenceInDays(
-														new Date(barber.subscriptionEndDate),
-														new Date()
-													)
-												)}{" "}
-												{t("common.days") || "days"}
-											</span>
-										</div>
-										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
-											<div
-												className={clsx(
-													"h-1.5 rounded-full transition-all duration-500",
-													barber.subscriptionStatus === "active"
-														? "bg-green-500"
-														: barber.subscriptionStatus === "trial"
-															? "bg-indigo-500"
-															: "bg-red-500"
-												)}
-												style={{
-													width: `${Math.min(
-														100,
-														Math.max(
-															0,
-															(differenceInDays(
-																new Date(barber.subscriptionEndDate),
-																new Date()
-															) /
-																30) *
-																100
-														)
-													)}%`
-												}}
-											/>
-										</div>
-									</div>
-								)}
-
-								{/* Booking Limit for Basic Plan */}
-								{barber.subscriptionPlan === "basic" && (
-									<div className='pt-3 border-t border-slate-200'>
-										<div className='flex justify-between items-baseline'>
-											<span className='text-xs text-slate-500'>
-												{t("dashboard.subscription.bookings_used") || "Bookings used"}
-											</span>
-											<span
-												className={clsx(
-													"font-medium",
-													bookingsUsed >= bookingsLimit
-														? "text-red-600"
-														: "text-slate-900"
-												)}
-											>
-												{bookingsUsed} / {bookingsLimit}
-											</span>
-										</div>
-										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
-											<div
-												className={clsx(
-													"h-1.5 rounded-full transition-all duration-500",
-													bookingsUsed >= bookingsLimit
-														? "bg-red-500"
-														: bookingsUsed >= bookingsLimit * 0.8
-															? "bg-yellow-500"
-															: "bg-blue-500"
-												)}
-												style={{
-													width: `${Math.min(100, (bookingsUsed / bookingsLimit) * 100)}%`
-												}}
-											/>
-										</div>
-									</div>
-								)}
-							</div>
-						</div>
-					)}
 				</div>
 
 				{/* Main Content */}
@@ -1709,6 +1622,176 @@ export const BarberDashboardPage = () => {
 					</div>
 				</div>
 			</Modal>
+				{/* Secondary Profile Info / Subscription */}
+				<div className='mt-8 pt-8 border-t border-slate-200 lg:col-span-12'>
+										{barber && (
+						<div className='mt-6 bg-slate-50 rounded-xl p-4 border border-slate-200'>
+							<div className='flex items-center justify-between mb-3'>
+								<h3 className='text-sm font-semibold text-slate-900'>
+									{t("dashboard.subscription.title") || "Subscription"}
+								</h3>
+								<div className='inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400 text-slate-900 text-[10px] font-bold uppercase tracking-wider border border-yellow-300 shadow-sm animate-pulse'>
+									<Star className='w-3 h-3 fill-slate-900' />
+									{t("home.banner_badge") || "1 Month Free"}
+								</div>
+							</div>
+							<div className='space-y-3'>
+								<div className='flex justify-between items-center text-sm'>
+									<span className='text-slate-500'>
+										{t("dashboard.subscription.plan") || "Plan"}
+									</span>
+									<span className='font-medium capitalize px-2 py-0.5 bg-white rounded border border-slate-200 text-slate-700'>
+										{barber.subscriptionPlan || "Demo"}
+									</span>
+								</div>
+								<div className='flex justify-between items-center text-sm'>
+									<span className='text-slate-500'>
+										{t("dashboard.subscription.status") || "Status"}
+									</span>
+									<span
+										className={clsx(
+											"font-medium capitalize",
+											barber.subscriptionStatus === "active"
+												? "text-green-600"
+												: barber.subscriptionStatus === "trial"
+													? "text-indigo-600"
+													: "text-red-600"
+										)}
+									>
+										{barber.subscriptionStatus || "Trial"}
+									</span>
+								</div>
+								{barber.subscriptionEndDate && (
+									<div className='pt-3 border-t border-slate-200'>
+										<div className='flex justify-between items-baseline'>
+											<span className='text-xs text-slate-500'>
+												{t("dashboard.subscription.expires") || "Expires in"}
+											</span>
+											<span className='font-medium text-slate-900'>
+												{Math.max(
+													0,
+													differenceInDays(
+														new Date(barber.subscriptionEndDate),
+														new Date()
+													)
+												)}{" "}
+												{t("common.days") || "days"}
+											</span>
+										</div>
+										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
+											<div
+												className={clsx(
+													"h-1.5 rounded-full transition-all duration-500",
+													barber.subscriptionStatus === "active"
+														? "bg-green-500"
+														: barber.subscriptionStatus === "trial"
+															? "bg-indigo-500"
+															: "bg-red-500"
+												)}
+												style={{
+													width: `${Math.min(
+														100,
+														Math.max(
+															0,
+															(differenceInDays(
+																new Date(barber.subscriptionEndDate),
+																new Date()
+															) /
+																30) *
+																100
+														)
+													)}%`
+												}}
+											/>
+										</div>
+									</div>
+								)}
+
+								{/* Booking Limit for Basic Plan */}
+								{barber.subscriptionPlan === "basic" && (
+									<div className='pt-3 border-t border-slate-200'>
+										<div className='flex justify-between items-baseline'>
+											<span className='text-xs text-slate-500'>
+												{t("dashboard.subscription.bookings_used") || "Bookings used"}
+											</span>
+											<span
+												className={clsx(
+													"font-medium",
+													bookingsUsed >= bookingsLimit
+														? "text-red-600"
+														: "text-slate-900"
+												)}
+											>
+												{bookingsUsed} / {bookingsLimit}
+											</span>
+										</div>
+										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
+											<div
+												className={clsx(
+													"h-1.5 rounded-full transition-all duration-500",
+													bookingsUsed >= bookingsLimit
+														? "bg-red-500"
+														: bookingsUsed >= bookingsLimit * 0.8
+															? "bg-yellow-500"
+															: "bg-blue-500"
+												)}
+												style={{
+													width: `${Math.min(100, (bookingsUsed / bookingsLimit) * 100)}%`
+												}}
+											/>
+										</div>
+									</div>
+								)}
+							</div>
+						</div>
+					)}
+				</div>
+
+			{/* Notifications Modal */}
+			<Modal
+				isOpen={showNotifModal}
+				onClose={handleSustainForNow}
+				title={t("dashboard.notifications.enable_title") || "Enable Notifications"}
+			>
+				<div className='p-6 text-center space-y-6'>
+					<div className='mx-auto w-16 h-16 bg-primary-50 text-primary-600 flex justify-center items-center rounded-full'>
+						<BellRing className='w-8 h-8 animate-bounce' />
+					</div>
+					<div>
+						<h4 className='text-lg font-bold text-slate-900 mb-2'>
+							{t("dashboard.notifications.modal_heading") || "Don't miss a beat!"}
+						</h4>
+						<p className='text-slate-500 text-sm'>
+							{t("dashboard.notifications.modal_desc") || "Get instant updates about new rendezvous, client messages, and more. Enable notifications now so you're always in the loop."}
+						</p>
+					</div>
+					
+					<div className='flex flex-col gap-3 mt-4'>
+						<button
+							onClick={handleEnableNotifs}
+							className='w-full py-3 px-4 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors shadow-sm'
+						>
+							{t("dashboard.notifications.enable_btn") || "Enable Notifications"}
+						</button>
+						<div className='flex gap-3'>
+							<button
+								onClick={handleSustainForNow}
+								className='flex-1 py-2.5 px-4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-colors'
+							>
+								{t("dashboard.notifications.sustain_now") || "Maybe Later"}
+							</button>
+							<button
+								onClick={handleSustainForever}
+								className='flex-1 py-2.5 px-4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-colors'
+							>
+								{t("dashboard.notifications.sustain_forever") || "Never"}
+							</button>
+						</div>
+					</div>
+				</div>
+			</Modal>
+
+
 		</div>
 	)
 }
