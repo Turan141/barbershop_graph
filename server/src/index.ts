@@ -56,10 +56,12 @@ app.get("/api/ping", (req, res) => {
 })
 
 // Global error handler to ensure JSON responses on errors (preserves CORS)
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-	console.error("Unhandled Error:", err)
-	res.status(500).json({ error: "Internal Server Error", details: err.message })
-})
+app.use(
+	(err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+		console.error("Unhandled Error:", err)
+		res.status(500).json({ error: "Internal Server Error", details: err.message })
+	}
+)
 
 if (require.main === module) {
 	httpServer.listen(Number(PORT), "0.0.0.0", () => {

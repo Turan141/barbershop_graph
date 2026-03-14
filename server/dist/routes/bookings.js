@@ -13,6 +13,8 @@ const express_1 = require("express");
 const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
 const rateLimit_1 = require("../middleware/rateLimit");
+const socket_1 = require("../socket");
+const push_1 = require("../push");
 const client_1 = require("@prisma/client");
 const router = (0, express_1.Router)();
 // GET /api/bookings (User's bookings)
@@ -61,7 +63,7 @@ router.get("/", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0
 }));
 // POST /api/bookings
 router.post("/", rateLimit_1.createBookingLimiter, auth_1.optionalAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const { barberId, serviceId, date, time, guestName, guestPhone, asGuest } = req.body;
     let clientId;
     if (req.user && !asGuest) {
@@ -209,6 +211,29 @@ router.post("/", rateLimit_1.createBookingLimiter, auth_1.optionalAuth, (req, re
                     service: true
                 }
             });
+            try {
+                (0, socket_1.getIO)().to(`barber_${barberId}`).emit("bookingCreated", booking);
+            }
+            catch (e) {
+                // Socket io might not be initialized (e.g. in Vercel serverless functions)
+                console.warn("Socket.io emit failed");
+            }
+            // Send Web Push notification to the barber (works even when offline)
+            let clientName = guestName || "Someone";
+            if (clientId && !guestName) {
+                const clientUser = yield db_1.prisma.user.findUnique({
+                    where: { id: clientId },
+                    select: { name: true }
+                });
+                if (clientUser)
+                    clientName = clientUser.name;
+            }
+            const serviceName = ((_b = booking.service) === null || _b === void 0 ? void 0 : _b.name) || "appointment";
+            (0, push_1.sendPushToUser)(barberProfile.userId, {
+                title: "New Booking!",
+                body: `${clientName} booked ${serviceName} on ${date} at ${time}`,
+                url: "/dashboard"
+            }).catch((err) => console.warn("Push notification failed:", err));
         }
         catch (error) {
             // Race-safe: DB unique index rejects duplicate active slots

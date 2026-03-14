@@ -28,6 +28,7 @@ const db_1 = require("../db");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../config");
+const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 // POST /api/auth/login
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,7 +47,7 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         // Generate real JWT
         const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, (0, config_1.getJwtSecret)(), {
-            expiresIn: "24h"
+            expiresIn: "30d"
         });
         const _a = user, { password: _ } = _a, userWithoutPassword = __rest(_a, ["password"]);
         res.json({ user: userWithoutPassword, token });
@@ -110,7 +111,7 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
             }
         }
         const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, (0, config_1.getJwtSecret)(), {
-            expiresIn: "24h"
+            expiresIn: "30d"
         });
         const _a = user, { password: _ } = _a, userWithoutPassword = __rest(_a, ["password"]);
         res.json({ user: userWithoutPassword, token });
@@ -118,6 +119,18 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
     catch (error) {
         console.error("Registration error:", error);
         res.status(500).json({ error: "Registration failed" });
+    }
+}));
+// POST /api/auth/refresh — issues a new 30-day token for any currently valid token
+router.post("/refresh", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const token = jsonwebtoken_1.default.sign({ id: req.user.id, role: req.user.role }, (0, config_1.getJwtSecret)(), {
+            expiresIn: "30d"
+        });
+        res.json({ token });
+    }
+    catch (error) {
+        res.status(500).json({ error: "Token refresh failed" });
     }
 }));
 exports.default = router;
