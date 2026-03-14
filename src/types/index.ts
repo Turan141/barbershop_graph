@@ -44,6 +44,8 @@ export interface Barber extends User {
 	longitude?: number
 	distance?: number
 	phone?: string
+	whatsappNumber?: string
+	telegramChatId?: string
 	services: Service[]
 	portfolio: string[]
 	previewImageUrl?: string

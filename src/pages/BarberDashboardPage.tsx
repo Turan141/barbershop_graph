@@ -30,7 +30,9 @@ import {
 	AlertCircle,
 	DollarSign,
 	Star,
-	QrCode
+	QrCode,
+	Bell,
+	MessageCircle
 } from "lucide-react"
 import clsx from "clsx"
 import { DashboardStats } from "@/components/DashboardStats"
@@ -71,6 +73,7 @@ export const BarberDashboardPage = () => {
 		| "portfolio"
 		| "expenses"
 		| "qrcode"
+		| "notifications"
 	>("bookings")
 	const [saving, setSaving] = useState(false)
 	const [message, setMessage] = useState<{
@@ -87,27 +90,57 @@ export const BarberDashboardPage = () => {
 	const [previewAddress, setPreviewAddress] = useState<string>("")
 	const [checkingMap, setCheckingMap] = useState(false)
 	const [refreshTrigger, setRefreshTrigger] = useState(0)
+	const [isConnectingTg, setIsConnectingTg] = useState(false)
 
 	useEffect(() => {
-		if (barber?.id) {
-			const socket = connectSocket(barber.id)
-			socket.on("bookingCreated", () => {
-				toast.success(
-					t("dashboard.bookings.new_booking_notification") || "New booking received!",
-					{
-						duration: 5000,
-						icon: "📅"
+		let interval: any
+		if (isConnectingTg && barber?.id) {
+			interval = setInterval(async () => {
+				try {
+					const res = await api.barbers.checkTelegram(barber.id)
+					if (res.connected && res.telegramChatId) {
+						setFormData((prev) => ({ ...prev, telegramChatId: res.telegramChatId }))
+						setIsConnectingTg(false)
+						toast.success(
+							t("dashboard.notifications.telegram_success") ||
+								"Telegram connected successfully!",
+							{ icon: "✅" }
+						)
+						// Also update local barber state so it doesn't revert easily
+						setBarber((prev) =>
+							prev ? { ...prev, telegramChatId: res.telegramChatId } : null
+						)
 					}
-				)
-				setRefreshTrigger((prev) => prev + 1)
-			})
-
-			return () => {
-				socket.off("bookingCreated")
-				// disconnectSocket() // Optional: keep connection alive if navigating between pages
-			}
+				} catch (e) {
+					console.error("Polling telegram check failed", e)
+				}
+			}, 3000)
 		}
-	}, [barber?.id, t])
+		return () => {
+			if (interval) clearInterval(interval)
+		}
+	}, [isConnectingTg, barber?.id, t])
+
+	// useEffect(() => {
+	// 	if (barber?.id) {
+	// 		const socket = connectSocket(barber.id)
+	// 		socket.on("bookingCreated", () => {
+	// 			toast.success(
+	// 				t("dashboard.bookings.new_booking_notification") || "New booking received!",
+	// 				{
+	// 					duration: 5000,
+	// 					icon: "📅"
+	// 				}
+	// 			)
+	// 			setRefreshTrigger((prev) => prev + 1)
+	// 		})
+
+	// 		return () => {
+	// 			socket.off("bookingCreated")
+	// 			// disconnectSocket() // Optional: keep connection alive if navigating between pages
+	// 		}
+	// 	}
+	// }, [barber?.id, t])
 
 	// Polling fallback for production (e.g. Vercel) where sockets might not remain connected
 	useEffect(() => {
@@ -343,6 +376,11 @@ export const BarberDashboardPage = () => {
 			icon: DollarSign
 		},
 		{ id: "profile", label: t("dashboard.tabs.profile"), icon: User },
+		{
+			id: "notifications",
+			label: t("dashboard.tabs.notifications") || "Notifications",
+			icon: Bell
+		},
 		{ id: "schedule", label: t("dashboard.tabs.schedule"), icon: Clock },
 		{ id: "services", label: t("dashboard.tabs.services"), icon: Scissors },
 		{ id: "portfolio", label: t("dashboard.tabs.portfolio"), icon: ImageIcon },
@@ -1426,6 +1464,141 @@ export const BarberDashboardPage = () => {
 							</div>
 						)}
 
+						{/* Notifications Tab */}
+						{activeTab === "notifications" && (
+							<div className='space-y-6'>
+								<div className='mb-6'>
+									<h2 className='text-xl font-bold text-slate-900'>
+										{t("dashboard.notifications.title")}
+									</h2>
+									<p className='text-slate-500 mt-1 text-sm'>
+										{t("dashboard.notifications.subtitle")}
+									</p>
+								</div>
+
+								<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm'>
+									<div className='flex items-center justify-between mb-4'>
+										<div className='flex items-center gap-3'>
+											<div
+												className={clsx(
+													"p-2 rounded-full",
+													formData.telegramChatId
+														? "bg-blue-600 text-white"
+														: "bg-blue-100 text-blue-600"
+												)}
+											>
+												<Bell className='w-5 h-5' />
+											</div>
+											<h3 className='font-bold text-slate-900'>
+												{t("dashboard.notifications.telegram_title")}
+											</h3>
+										</div>
+										{formData.telegramChatId && (
+											<span className='px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full flex items-center gap-1'>
+												<Check className='w-3 h-3' />{" "}
+												{t("dashboard.notifications.telegram_connected")}
+											</span>
+										)}
+									</div>
+									<p className='text-sm text-slate-500 mb-6'>
+										{t("dashboard.notifications.telegram_desc")}
+									</p>
+									<div className='max-w-md'>
+										{formData.telegramChatId ? (
+											<div className='flex flex-col gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200'>
+												<div className='flex justify-between items-center'>
+													<div className='text-sm font-medium text-slate-700'>
+														{t("dashboard.notifications.telegram_chat_id")}:{" "}
+														{formData.telegramChatId}
+													</div>
+													<button
+														type='button'
+														onClick={() => {
+															setFormData({ ...formData, telegramChatId: "" })
+															saveBarberData({ ...formData, telegramChatId: "" })
+															setBarber((prev) => prev ? { ...prev, telegramChatId: "" } : null)
+														}}
+														className='text-sm text-red-600 hover:text-red-700 font-medium'
+													>
+														{t("dashboard.notifications.telegram_disconnect")}
+													</button>
+												</div>
+												<p className='text-xs text-slate-500'>
+													{t("dashboard.notifications.telegram_active_desc")}
+												</p>
+											</div>
+										) : (
+											<div className='flex flex-col gap-3'>
+												<button
+													type='button'
+													onClick={() => {
+														window.open(
+															`https://t.me/salonity_bot?start=${barber.id}`,
+															"_blank"
+														)
+														setIsConnectingTg(true)
+													}}
+													disabled={isConnectingTg}
+													className={clsx(
+														"px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors",
+														isConnectingTg
+															? "bg-slate-100 text-slate-500 cursor-not-allowed border border-slate-200"
+															: "bg-[#0088cc] hover:bg-[#0077b5] text-white shadow-sm"
+													)}
+												>
+													{isConnectingTg ? (
+														<>
+															<div className='w-5 h-5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin'></div>
+															{t("dashboard.notifications.telegram_waiting")}
+														</>
+													) : (
+														<>
+															<MessageCircle className='w-5 h-5' />
+															{t("dashboard.notifications.telegram_connect_btn")}
+														</>
+													)}
+												</button>
+												{isConnectingTg && (
+													<p className='text-xs text-center text-slate-500'>
+														{t("dashboard.notifications.telegram_instruction")}
+													</p>
+												)}
+											</div>
+										)}
+									</div>
+								</div>
+
+								<div className='bg-white p-6 rounded-2xl border border-slate-100 shadow-sm  opacity-50 cursor-not-allowed'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='bg-green-100 p-2 rounded-full text-green-600'>
+											<MessageCircle className='w-5 h-5' />
+										</div>
+										<h3 className='font-bold text-slate-900'>
+											{t("dashboard.notifications.whatsapp_title")}
+										</h3>
+									</div>
+									<p className='text-sm text-slate-500 mb-4'>
+										{t("dashboard.notifications.whatsapp_desc")}
+									</p>
+									<div className='max-w-md'>
+										<label className='block text-sm font-medium text-slate-700 mb-1'>
+											{t("dashboard.notifications.whatsapp_input_label")}
+										</label>
+										<input
+											disabled
+											type='text'
+											value={formData.whatsappNumber || ""}
+											onChange={(e) =>
+												setFormData({ ...formData, whatsappNumber: e.target.value })
+											}
+											placeholder='+994 50 000 00 00'
+											className='input-field'
+										/>
+									</div>
+								</div>
+							</div>
+						)}
+
 						{/* QR Code Tab */}
 						{activeTab === "qrcode" && (
 							<div className='space-y-6'>
@@ -1469,7 +1642,9 @@ export const BarberDashboardPage = () => {
 						)}
 
 						{/* Save Button */}
-						{["profile", "schedule", "services", "portfolio"].includes(activeTab) && (
+						{["profile", "schedule", "services", "portfolio", "notifications"].includes(
+							activeTab
+						) && (
 							<div className='mt-8 pt-6 border-t border-slate-100 flex justify-end'>
 								<button
 									onClick={handleSave}

@@ -615,6 +615,8 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 		if (data.verificationDocumentUrl)
 			updateData.verificationDocumentUrl = data.verificationDocumentUrl
 		if (data.verificationStatus === "pending") updateData.verificationStatus = "pending"
+		if (data.telegramChatId !== undefined) updateData.telegramChatId = data.telegramChatId === "" ? null : data.telegramChatId
+		if (data.whatsappNumber !== undefined) updateData.whatsappNumber = data.whatsappNumber === "" ? null : data.whatsappNumber
 
 		// Handle Services Update
 		if (data.services && Array.isArray(data.services)) {
@@ -818,5 +820,54 @@ router.post(
 		}
 	}
 )
+
+// GET /api/barbers/:id/check-telegram
+router.get("/:id/check-telegram", authenticateToken, async (req: AuthRequest, res) => {
+	try {
+		const botToken =
+			process.env.TELEGRAM_BOT_TOKEN || "8617020156:AAEXMgYF4r4JDi1vQQ18RZRXAOgJcBhZW9I"
+		const response = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates`)
+		const data = await response.json()
+		const startCommand = `/start ${req.params.id}`
+
+		let foundChatId = null
+		let updateIdToClear = null
+		if (data.ok && data.result) {
+			for (const update of data.result) {
+				if (update.message?.text === startCommand) {
+					foundChatId = update.message.chat.id.toString()
+					updateIdToClear = update.update_id
+					break
+				}
+			}
+		}
+
+		if (foundChatId) {
+			await prisma.barberProfile.update({
+				where: { id: req.params.id },
+				data: { telegramChatId: foundChatId }
+			})
+
+			await fetch(
+				`https://api.telegram.org/bot${botToken}/getUpdates?offset=${updateIdToClear + 1}`
+			)
+			await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					chat_id: foundChatId,
+					text: "🎉 Congratulations! Your barber account is successfully linked. You will now receive new booking notifications here!"
+				})
+			})
+
+			return res.json({ connected: true, telegramChatId: foundChatId })
+		}
+
+		res.json({ connected: false })
+	} catch (error) {
+		console.error("Telegram check error:", error)
+		res.status(500).json({ connected: false, error: "Failed to check telegram updates" })
+	}
+})
 
 export default router

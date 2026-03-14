@@ -289,7 +289,9 @@
 			"add_service": "Xidmət əlavə et",
 			"name": "Xidmət adı",
 			"duration": "Müddət (dəq)",
-			"price": "Qiymət"
+			"price": "Qiymət",
+			"no_services": "Heç bir xidmət əlavə edilməyib.",
+			"add_first": "İlk xidmətinizi əlavə edin"
 		},
 		"portfolio": {
 			"title": "Portfolio",
@@ -327,7 +329,8 @@
 			"schedule": "İş Saatları",
 			"services": "Xidmətlər",
 			"portfolio": "Portfolio",
-			"expenses": "Xərclər"
+			"expenses": "Xərclər",
+			"notifications": "Bildirişlər"
 		},
 		"expenses": {
 			"title": "Xərclər",
@@ -351,6 +354,24 @@
 				"marketing": "Marketinq",
 				"other": "Digər"
 			}
+		},
+		"notifications": {
+			"title": "Bildiriş Ayarları",
+			"subtitle": "Müştərilər randevu aldıqda dərhal xəbərdarlıqlar qəbul edin.",
+			"telegram_title": "Telegram Bildirişləri (Pulsuz)",
+			"telegram_connected": "Qoşulub",
+			"telegram_desc": "Müştəri randevu aldıqda anında mesajlar əldə edin. Telegram hesabınızı təhlükəsiz şəkildə bağlamaq üçün aşağıdakı düyməni sıxın.",
+			"telegram_chat_id": "Chat ID",
+			"telegram_disconnect": "Ayrıl (Bağlantını kəs)",
+			"telegram_active_desc": "Bildirişlər hazırda aktivdir və Telegramınıza göndərilir.",
+			"telegram_connect_btn": "Telegram Hesabını Bağla",
+			"telegram_waiting": "Telegram Gözlənilir...",
+			"telegram_instruction": "Yeni bir pəncərə (tab) açılacaq. Hesabınızı avtomatik bağlamaq üçün Telegram çatında 'Start' (Başla) düyməsini sıxın.",
+			"telegram_success": "Telegram uğurla bağlandı!",
+			"whatsapp_title": "WhatsApp Bildirişləri",
+			"whatsapp_desc": "Rəsmi WhatsApp inteqrasiyası hazırlayırıq.",
+			"whatsapp_warning": "Qeyd: Telegramdan fərqli olaraq, rəsmi WhatsApp Business API vasitəsilə avtomatlaşdırılmış mesajlaşma ödənişli xidmətdir (Meta vasitəsilə).",
+			"whatsapp_input_label": "WhatsApp Nömrəsi (Tezliklə)"
 		},
 		"stats": {
 			"today_revenue": "Bugünkü Gəlir",

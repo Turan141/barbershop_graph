@@ -177,6 +177,11 @@ export const api = {
 				handleResponse<{ success: boolean; message: string }>(res)
 			),
 
+		checkTelegram: (id: string) =>
+			fetchWithAuth(`${API_BASE}/barbers/${id}/check-telegram`, { method: "GET" }).then(
+				(res) => handleResponse<{ connected: boolean; telegramChatId?: string }>(res)
+			),
+
 		update: (id: string, data: Partial<Barber>) =>
 			fetchWithAuth(`${API_BASE}/barbers/${id}`, {
 				method: "PUT",

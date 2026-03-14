@@ -54,12 +54,14 @@ model BarberProfile {
   latitude    Float?
   longitude   Float?
   phone       String?
+  whatsappNumber String?
   bio         String
   schedule    String   // JSON string: { [key: string]: string[] }
   holidays    String?  // JSON string: string[]
   tier        String?  // "vip" | "standard"
   portfolio   String   // JSON string: string[]
   previewImageUrl String?
+  telegramChatId  String?
   
   // Subscription & Trial
   createdAt           DateTime @default(now())

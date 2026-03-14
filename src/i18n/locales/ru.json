@@ -290,7 +290,9 @@
 			"add_service": "Добавить услугу",
 			"name": "Название услуги",
 			"duration": "Длительность (мин)",
-			"price": "Цена"
+			"price": "Цена",
+			"no_services": "Услуги еще не добавлены.",
+			"add_first": "Добавьте вашу первую услугу"
 		},
 		"portfolio": {
 			"title": "Портфолио",
@@ -328,7 +330,8 @@
 			"schedule": "Рабочие часы",
 			"services": "Услуги",
 			"portfolio": "Портфолио",
-			"expenses": "Расходы"
+			"expenses": "Расходы",
+			"notifications": "Уведомления"
 		},
 		"expenses": {
 			"title": "Расходы",
@@ -352,6 +355,24 @@
 				"marketing": "Маркетинг",
 				"other": "Другое"
 			}
+		},
+		"notifications": {
+			"title": "Настройки Уведомлений",
+			"subtitle": "Получайте мгновенные уведомления, когда клиенты записываются к вам.",
+			"telegram_title": "Уведомления Telegram (Бесплатно)",
+			"telegram_connected": "Подключено",
+			"telegram_desc": "Получайте мгновенные сообщения о новых записях ваших клиентов. Нажмите на кнопку ниже, чтобы безопасно привязать свой аккаунт Telegram.",
+			"telegram_chat_id": "Chat ID",
+			"telegram_disconnect": "Отключить",
+			"telegram_active_desc": "Уведомления в Telegram в настоящее время активны.",
+			"telegram_connect_btn": "Подключить Аккаунт Telegram",
+			"telegram_waiting": "Ожидание Telegram...",
+			"telegram_instruction": "Откроется новая вкладка. Нажмите 'Start' в чате Telegram, чтобы автоматически связать ваш аккаунт.",
+			"telegram_success": "Telegram успешно подключен!",
+			"whatsapp_title": "Уведомления WhatsApp",
+			"whatsapp_desc": "Мы готовим официальную интеграцию с WhatsApp.",
+			"whatsapp_warning": "Примечание: В отличие от Telegram, автоматизированная рассылка сообщений через официальные API WhatsApp Business является платной услугой (от Meta).",
+			"whatsapp_input_label": "Номер WhatsApp (Скоро)"
 		},
 		"stats": {
 			"today_revenue": "Выручка за сегодня",

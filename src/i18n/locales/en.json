@@ -502,7 +502,9 @@
 			"add_service": "Add Service",
 			"name": "Service Name",
 			"duration": "Duration (min)",
-			"price": "Price"
+			"price": "Price",
+			"no_services": "No services added yet.",
+			"add_first": "Add your first service"
 		},
 		"portfolio": {
 			"title": "Portfolio",
@@ -540,7 +542,8 @@
 			"schedule": "Working Hours",
 			"services": "Services",
 			"portfolio": "Portfolio",
-			"expenses": "Expenses"
+			"expenses": "Expenses",
+			"notifications": "Notifications"
 		},
 		"expenses": {
 			"title": "Expenses",
@@ -564,6 +567,24 @@
 				"marketing": "Marketing",
 				"other": "Other"
 			}
+		},
+		"notifications": {
+			"title": "Notification Settings",
+			"subtitle": "Receive instant alerts when clients book appointments with you.",
+			"telegram_title": "Telegram Alerts (Free)",
+			"telegram_connected": "Connected",
+			"telegram_desc": "Get instant messages when a client books an appointment with you. Click the button below to instantly link your Telegram account securely.",
+			"telegram_chat_id": "Chat ID",
+			"telegram_disconnect": "Disconnect",
+			"telegram_active_desc": "Notifications are currently active and being sent to your Telegram.",
+			"telegram_connect_btn": "Connect Telegram Account",
+			"telegram_waiting": "Waiting for Telegram...",
+			"telegram_instruction": "A new tab will open. Press 'Start' in the Telegram chat to automatically link your account.",
+			"telegram_success": "Telegram connected successfully!",
+			"whatsapp_title": "WhatsApp Alerts",
+			"whatsapp_desc": "We are preparing an official WhatsApp integration.",
+			"whatsapp_warning": "Note: Unlike Telegram, automated messaging through official WhatsApp Business APIs is a paid service (via Meta).",
+			"whatsapp_input_label": "WhatsApp Number (Coming Soon)"
 		},
 		"stats": {
 			"today_revenue": "Today's Revenue",
