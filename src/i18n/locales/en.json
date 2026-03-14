@@ -458,7 +458,8 @@
       },
       "cancel_reason_prompt": "Reason for cancellation (optional):",
       "note": "Note",
-      "subtitle": "Manage your daily schedule"
+      "subtitle": "Manage your daily schedule",
+      "scan_to_book": "Scan to book"
     },
     "unknown_client": "Unknown Client",
     "profile": {
@@ -642,7 +643,15 @@
       "step2_title": "Never Miss a Booking",
       "step2_desc": "Don't let a client wait! Enable notifications (Web Push or Telegram) so you instantly know when someone books, cancels, or reschedules.",
       "step3_title": "The Magic QR Code",
-      "step3_desc": "Print your unique QR Code from the QR tab and stick it on your mirror! Clients can simply scan it while sitting in your chair to see your portfolio, leave a review, or book their next visit on the spot."
+      "step3_desc": "Print your unique QR Code from the QR tab and stick it on your mirror! Clients can simply scan it while sitting in your chair to see your portfolio, leave a review, or book their next visit on the spot.",
+      "dismiss": "Got it, hide this guide"
+    },
+    "qrcode": {
+      "download_sticker": "Download HD Sticker",
+      "print_instruction": "Downloads a high-quality PNG ready for printing",
+      "powered_by": "Powered By",
+      "title": "Digital Business Card",
+      "subtitle": "Download a beautifully designed QR code sticker to print and place at your station."
     }
   },
   "common": {

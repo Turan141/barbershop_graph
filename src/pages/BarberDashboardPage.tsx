@@ -233,22 +233,8 @@ export const BarberDashboardPage = () => {
 		}
 		ctx.fillText(displayName.toUpperCase(), canvas.width / 2, 240)
 
-		// "SCAN TO BOOK" minimalist badge
-		const badgeW = 460
-		const badgeH = 80
-		const badgeX = (canvas.width - badgeW) / 2
-		const badgeY = 360
-
-		ctx.fillStyle = "#ffffff"
-		ctx.beginPath()
-		ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 40)
-		ctx.fill()
-
-		ctx.strokeStyle = "#cbd5e1"
-		ctx.lineWidth = 2
-		ctx.stroke()
-
-		ctx.fillStyle = "#0f172a"
+		// "SCAN TO BOOK" text
+		ctx.fillStyle = "#64748b"
 		ctx.font = "700 32px system-ui, -apple-system, 'Inter', sans-serif"
 		// @ts-ignore
 		if (ctx.letterSpacing !== undefined) ctx.letterSpacing = "4px"
@@ -258,7 +244,8 @@ export const BarberDashboardPage = () => {
 			t("dashboard.bookings.scan_to_book") !== "dashboard.bookings.scan_to_book"
 				? t("dashboard.bookings.scan_to_book").toUpperCase()
 				: "SCAN TO BOOK"
-		ctx.fillText(theText, canvas.width / 2, badgeY + badgeH / 2 + 3)
+
+		ctx.fillText(theText, canvas.width / 2, 400)
 
 		// @ts-ignore
 		if (ctx.letterSpacing !== undefined) ctx.letterSpacing = "0px"
@@ -1633,33 +1620,33 @@ export const BarberDashboardPage = () => {
 								</div>
 							</div>
 						)}
-						﻿{/* QR Code Tab */}
+						{/* QR Code Tab */}
 						{activeTab === "qrcode" && (
 							<div className='max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500'>
 								<div className='text-center space-y-3 mb-8'>
 									<h2 className='text-3xl font-extrabold text-slate-900'>
-										Digital Business Card
+										{t("dashboard.qrcode.title") || "Digital Business Card"}
 									</h2>
 									<p className='text-lg text-slate-500 max-w-md mx-auto'>
-										Download a beautifully designed QR code sticker to print and place at
-										your station.
+										{t("dashboard.qrcode.subtitle") ||
+											"Download a beautifully designed QR code sticker to print and place at your station."}
 									</p>
 								</div>
 
 								<div className='relative group'>
-									<div className='absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200'></div>
-									<div className='bg-white rounded-[2rem] p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col items-center ring-1 ring-slate-900/5'>
+									<div className='absolute rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200'></div>
+									<div className='bg-white rounded-[2rem] p-8 sm:p-12 relative overflow-hidden flex flex-col items-center ring-1 ring-slate-900/5'>
 										<div className='flex flex-col items-center gap-8 relative z-10 w-full max-w-sm'>
 											<div className='text-center space-y-2 w-full'>
 												<h3 className='text-3xl font-black text-slate-900 truncate'>
 													{barber.name}
 												</h3>
 												<p className='text-sm font-bold text-slate-400 uppercase tracking-[0.2em]'>
-													Scan to book
+													{t("dashboard.bookings.scan_to_book") || "Scan to book"}{" "}
 												</p>
 											</div>
 
-											<div className='bg-white p-5 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 transition-transform duration-300 hover:scale-105'>
+											<div className='bg-white p-5 rounded-[2rem] transition-transform duration-300 hover:scale-105'>
 												<QRCodeCanvas
 													id='barber-qr-code'
 													value={
@@ -1675,7 +1662,8 @@ export const BarberDashboardPage = () => {
 
 											<div className='text-center space-y-1 mt-4'>
 												<p className='text-[10px] font-bold text-slate-300 uppercase tracking-widest'>
-													Powered By
+													{" "}
+													{t("dashboard.qrcode.powered_by") || "Powered By"}{" "}
 												</p>
 												<p className='text-xs font-black text-slate-800 tracking-wider'>
 													BARBERSHOP
@@ -1692,11 +1680,13 @@ export const BarberDashboardPage = () => {
 										onClick={handleDownloadQR}
 										className='w-full bg-slate-900 hover:bg-slate-800 text-white h-16 rounded-2xl text-lg font-semibold shadow-xl shadow-slate-900/20 hover:shadow-slate-900/30 transition-all duration-300 flex items-center justify-center gap-3 transform hover:-translate-y-1'
 									>
-										<Save className='w-6 h-6' />
-										Download HD Sticker
+										<Save className='w-6 h-6' />{" "}
+										{t("dashboard.qrcode.download_sticker") || "Download HD Sticker"}{" "}
 									</button>
 									<p className='text-center text-sm font-medium text-slate-400 mt-4'>
-										Downloads a high-quality PNG ready for printing
+										{" "}
+										{t("dashboard.qrcode.print_instruction") ||
+											"Downloads a high-quality PNG ready for printing"}{" "}
 									</p>
 								</div>
 							</div>
