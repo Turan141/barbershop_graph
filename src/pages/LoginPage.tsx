@@ -124,12 +124,12 @@ export const LoginPage = () => {
 									/>
 								</div>
 								<div className='flex justify-end mt-1'>
-									<a
-										href='#'
+									<Link
+										to='/forgot-password'
 										className='text-sm font-medium text-primary-600 hover:text-primary-500'
 									>
 										{t("auth.forgot_password")}
-									</a>
+									</Link>
 								</div>
 							</div>
 						</div>

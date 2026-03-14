@@ -115,7 +115,9 @@ router.post("/", rateLimit_1.createBookingLimiter, auth_1.optionalAuth, (req, re
                     userId: true,
                     subscriptionStatus: true,
                     subscriptionPlan: true,
-                    subscriptionEndDate: true
+                    subscriptionEndDate: true,
+                    telegramChatId: true,
+                    whatsappNumber: true
                 }
             }),
             db_1.prisma.service.findUnique({
@@ -234,6 +236,24 @@ router.post("/", rateLimit_1.createBookingLimiter, auth_1.optionalAuth, (req, re
                 body: `${clientName} booked ${serviceName} on ${date} at ${time}`,
                 url: "/dashboard"
             }).catch((err) => console.warn("Push notification failed:", err));
+            // Send Telegram Notification
+            const botToken = process.env.TELEGRAM_BOT_TOKEN || "8617020156:AAEXMgYF4r4JDi1vQQ18RZRXAOgJcBhZW9I";
+            const chatId = barberProfile.telegramChatId; // ONLY use the barber's chat ID, no fallback
+            if (chatId) {
+                const tgMessage = `💈 *New Booking!*\n\n*Client:* ${clientName}\n*Service:* ${serviceName}\n*Date:* ${date}\n*Time:* ${time}`;
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: tgMessage,
+                        parse_mode: "Markdown"
+                    })
+                }).catch((err) => console.warn("Telegram notification failed:", err));
+            }
+            else {
+                console.warn("TELEGRAM_CHAT_ID not set. Cannot send Telegram notification.");
+            }
         }
         catch (error) {
             // Race-safe: DB unique index rejects duplicate active slots

@@ -112,7 +112,21 @@ export const api = {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(data)
-			}).then((res) => handleResponse<{ user: User; token: string }>(res))
+			}).then((res) => handleResponse<{ user: User; token: string }>(res)),
+
+		forgotPassword: (email: string) =>
+			fetch(`${API_BASE}/auth/forgot-password`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email })
+			}).then((res) => handleResponse<{ success: boolean; message: string; resetUrl?: string }>(res)),
+
+		resetPassword: (token: string, password: string) =>
+			fetch(`${API_BASE}/auth/reset-password`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ token, password })
+			}).then((res) => handleResponse<{ success: boolean; message: string }>(res))
 	},
 
 	barbers: {

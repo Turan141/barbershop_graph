@@ -579,6 +579,10 @@ router.put("/:id", auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
             updateData.verificationDocumentUrl = data.verificationDocumentUrl;
         if (data.verificationStatus === "pending")
             updateData.verificationStatus = "pending";
+        if (data.telegramChatId !== undefined)
+            updateData.telegramChatId = data.telegramChatId === "" ? null : data.telegramChatId;
+        if (data.whatsappNumber !== undefined)
+            updateData.whatsappNumber = data.whatsappNumber === "" ? null : data.whatsappNumber;
         // Handle Services Update
         if (data.services && Array.isArray(data.services)) {
             const currentServices = yield db_1.prisma.service.findMany({
@@ -757,6 +761,48 @@ router.post("/:id/clients/:clientId/notes", auth_1.authenticateToken, (req, res)
     catch (error) {
         console.error("Save note error:", error);
         res.status(500).json({ error: "Failed to save client notes" });
+    }
+}));
+// GET /api/barbers/:id/check-telegram
+router.get("/:id/check-telegram", auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const botToken = process.env.TELEGRAM_BOT_TOKEN || "8617020156:AAEXMgYF4r4JDi1vQQ18RZRXAOgJcBhZW9I";
+        const response = yield fetch(`https://api.telegram.org/bot${botToken}/getUpdates`);
+        const data = yield response.json();
+        const startCommand = `/start ${req.params.id}`;
+        let foundChatId = null;
+        let updateIdToClear = null;
+        if (data.ok && data.result) {
+            for (const update of data.result) {
+                if (((_a = update.message) === null || _a === void 0 ? void 0 : _a.text) === startCommand) {
+                    foundChatId = update.message.chat.id.toString();
+                    updateIdToClear = update.update_id;
+                    break;
+                }
+            }
+        }
+        if (foundChatId) {
+            yield db_1.prisma.barberProfile.update({
+                where: { id: req.params.id },
+                data: { telegramChatId: foundChatId }
+            });
+            yield fetch(`https://api.telegram.org/bot${botToken}/getUpdates?offset=${updateIdToClear + 1}`);
+            yield fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: foundChatId,
+                    text: "🎉 Congratulations! Your barber account is successfully linked. You will now receive new booking notifications here!"
+                })
+            });
+            return res.json({ connected: true, telegramChatId: foundChatId });
+        }
+        res.json({ connected: false });
+    }
+    catch (error) {
+        console.error("Telegram check error:", error);
+        res.status(500).json({ connected: false, error: "Failed to check telegram updates" });
     }
 }));
 exports.default = router;

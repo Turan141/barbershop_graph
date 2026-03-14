@@ -2,10 +2,16 @@ import { Router } from "express"
 import { prisma } from "../db"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import crypto from "crypto"
 import { getJwtSecret } from "../config"
 import { authenticateToken, AuthRequest } from "../middleware/auth"
 
 const router = Router()
+
+const RESET_TOKEN_EXPIRY_MINUTES = 60
+
+const hashResetToken = (token: string) =>
+	crypto.createHash("sha256").update(token).digest("hex")
 
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
@@ -120,6 +126,145 @@ router.post("/refresh", authenticateToken, async (req: AuthRequest, res) => {
 		res.json({ token })
 	} catch (error) {
 		res.status(500).json({ error: "Token refresh failed" })
+	}
+})
+
+// POST /api/auth/forgot-password
+router.post("/forgot-password", async (req, res) => {
+	const { email } = req.body || {}
+
+	if (!email || typeof email !== "string") {
+		return res.status(400).json({ error: "Email is required" })
+	}
+
+	const normalizedEmail = email.trim().toLowerCase()
+
+	try {
+		const user = await prisma.user.findFirst({
+			where: {
+				email: {
+					equals: normalizedEmail,
+					mode: "insensitive"
+				}
+			},
+			select: { id: true, email: true }
+		})
+
+		// Always return success to avoid user enumeration
+		if (!user) {
+			return res.json({
+				success: true,
+				message: "If that email exists, a reset link has been generated."
+			})
+		}
+
+		// Invalidate previous unused reset tokens for this user
+		await prisma.passwordResetToken.updateMany({
+			where: {
+				userId: user.id,
+				usedAt: null
+			},
+			data: {
+				usedAt: new Date()
+			}
+		})
+
+		const rawToken = crypto.randomBytes(32).toString("hex")
+		const tokenHash = hashResetToken(rawToken)
+		const expiresAt = new Date(Date.now() + RESET_TOKEN_EXPIRY_MINUTES * 60 * 1000)
+
+		await prisma.passwordResetToken.create({
+			data: {
+				userId: user.id,
+				tokenHash,
+				expiresAt
+			}
+		})
+
+		const frontendBase = process.env.RESET_PASSWORD_BASE_URL || process.env.FRONTEND_URL
+		const resetUrl = frontendBase
+			? `${frontendBase.replace(/\/$/, "")}/reset-password?token=${rawToken}`
+			: `/reset-password?token=${rawToken}`
+
+		console.log("[PASSWORD_RESET] link generated", {
+			email: user.email,
+			resetUrl,
+			expiresAt: expiresAt.toISOString()
+		})
+
+		return res.json({
+			success: true,
+			message: "If that email exists, a reset link has been generated.",
+			// Return for manual flows/dev; can be hidden by client in production UI
+			resetUrl
+		})
+	} catch (error) {
+		console.error("Forgot password error:", error)
+		res.status(500).json({ error: "Failed to process forgot password request" })
+	}
+})
+
+// POST /api/auth/reset-password
+router.post("/reset-password", async (req, res) => {
+	const { token, password } = req.body || {}
+
+	if (!token || typeof token !== "string") {
+		return res.status(400).json({ error: "Reset token is required" })
+	}
+
+	if (!password || typeof password !== "string" || password.length < 6) {
+		return res.status(400).json({ error: "Password must be at least 6 characters" })
+	}
+
+	try {
+		const tokenHash = hashResetToken(token)
+		const now = new Date()
+
+		const resetToken = await prisma.passwordResetToken.findFirst({
+			where: {
+				tokenHash,
+				usedAt: null,
+				expiresAt: {
+					gt: now
+				}
+			},
+			include: {
+				user: {
+					select: {
+						id: true
+					}
+				}
+			}
+		})
+
+		if (!resetToken) {
+			return res.status(400).json({ error: "Invalid or expired reset token" })
+		}
+
+		const hashedPassword = await bcrypt.hash(password, 10)
+
+		await prisma.$transaction([
+			prisma.user.update({
+				where: { id: resetToken.user.id },
+				data: { password: hashedPassword }
+			}),
+			prisma.passwordResetToken.update({
+				where: { id: resetToken.id },
+				data: { usedAt: now }
+			}),
+			prisma.passwordResetToken.updateMany({
+				where: {
+					userId: resetToken.user.id,
+					usedAt: null
+				},
+				data: { usedAt: now }
+			})
+		])
+
+		return res.json({ success: true, message: "Password has been reset successfully" })
+	} catch (error) {
+		console.error("Reset password error:", error)
+		res.status(500).json({ error: "Failed to reset password" })
 	}
 })
 

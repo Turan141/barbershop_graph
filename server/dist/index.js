@@ -34,12 +34,14 @@ const bookings_1 = __importDefault(require("./routes/bookings"));
 const users_1 = __importDefault(require("./routes/users"));
 const debug_1 = __importDefault(require("./routes/debug"));
 const push_1 = __importDefault(require("./routes/push"));
+const admin_1 = __importDefault(require("./routes/admin"));
 app.use("/api/auth", rateLimit_1.authLimiter, auth_1.default);
 app.use("/api/barbers", barbers_1.default);
 app.use("/api/bookings", rateLimit_1.bookingsLimiter, bookings_1.default);
 app.use("/api/users", users_1.default);
 app.use("/api/debug", debug_1.default);
 app.use("/api/push", push_1.default);
+app.use("/api/admin", admin_1.default);
 app.get("/api/ping", (req, res) => {
     res.json({
         status: "ok",
