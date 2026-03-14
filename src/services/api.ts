@@ -153,10 +153,14 @@ export const api = {
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Review>(res)),
 		getStats: (id: string) =>
-			fetchWithAuth(`${API_BASE}/barbers/${id}/stats`).then((res) => handleResponse<any>(res)),
+			fetchWithAuth(`${API_BASE}/barbers/${id}/stats`).then((res) =>
+				handleResponse<any>(res)
+			),
 
 		getClients: (id: string) =>
-			fetchWithAuth(`${API_BASE}/barbers/${id}/clients`).then((res) => handleResponse<any[]>(res)),
+			fetchWithAuth(`${API_BASE}/barbers/${id}/clients`).then((res) =>
+				handleResponse<any[]>(res)
+			),
 
 		saveClientNote: (
 			barberId: string,
@@ -199,8 +203,8 @@ export const api = {
 			if (params?.limit) query.set("limit", params.limit.toString())
 			if (params?.status) query.set("status", params.status)
 			const suffix = query.toString() ? `?${query.toString()}` : ""
-			return fetchWithAuth(`${API_BASE}/barbers/${barberId}/bookings${suffix}`).then((res) =>
-				handleResponse<any>(res)
+			return fetchWithAuth(`${API_BASE}/barbers/${barberId}/bookings${suffix}`).then(
+				(res) => handleResponse<any>(res)
 			)
 		},
 
@@ -209,8 +213,8 @@ export const api = {
 			if (page) params.append("page", page.toString())
 			if (limit) params.append("limit", limit.toString())
 			const suffix = params.toString() ? `?${params.toString()}` : ""
-			return fetchWithAuth(`${API_BASE}/users/${clientId}/bookings${suffix}`).then((res) =>
-				handleResponse<any>(res)
+			return fetchWithAuth(`${API_BASE}/users/${clientId}/bookings${suffix}`).then(
+				(res) => handleResponse<any>(res)
 			)
 		},
 

@@ -114,11 +114,9 @@ router.post("/register", async (req, res) => {
 // POST /api/auth/refresh — issues a new 30-day token for any currently valid token
 router.post("/refresh", authenticateToken, async (req: AuthRequest, res) => {
 	try {
-		const token = jwt.sign(
-			{ id: req.user!.id, role: req.user!.role },
-			getJwtSecret(),
-			{ expiresIn: "30d" }
-		)
+		const token = jwt.sign({ id: req.user!.id, role: req.user!.role }, getJwtSecret(), {
+			expiresIn: "30d"
+		})
 		res.json({ token })
 	} catch (error) {
 		res.status(500).json({ error: "Token refresh failed" })
