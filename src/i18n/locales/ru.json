@@ -373,7 +373,13 @@
       "whatsapp_title": "Уведомления WhatsApp",
       "whatsapp_desc": "Мы готовим официальную интеграцию с WhatsApp.",
       "whatsapp_warning": "Примечание: В отличие от Telegram, автоматизированная рассылка сообщений через официальные API WhatsApp Business является платной услугой (от Meta).",
-      "whatsapp_input_label": "Номер WhatsApp (Скоро)"
+      "whatsapp_input_label": "Номер WhatsApp (Скоро)",
+      "enable_title": "Включить уведомления",
+      "modal_heading": "Не пропустите ни одной записи!",
+      "modal_desc": "Включите уведомления, чтобы мгновенно получать новые записи и оставаться организованным.",
+      "enable_btn": "Включить уведомления",
+      "sustain_now": "Позже",
+      "sustain_forever": "Никогда"
     },
     "stats": {
       "today_revenue": "Выручка за сегодня",

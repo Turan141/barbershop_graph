@@ -373,7 +373,13 @@
       "whatsapp_title": "WhatsApp Bildirişləri",
       "whatsapp_desc": "Rəsmi WhatsApp inteqrasiyası hazırlayırıq.",
       "whatsapp_warning": "Qeyd: Telegramdan fərqli olaraq, rəsmi WhatsApp Business API vasitəsilə avtomatlaşdırılmış mesajlaşma ödənişli xidmətdir (Meta vasitəsilə).",
-      "whatsapp_input_label": "WhatsApp Nömrəsi (Tezliklə)"
+      "whatsapp_input_label": "WhatsApp Nömrəsi (Tezliklə)",
+      "enable_title": "Bildirişləri aktiv et",
+      "modal_heading": "Heç bir rezervasiyanı qaçırmayın!",
+      "modal_desc": "Yeni rezervasiya sorğularını dərhal almaq və işinizi qaydada saxlamaq üçün bildirişləri aktiv edin.",
+      "enable_btn": "Bildirişləri aktiv et",
+      "sustain_now": "Sonra",
+      "sustain_forever": "Heç vaxt"
     },
     "stats": {
       "today_revenue": "Bugünkü Gəlir",

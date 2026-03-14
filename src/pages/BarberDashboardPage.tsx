@@ -1625,11 +1625,13 @@ export const BarberDashboardPage = () => {
 							<div className='max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500'>
 								<div className='text-center space-y-3 mb-8'>
 									<h2 className='text-3xl font-extrabold text-slate-900'>
-										{t("dashboard.qrcode.title") || "Digital Business Card"}
+										{t("dashboard.qrcode.title", "Digital Business Card")}
 									</h2>
 									<p className='text-lg text-slate-500 max-w-md mx-auto'>
-										{t("dashboard.qrcode.subtitle") ||
-											"Download a beautifully designed QR code sticker to print and place at your station."}
+										{t(
+											"dashboard.qrcode.subtitle",
+											"Download a beautifully designed QR code sticker to print and place at your station."
+										)}
 									</p>
 								</div>
 
@@ -1642,7 +1644,7 @@ export const BarberDashboardPage = () => {
 													{barber.name}
 												</h3>
 												<p className='text-sm font-bold text-slate-400 uppercase tracking-[0.2em]'>
-													{t("dashboard.bookings.scan_to_book") || "Scan to book"}{" "}
+													{t("dashboard.bookings.scan_to_book", "Scan to book")}
 												</p>
 											</div>
 
@@ -1662,8 +1664,7 @@ export const BarberDashboardPage = () => {
 
 											<div className='text-center space-y-1 mt-4'>
 												<p className='text-[10px] font-bold text-slate-300 uppercase tracking-widest'>
-													{" "}
-													{t("dashboard.qrcode.powered_by") || "Powered By"}{" "}
+													{t("dashboard.qrcode.powered_by", "Powered By")}
 												</p>
 												<p className='text-xs font-black text-slate-800 tracking-wider'>
 													BARBERSHOP
@@ -1680,13 +1681,14 @@ export const BarberDashboardPage = () => {
 										onClick={handleDownloadQR}
 										className='w-full bg-slate-900 hover:bg-slate-800 text-white h-16 rounded-2xl text-lg font-semibold shadow-xl shadow-slate-900/20 hover:shadow-slate-900/30 transition-all duration-300 flex items-center justify-center gap-3 transform hover:-translate-y-1'
 									>
-										<Save className='w-6 h-6' />{" "}
-										{t("dashboard.qrcode.download_sticker") || "Download HD Sticker"}{" "}
+										<Save className='w-6 h-6' />
+										{t("dashboard.qrcode.download_sticker", "Download HD Sticker")}
 									</button>
 									<p className='text-center text-sm font-medium text-slate-400 mt-4'>
-										{" "}
-										{t("dashboard.qrcode.print_instruction") ||
-											"Downloads a high-quality PNG ready for printing"}{" "}
+										{t(
+											"dashboard.qrcode.print_instruction",
+											"Downloads a high-quality PNG ready for printing"
+										)}
 									</p>
 								</div>
 							</div>

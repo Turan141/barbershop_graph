@@ -599,7 +599,13 @@
       "whatsapp_title": "WhatsApp Alerts",
       "whatsapp_desc": "We are preparing an official WhatsApp integration.",
       "whatsapp_warning": "Note: Unlike Telegram, automated messaging through official WhatsApp Business APIs is a paid service (via Meta).",
-      "whatsapp_input_label": "WhatsApp Number (Coming Soon)"
+      "whatsapp_input_label": "WhatsApp Number (Coming Soon)",
+      "enable_title": "Enable Notifications",
+      "modal_heading": "Don't miss a beat!",
+      "modal_desc": "Turn on notifications to instantly receive booking requests and stay organized.",
+      "enable_btn": "Enable Notifications",
+      "sustain_now": "Maybe Later",
+      "sustain_forever": "Never"
     },
     "stats": {
       "today_revenue": "Today's Revenue",
