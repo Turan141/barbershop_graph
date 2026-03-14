@@ -36,6 +36,7 @@ import bookingRoutes from "./routes/bookings"
 import userRoutes from "./routes/users"
 import debugRoutes from "./routes/debug"
 import pushRoutes from "./routes/push"
+import adminRoutes from "./routes/admin"
 
 app.use("/api/auth", authLimiter, authRoutes)
 app.use("/api/barbers", barberRoutes)
@@ -43,6 +44,7 @@ app.use("/api/bookings", bookingsLimiter, bookingRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/debug", debugRoutes)
 app.use("/api/push", pushRoutes)
+app.use("/api/admin", adminRoutes)
 
 app.get("/api/ping", (req, res) => {
 	res.json({

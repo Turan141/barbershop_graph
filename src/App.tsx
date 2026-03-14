@@ -15,6 +15,7 @@ import { CareersPage } from "./pages/CareersPage"
 import { ContactPage } from "./pages/ContactPage"
 import { PrivacyPage } from "./pages/PrivacyPage"
 import { TermsPage } from "./pages/TermsPage"
+import AdminDashboardPage from "./pages/AdminDashboardPage"
 import { ScrollToTop } from "./components/ScrollToTop"
 import { ProtectedRoute } from "./components/ProtectedRoute"
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -40,6 +41,14 @@ function App() {
 					<Route path='/contact' element={<ContactPage />} />
 					<Route path='/privacy' element={<PrivacyPage />} />
 					<Route path='/terms' element={<TermsPage />} />
+					<Route
+						path='/admin'
+						element={
+							<ProtectedRoute>
+								<AdminDashboardPage />
+							</ProtectedRoute>
+						}
+					/>
 					<Route
 						path='/dashboard'
 						element={

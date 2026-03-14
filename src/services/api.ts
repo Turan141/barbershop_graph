@@ -251,5 +251,16 @@ export const api = {
 	users: {
 		get: (id: string) =>
 			fetchWithAuth(`${API_BASE}/users/${id}`).then((res) => handleResponse<User>(res))
+	},
+	admin: {
+		getStats: () =>
+			fetchWithAuth(`${API_BASE}/admin/stats`).then((res) => handleResponse<any>(res)),
+		getBarbers: () =>
+			fetchWithAuth(`${API_BASE}/admin/barbers`).then((res) => handleResponse<any>(res)),
+		updateSubscription: (id: string, data: any) =>
+			fetchWithAuth(`${API_BASE}/admin/barbers/${id}/subscription`, {
+				method: "PUT",
+				body: JSON.stringify(data)
+			}).then((res) => handleResponse<any>(res))
 	}
 }

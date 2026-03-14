@@ -1,15 +1,13 @@
 import * as React from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
-import { Scissors, LogOut, Calendar, Heart, Menu, X, Clock } from "lucide-react"
-import clsx from "clsx"
+import { Scissors, LogOut, Menu, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { LanguageSwitcher } from "./LanguageSwitcher"
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
 	const { user, logout } = useAuthStore()
 	const navigate = useNavigate()
-	const location = useLocation()
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 	const { t } = useTranslation()
 
@@ -17,8 +15,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 		logout()
 		navigate("/login")
 	}
-
-	const isActive = (path: string) => location.pathname === path
 
 	return (
 		<div className='min-h-screen flex flex-col transition-colors duration-300'>
@@ -47,59 +43,24 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 							{user ? (
 								<>
 									<div className='flex items-center gap-6 mr-4'>
-										{user.role === "barber" && (
+										{user.role === "admin" && (
 											<Link
-												to='/dashboard'
-												className={clsx(
-													"flex items-center gap-2 text-sm font-medium transition-colors",
-													isActive("/dashboard")
-														? "text-primary-600"
-														: "text-slate-600 hover:text-slate-900"
-												)}
+												to='/admin'
+												className='text-sm font-medium text-primary-600 hover:text-primary-700'
 											>
-												<Calendar className='h-4 w-4' />
-												{t("nav.dashboard")}
+												Admin CRM
 											</Link>
 										)}
-										<Link
-											to='/bookings'
-											className={clsx(
-												"flex items-center gap-2 text-sm font-medium transition-colors",
-												isActive("/bookings")
-													? "text-primary-600"
-													: "text-slate-600 hover:text-slate-900"
-											)}
-										>
-											<Clock className='h-4 w-4' />
-											{t("nav.my_appointments")}
-										</Link>
-										{user.role !== "barber" && (
-											<Link
-												to='/favorites'
-												className={clsx(
-													"flex items-center gap-2 text-sm font-medium transition-colors",
-													isActive("/favorites")
-														? "text-primary-600"
-														: "text-slate-600 hover:text-slate-900"
-												)}
-											>
-												<Heart className='h-4 w-4' />
-												{t("nav.favorites")}
-											</Link>
-										)}
-									</div>
-
-									<div className='h-8 w-px bg-slate-200'></div>
-
-									<div className='flex items-center gap-4'>
 										<div className='flex flex-col items-end'>
-											<span className='text-sm font-semibold text-slate-900'>
+											<span className='font-semibold text-sm text-slate-900'>
 												{user.name}
 											</span>
-											<span className='text-xs text-slate-500 capitalize'>
-												{user.role === "barber"
-													? t("auth.role_barber")
-													: t("auth.role_client")}
+											<span className='text-xs font-medium text-slate-500 capitalize'>
+												{user.role === "admin"
+													? "Admin"
+													: user.role === "barber"
+														? t("auth.role_barber")
+														: t("auth.role_client")}
 											</span>
 										</div>
 										<img
@@ -166,12 +127,23 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 										<div>
 											<div className='font-semibold text-slate-900'>{user.name}</div>
 											<div className='text-xs text-slate-500 capitalize'>
-												{user.role === "barber"
-													? t("auth.role_barber")
-													: t("auth.role_client")}
+												{user.role === "admin"
+													? "Admin"
+													: user.role === "barber"
+														? t("auth.role_barber")
+														: t("auth.role_client")}
 											</div>
 										</div>
 									</div>
+									{user.role === "admin" && (
+										<Link
+											to='/admin'
+											onClick={() => setIsMobileMenuOpen(false)}
+											className='block px-3 py-2 rounded-lg text-base font-medium text-primary-600 hover:bg-slate-50'
+										>
+											Admin CRM
+										</Link>
+									)}
 									{user.role === "barber" && (
 										<Link
 											to='/dashboard'

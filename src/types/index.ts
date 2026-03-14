@@ -2,7 +2,7 @@ export interface User {
 	id: string
 	name: string
 	email: string
-	role: "client" | "barber"
+	role: "client" | "barber" | "admin"
 	avatarUrl?: string
 	phone?: string
 	rating?: number
