@@ -407,6 +407,16 @@
 			"share_profile": "Profili Paylaş",
 			"no_clients_title": "Hələ müştəri yoxdur",
 			"no_clients_desc": "Randevu almaq üçün profil linkinizi paylaşın."
+		},
+		"roadmap": {
+			"title": "Sizin Uğur Xəritəniz",
+			"subtitle": "Bu sadə addımlarla peşəkar bərbər kimi potensialınızı artırın.",
+			"step1_title": "Müştəri Bazasını Yaradın",
+			"step1_desc": "Profiliniz sizin rəqəmsal vizit kartınızdır. Ən yaxşı saç kəsimlərinizi portfelə əlavə edin, xidmətlərinizi yeniləyin və platformamız vasitəsilə yeni müştərilər qazanın.",
+			"step2_title": "Heç Bir Randevunu Qaçırmayın",
+			"step2_desc": "Müştərini gözlətməyin! Yeni randevular, ləğvlər və ya dəyişikliklər barədə anında məlumat almaq üçün bildirişləri (Push və ya Telegram) aktivləşdirin.",
+			"step3_title": "Sehrli QR Kod",
+			"step3_desc": "QR tabından unikal QR kodunuzu çap edin və güzgünüzə yapışdırın! Müştərilər stulda əyləşərkən kodu skan edərək portfelinizə baxa, rəy yaza və ya növbəti ziyarətləri üçün anında yazıla bilərlər."
 		}
 	},
 	"common": {
@@ -480,34 +490,21 @@
 			"demo": {
 				"title": "Pro Demo",
 				"price": "Pulsuz",
-				"features": [
-					"Tam təqvim",
-					"Randevular",
-					"WhatsApp düyməsi",
-					"Statistika"
-				],
+				"features": ["Tam təqvim", "Randevular", "WhatsApp düyməsi", "Statistika"],
 				"button": "Sına 1 ay pulsuz",
 				"description": "Bu müddət ərzində bütün funksiyaları sınayacaqsınız, ödəniş yoxdur."
 			},
 			"basic": {
 				"title": "Basic",
 				"price": "10 ₼",
-				"features": [
-					"1 kreslo",
-					"Bütün funksiyalar",
-					"Maks. 50 randevu/ay"
-				],
+				"features": ["1 kreslo", "Bütün funksiyalar", "Maks. 50 randevu/ay"],
 				"button": "Basic al",
 				"description": "Ayda 50 randevu, təqvim və müştərilərə tam çıxış."
 			},
 			"standard": {
 				"title": "Standard",
 				"price": "20 ₼",
-				"features": [
-					"1-2 kreslo",
-					"Limitsiz randevu",
-					"Statistikaya çıxış"
-				],
+				"features": ["1-2 kreslo", "Limitsiz randevu", "Statistikaya çıxış"],
 				"button": "Standard al",
 				"description": "Limitsiz randevu, müştəri statistikası, rahat iş."
 			},

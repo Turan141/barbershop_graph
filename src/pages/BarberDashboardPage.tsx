@@ -31,10 +31,13 @@ import {
 	Star,
 	QrCode,
 	Bell,
-	MessageCircle
-, BellRing, ChevronRight} from "lucide-react"
+	MessageCircle,
+	BellRing,
+	ChevronRight
+} from "lucide-react"
 import clsx from "clsx"
 import { DashboardStats } from "@/components/DashboardStats"
+import { BarberRoadmap } from "@/components/BarberRoadmap"
 import { ClientList } from "@/components/ClientList"
 import { BarberBookingsList } from "@/components/BarberBookingsList"
 import { Modal } from "@/components/Modal"
@@ -100,7 +103,12 @@ export const BarberDashboardPage = () => {
 		| "expenses"
 		| "qrcode"
 		| "notifications"
-	>("bookings")
+	>("overview")
+
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: "smooth" })
+	}, [activeTab])
+
 	const [saving, setSaving] = useState(false)
 	const [message, setMessage] = useState<{
 		type: "success" | "error"
@@ -182,6 +190,66 @@ export const BarberDashboardPage = () => {
 	// Calculate bookings usage for Basic plan
 	const bookingsUsed = barber?.bookingsUsed || 0
 	const bookingsLimit = 50
+
+	const handleDownloadQR = () => {
+		const canvas = document.createElement("canvas")
+		// A6 ratio approx
+		canvas.width = 1050
+		canvas.height = 1485
+		const ctx = canvas.getContext("2d")
+		if (!ctx) return
+
+		ctx.fillStyle = "#ffffff"
+		ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+		ctx.strokeStyle = "#0f172a"
+		ctx.lineWidth = 24
+		ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80)
+
+		ctx.fillStyle = "#0f172a"
+		ctx.font = "bold 96px system-ui, -apple-system, sans-serif"
+		ctx.textAlign = "center"
+		ctx.fillText(barber?.name || "Barber", canvas.width / 2, 220)
+
+		ctx.fillStyle = "#64748b"
+		ctx.font = "600 52px system-ui, -apple-system, sans-serif"
+		ctx.fillText(
+			t("scan_to_book") || "Scan to book an appointment",
+			canvas.width / 2,
+			320
+		)
+
+		const qrCanvas = document.getElementById("barber-qr-code") as HTMLCanvasElement
+		if (qrCanvas) {
+			const qrSize = 750
+			const x = (canvas.width - qrSize) / 2
+			const y = 460
+
+			ctx.shadowColor = "rgba(0,0,0,0.1)"
+			ctx.shadowBlur = 40
+			ctx.shadowOffsetY = 20
+			ctx.fillStyle = "#ffffff"
+			ctx.beginPath()
+			ctx.roundRect(x - 50, y - 50, qrSize + 100, qrSize + 100, 60)
+			ctx.fill()
+			ctx.shadowColor = "transparent"
+
+			ctx.drawImage(qrCanvas, x, y, qrSize, qrSize)
+		}
+
+		ctx.fillStyle = "#cbd5e1"
+		ctx.font = "bold 40px system-ui, -apple-system, sans-serif"
+		ctx.fillText("POWERED BY", canvas.width / 2, 1370)
+		ctx.fillStyle = "#0f172a"
+		ctx.fillText("BARBERSHOP", canvas.width / 2, 1420)
+
+		const link = document.createElement("a")
+		let safeName = "Barber"
+		if (barber && barber.name) safeName = barber.name.replace(/\s+/g, "_")
+		link.download = "Sticker_QR_" + safeName + ".png"
+		link.href = canvas.toDataURL("image/png", 1.0)
+		link.click()
+	}
 
 	const handleCheckMap = async () => {
 		if (!formData.location) return
@@ -423,36 +491,33 @@ export const BarberDashboardPage = () => {
 			<div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
 				{/* Sidebar Navigation */}
 				<div className='lg:col-span-3'>
-					
-					<div className="relative group/nav">
-						<div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-slate-50 to-transparent lg:hidden pointer-events-none z-10 flex justify-end items-center pr-1 opacity-70">
+					<div className='relative group/nav'>
+						<div className='absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-slate-50 to-transparent lg:hidden pointer-events-none z-10 flex justify-end items-center pr-1 opacity-70'>
 							<ChevronRight className='w-5 h-5 text-slate-400 animate-pulse' />
 						</div>
 						<nav className='flex space-x-2 overflow-x-auto lg:flex-col lg:space-y-1 lg:space-x-0 pb-4 lg:pb-0 hide-scrollbar scroll-smooth'>
-
-						{tabs.map((tab) => (
-							<button
-								key={tab.id}
-								onClick={() => setActiveTab(tab.id)}
-								className={clsx(
-									"flex-none lg:w-full flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-4 py-2.5 lg:py-3 text-sm font-bold lg:font-medium rounded-xl transition-all duration-200 snap-start whitespace-nowrap",
-									activeTab === tab.id
-										? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-100"
-										: "text-slate-600 hover:bg-slate-50 hover:text-slate-900 bg-white lg:bg-transparent border border-slate-200 lg:border-transparent"
-								)}
-							>
-								<tab.icon
+							{tabs.map((tab) => (
+								<button
+									key={tab.id}
+									onClick={() => setActiveTab(tab.id)}
 									className={clsx(
-										"w-5 h-5",
-										activeTab === tab.id ? "text-primary-600" : "text-slate-400"
+										"flex-none lg:w-full flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-4 py-2.5 lg:py-3 text-sm font-bold lg:font-medium rounded-xl transition-all duration-200 snap-start whitespace-nowrap",
+										activeTab === tab.id
+											? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-100"
+											: "text-slate-600 hover:bg-slate-50 hover:text-slate-900 bg-white lg:bg-transparent border border-slate-200 lg:border-transparent"
 									)}
-								/>
-								{tab.label}
-							</button>
-						))}
-					</nav>
+								>
+									<tab.icon
+										className={clsx(
+											"w-5 h-5",
+											activeTab === tab.id ? "text-primary-600" : "text-slate-400"
+										)}
+									/>
+									{tab.label}
+								</button>
+							))}
+						</nav>
 					</div>
-
 				</div>
 
 				{/* Main Content */}
@@ -476,25 +541,23 @@ export const BarberDashboardPage = () => {
 								{message.text}
 							</div>
 						)}
-
 						{/* Overview Tab */}
 						{activeTab === "overview" && barber && (
-							<DashboardStats barberId={barber.id} />
+							<>
+								<BarberRoadmap setActiveTab={setActiveTab} />
+								<DashboardStats barberId={barber.id} />
+							</>
 						)}
-
 						{/* Bookings Tab */}
 						{activeTab === "bookings" && barber && (
 							<BarberBookingsList barberId={barber.id} refreshTrigger={refreshTrigger} />
 						)}
-
 						{/* Clients Tab */}
 						{activeTab === "clients" && barber && <ClientList barberId={barber.id} />}
-
 						{/* Expenses Tab */}
 						{activeTab === "expenses" && barber && (
 							<ExpensesManager barberId={barber.id} />
 						)}
-
 						{/* Profile Tab */}
 						{activeTab === "profile" && (
 							<div className='space-y-6'>
@@ -857,7 +920,6 @@ export const BarberDashboardPage = () => {
 								</div>
 							</div>
 						)}
-
 						{/* Schedule Tab */}
 						{activeTab === "schedule" && (
 							<div className='space-y-6'>
@@ -1029,7 +1091,6 @@ export const BarberDashboardPage = () => {
 								</div>
 							</div>
 						)}
-
 						{/* Services Tab */}
 						{activeTab === "services" && (
 							<div className='space-y-6'>
@@ -1162,7 +1223,6 @@ export const BarberDashboardPage = () => {
 								</div>
 							</div>
 						)}
-
 						{/* Portfolio Tab */}
 						{activeTab === "portfolio" && (
 							<div className='space-y-8'>
@@ -1380,7 +1440,6 @@ export const BarberDashboardPage = () => {
 								</div>
 							</div>
 						)}
-
 						{/* Notifications Tab */}
 						{activeTab === "notifications" && (
 							<div className='space-y-6'>
@@ -1517,49 +1576,74 @@ export const BarberDashboardPage = () => {
 								</div>
 							</div>
 						)}
-
-						{/* QR Code Tab */}
+						﻿{/* QR Code Tab */}
 						{activeTab === "qrcode" && (
-							<div className='space-y-6'>
-								<h2 className='text-xl font-bold text-slate-900 mb-6'>
-									Your Personal QR Code
-								</h2>
-								<div className='bg-white p-8 rounded-2xl border border-slate-100 flex flex-col items-center'>
-									<h3 className='text-lg font-medium text-slate-900 mb-4 text-center'>
-										Scan to book appointment with {barber.name}
-									</h3>
-
-									<div className='bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6'>
-										<QRCodeCanvas
-											value={`${window.location.origin}/barbers/${barber.id}`}
-											size={256}
-											level={"H"}
-											includeMargin={true}
-										/>
-									</div>
-
-									<p className='text-slate-500 text-center max-w-sm mb-6'>
-										Print this QR code and place it on your mirror or desk. Clients can
-										scan it to book their next appointment instantly.
+							<div className='max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500'>
+								<div className='text-center space-y-3 mb-8'>
+									<h2 className='text-3xl font-extrabold text-slate-900'>
+										Digital Business Card
+									</h2>
+									<p className='text-lg text-slate-500 max-w-md mx-auto'>
+										Download a beautifully designed QR code sticker to print and place at
+										your station.
 									</p>
+								</div>
 
-									<div className='flex gap-4'>
-										<a
-											href={`${window.location.origin}/barbers/${barber.id}`}
-											target='_blank'
-											rel='noreferrer'
-											className='btn-secondary'
-										>
-											Preview Profile
-										</a>
-										<button className='btn-primary' onClick={() => window.print()}>
-											Print Page
-										</button>
+								<div className='relative group'>
+									<div className='absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200'></div>
+									<div className='bg-white rounded-[2rem] p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col items-center ring-1 ring-slate-900/5'>
+										<div className='flex flex-col items-center gap-8 relative z-10 w-full max-w-sm'>
+											<div className='text-center space-y-2 w-full'>
+												<h3 className='text-3xl font-black text-slate-900 truncate'>
+													{barber.name}
+												</h3>
+												<p className='text-sm font-bold text-slate-400 uppercase tracking-[0.2em]'>
+													Scan to book
+												</p>
+											</div>
+
+											<div className='bg-white p-5 rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 transition-transform duration-300 hover:scale-105'>
+												<QRCodeCanvas
+													id='barber-qr-code'
+													value={
+														"https://" + window.location.host + "/barbers/" + barber.id
+													}
+													size={280}
+													level={"H"}
+													includeMargin={true}
+													bgColor='#ffffff'
+													fgColor='#0f172a'
+												/>
+											</div>
+
+											<div className='text-center space-y-1 mt-4'>
+												<p className='text-[10px] font-bold text-slate-300 uppercase tracking-widest'>
+													Powered By
+												</p>
+												<p className='text-xs font-black text-slate-800 tracking-wider'>
+													BARBERSHOP
+												</p>
+											</div>
+										</div>
+										<div className='absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-slate-50 blur-3xl opacity-60 pointer-events-none'></div>
+										<div className='absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 rounded-full bg-slate-50 blur-3xl opacity-60 pointer-events-none'></div>
 									</div>
+								</div>
+
+								<div className='pt-6 max-w-sm mx-auto'>
+									<button
+										onClick={handleDownloadQR}
+										className='w-full bg-slate-900 hover:bg-slate-800 text-white h-16 rounded-2xl text-lg font-semibold shadow-xl shadow-slate-900/20 hover:shadow-slate-900/30 transition-all duration-300 flex items-center justify-center gap-3 transform hover:-translate-y-1'
+									>
+										<Save className='w-6 h-6' />
+										Download HD Sticker
+									</button>
+									<p className='text-center text-sm font-medium text-slate-400 mt-4'>
+										Downloads a high-quality PNG ready for printing
+									</p>
 								</div>
 							</div>
 						)}
-
 						{/* Save Button */}
 						{["profile", "schedule", "services", "portfolio", "notifications"].includes(
 							activeTab
@@ -1622,130 +1706,125 @@ export const BarberDashboardPage = () => {
 					</div>
 				</div>
 			</Modal>
-				{/* Secondary Profile Info / Subscription */}
-				<div className='mt-8 pt-8 border-t border-slate-200 lg:col-span-12'>
-										{barber && (
-						<div className='mt-6 bg-slate-50 rounded-xl p-4 border border-slate-200'>
-							<div className='flex items-center justify-between mb-3'>
-								<h3 className='text-sm font-semibold text-slate-900'>
-									{t("dashboard.subscription.title") || "Subscription"}
-								</h3>
-								<div className='inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400 text-slate-900 text-[10px] font-bold uppercase tracking-wider border border-yellow-300 shadow-sm animate-pulse'>
-									<Star className='w-3 h-3 fill-slate-900' />
-									{t("home.banner_badge") || "1 Month Free"}
-								</div>
-							</div>
-							<div className='space-y-3'>
-								<div className='flex justify-between items-center text-sm'>
-									<span className='text-slate-500'>
-										{t("dashboard.subscription.plan") || "Plan"}
-									</span>
-									<span className='font-medium capitalize px-2 py-0.5 bg-white rounded border border-slate-200 text-slate-700'>
-										{barber.subscriptionPlan || "Demo"}
-									</span>
-								</div>
-								<div className='flex justify-between items-center text-sm'>
-									<span className='text-slate-500'>
-										{t("dashboard.subscription.status") || "Status"}
-									</span>
-									<span
-										className={clsx(
-											"font-medium capitalize",
-											barber.subscriptionStatus === "active"
-												? "text-green-600"
-												: barber.subscriptionStatus === "trial"
-													? "text-indigo-600"
-													: "text-red-600"
-										)}
-									>
-										{barber.subscriptionStatus || "Trial"}
-									</span>
-								</div>
-								{barber.subscriptionEndDate && (
-									<div className='pt-3 border-t border-slate-200'>
-										<div className='flex justify-between items-baseline'>
-											<span className='text-xs text-slate-500'>
-												{t("dashboard.subscription.expires") || "Expires in"}
-											</span>
-											<span className='font-medium text-slate-900'>
-												{Math.max(
-													0,
-													differenceInDays(
-														new Date(barber.subscriptionEndDate),
-														new Date()
-													)
-												)}{" "}
-												{t("common.days") || "days"}
-											</span>
-										</div>
-										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
-											<div
-												className={clsx(
-													"h-1.5 rounded-full transition-all duration-500",
-													barber.subscriptionStatus === "active"
-														? "bg-green-500"
-														: barber.subscriptionStatus === "trial"
-															? "bg-indigo-500"
-															: "bg-red-500"
-												)}
-												style={{
-													width: `${Math.min(
-														100,
-														Math.max(
-															0,
-															(differenceInDays(
-																new Date(barber.subscriptionEndDate),
-																new Date()
-															) /
-																30) *
-																100
-														)
-													)}%`
-												}}
-											/>
-										</div>
-									</div>
-								)}
-
-								{/* Booking Limit for Basic Plan */}
-								{barber.subscriptionPlan === "basic" && (
-									<div className='pt-3 border-t border-slate-200'>
-										<div className='flex justify-between items-baseline'>
-											<span className='text-xs text-slate-500'>
-												{t("dashboard.subscription.bookings_used") || "Bookings used"}
-											</span>
-											<span
-												className={clsx(
-													"font-medium",
-													bookingsUsed >= bookingsLimit
-														? "text-red-600"
-														: "text-slate-900"
-												)}
-											>
-												{bookingsUsed} / {bookingsLimit}
-											</span>
-										</div>
-										<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
-											<div
-												className={clsx(
-													"h-1.5 rounded-full transition-all duration-500",
-													bookingsUsed >= bookingsLimit
-														? "bg-red-500"
-														: bookingsUsed >= bookingsLimit * 0.8
-															? "bg-yellow-500"
-															: "bg-blue-500"
-												)}
-												style={{
-													width: `${Math.min(100, (bookingsUsed / bookingsLimit) * 100)}%`
-												}}
-											/>
-										</div>
-									</div>
-								)}
+			{/* Secondary Profile Info / Subscription */}
+			<div className='mt-8 pt-8 border-t border-slate-200 lg:col-span-12'>
+				{barber && (
+					<div className='mt-6 bg-slate-50 rounded-xl p-4 border border-slate-200'>
+						<div className='flex items-center justify-between mb-3'>
+							<h3 className='text-sm font-semibold text-slate-900'>
+								{t("dashboard.subscription.title") || "Subscription"}
+							</h3>
+							<div className='inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-400 text-slate-900 text-[10px] font-bold uppercase tracking-wider border border-yellow-300 shadow-sm animate-pulse'>
+								<Star className='w-3 h-3 fill-slate-900' />
+								{t("home.banner_badge") || "1 Month Free"}
 							</div>
 						</div>
-					)}
-				</div>
+						<div className='space-y-3'>
+							<div className='flex justify-between items-center text-sm'>
+								<span className='text-slate-500'>
+									{t("dashboard.subscription.plan") || "Plan"}
+								</span>
+								<span className='font-medium capitalize px-2 py-0.5 bg-white rounded border border-slate-200 text-slate-700'>
+									{barber.subscriptionPlan || "Demo"}
+								</span>
+							</div>
+							<div className='flex justify-between items-center text-sm'>
+								<span className='text-slate-500'>
+									{t("dashboard.subscription.status") || "Status"}
+								</span>
+								<span
+									className={clsx(
+										"font-medium capitalize",
+										barber.subscriptionStatus === "active"
+											? "text-green-600"
+											: barber.subscriptionStatus === "trial"
+												? "text-indigo-600"
+												: "text-red-600"
+									)}
+								>
+									{barber.subscriptionStatus || "Trial"}
+								</span>
+							</div>
+							{barber.subscriptionEndDate && (
+								<div className='pt-3 border-t border-slate-200'>
+									<div className='flex justify-between items-baseline'>
+										<span className='text-xs text-slate-500'>
+											{t("dashboard.subscription.expires") || "Expires in"}
+										</span>
+										<span className='font-medium text-slate-900'>
+											{Math.max(
+												0,
+												differenceInDays(new Date(barber.subscriptionEndDate), new Date())
+											)}{" "}
+											{t("common.days") || "days"}
+										</span>
+									</div>
+									<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
+										<div
+											className={clsx(
+												"h-1.5 rounded-full transition-all duration-500",
+												barber.subscriptionStatus === "active"
+													? "bg-green-500"
+													: barber.subscriptionStatus === "trial"
+														? "bg-indigo-500"
+														: "bg-red-500"
+											)}
+											style={{
+												width: `${Math.min(
+													100,
+													Math.max(
+														0,
+														(differenceInDays(
+															new Date(barber.subscriptionEndDate),
+															new Date()
+														) /
+															30) *
+															100
+													)
+												)}%`
+											}}
+										/>
+									</div>
+								</div>
+							)}
+
+							{/* Booking Limit for Basic Plan */}
+							{barber.subscriptionPlan === "basic" && (
+								<div className='pt-3 border-t border-slate-200'>
+									<div className='flex justify-between items-baseline'>
+										<span className='text-xs text-slate-500'>
+											{t("dashboard.subscription.bookings_used") || "Bookings used"}
+										</span>
+										<span
+											className={clsx(
+												"font-medium",
+												bookingsUsed >= bookingsLimit ? "text-red-600" : "text-slate-900"
+											)}
+										>
+											{bookingsUsed} / {bookingsLimit}
+										</span>
+									</div>
+									<div className='mt-1 w-full bg-slate-200 rounded-full h-1.5'>
+										<div
+											className={clsx(
+												"h-1.5 rounded-full transition-all duration-500",
+												bookingsUsed >= bookingsLimit
+													? "bg-red-500"
+													: bookingsUsed >= bookingsLimit * 0.8
+														? "bg-yellow-500"
+														: "bg-blue-500"
+											)}
+											style={{
+												width: `${Math.min(100, (bookingsUsed / bookingsLimit) * 100)}%`
+											}}
+										/>
+									</div>
+								</div>
+							)}
+						</div>
+					</div>
+				)}
+			</div>
 
 			{/* Notifications Modal */}
 			<Modal
@@ -1762,10 +1841,11 @@ export const BarberDashboardPage = () => {
 							{t("dashboard.notifications.modal_heading") || "Don't miss a beat!"}
 						</h4>
 						<p className='text-slate-500 text-sm'>
-							{t("dashboard.notifications.modal_desc") || "Get instant updates about new rendezvous, client messages, and more. Enable notifications now so you're always in the loop."}
+							{t("dashboard.notifications.modal_desc") ||
+								"Get instant updates about new rendezvous, client messages, and more. Enable notifications now so you're always in the loop."}
 						</p>
 					</div>
-					
+
 					<div className='flex flex-col gap-3 mt-4'>
 						<button
 							onClick={handleEnableNotifs}
@@ -1790,8 +1870,6 @@ export const BarberDashboardPage = () => {
 					</div>
 				</div>
 			</Modal>
-
-
 		</div>
 	)
 }
