@@ -12,7 +12,9 @@ type SmtpConfig = {
 function getSmtpConfig(): SmtpConfig {
 	const host = process.env.SMTP_HOST?.trim()
 	const portRaw = String(process.env.SMTP_PORT || "587").trim()
-	const secureRaw = String(process.env.SMTP_SECURE || "false").trim().toLowerCase()
+	const secureRaw = String(process.env.SMTP_SECURE || "false")
+		.trim()
+		.toLowerCase()
 	const port = Number(portRaw)
 	const secure = secureRaw === "true"
 	const user = process.env.SMTP_USER?.trim()
