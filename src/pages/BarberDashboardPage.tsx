@@ -408,7 +408,12 @@ export const BarberDashboardPage = () => {
 										: "text-slate-600 hover:bg-slate-50 hover:text-slate-900 bg-white lg:bg-transparent border border-slate-200 lg:border-transparent"
 								)}
 							>
-								<tab.icon className={clsx("w-5 h-5", activeTab === tab.id ? "text-primary-600" : "text-slate-400")} />
+								<tab.icon
+									className={clsx(
+										"w-5 h-5",
+										activeTab === tab.id ? "text-primary-600" : "text-slate-400"
+									)}
+								/>
 								{tab.label}
 							</button>
 						))}
