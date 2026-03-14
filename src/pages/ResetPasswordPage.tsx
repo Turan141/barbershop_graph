@@ -55,8 +55,12 @@ export const ResetPasswordPage = () => {
 					<div className='mx-auto h-16 w-16 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-600/30 mb-6'>
 						<Scissors className='h-8 w-8' />
 					</div>
-					<h2 className='text-3xl font-bold text-slate-900 tracking-tight'>{t("auth.reset_password_title")}</h2>
-					<p className='mt-2 text-sm text-slate-600'>{t("auth.reset_password_subtitle")}</p>
+					<h2 className='text-3xl font-bold text-slate-900 tracking-tight'>
+						{t("auth.reset_password_title")}
+					</h2>
+					<p className='mt-2 text-sm text-slate-600'>
+						{t("auth.reset_password_subtitle")}
+					</p>
 				</div>
 
 				<div className='card p-8 shadow-xl border-0 bg-white'>
@@ -73,7 +77,10 @@ export const ResetPasswordPage = () => {
 						)}
 
 						<div>
-							<label htmlFor='password' className='block text-sm font-medium text-slate-700 mb-1'>
+							<label
+								htmlFor='password'
+								className='block text-sm font-medium text-slate-700 mb-1'
+							>
 								{t("auth.new_password_label")}
 							</label>
 							<div className='relative'>
@@ -93,7 +100,10 @@ export const ResetPasswordPage = () => {
 						</div>
 
 						<div>
-							<label htmlFor='confirmPassword' className='block text-sm font-medium text-slate-700 mb-1'>
+							<label
+								htmlFor='confirmPassword'
+								className='block text-sm font-medium text-slate-700 mb-1'
+							>
 								{t("auth.confirm_new_password_label")}
 							</label>
 							<div className='relative'>
@@ -112,14 +122,24 @@ export const ResetPasswordPage = () => {
 							</div>
 						</div>
 
-						<button type='submit' disabled={loading} className='btn-primary w-full flex justify-center items-center gap-2'>
+						<button
+							type='submit'
+							disabled={loading}
+							className='btn-primary w-full flex justify-center items-center gap-2'
+						>
 							{loading ? t("auth.resetting_password") : t("auth.reset_password_button")}
 							{!loading && <ArrowRight className='w-4 h-4' />}
 						</button>
 					</form>
 
 					<p className='text-center text-sm text-slate-600 mt-6'>
-						{t("auth.back_to")} <Link to='/login' className='font-medium text-primary-600 hover:text-primary-500'>{t("auth.sign_in_link")}</Link>
+						{t("auth.back_to")}{" "}
+						<Link
+							to='/login'
+							className='font-medium text-primary-600 hover:text-primary-500'
+						>
+							{t("auth.sign_in_link")}
+						</Link>
 					</p>
 				</div>
 			</div>

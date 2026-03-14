@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import crypto from "crypto"
 import { getJwtSecret } from "../config"
+import { sendPasswordResetEmail } from "../mail"
 import { authenticateToken, AuthRequest } from "../middleware/auth"
 
 const router = Router()
@@ -154,7 +155,7 @@ router.post("/forgot-password", async (req, res) => {
 		if (!user) {
 			return res.json({
 				success: true,
-				message: "If that email exists, a reset link has been generated."
+				message: "If that email exists, reset instructions were sent."
 			})
 		}
 
@@ -173,7 +174,7 @@ router.post("/forgot-password", async (req, res) => {
 		const tokenHash = hashResetToken(rawToken)
 		const expiresAt = new Date(Date.now() + RESET_TOKEN_EXPIRY_MINUTES * 60 * 1000)
 
-		await prisma.passwordResetToken.create({
+		const createdToken = await prisma.passwordResetToken.create({
 			data: {
 				userId: user.id,
 				tokenHash,
@@ -182,21 +183,36 @@ router.post("/forgot-password", async (req, res) => {
 		})
 
 		const frontendBase = process.env.RESET_PASSWORD_BASE_URL || process.env.FRONTEND_URL
-		const resetUrl = frontendBase
-			? `${frontendBase.replace(/\/$/, "")}/reset-password?token=${rawToken}`
-			: `/reset-password?token=${rawToken}`
 
-		console.log("[PASSWORD_RESET] link generated", {
+		if (!frontendBase) {
+			console.error("Forgot password error: missing RESET_PASSWORD_BASE_URL/FRONTEND_URL")
+			return res.status(500).json({ error: "Password reset is not configured" })
+		}
+
+		const resetUrl = `${frontendBase.replace(/\/$/, "")}/reset-password?token=${rawToken}`
+
+		try {
+			await sendPasswordResetEmail({
+				to: user.email,
+				resetUrl,
+				expiresInMinutes: RESET_TOKEN_EXPIRY_MINUTES
+			})
+		} catch (mailError) {
+			await prisma.passwordResetToken.update({
+				where: { id: createdToken.id },
+				data: { usedAt: new Date() }
+			})
+			throw mailError
+		}
+
+		console.log("[PASSWORD_RESET] email sent", {
 			email: user.email,
-			resetUrl,
 			expiresAt: expiresAt.toISOString()
 		})
 
 		return res.json({
 			success: true,
-			message: "If that email exists, a reset link has been generated.",
-			// Return for manual flows/dev; can be hidden by client in production UI
-			resetUrl
+			message: "If that email exists, reset instructions were sent."
 		})
 	} catch (error) {
 		console.error("Forgot password error:", error)

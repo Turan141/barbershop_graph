@@ -119,7 +119,9 @@ export const api = {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email })
-			}).then((res) => handleResponse<{ success: boolean; message: string; resetUrl?: string }>(res)),
+			}).then((res) =>
+				handleResponse<{ success: boolean; message: string }>(res)
+			),
 
 		resetPassword: (token: string, password: string) =>
 			fetch(`${API_BASE}/auth/reset-password`, {

@@ -1,757 +1,748 @@
 {
-  "trial": {
-    "expiring_title": "Sınaq müddəti bitir",
-    "expiring_desc": "Sınaq müddətinin bitməsinə {{days}} gün qaldı. Fasiləsiz xidmət üçün paketinizi yeniləyin.",
-    "expired_title": "Sınaq müddəti bitdi",
-    "expired_desc": "Sizin pulsuz ayınız bitdi. Cəmi 9 AZN ödəyərək onlayn qəbula davam edin.",
-    "upgrade_btn": "Paketi Seçin"
-  },
-  "nav": {
-    "dashboard": "İdarə Paneli",
-    "login": "Giriş",
-    "logout": "Çıxış",
-    "profile": "Profil",
-    "my_appointments": "Randevularım",
-    "favorites": "Seçilmişlər",
-    "register": "Qeydiyyat"
-  },
-  "home": {
-    "hero_title": "Növbəti mükəmməl",
-    "hero_subtitle": "saç kəsiminizi tapın",
-    "hero_desc": "Bölgənizdəki ən yaxşı bərbərləri kəşf edin, portfoliolarına baxın və saniyələr içində randevu alın.",
-    "search_placeholder": "Ad, məkan və ya xidmət üzrə axtar...",
-    "search_btn": "Axtar",
-    "vip_section": "VIP Ustalar",
-    "vip_badge": "PREMIUM",
-    "all_barbers": "Bütün Ustalar",
-    "view_all": "Hamısına bax",
-    "more": "daha çox",
-    "banner_badge": "1 Ay Pulsuz",
-    "banner_title": "QR Kod ilə Müştəri Bazasını Artırın",
-    "banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər.",
-    "mid_banner_title": "Bərbərsiniz?",
-    "mid_banner_desc": "Rezervasiyaları idarə etmək, müştəri bazanızı artırmaq və portfelinizi nümayiş etdirmək üçün platformamıza qoşulun.",
-    "mid_banner_btn": "Başla",
-    "filters": {
-      "title": "Filterlər",
-      "clear_all": "Təmizlə",
-      "location": "Məkan",
-      "all_locations": "Bütün Məkanlar",
-      "category": "Kateqoriya",
-      "all_categories": "Bütün Kateqoriyalar",
-      "price_level": "Qiymət Aralığı",
-      "any_price": "İstənilən Qiymət",
-      "price_low": "₼ (20-dən az)",
-      "price_medium": "₼₼ (20 - 50)",
-      "price_high": "₼₼₼ (50+)",
-      "rating": "Reytinq",
-      "any_rating": "İstənilən Reytinq",
-      "stars_4_5": "4.5+ Ulduz",
-      "stars_4_0": "4.0+ Ulduz",
-      "stars_3_5": "3.5+ Ulduz",
-      "show_results": "{{count}} Nəticəni Göstər",
-      "no_results_title": "Bərbər tapılmadı",
-      "no_results_desc": "Axtarışınıza uyğun nəticə tapılmadı. Başqa açar sözləri yoxlayın.",
-      "clear_filters_btn": "Bütün filterləri təmizlə",
-      "load_error_title": "Bərbərlər yüklənmədi",
-      "load_error_desc": "İnterneti və ya API ayarlarını yoxlayın, sonra yenidən cəhd edin.",
-      "retry_btn": "Yenidən",
-      "near_me": "near me"
-    }
-  },
-  "categories": {
-    "All": "Hamısı",
-    "Men": "Kişi",
-    "Women": "Qadın",
-    "Kids": "Uşaq",
-    "Beard": "Saqqal",
-    "Haircut": "Saç Kəsimi",
-    "Styling": "Stilləşdirmə"
-  },
-  "footer": {
-    "description": "Şəhərinizdəki ən yaxşı bərbərləri tapmağın və randevu almağın ən asan yolu. Yaxşı görün, yaxşı hiss et.",
-    "product": "Məhsul",
-    "features": "Xüsusiyyətlər",
-    "for_barbers": "Bərbərlər üçün",
-    "pricing": "Qiymətlər",
-    "company": "Şirkət",
-    "about_us": "Haqqımızda",
-    "careers": "Karyera",
-    "contact": "Əlaqə",
-    "legal": "Hüquqi",
-    "privacy": "Məxfilik",
-    "terms": "Şərtlər",
-    "copyright": "© 2025 Salonify Inc. Bütün hüquqlar qorunur."
-  },
-  "auth": {
-    "welcome": "Xoş gəlmisiniz",
-    "login_subtitle": "Randevularınızı və seçilmişlərinizi idarə etmək üçün daxil olun",
-    "email_label": "Email ünvanı",
-    "email_placeholder": "siz@numune.com",
-    "password_label": "Şifrə",
-    "password_disabled_title": "Bu demo üçün şifrə tələb olunmur",
-    "forgot_password": "Şifrəni unutmusunuz?",
-    "login_button": "Daxil ol",
-    "logging_in": "Giriş edilir...",
-    "demo_accounts": "Demo Hesablar",
-    "client_demo": "Müştəri Demo",
-    "barber_demo": "Bərbər Demo",
-    "no_account": "Hesabınız yoxdur?",
-    "register_link": "Pulsuz qeydiyyatdan keçin",
-    "login_failed": "Giriş uğursuz oldu. client@test.com və ya barber@test.com yoxlayın",
-    "create_account": "Hesab yarat",
-    "register_subtitle": "Randevu almaq və idarə etmək üçün bizə qoşulun",
-    "full_name_label": "Ad Soyad",
-    "i_am_a": "Mən...",
-    "guest_details": "Sizin Məlumatlarınız",
-    "name": "Ad",
-    "name_placeholder": "Adınızı daxil edin",
-    "phone": "Telefon Nömrəsi",
-    "phone_placeholder": "Telefon nömrənizi daxil edin",
-    "guest_details_required": "Zəhmət olmasa adınızı və telefon nömrənizi daxil edin",
-    "role_client": "Müştəri",
-    "role_barber": "Bərbər",
-    "creating_account": "Hesab yaradılır...",
-    "sign_up": "Qeydiyyatdan keç",
-    "already_have_account": "Artıq hesabınız var?",
-    "sign_in_link": "Daxil ol",
-    "registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin.",
-    "session_expired": "session expired",
-    "forgot_password_title": "Şifrəni unutmusunuz",
-    "forgot_password_subtitle": "Emailinizi daxil edin, sizə sıfırlama linki yaradaq.",
-    "reset_email_sent": "Bu email mövcuddursa, sıfırlama təlimatı göndərildi.",
-    "reset_request_failed": "Şifrə sıfırlama sorğusu alınmadı",
-    "generating_reset_link": "Sıfırlama linki yaradılır...",
-    "send_reset_link": "Sıfırlama linkini göndər",
-    "reset_link_label": "Sıfırlama linki:",
-    "remember_password": "Şifrənizi xatırladınız?",
-    "reset_password_title": "Yeni şifrə təyin edin",
-    "reset_password_subtitle": "Hesabınız üçün güclü yeni şifrə seçin.",
-    "new_password_label": "Yeni şifrə",
-    "confirm_new_password_label": "Yeni şifrəni təsdiqləyin",
-    "resetting_password": "Şifrə sıfırlanır...",
-    "reset_password_button": "Şifrəni sıfırla",
-    "back_to": "Geri",
-    "reset_token_missing": "Sıfırlama tokeni yoxdur.",
-    "password_min_length": "Şifrə ən azı 6 simvol olmalıdır.",
-    "password_mismatch": "Şifrələr uyğun gəlmir.",
-    "password_reset_success": "Şifrə uğurla yeniləndi. Giriş səhifəsinə yönləndirilirsiniz...",
-    "password_reset_failed": "Şifrə sıfırlanmadı"
-  },
-  "profile": {
-    "book_for_someone_else": "Başqa biri üçün randevu al",
-    "whatsapp_message": "Salam, mən randevu almaq istəyirəm.",
-    "contact_whatsapp": "WhatsApp ilə əlaqə",
-    "rating": "Reytinq",
-    "back_to_search": "Axtarışa qayıt",
-    "open": "AÇIQ",
-    "reviews": "rəy",
-    "verified": "Təsdiqlənmiş",
-    "professional": "Peşəkar",
-    "about": "Haqqında",
-    "services_menu": "Xidmət Menyusu",
-    "service_name": "Xidmət",
-    "duration": "Müddət",
-    "price": "Qiymət",
-    "select_service": "Xidmət Seç",
-    "select_service_placeholder": "Xidmət seçin...",
-    "location": "Məkan",
-    "portfolio": "Portfolio",
-    "show_less": "Daha az göstər",
-    "view_all": "Hamısına bax",
-    "min": "dəq",
-    "selected": "Seçildi",
-    "select": "Seç",
-    "book_appointment": "Randevu Al",
-    "select_date": "Tarix Seç",
-    "select_time": "Vaxt Seç",
-    "confirm_booking": "Təsdiqlə",
-    "available_times": "Mövcud Saatlar",
-    "dynamic_slots_hint": "Mövcud vaxtlar seçilmiş xidmətin müddətinə əsasən hesablanır.",
-    "loading_availability": "Mövcudluq yüklənir...",
-    "availability_load_failed": "Mövcudluq yüklənə bilmədi.",
-    "retry": "Yenidən cəhd et",
-    "closed_day": "Bu gün bərbər işləmir.",
-    "no_slots": "Bu tarix üçün boş yer yoxdur.",
-    "no_services": "Hələlik xidmət yoxdur.",
-    "total_price": "Ümumi Qiymət",
-    "processing": "Emal edilir...",
-    "confirm": "Təsdiqlə",
-    "slot_taken": "Bu vaxt artıq tutulub. Başqasını seçin.",
-    "busy": "Məşğul",
-    "reserved": "Rezerv",
-    "pending_warning": "Bu vaxt üçün sorğu var. Siz də sorğu göndərə bilərsiniz, lakin təsdiq zəmanət verilmir.",
-    "appointment_confirmed": "Randevu Təsdiqləndi!",
-    "appointment_success_message": "Randevunuz uğurla qeydə alındı.",
-    "book_another": "Başqasını Al",
-    "booking_failed": "Randevu alına bilmədi",
-    "errors": {
-      "SLOT_ALREADY_BOOKED": "Bu vaxt artıq tutulub",
-      "MAX_ACTIVE_BOOKINGS_REACHED": "Siz maksimum 3 aktiv randevu limitinə çatdınız."
-    },
-    "reviews_section_title": "Rəylər",
-    "write_review": "Rəy Yaz",
-    "no_reviews": "Hələlik rəy yoxdur. İlk rəyi siz yazın!",
-    "rate_experience": "Təcrübənizi qiymətləndirin",
-    "review_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
-    "share_experience_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
-    "submitting": "Göndərilir...",
-    "submit_review": "Rəyi Göndər",
-    "book_now": "İndi Bron Et",
-    "selected_service": "Seçilmiş Xidmət",
-    "avatar_url": "Profile Picture URL"
-  },
-  "dashboard": {
-    "title": "İdarə Paneli",
-    "subtitle": "Profilinizi və iş qrafikinizi idarə edin",
-    "subscription": {
-      "title": "Abunəlik",
-      "plan": "Tarif",
-      "status": "Status",
-      "expires": "Bitmə vaxtı",
-      "bookings_used": "İstifadə olunan randevular"
-    },
-    "loading": "Yüklənir...",
-    "profile_load_error": "Profil yüklənmədi",
-    "unknown_error": "Naməlum xəta",
-    "status_updated": "Randevu statusu yeniləndi",
-    "status_update_error": "Status yenilənərkən xəta baş verdi",
-    "changes_saved": "Dəyişikliklər yadda saxlanıldı!",
-    "save_error": "Xəta baş verdi. Yenidən cəhd edin.",
-    "profile_not_found": "Bərbər profili tapılmadı.",
-    "no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
-    "saving": "Yadda saxlanılır...",
-    "save": "Yadda saxla",
-    "bookings": {
-      "title": "Görüş Zaman Çizelgesi",
-      "load_error": "Randevular yüklənmədi",
-      "update_success": "Randevu yeniləndi",
-      "update_error": "Yeniləmə xətası",
-      "no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
-      "share_link": "Randevu almaq üçün profil linkinizi paylaşın.",
-      "client": "Müştəri",
-      "service": "Xidmət",
-      "date_time": "Tarix və Saat",
-      "status_label": "Status",
-      "actions_label": "Əməliyyatlar",
-      "unknown_client": "Naməlum Müştəri",
-      "unknown_service": "Naməlum Xidmət",
-      "service_deleted": "Xidmət silinib",
-      "status": {
-        "confirmed": "Təsdiqlənib",
-        "pending": "Gözləyir",
-        "cancelled": "Ləğv edilib",
-        "completed": "Tamamlanıb",
-        "no_show": "Gəlmədi"
-      },
-      "no_filtered_bookings": "Bu statusda randevu tapılmadı",
-      "try_different_filter": "Başqa status seçməyə çalışın.",
-      "actions": {
-        "confirm": "Təsdiqlə",
-        "cancel": "Ləğv et",
-        "complete": "Tamamla",
-        "no_show": "Gəlmədi"
-      },
-      "cancel_reason_prompt": "Ləğv səbəbi (könüllü):",
-      "note": "Qeyd",
-      "subtitle": "Gündəlik qrafikinizi idarə edin",
-      "scan_to_book": "Rezervasiya etmək üçün skan edin",
-      "new_booking_notification": "new booking notification"
-    },
-    "unknown_client": "Naməlum Müştəri",
-    "profile": {
-      "avatar_url": "Profil Şəkli URL-si",
-      "title": "Profil Məlumatları",
-      "profile_picture": "Profil Şəkli",
-      "set_as_profile_picture": "Profil şəkli kimi təyin et",
-      "select_from_portfolio": "Portfoliodan seçin:",
-      "no_portfolio": "Profil şəkli təyin etmək üçün portfolionuzda şəkil yükləyin.",
-      "name": "Ad Soyad",
-      "email": "Email",
-      "phone": "Telefon",
-      "address": "Ünvan / Məkan",
-      "about": "Haqqında",
-      "about_placeholder": "Təcrübəniz və bacarıqlarınız haqqında yazın...",
-      "specialties": "İxtisaslaşma",
-      "specialties_placeholder": "məs. Saç kəsimi, Saqqal, Formaya salma (vergüllə ayırın)",
-      "verification_title": "Təsdiqləmə",
-      "status_verified": "Təsdiqlənmiş Hesab",
-      "status_pending": "Təsdiqləmə Gözlənilir",
-      "status_unverified": "Təsdiqlənməmiş Hesab",
-      "verified_desc": "Hesabınız təsdiqlənib və nişan göstərilir.",
-      "pending_desc": "Sənədlərinizi nəzərdən keçiririk.",
-      "unverified_desc": "Təsdiqlənmək üçün sənəd yükləyin.",
-      "upload_doc": "Şəxsiyyət vəsiqəsi və ya Sertifikat yükləyin",
-      "submit_verification": "Sorğu Göndər",
-      "upload_hint": "Zəhmət olmasa sənədinizə keçid təqdim edin (Google Drive, Dropbox və s.)",
-      "address_hint": "Xəritədə görmək üçün ünvanı daxil edin",
-      "map_preview": "Xəritəyə baxış",
-      "open_in_maps": "Google Maps-də aç",
-      "map_warning": "Zəhmət olmasa xəritədə yerin düzgünlüyünü yoxlayın",
-      "official_address": "Rəsmi Ünvan"
-    },
-    "schedule": {
-      "add_time": "Vaxt əlavə et",
-      "title": "İş Saatları",
-      "days": {
-        "monday": "Bazar ertəsi",
-        "tuesday": "Çərşənbə axşamı",
-        "wednesday": "Çərşənbə",
-        "thursday": "Cümə axşamı",
-        "friday": "Cümə",
-        "saturday": "Şənbə",
-        "sunday": "Bazar"
-      },
-      "hours_active": "saat aktivdir",
-      "holidays": {
-        "title": "Tətillər / İstirahət günləri",
-        "add": "Tarix əlavə et",
-        "no_holidays": "Hələ ki, tətil günü yoxdur."
-      }
-    },
-    "services": {
-      "title": "Xidmətlər",
-      "new_service_default": "Yeni Xidmət",
-      "add_service": "Xidmət əlavə et",
-      "name": "Xidmət adı",
-      "duration": "Müddət (dəq)",
-      "price": "Qiymət",
-      "no_services": "Heç bir xidmət əlavə edilməyib.",
-      "add_first": "İlk xidmətinizi əlavə edin"
-    },
-    "portfolio": {
-      "title": "Portfolio",
-      "profile_avatar": "Profil Avatarı",
-      "avatar_desc": "Profilinizdə və rəylərdə görünür.",
-      "select_from_gallery": "Qalereyadan seç...",
-      "change_avatar": "Avatarı dəyiş",
-      "listing_cover": "Siyahı Üz qabığı",
-      "cover_desc": "Axtarış nəticələrində və siyahılarda görünür.",
-      "change_cover": "Üz qabığını dəyiş",
-      "select_instruction": "Aşağıdakı şəkli seçərək təyin edin:",
-      "avatar": "Avatar",
-      "cover_image": "Üz qabığı",
-      "cancel_selection": "Ləğv et",
-      "current_avatar": "Cari Avatar",
-      "current_cover": "Cari Üz qabığı",
-      "prompt_url": "Şəkil URL-si daxil edin:",
-      "add_image": "Şəkil Əlavə Et",
-      "limit_reached": "Maksimum 6 şəkil icazəlidir",
-      "upload_title": "Şəkil Yüklə",
-      "compressing": "Sıxılır...",
-      "click_to_upload": "Şəkil yükləmək üçün klikləyin",
-      "image_added": "Şəkil uğurla əlavə edildi",
-      "upload_error": "Şəkil yüklənməsi uğursuz oldu",
-      "set_avatar_tooltip": "Profil şəkli kimi təyin et",
-      "current_avatar_tooltip": "Cari profil şəkli",
-      "delete_tooltip": "Şəkli sil",
-      "upload_help": "JPG, PNG (Maks 800x800px)",
-      "upload_new_image": "Yeni Şəkil Yüklə",
-      "no_images": "no images",
-      "upload_first": "upload first"
-    },
-    "tabs": {
-      "overview": "İcmal",
-      "profile": "Profil Məlumatları",
-      "bookings": "Randevular",
-      "schedule": "İş Saatları",
-      "services": "Xidmətlər",
-      "portfolio": "Portfolio",
-      "expenses": "Xərclər",
-      "notifications": "Bildirişlər",
-      "qrcode": "QR Code"
-    },
-    "expenses": {
-      "title": "Xərclər",
-      "subtitle": "Biznes xərclərinizi izləyin",
-      "add_btn": "Xərc Əlavə Et",
-      "total_cost": "Ümumi Xərc",
-      "date": "Tarix",
-      "category": "Kateqoriya",
-      "note": "Qeyd",
-      "amount": "Məbləğ",
-      "no_data": "Hələ heç bir xərc qeydə alınmayıb.",
-      "add_title": "Yeni Xərc Əlavə Et",
-      "added_success": "Xərc uğurla əlavə edildi",
-      "add_error": "Xərc əlavə edilə bilmədi",
-      "deleted_success": "Xərc silindi",
-      "delete_error": "Xərc silinə bilmədi",
-      "categories": {
-        "rent": "İcarə",
-        "supplies": "Ləvazimatlar",
-        "utilities": "Kommunal",
-        "marketing": "Marketinq",
-        "other": "Digər"
-      }
-    },
-    "notifications": {
-      "title": "Bildiriş Ayarları",
-      "subtitle": "Müştərilər randevu aldıqda dərhal xəbərdarlıqlar qəbul edin.",
-      "telegram_title": "Telegram Bildirişləri (Pulsuz)",
-      "telegram_connected": "Qoşulub",
-      "telegram_desc": "Müştəri randevu aldıqda anında mesajlar əldə edin. Telegram hesabınızı təhlükəsiz şəkildə bağlamaq üçün aşağıdakı düyməni sıxın.",
-      "telegram_chat_id": "Chat ID",
-      "telegram_disconnect": "Ayrıl (Bağlantını kəs)",
-      "telegram_active_desc": "Bildirişlər hazırda aktivdir və Telegramınıza göndərilir.",
-      "telegram_connect_btn": "Telegram Hesabını Bağla",
-      "telegram_waiting": "Telegram Gözlənilir...",
-      "telegram_instruction": "Yeni bir pəncərə (tab) açılacaq. Hesabınızı avtomatik bağlamaq üçün Telegram çatında 'Start' (Başla) düyməsini sıxın.",
-      "telegram_success": "Telegram uğurla bağlandı!",
-      "whatsapp_title": "WhatsApp Bildirişləri",
-      "whatsapp_desc": "Rəsmi WhatsApp inteqrasiyası hazırlayırıq.",
-      "whatsapp_warning": "Qeyd: Telegramdan fərqli olaraq, rəsmi WhatsApp Business API vasitəsilə avtomatlaşdırılmış mesajlaşma ödənişli xidmətdir (Meta vasitəsilə).",
-      "whatsapp_input_label": "WhatsApp Nömrəsi (Tezliklə)",
-      "enable_title": "Bildirişləri aktiv et",
-      "modal_heading": "Heç bir rezervasiyanı qaçırmayın!",
-      "modal_desc": "Yeni rezervasiya sorğularını dərhal almaq və işinizi qaydada saxlamaq üçün bildirişləri aktiv edin.",
-      "enable_btn": "Bildirişləri aktiv et",
-      "sustain_now": "Sonra",
-      "sustain_forever": "Heç vaxt"
-    },
-    "stats": {
-      "today_revenue": "Bugünkü Gəlir",
-      "bookings_today": "bugünkü rezervasiyalar",
-      "month_revenue": "Aylıq Gəlir",
-      "bookings_month": "bu aykı rezervasiyalar",
-      "total_clients": "Ümumi Müştərilər",
-      "unique_clients": "unikal müştərilər",
-      "weekly_overview": "Həftəlik İcmal",
-      "revenue": "Gəlir",
-      "bookings": "Rezervasiyalar",
-      "no_data_title": "Statistika Mövcud Deyil",
-      "no_data_desc": "Analitikanı görmək üçün rezervasiyaları qəbul etməyə başlayın.",
-      "get_started_title": "İşə başlamağa hazırsınız?",
-      "get_started_desc": "Rezervasiyalar qəbul etməyə başladıqdan sonra statistikanız burada görünəcək."
-    },
-    "clients": {
-      "title": "Müştərilərim",
-      "search_placeholder": "Müştəri axtar...",
-      "total_clients": "Cəmi Müştəri",
-      "total_revenue": "Cəmi Gəlir",
-      "last_visit": "Son Ziyarət",
-      "bookings": "Rezervasiyalar",
-      "notes": "Qeydlər",
-      "tags": "Teqlər",
-      "add_note": "Qeyd əlavə et",
-      "save_note": "Yadda saxla",
-      "no_clients": "Müştəri tapılmadı",
-      "details": "Müştəri Məlumatları",
-      "contact": "Əlaqə",
-      "add_tag": "Teq əlavə et",
-      "share_profile": "Profili Paylaş",
-      "no_clients_title": "Hələ müştəri yoxdur",
-      "no_clients_desc": "Randevu almaq üçün profil linkinizi paylaşın."
-    },
-    "roadmap": {
-      "title": "Sizin Uğur Xəritəniz",
-      "subtitle": "Bu sadə addımlarla peşəkar bərbər kimi potensialınızı artırın.",
-      "step1_title": "Müştəri Bazasını Yaradın",
-      "step1_desc": "Profiliniz sizin rəqəmsal vizit kartınızdır. Ən yaxşı saç kəsimlərinizi portfelə əlavə edin, xidmətlərinizi yeniləyin və platformamız vasitəsilə yeni müştərilər qazanın.",
-      "step2_title": "Heç Bir Randevunu Qaçırmayın",
-      "step2_desc": "Müştərini gözlətməyin! Yeni randevular, ləğvlər və ya dəyişikliklər barədə anında məlumat almaq üçün bildirişləri (Push və ya Telegram) aktivləşdirin.",
-      "step3_title": "Sehrli QR Kod",
-      "step3_desc": "QR tabından unikal QR kodunuzu çap edin və güzgünüzə yapışdırın! Müştərilər stulda əyləşərkən kodu skan edərək portfelinizə baxa, rəy yaza və ya növbəti ziyarətləri üçün anında yazıla bilərlər.",
-      "dismiss": "Başa düşdüm, gizlət"
-    },
-    "qrcode": {
-      "download_sticker": "HD Stikeri Yüklə",
-      "print_instruction": "Çap üçün yüksək keyfiyyətli PNG yükləyir",
-      "powered_by": "Dəstəkləyir",
-      "title": "Rəqəmsal Vizit Kartı",
-      "subtitle": "Çap edib iş yerinizdə yerləşdirmək üçün gözəl dizayn edilmiş QR kod stikerini yükləyin."
-    },
-    "hide_past": "Hide Past Appointments",
-    "show_past": "Show Past Appointments"
-  },
-  "common": {
-    "loading": "Yüklənir...",
-    "check_map": "Xəritəni yoxla",
-    "refresh": "Yenilə",
-    "days": "gün",
-    "all": "Bütün Statuslar",
-    "page": "Səhifə",
-    "link_copied": "Link kopyalandı!",
-    "confirm_delete": "Əminsiniz?",
-    "cancel": "Ləğv et",
-    "saving": "Yadda saxlanılır...",
-    "save": "Yadda saxla",
-    "today": "Bugün",
-    "tomorrow": "Sabah",
-    "yesterday": "Dünən",
-    "refreshed": "Yeniləndi",
-    "min": "min",
-    "close": "Close",
-    "use_current_location": "use current location",
-    "geolocation_not_supported": "geolocation not supported",
-    "geolocation_denied": "geolocation denied",
-    "book_now": "Book Now"
-  },
-  "pages": {
-    "features": {
-      "title": "Xüsusiyyətlər",
-      "subtitle": "Üslubunuzu idarə etmək üçün lazım olan hər şey bir yerdə.",
-      "items": {
-        "booking": {
-          "title": "Asan Rezervasiya",
-          "desc": "İntuitiv interfeysimizlə saniyələr ərzində randevunuzu alın."
-        },
-        "availability": {
-          "title": "Real vaxt rejimində mövcudluq",
-          "desc": "Sevimli bərbərinizin nə vaxt boş olduğunu dəqiq görün."
-        },
-        "reminders": {
-          "title": "Xatırlatmalar",
-          "desc": "Randevunuzdan əvvəl bildiriş alın, beləliklə saç kəsimini heç vaxt qaçırmazsınız."
-        },
-        "reviews": {
-          "title": "Rəylər və Reytinqlər",
-          "desc": "Ən yaxşısını seçmək üçün digər müştərilərin həqiqi rəylərini oxuyun."
-        }
-      }
-    },
-    "for_barbers": {
-      "title": "Bərbərlər üçün",
-      "subtitle": "Biznesinizi böyüdün və müştərilərinizi asanlıqla idarə edin.",
-      "scheduling": {
-        "title": "Ağıllı Planlaşdırma",
-        "desc": "Təqviminizi asanlıqla idarə edin. İş saatlarınızı, fasilələri və tətilləri təyin edin."
-      },
-      "clients": {
-        "title": "Müştəri İdarəetməsi",
-        "desc": "Müştərilərinizi, onların seçimlərini və rezervasiya tarixçəsini izləyin."
-      },
-      "growth": {
-        "title": "Biznesin Böyüməsi",
-        "desc": "Analitik alətlərimizlə performansınız haqqında məlumat əldə edin və gəlirinizi artırın."
-      },
-      "cta": {
-        "title": "Biznesinizi təkmilləşdirməyə hazırsınız?",
-        "subtitle": "Bizneslərini idarə etmək üçün Salonify-a güvənən minlərlə bərbərə qoşulun.",
-        "button": "Başlayın"
-      }
-    },
-    "pricing": {
-      "title": "Tariflər",
-      "subtitle": "Biznesiniz üçün ən uyğun paketi seçin",
-      "selected": "Seçildi",
-      "button": "WhatsApp ilə Qoşul",
-      "popular": "ƏN SƏRFƏLİ",
-      "period": "ay",
-      "demo": {
-        "title": "Pro Demo",
-        "price": "Pulsuz",
-        "features": "features",
-        "button": "Sına 1 ay pulsuz",
-        "description": "Bu müddət ərzində bütün funksiyaları sınayacaqsınız, ödəniş yoxdur."
-      },
-      "basic": {
-        "title": "Basic",
-        "price": "10 ₼",
-        "features": "features",
-        "button": "Basic al",
-        "description": "Ayda 50 randevu, təqvim və müştərilərə tam çıxış."
-      },
-      "standard": {
-        "title": "Standard",
-        "price": "20 ₼",
-        "features": "features",
-        "button": "Standard al",
-        "description": "Limitsiz randevu, müştəri statistikası, rahat iş."
-      },
-      "pro": {
-        "title": "Pro",
-        "price": "30 ₼",
-        "features": "features",
-        "button": "Pro al",
-        "description": "Maksimum yüklənmə, prioritet dəstək, genişləndirilmiş statistika."
-      }
-    },
-    "about": {
-      "title": "Haqqımızda",
-      "subtitle": "Salonify bərbərxana təcrübəsini müasirləşdirmək missiyasındadır. Biz istedadlı bərbərləri keyfiyyətli xidməti qiymətləndirən müştərilərlə əlaqələndiririk.",
-      "story": {
-        "title": "Bizim Hekayəmiz",
-        "content": "2024-cü ildə qurulan Salonify sadə bir müşahidə ilə başladı: yaxşı bərbər tapmaq və randevu almaq lazım olduğundan daha çətin idi. Biz müştərilərin əla bərbərləri kəşf etməsini və bərbərlərin bizneslərini səmərəli idarə etməsini asanlaşdıran bir platforma qurmaq üçün yola çıxdıq.",
-        "text": "Founded in 2024, Salonify started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
-      },
-      "values": {
-        "title": "Dəyərlərimiz",
-        "quality": {
-          "title": "Keyfiyyət",
-          "desc": "Sənayedəki ən yaxşı istedadları vurğulamağa inanırıq.",
-          "text": "We believe in highlighting the best talent in the industry."
-        },
-        "community": {
-          "title": "İcma",
-          "desc": "Bərbərxanalar icma mərkəzləridir və biz bu əlaqəni dəstəkləmək istəyirik.",
-          "text": "Barbershops are community hubs, and we want to support that connection."
-        },
-        "innovation": {
-          "title": "İnnovasiya",
-          "desc": "Sizə daha yaxşı xidmət göstərmək üçün texnologiyamızı daim təkmilləşdiririk.",
-          "text": "We're constantly improving our technology to serve you better."
-        }
-      },
-      "mission": "Salonify is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service."
-    },
-    "careers": {
-      "title": "Komandamıza Qoşulun",
-      "subtitle": "Biz bərbərxana idarəçiliyinin gələcəyini qururuq. Sənayeni formalaşdırmağa kömək edin.",
-      "positions": [
-        {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        }
-      ],
-      "location": {
-        "remote": "Remote",
-        "baku": "Baku, Azerbaijan"
-      },
-      "type": "Full-time"
-    },
-    "contact": {
-      "title": "Bizimlə Əlaqə",
-      "subtitle": "Suallarınız var? Sizdən eşitmək istərdik.",
-      "get_in_touch": "Əlaqə Saxlayın",
-      "email": {
-        "title": "E-poçt",
-        "desc": "Adətən 24 saat ərzində cavab veririk.",
-        "value": "support@salonify.com"
-      },
-      "phone": {
-        "title": "Telefon",
-        "desc": "B.e.-Cümə 09:00-dan 18:00-a qədər.",
-        "value": "+994 50 123 45 67"
-      },
-      "office": {
-        "title": "Ofis",
-        "value": "123 Nizami Street",
-        "city": "Baku, Azerbaijan"
-      },
-      "form": {
-        "name": "Ad",
-        "name_placeholder": "Adınız",
-        "email": "E-poçt",
-        "email_placeholder": "siz@numune.com",
-        "message": "Mesaj",
-        "message_placeholder": "Sizə necə kömək edə bilərik?",
-        "submit": "Mesaj Göndər",
-        "success": "Message sent successfully!"
-      },
-      "schedule": {
-        "add_time": "Vaxt əlavə et"
-      }
-    },
-    "privacy": {
-      "title": "Məxfilik Siyasəti",
-      "last_updated": "Son yenilənmə: 8 Dekabr 2025",
-      "intro": {
-        "title": "1. Giriş",
-        "content": "Salonify-a xoş gəlmisiniz. Məxfiliyinizə hörmət edirik və şəxsi məlumatlarınızı qorumağa sadiqik. Bu məxfilik siyasəti veb saytımızı ziyarət etdiyiniz zaman şəxsi məlumatlarınıza necə baxdığımız barədə məlumat verəcək və məxfilik hüquqlarınız və qanunun sizi necə qoruduğu barədə sizə məlumat verəcəkdir.",
-        "text": "Welcome to Salonify. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
-      },
-      "data": {
-        "title": "2. Topladığımız Məlumatlar",
-        "content": "Sizin haqqınızda aşağıdakı kimi qruplaşdırdığımız müxtəlif növ şəxsi məlumatları toplaya, istifadə edə, saxlaya və ötürə bilərik:",
-        "list": [
-          "0",
-          "1",
-          "2",
-          "3"
-        ],
-        "text": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:",
-        "items": [
-          "Identity Data includes first name, last name, username or similar identifier.",
-          "Contact Data includes email address and telephone number.",
-          "Technical Data includes internet protocol (IP) address, browser type and version.",
-          "Usage Data includes information about how you use our website and services."
-        ]
-      },
-      "usage": {
-        "title": "3. Məlumatlarınızı Necə İstifadə Edirik",
-        "content": "Şəxsi məlumatlarınızı yalnız qanun icazə verdikdə istifadə edəcəyik. Əksər hallarda şəxsi məlumatlarınızı aşağıdakı hallarda istifadə edəcəyik:",
-        "list": [
-          "0",
-          "1",
-          "2"
-        ],
-        "text": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
-        "items": [
-          "Where we need to perform the contract we are about to enter into or have entered into with you.",
-          "Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
-          "Where we need to comply with a legal or regulatory obligation."
-        ]
-      }
-    },
-    "terms": {
-      "title": "Xidmət Şərtləri",
-      "last_updated": "Son yenilənmə: 8 Dekabr 2025",
-      "agreement": {
-        "title": "1. Şərtlərlə Razılaşma",
-        "content": "Veb saytımıza daxil olmaqla, bu Xidmət Şərtlərinə əməl etməyə və bütün tətbiq olunan qanun və qaydalara riayət etməyə razılaşırsınız. Bu şərtlərdən hər hansı biri ilə razı deyilsinizsə, bu saytdan istifadə etmək və ya daxil olmaq qadağandır.",
-        "text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
-      },
-      "license": {
-        "title": "2. İstifadə Lisenziyası",
-        "content": "Salonify-un veb saytındakı materialların (məlumat və ya proqram təminatı) bir nüsxəsini yalnız şəxsi, qeyri-kommersiya məqsədli müvəqqəti baxış üçün yükləməyə icazə verilir.",
-        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on Salonify's website for personal, non-commercial transitory viewing only."
-      },
-      "disclaimer": {
-        "title": "3. Məsuliyyətdən İmtina",
-        "content": "Salonify-un veb saytındakı materiallar 'olduğu kimi' təqdim olunur. Salonify heç bir zəmanət vermir, ifadə edilmir və ya nəzərdə tutulmur və bununla da ticarət qabiliyyəti, müəyyən məqsədə uyğunluq və ya əqli mülkiyyətin pozulmaması və ya digər hüquqların pozulması daxil olmaqla, lakin bununla məhdudlaşmayaraq bütün digər zəmanətləri rədd edir və ləğv edir.",
-        "text": "The materials on Salonify's website are provided on an 'as is' basis. Salonify makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
-      },
-      "limitations": {
-        "title": "4. Məhdudiyyətlər",
-        "content": "Heç bir halda Salonify və ya onun təchizatçıları Salonify-un veb saytındakı materiallardan istifadə və ya istifadə edə bilməməsi nəticəsində yaranan hər hansı zərərə (o cümlədən, məhdudiyyətsiz olaraq, məlumat və ya mənfəət itkisi və ya işin dayandırılması səbəbindən yaranan zərərlər) görə məsuliyyət daşımır.",
-        "text": "In no event shall Salonify or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Salonify's website."
-      }
-    }
-  },
-  "user_bookings": {
-    "title": "Randevularım",
-    "subtitle": "Qarşıdan gələn və keçmiş randevularınız",
-    "no_bookings_title": "Randevu tapılmadı",
-    "no_bookings_desc": "Hələ heç bir randevu almamısınız.",
-    "book_now": "Randevu Al",
-    "unknown_barber": "Naməlum Bərbər",
-    "status": {
-      "confirmed": "Təsdiqlənib",
-      "pending": "Gözləyir",
-      "cancelled": "Ləğv edilib",
-      "completed": "Tamamlanıb"
-    },
-    "cancel_tooltip": "Randevunu ləğv et",
-    "cancel_reason_label": "Ləğv səbəbi (könüllü):",
-    "cancel_reason_placeholder": "Səbəb qeyd edin...",
-    "confirm_cancel": "Təsdiqlə",
-    "note_label": "Qeyd: "
-  },
-  "favorites": {
-    "title": "Seçilmişlər",
-    "subtitle": "Bəyəndiyiniz bərbərlərin siyahısı",
-    "empty_title": "Siyahı boşdur",
-    "empty_desc": "Hələ heç bir bərbəri seçilmişlərə əlavə etməmisiniz.",
-    "discover_btn": "Bərbərləri kəşf et"
-  }
+	"trial": {
+		"expiring_title": "Sınaq müddəti bitir",
+		"expiring_desc": "Sınaq müddətinin bitməsinə {{days}} gün qaldı. Fasiləsiz xidmət üçün paketinizi yeniləyin.",
+		"expired_title": "Sınaq müddəti bitdi",
+		"expired_desc": "Sizin pulsuz ayınız bitdi. Cəmi 9 AZN ödəyərək onlayn qəbula davam edin.",
+		"upgrade_btn": "Paketi Seçin"
+	},
+	"nav": {
+		"dashboard": "İdarə Paneli",
+		"login": "Giriş",
+		"logout": "Çıxış",
+		"profile": "Profil",
+		"my_appointments": "Randevularım",
+		"favorites": "Seçilmişlər",
+		"register": "Qeydiyyat"
+	},
+	"home": {
+		"hero_title": "Növbəti mükəmməl",
+		"hero_subtitle": "saç kəsiminizi tapın",
+		"hero_desc": "Bölgənizdəki ən yaxşı bərbərləri kəşf edin, portfoliolarına baxın və saniyələr içində randevu alın.",
+		"search_placeholder": "Ad, məkan və ya xidmət üzrə axtar...",
+		"search_btn": "Axtar",
+		"vip_section": "VIP Ustalar",
+		"vip_badge": "PREMIUM",
+		"all_barbers": "Bütün Ustalar",
+		"view_all": "Hamısına bax",
+		"more": "daha çox",
+		"banner_badge": "1 Ay Pulsuz",
+		"banner_title": "QR Kod ilə Müştəri Bazasını Artırın",
+		"banner_desc": "Salonunuz üçün xüsusi QR kod çap edin. Müştəriləriniz bu kodu skan edərək növbəti dəfə birbaşa onlayn randevu ala bilərlər.",
+		"mid_banner_title": "Bərbərsiniz?",
+		"mid_banner_desc": "Rezervasiyaları idarə etmək, müştəri bazanızı artırmaq və portfelinizi nümayiş etdirmək üçün platformamıza qoşulun.",
+		"mid_banner_btn": "Başla",
+		"filters": {
+			"title": "Filterlər",
+			"clear_all": "Təmizlə",
+			"location": "Məkan",
+			"all_locations": "Bütün Məkanlar",
+			"category": "Kateqoriya",
+			"all_categories": "Bütün Kateqoriyalar",
+			"price_level": "Qiymət Aralığı",
+			"any_price": "İstənilən Qiymət",
+			"price_low": "₼ (20-dən az)",
+			"price_medium": "₼₼ (20 - 50)",
+			"price_high": "₼₼₼ (50+)",
+			"rating": "Reytinq",
+			"any_rating": "İstənilən Reytinq",
+			"stars_4_5": "4.5+ Ulduz",
+			"stars_4_0": "4.0+ Ulduz",
+			"stars_3_5": "3.5+ Ulduz",
+			"show_results": "{{count}} Nəticəni Göstər",
+			"no_results_title": "Bərbər tapılmadı",
+			"no_results_desc": "Axtarışınıza uyğun nəticə tapılmadı. Başqa açar sözləri yoxlayın.",
+			"clear_filters_btn": "Bütün filterləri təmizlə",
+			"load_error_title": "Bərbərlər yüklənmədi",
+			"load_error_desc": "İnterneti və ya API ayarlarını yoxlayın, sonra yenidən cəhd edin.",
+			"retry_btn": "Yenidən",
+			"near_me": "near me"
+		}
+	},
+	"categories": {
+		"All": "Hamısı",
+		"Men": "Kişi",
+		"Women": "Qadın",
+		"Kids": "Uşaq",
+		"Beard": "Saqqal",
+		"Haircut": "Saç Kəsimi",
+		"Styling": "Stilləşdirmə"
+	},
+	"footer": {
+		"description": "Şəhərinizdəki ən yaxşı bərbərləri tapmağın və randevu almağın ən asan yolu. Yaxşı görün, yaxşı hiss et.",
+		"product": "Məhsul",
+		"features": "Xüsusiyyətlər",
+		"for_barbers": "Bərbərlər üçün",
+		"pricing": "Qiymətlər",
+		"company": "Şirkət",
+		"about_us": "Haqqımızda",
+		"careers": "Karyera",
+		"contact": "Əlaqə",
+		"legal": "Hüquqi",
+		"privacy": "Məxfilik",
+		"terms": "Şərtlər",
+		"copyright": "© 2025 Salonify Inc. Bütün hüquqlar qorunur."
+	},
+	"auth": {
+		"welcome": "Xoş gəlmisiniz",
+		"login_subtitle": "Randevularınızı və seçilmişlərinizi idarə etmək üçün daxil olun",
+		"email_label": "Email ünvanı",
+		"email_placeholder": "siz@numune.com",
+		"password_label": "Şifrə",
+		"password_disabled_title": "Bu demo üçün şifrə tələb olunmur",
+		"forgot_password": "Şifrəni unutmusunuz?",
+		"login_button": "Daxil ol",
+		"logging_in": "Giriş edilir...",
+		"demo_accounts": "Demo Hesablar",
+		"client_demo": "Müştəri Demo",
+		"barber_demo": "Bərbər Demo",
+		"no_account": "Hesabınız yoxdur?",
+		"register_link": "Pulsuz qeydiyyatdan keçin",
+		"login_failed": "Giriş uğursuz oldu. client@test.com və ya barber@test.com yoxlayın",
+		"create_account": "Hesab yarat",
+		"register_subtitle": "Randevu almaq və idarə etmək üçün bizə qoşulun",
+		"full_name_label": "Ad Soyad",
+		"i_am_a": "Mən...",
+		"guest_details": "Sizin Məlumatlarınız",
+		"name": "Ad",
+		"name_placeholder": "Adınızı daxil edin",
+		"phone": "Telefon Nömrəsi",
+		"phone_placeholder": "Telefon nömrənizi daxil edin",
+		"guest_details_required": "Zəhmət olmasa adınızı və telefon nömrənizi daxil edin",
+		"role_client": "Müştəri",
+		"role_barber": "Bərbər",
+		"creating_account": "Hesab yaradılır...",
+		"sign_up": "Qeydiyyatdan keç",
+		"already_have_account": "Artıq hesabınız var?",
+		"sign_in_link": "Daxil ol",
+		"registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin.",
+		"session_expired": "session expired",
+		"forgot_password_title": "Şifrəni unutmusunuz",
+		"forgot_password_subtitle": "Emailinizi daxil edin, sizə sıfırlama linki yaradaq.",
+		"reset_email_sent": "Bu email mövcuddursa, sıfırlama təlimatı göndərildi.",
+		"reset_request_failed": "Şifrə sıfırlama sorğusu alınmadı",
+		"generating_reset_link": "Sıfırlama linki yaradılır...",
+		"send_reset_link": "Sıfırlama linkini göndər",
+		"reset_link_label": "Sıfırlama linki:",
+		"remember_password": "Şifrənizi xatırladınız?",
+		"reset_password_title": "Yeni şifrə təyin edin",
+		"reset_password_subtitle": "Hesabınız üçün güclü yeni şifrə seçin.",
+		"new_password_label": "Yeni şifrə",
+		"confirm_new_password_label": "Yeni şifrəni təsdiqləyin",
+		"resetting_password": "Şifrə sıfırlanır...",
+		"reset_password_button": "Şifrəni sıfırla",
+		"back_to": "Geri",
+		"reset_token_missing": "Sıfırlama tokeni yoxdur.",
+		"password_min_length": "Şifrə ən azı 6 simvol olmalıdır.",
+		"password_mismatch": "Şifrələr uyğun gəlmir.",
+		"password_reset_success": "Şifrə uğurla yeniləndi. Giriş səhifəsinə yönləndirilirsiniz...",
+		"password_reset_failed": "Şifrə sıfırlanmadı"
+	},
+	"profile": {
+		"book_for_someone_else": "Başqa biri üçün randevu al",
+		"whatsapp_message": "Salam, mən randevu almaq istəyirəm.",
+		"contact_whatsapp": "WhatsApp ilə əlaqə",
+		"rating": "Reytinq",
+		"back_to_search": "Axtarışa qayıt",
+		"open": "AÇIQ",
+		"reviews": "rəy",
+		"verified": "Təsdiqlənmiş",
+		"professional": "Peşəkar",
+		"about": "Haqqında",
+		"services_menu": "Xidmət Menyusu",
+		"service_name": "Xidmət",
+		"duration": "Müddət",
+		"price": "Qiymət",
+		"select_service": "Xidmət Seç",
+		"select_service_placeholder": "Xidmət seçin...",
+		"location": "Məkan",
+		"portfolio": "Portfolio",
+		"show_less": "Daha az göstər",
+		"view_all": "Hamısına bax",
+		"min": "dəq",
+		"selected": "Seçildi",
+		"select": "Seç",
+		"book_appointment": "Randevu Al",
+		"select_date": "Tarix Seç",
+		"select_time": "Vaxt Seç",
+		"confirm_booking": "Təsdiqlə",
+		"available_times": "Mövcud Saatlar",
+		"dynamic_slots_hint": "Mövcud vaxtlar seçilmiş xidmətin müddətinə əsasən hesablanır.",
+		"loading_availability": "Mövcudluq yüklənir...",
+		"availability_load_failed": "Mövcudluq yüklənə bilmədi.",
+		"retry": "Yenidən cəhd et",
+		"closed_day": "Bu gün bərbər işləmir.",
+		"no_slots": "Bu tarix üçün boş yer yoxdur.",
+		"no_services": "Hələlik xidmət yoxdur.",
+		"total_price": "Ümumi Qiymət",
+		"processing": "Emal edilir...",
+		"confirm": "Təsdiqlə",
+		"slot_taken": "Bu vaxt artıq tutulub. Başqasını seçin.",
+		"busy": "Məşğul",
+		"reserved": "Rezerv",
+		"pending_warning": "Bu vaxt üçün sorğu var. Siz də sorğu göndərə bilərsiniz, lakin təsdiq zəmanət verilmir.",
+		"appointment_confirmed": "Randevu Təsdiqləndi!",
+		"appointment_success_message": "Randevunuz uğurla qeydə alındı.",
+		"book_another": "Başqasını Al",
+		"booking_failed": "Randevu alına bilmədi",
+		"errors": {
+			"SLOT_ALREADY_BOOKED": "Bu vaxt artıq tutulub",
+			"MAX_ACTIVE_BOOKINGS_REACHED": "Siz maksimum 3 aktiv randevu limitinə çatdınız."
+		},
+		"reviews_section_title": "Rəylər",
+		"write_review": "Rəy Yaz",
+		"no_reviews": "Hələlik rəy yoxdur. İlk rəyi siz yazın!",
+		"rate_experience": "Təcrübənizi qiymətləndirin",
+		"review_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
+		"share_experience_placeholder": "Təəssüratlarınızı bölüşün (könüllü)...",
+		"submitting": "Göndərilir...",
+		"submit_review": "Rəyi Göndər",
+		"book_now": "İndi Bron Et",
+		"selected_service": "Seçilmiş Xidmət",
+		"avatar_url": "Profile Picture URL"
+	},
+	"dashboard": {
+		"title": "İdarə Paneli",
+		"subtitle": "Profilinizi və iş qrafikinizi idarə edin",
+		"subscription": {
+			"title": "Abunəlik",
+			"plan": "Tarif",
+			"status": "Status",
+			"expires": "Bitmə vaxtı",
+			"bookings_used": "İstifadə olunan randevular"
+		},
+		"loading": "Yüklənir...",
+		"profile_load_error": "Profil yüklənmədi",
+		"unknown_error": "Naməlum xəta",
+		"status_updated": "Randevu statusu yeniləndi",
+		"status_update_error": "Status yenilənərkən xəta baş verdi",
+		"changes_saved": "Dəyişikliklər yadda saxlanıldı!",
+		"save_error": "Xəta baş verdi. Yenidən cəhd edin.",
+		"profile_not_found": "Bərbər profili tapılmadı.",
+		"no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
+		"saving": "Yadda saxlanılır...",
+		"save": "Yadda saxla",
+		"bookings": {
+			"title": "Görüş Zaman Çizelgesi",
+			"load_error": "Randevular yüklənmədi",
+			"update_success": "Randevu yeniləndi",
+			"update_error": "Yeniləmə xətası",
+			"no_bookings": "Hələ ki, heç bir randevunuz yoxdur.",
+			"share_link": "Randevu almaq üçün profil linkinizi paylaşın.",
+			"client": "Müştəri",
+			"service": "Xidmət",
+			"date_time": "Tarix və Saat",
+			"status_label": "Status",
+			"actions_label": "Əməliyyatlar",
+			"unknown_client": "Naməlum Müştəri",
+			"unknown_service": "Naməlum Xidmət",
+			"service_deleted": "Xidmət silinib",
+			"status": {
+				"confirmed": "Təsdiqlənib",
+				"pending": "Gözləyir",
+				"cancelled": "Ləğv edilib",
+				"completed": "Tamamlanıb",
+				"no_show": "Gəlmədi"
+			},
+			"no_filtered_bookings": "Bu statusda randevu tapılmadı",
+			"try_different_filter": "Başqa status seçməyə çalışın.",
+			"actions": {
+				"confirm": "Təsdiqlə",
+				"cancel": "Ləğv et",
+				"complete": "Tamamla",
+				"no_show": "Gəlmədi"
+			},
+			"cancel_reason_prompt": "Ləğv səbəbi (könüllü):",
+			"note": "Qeyd",
+			"subtitle": "Gündəlik qrafikinizi idarə edin",
+			"scan_to_book": "Rezervasiya etmək üçün skan edin",
+			"new_booking_notification": "new booking notification"
+		},
+		"unknown_client": "Naməlum Müştəri",
+		"profile": {
+			"avatar_url": "Profil Şəkli URL-si",
+			"title": "Profil Məlumatları",
+			"profile_picture": "Profil Şəkli",
+			"set_as_profile_picture": "Profil şəkli kimi təyin et",
+			"select_from_portfolio": "Portfoliodan seçin:",
+			"no_portfolio": "Profil şəkli təyin etmək üçün portfolionuzda şəkil yükləyin.",
+			"name": "Ad Soyad",
+			"email": "Email",
+			"phone": "Telefon",
+			"address": "Ünvan / Məkan",
+			"about": "Haqqında",
+			"about_placeholder": "Təcrübəniz və bacarıqlarınız haqqında yazın...",
+			"specialties": "İxtisaslaşma",
+			"specialties_placeholder": "məs. Saç kəsimi, Saqqal, Formaya salma (vergüllə ayırın)",
+			"verification_title": "Təsdiqləmə",
+			"status_verified": "Təsdiqlənmiş Hesab",
+			"status_pending": "Təsdiqləmə Gözlənilir",
+			"status_unverified": "Təsdiqlənməmiş Hesab",
+			"verified_desc": "Hesabınız təsdiqlənib və nişan göstərilir.",
+			"pending_desc": "Sənədlərinizi nəzərdən keçiririk.",
+			"unverified_desc": "Təsdiqlənmək üçün sənəd yükləyin.",
+			"upload_doc": "Şəxsiyyət vəsiqəsi və ya Sertifikat yükləyin",
+			"submit_verification": "Sorğu Göndər",
+			"upload_hint": "Zəhmət olmasa sənədinizə keçid təqdim edin (Google Drive, Dropbox və s.)",
+			"address_hint": "Xəritədə görmək üçün ünvanı daxil edin",
+			"map_preview": "Xəritəyə baxış",
+			"open_in_maps": "Google Maps-də aç",
+			"map_warning": "Zəhmət olmasa xəritədə yerin düzgünlüyünü yoxlayın",
+			"official_address": "Rəsmi Ünvan"
+		},
+		"schedule": {
+			"add_time": "Vaxt əlavə et",
+			"title": "İş Saatları",
+			"days": {
+				"monday": "Bazar ertəsi",
+				"tuesday": "Çərşənbə axşamı",
+				"wednesday": "Çərşənbə",
+				"thursday": "Cümə axşamı",
+				"friday": "Cümə",
+				"saturday": "Şənbə",
+				"sunday": "Bazar"
+			},
+			"hours_active": "saat aktivdir",
+			"holidays": {
+				"title": "Tətillər / İstirahət günləri",
+				"add": "Tarix əlavə et",
+				"no_holidays": "Hələ ki, tətil günü yoxdur."
+			}
+		},
+		"services": {
+			"title": "Xidmətlər",
+			"new_service_default": "Yeni Xidmət",
+			"add_service": "Xidmət əlavə et",
+			"name": "Xidmət adı",
+			"duration": "Müddət (dəq)",
+			"price": "Qiymət",
+			"no_services": "Heç bir xidmət əlavə edilməyib.",
+			"add_first": "İlk xidmətinizi əlavə edin"
+		},
+		"portfolio": {
+			"title": "Portfolio",
+			"profile_avatar": "Profil Avatarı",
+			"avatar_desc": "Profilinizdə və rəylərdə görünür.",
+			"select_from_gallery": "Qalereyadan seç...",
+			"change_avatar": "Avatarı dəyiş",
+			"listing_cover": "Siyahı Üz qabığı",
+			"cover_desc": "Axtarış nəticələrində və siyahılarda görünür.",
+			"change_cover": "Üz qabığını dəyiş",
+			"select_instruction": "Aşağıdakı şəkli seçərək təyin edin:",
+			"avatar": "Avatar",
+			"cover_image": "Üz qabığı",
+			"cancel_selection": "Ləğv et",
+			"current_avatar": "Cari Avatar",
+			"current_cover": "Cari Üz qabığı",
+			"prompt_url": "Şəkil URL-si daxil edin:",
+			"add_image": "Şəkil Əlavə Et",
+			"limit_reached": "Maksimum 6 şəkil icazəlidir",
+			"upload_title": "Şəkil Yüklə",
+			"compressing": "Sıxılır...",
+			"click_to_upload": "Şəkil yükləmək üçün klikləyin",
+			"image_added": "Şəkil uğurla əlavə edildi",
+			"upload_error": "Şəkil yüklənməsi uğursuz oldu",
+			"set_avatar_tooltip": "Profil şəkli kimi təyin et",
+			"current_avatar_tooltip": "Cari profil şəkli",
+			"delete_tooltip": "Şəkli sil",
+			"upload_help": "JPG, PNG (Maks 800x800px)",
+			"upload_new_image": "Yeni Şəkil Yüklə",
+			"no_images": "no images",
+			"upload_first": "upload first"
+		},
+		"tabs": {
+			"overview": "İcmal",
+			"profile": "Profil Məlumatları",
+			"bookings": "Randevular",
+			"schedule": "İş Saatları",
+			"services": "Xidmətlər",
+			"portfolio": "Portfolio",
+			"expenses": "Xərclər",
+			"notifications": "Bildirişlər",
+			"qrcode": "QR Code"
+		},
+		"expenses": {
+			"title": "Xərclər",
+			"subtitle": "Biznes xərclərinizi izləyin",
+			"add_btn": "Xərc Əlavə Et",
+			"total_cost": "Ümumi Xərc",
+			"date": "Tarix",
+			"category": "Kateqoriya",
+			"note": "Qeyd",
+			"amount": "Məbləğ",
+			"no_data": "Hələ heç bir xərc qeydə alınmayıb.",
+			"add_title": "Yeni Xərc Əlavə Et",
+			"added_success": "Xərc uğurla əlavə edildi",
+			"add_error": "Xərc əlavə edilə bilmədi",
+			"deleted_success": "Xərc silindi",
+			"delete_error": "Xərc silinə bilmədi",
+			"categories": {
+				"rent": "İcarə",
+				"supplies": "Ləvazimatlar",
+				"utilities": "Kommunal",
+				"marketing": "Marketinq",
+				"other": "Digər"
+			}
+		},
+		"notifications": {
+			"title": "Bildiriş Ayarları",
+			"subtitle": "Müştərilər randevu aldıqda dərhal xəbərdarlıqlar qəbul edin.",
+			"telegram_title": "Telegram Bildirişləri (Pulsuz)",
+			"telegram_connected": "Qoşulub",
+			"telegram_desc": "Müştəri randevu aldıqda anında mesajlar əldə edin. Telegram hesabınızı təhlükəsiz şəkildə bağlamaq üçün aşağıdakı düyməni sıxın.",
+			"telegram_chat_id": "Chat ID",
+			"telegram_disconnect": "Ayrıl (Bağlantını kəs)",
+			"telegram_active_desc": "Bildirişlər hazırda aktivdir və Telegramınıza göndərilir.",
+			"telegram_connect_btn": "Telegram Hesabını Bağla",
+			"telegram_waiting": "Telegram Gözlənilir...",
+			"telegram_instruction": "Yeni bir pəncərə (tab) açılacaq. Hesabınızı avtomatik bağlamaq üçün Telegram çatında 'Start' (Başla) düyməsini sıxın.",
+			"telegram_success": "Telegram uğurla bağlandı!",
+			"whatsapp_title": "WhatsApp Bildirişləri",
+			"whatsapp_desc": "Rəsmi WhatsApp inteqrasiyası hazırlayırıq.",
+			"whatsapp_warning": "Qeyd: Telegramdan fərqli olaraq, rəsmi WhatsApp Business API vasitəsilə avtomatlaşdırılmış mesajlaşma ödənişli xidmətdir (Meta vasitəsilə).",
+			"whatsapp_input_label": "WhatsApp Nömrəsi (Tezliklə)",
+			"enable_title": "Bildirişləri aktiv et",
+			"modal_heading": "Heç bir rezervasiyanı qaçırmayın!",
+			"modal_desc": "Yeni rezervasiya sorğularını dərhal almaq və işinizi qaydada saxlamaq üçün bildirişləri aktiv edin.",
+			"enable_btn": "Bildirişləri aktiv et",
+			"sustain_now": "Sonra",
+			"sustain_forever": "Heç vaxt"
+		},
+		"stats": {
+			"today_revenue": "Bugünkü Gəlir",
+			"bookings_today": "bugünkü rezervasiyalar",
+			"month_revenue": "Aylıq Gəlir",
+			"bookings_month": "bu aykı rezervasiyalar",
+			"total_clients": "Ümumi Müştərilər",
+			"unique_clients": "unikal müştərilər",
+			"weekly_overview": "Həftəlik İcmal",
+			"revenue": "Gəlir",
+			"bookings": "Rezervasiyalar",
+			"no_data_title": "Statistika Mövcud Deyil",
+			"no_data_desc": "Analitikanı görmək üçün rezervasiyaları qəbul etməyə başlayın.",
+			"get_started_title": "İşə başlamağa hazırsınız?",
+			"get_started_desc": "Rezervasiyalar qəbul etməyə başladıqdan sonra statistikanız burada görünəcək."
+		},
+		"clients": {
+			"title": "Müştərilərim",
+			"search_placeholder": "Müştəri axtar...",
+			"total_clients": "Cəmi Müştəri",
+			"total_revenue": "Cəmi Gəlir",
+			"last_visit": "Son Ziyarət",
+			"bookings": "Rezervasiyalar",
+			"notes": "Qeydlər",
+			"tags": "Teqlər",
+			"add_note": "Qeyd əlavə et",
+			"save_note": "Yadda saxla",
+			"no_clients": "Müştəri tapılmadı",
+			"details": "Müştəri Məlumatları",
+			"contact": "Əlaqə",
+			"add_tag": "Teq əlavə et",
+			"share_profile": "Profili Paylaş",
+			"no_clients_title": "Hələ müştəri yoxdur",
+			"no_clients_desc": "Randevu almaq üçün profil linkinizi paylaşın."
+		},
+		"roadmap": {
+			"title": "Sizin Uğur Xəritəniz",
+			"subtitle": "Bu sadə addımlarla peşəkar bərbər kimi potensialınızı artırın.",
+			"step1_title": "Müştəri Bazasını Yaradın",
+			"step1_desc": "Profiliniz sizin rəqəmsal vizit kartınızdır. Ən yaxşı saç kəsimlərinizi portfelə əlavə edin, xidmətlərinizi yeniləyin və platformamız vasitəsilə yeni müştərilər qazanın.",
+			"step2_title": "Heç Bir Randevunu Qaçırmayın",
+			"step2_desc": "Müştərini gözlətməyin! Yeni randevular, ləğvlər və ya dəyişikliklər barədə anında məlumat almaq üçün bildirişləri (Push və ya Telegram) aktivləşdirin.",
+			"step3_title": "Sehrli QR Kod",
+			"step3_desc": "QR tabından unikal QR kodunuzu çap edin və güzgünüzə yapışdırın! Müştərilər stulda əyləşərkən kodu skan edərək portfelinizə baxa, rəy yaza və ya növbəti ziyarətləri üçün anında yazıla bilərlər.",
+			"dismiss": "Başa düşdüm, gizlət"
+		},
+		"qrcode": {
+			"download_sticker": "HD Stikeri Yüklə",
+			"print_instruction": "Çap üçün yüksək keyfiyyətli PNG yükləyir",
+			"powered_by": "Dəstəkləyir",
+			"title": "Rəqəmsal Vizit Kartı",
+			"subtitle": "Çap edib iş yerinizdə yerləşdirmək üçün gözəl dizayn edilmiş QR kod stikerini yükləyin."
+		},
+		"hide_past": "Hide Past Appointments",
+		"show_past": "Show Past Appointments"
+	},
+	"common": {
+		"loading": "Yüklənir...",
+		"check_map": "Xəritəni yoxla",
+		"refresh": "Yenilə",
+		"days": "gün",
+		"all": "Bütün Statuslar",
+		"page": "Səhifə",
+		"link_copied": "Link kopyalandı!",
+		"confirm_delete": "Əminsiniz?",
+		"cancel": "Ləğv et",
+		"saving": "Yadda saxlanılır...",
+		"save": "Yadda saxla",
+		"today": "Bugün",
+		"tomorrow": "Sabah",
+		"yesterday": "Dünən",
+		"refreshed": "Yeniləndi",
+		"min": "min",
+		"close": "Close",
+		"use_current_location": "use current location",
+		"geolocation_not_supported": "geolocation not supported",
+		"geolocation_denied": "geolocation denied",
+		"book_now": "Book Now"
+	},
+	"pages": {
+		"features": {
+			"title": "Xüsusiyyətlər",
+			"subtitle": "Üslubunuzu idarə etmək üçün lazım olan hər şey bir yerdə.",
+			"items": {
+				"booking": {
+					"title": "Asan Rezervasiya",
+					"desc": "İntuitiv interfeysimizlə saniyələr ərzində randevunuzu alın."
+				},
+				"availability": {
+					"title": "Real vaxt rejimində mövcudluq",
+					"desc": "Sevimli bərbərinizin nə vaxt boş olduğunu dəqiq görün."
+				},
+				"reminders": {
+					"title": "Xatırlatmalar",
+					"desc": "Randevunuzdan əvvəl bildiriş alın, beləliklə saç kəsimini heç vaxt qaçırmazsınız."
+				},
+				"reviews": {
+					"title": "Rəylər və Reytinqlər",
+					"desc": "Ən yaxşısını seçmək üçün digər müştərilərin həqiqi rəylərini oxuyun."
+				}
+			}
+		},
+		"for_barbers": {
+			"title": "Bərbərlər üçün",
+			"subtitle": "Biznesinizi böyüdün və müştərilərinizi asanlıqla idarə edin.",
+			"scheduling": {
+				"title": "Ağıllı Planlaşdırma",
+				"desc": "Təqviminizi asanlıqla idarə edin. İş saatlarınızı, fasilələri və tətilləri təyin edin."
+			},
+			"clients": {
+				"title": "Müştəri İdarəetməsi",
+				"desc": "Müştərilərinizi, onların seçimlərini və rezervasiya tarixçəsini izləyin."
+			},
+			"growth": {
+				"title": "Biznesin Böyüməsi",
+				"desc": "Analitik alətlərimizlə performansınız haqqında məlumat əldə edin və gəlirinizi artırın."
+			},
+			"cta": {
+				"title": "Biznesinizi təkmilləşdirməyə hazırsınız?",
+				"subtitle": "Bizneslərini idarə etmək üçün Salonify-a güvənən minlərlə bərbərə qoşulun.",
+				"button": "Başlayın"
+			}
+		},
+		"pricing": {
+			"title": "Tariflər",
+			"subtitle": "Biznesiniz üçün ən uyğun paketi seçin",
+			"selected": "Seçildi",
+			"button": "WhatsApp ilə Qoşul",
+			"popular": "ƏN SƏRFƏLİ",
+			"period": "ay",
+			"demo": {
+				"title": "Pro Demo",
+				"price": "Pulsuz",
+				"features": "features",
+				"button": "Sına 1 ay pulsuz",
+				"description": "Bu müddət ərzində bütün funksiyaları sınayacaqsınız, ödəniş yoxdur."
+			},
+			"basic": {
+				"title": "Basic",
+				"price": "10 ₼",
+				"features": "features",
+				"button": "Basic al",
+				"description": "Ayda 50 randevu, təqvim və müştərilərə tam çıxış."
+			},
+			"standard": {
+				"title": "Standard",
+				"price": "20 ₼",
+				"features": "features",
+				"button": "Standard al",
+				"description": "Limitsiz randevu, müştəri statistikası, rahat iş."
+			},
+			"pro": {
+				"title": "Pro",
+				"price": "30 ₼",
+				"features": "features",
+				"button": "Pro al",
+				"description": "Maksimum yüklənmə, prioritet dəstək, genişləndirilmiş statistika."
+			}
+		},
+		"about": {
+			"title": "Haqqımızda",
+			"subtitle": "Salonify bərbərxana təcrübəsini müasirləşdirmək missiyasındadır. Biz istedadlı bərbərləri keyfiyyətli xidməti qiymətləndirən müştərilərlə əlaqələndiririk.",
+			"story": {
+				"title": "Bizim Hekayəmiz",
+				"content": "2024-cü ildə qurulan Salonify sadə bir müşahidə ilə başladı: yaxşı bərbər tapmaq və randevu almaq lazım olduğundan daha çətin idi. Biz müştərilərin əla bərbərləri kəşf etməsini və bərbərlərin bizneslərini səmərəli idarə etməsini asanlaşdıran bir platforma qurmaq üçün yola çıxdıq.",
+				"text": "Founded in 2024, Salonify started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
+			},
+			"values": {
+				"title": "Dəyərlərimiz",
+				"quality": {
+					"title": "Keyfiyyət",
+					"desc": "Sənayedəki ən yaxşı istedadları vurğulamağa inanırıq.",
+					"text": "We believe in highlighting the best talent in the industry."
+				},
+				"community": {
+					"title": "İcma",
+					"desc": "Bərbərxanalar icma mərkəzləridir və biz bu əlaqəni dəstəkləmək istəyirik.",
+					"text": "Barbershops are community hubs, and we want to support that connection."
+				},
+				"innovation": {
+					"title": "İnnovasiya",
+					"desc": "Sizə daha yaxşı xidmət göstərmək üçün texnologiyamızı daim təkmilləşdiririk.",
+					"text": "We're constantly improving our technology to serve you better."
+				}
+			},
+			"mission": "Salonify is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service."
+		},
+		"careers": {
+			"title": "Komandamıza Qoşulun",
+			"subtitle": "Biz bərbərxana idarəçiliyinin gələcəyini qururuq. Sənayeni formalaşdırmağa kömək edin.",
+			"positions": [
+				{
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				{
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				{
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				{
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				}
+			],
+			"location": {
+				"remote": "Remote",
+				"baku": "Baku, Azerbaijan"
+			},
+			"type": "Full-time"
+		},
+		"contact": {
+			"title": "Bizimlə Əlaqə",
+			"subtitle": "Suallarınız var? Sizdən eşitmək istərdik.",
+			"get_in_touch": "Əlaqə Saxlayın",
+			"email": {
+				"title": "E-poçt",
+				"desc": "Adətən 24 saat ərzində cavab veririk.",
+				"value": "support@salonify.com"
+			},
+			"phone": {
+				"title": "Telefon",
+				"desc": "B.e.-Cümə 09:00-dan 18:00-a qədər.",
+				"value": "+994 50 123 45 67"
+			},
+			"office": {
+				"title": "Ofis",
+				"value": "123 Nizami Street",
+				"city": "Baku, Azerbaijan"
+			},
+			"form": {
+				"name": "Ad",
+				"name_placeholder": "Adınız",
+				"email": "E-poçt",
+				"email_placeholder": "siz@numune.com",
+				"message": "Mesaj",
+				"message_placeholder": "Sizə necə kömək edə bilərik?",
+				"submit": "Mesaj Göndər",
+				"success": "Message sent successfully!"
+			},
+			"schedule": {
+				"add_time": "Vaxt əlavə et"
+			}
+		},
+		"privacy": {
+			"title": "Məxfilik Siyasəti",
+			"last_updated": "Son yenilənmə: 8 Dekabr 2025",
+			"intro": {
+				"title": "1. Giriş",
+				"content": "Salonify-a xoş gəlmisiniz. Məxfiliyinizə hörmət edirik və şəxsi məlumatlarınızı qorumağa sadiqik. Bu məxfilik siyasəti veb saytımızı ziyarət etdiyiniz zaman şəxsi məlumatlarınıza necə baxdığımız barədə məlumat verəcək və məxfilik hüquqlarınız və qanunun sizi necə qoruduğu barədə sizə məlumat verəcəkdir.",
+				"text": "Welcome to Salonify. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
+			},
+			"data": {
+				"title": "2. Topladığımız Məlumatlar",
+				"content": "Sizin haqqınızda aşağıdakı kimi qruplaşdırdığımız müxtəlif növ şəxsi məlumatları toplaya, istifadə edə, saxlaya və ötürə bilərik:",
+				"list": ["0", "1", "2", "3"],
+				"text": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:",
+				"items": [
+					"Identity Data includes first name, last name, username or similar identifier.",
+					"Contact Data includes email address and telephone number.",
+					"Technical Data includes internet protocol (IP) address, browser type and version.",
+					"Usage Data includes information about how you use our website and services."
+				]
+			},
+			"usage": {
+				"title": "3. Məlumatlarınızı Necə İstifadə Edirik",
+				"content": "Şəxsi məlumatlarınızı yalnız qanun icazə verdikdə istifadə edəcəyik. Əksər hallarda şəxsi məlumatlarınızı aşağıdakı hallarda istifadə edəcəyik:",
+				"list": ["0", "1", "2"],
+				"text": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
+				"items": [
+					"Where we need to perform the contract we are about to enter into or have entered into with you.",
+					"Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
+					"Where we need to comply with a legal or regulatory obligation."
+				]
+			}
+		},
+		"terms": {
+			"title": "Xidmət Şərtləri",
+			"last_updated": "Son yenilənmə: 8 Dekabr 2025",
+			"agreement": {
+				"title": "1. Şərtlərlə Razılaşma",
+				"content": "Veb saytımıza daxil olmaqla, bu Xidmət Şərtlərinə əməl etməyə və bütün tətbiq olunan qanun və qaydalara riayət etməyə razılaşırsınız. Bu şərtlərdən hər hansı biri ilə razı deyilsinizsə, bu saytdan istifadə etmək və ya daxil olmaq qadağandır.",
+				"text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+			},
+			"license": {
+				"title": "2. İstifadə Lisenziyası",
+				"content": "Salonify-un veb saytındakı materialların (məlumat və ya proqram təminatı) bir nüsxəsini yalnız şəxsi, qeyri-kommersiya məqsədli müvəqqəti baxış üçün yükləməyə icazə verilir.",
+				"text": "Permission is granted to temporarily download one copy of the materials (information or software) on Salonify's website for personal, non-commercial transitory viewing only."
+			},
+			"disclaimer": {
+				"title": "3. Məsuliyyətdən İmtina",
+				"content": "Salonify-un veb saytındakı materiallar 'olduğu kimi' təqdim olunur. Salonify heç bir zəmanət vermir, ifadə edilmir və ya nəzərdə tutulmur və bununla da ticarət qabiliyyəti, müəyyən məqsədə uyğunluq və ya əqli mülkiyyətin pozulmaması və ya digər hüquqların pozulması daxil olmaqla, lakin bununla məhdudlaşmayaraq bütün digər zəmanətləri rədd edir və ləğv edir.",
+				"text": "The materials on Salonify's website are provided on an 'as is' basis. Salonify makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
+			},
+			"limitations": {
+				"title": "4. Məhdudiyyətlər",
+				"content": "Heç bir halda Salonify və ya onun təchizatçıları Salonify-un veb saytındakı materiallardan istifadə və ya istifadə edə bilməməsi nəticəsində yaranan hər hansı zərərə (o cümlədən, məhdudiyyətsiz olaraq, məlumat və ya mənfəət itkisi və ya işin dayandırılması səbəbindən yaranan zərərlər) görə məsuliyyət daşımır.",
+				"text": "In no event shall Salonify or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Salonify's website."
+			}
+		}
+	},
+	"user_bookings": {
+		"title": "Randevularım",
+		"subtitle": "Qarşıdan gələn və keçmiş randevularınız",
+		"no_bookings_title": "Randevu tapılmadı",
+		"no_bookings_desc": "Hələ heç bir randevu almamısınız.",
+		"book_now": "Randevu Al",
+		"unknown_barber": "Naməlum Bərbər",
+		"status": {
+			"confirmed": "Təsdiqlənib",
+			"pending": "Gözləyir",
+			"cancelled": "Ləğv edilib",
+			"completed": "Tamamlanıb"
+		},
+		"cancel_tooltip": "Randevunu ləğv et",
+		"cancel_reason_label": "Ləğv səbəbi (könüllü):",
+		"cancel_reason_placeholder": "Səbəb qeyd edin...",
+		"confirm_cancel": "Təsdiqlə",
+		"note_label": "Qeyd: "
+	},
+	"favorites": {
+		"title": "Seçilmişlər",
+		"subtitle": "Bəyəndiyiniz bərbərlərin siyahısı",
+		"empty_title": "Siyahı boşdur",
+		"empty_desc": "Hələ heç bir bərbəri seçilmişlərə əlavə etməmisiniz.",
+		"discover_btn": "Bərbərləri kəşf et"
+	}
 }

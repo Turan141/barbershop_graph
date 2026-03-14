@@ -29,6 +29,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const crypto_1 = __importDefault(require("crypto"));
 const config_1 = require("../config");
+const mail_1 = require("../mail");
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 const RESET_TOKEN_EXPIRY_MINUTES = 60;
@@ -157,7 +158,7 @@ router.post("/forgot-password", (req, res) => __awaiter(void 0, void 0, void 0, 
         if (!user) {
             return res.json({
                 success: true,
-                message: "If that email exists, a reset link has been generated."
+                message: "If that email exists, reset instructions were sent."
             });
         }
         // Invalidate previous unused reset tokens for this user
@@ -173,7 +174,7 @@ router.post("/forgot-password", (req, res) => __awaiter(void 0, void 0, void 0, 
         const rawToken = crypto_1.default.randomBytes(32).toString("hex");
         const tokenHash = hashResetToken(rawToken);
         const expiresAt = new Date(Date.now() + RESET_TOKEN_EXPIRY_MINUTES * 60 * 1000);
-        yield db_1.prisma.passwordResetToken.create({
+        const createdToken = yield db_1.prisma.passwordResetToken.create({
             data: {
                 userId: user.id,
                 tokenHash,
@@ -181,19 +182,32 @@ router.post("/forgot-password", (req, res) => __awaiter(void 0, void 0, void 0, 
             }
         });
         const frontendBase = process.env.RESET_PASSWORD_BASE_URL || process.env.FRONTEND_URL;
-        const resetUrl = frontendBase
-            ? `${frontendBase.replace(/\/$/, "")}/reset-password?token=${rawToken}`
-            : `/reset-password?token=${rawToken}`;
-        console.log("[PASSWORD_RESET] link generated", {
+        if (!frontendBase) {
+            console.error("Forgot password error: missing RESET_PASSWORD_BASE_URL/FRONTEND_URL");
+            return res.status(500).json({ error: "Password reset is not configured" });
+        }
+        const resetUrl = `${frontendBase.replace(/\/$/, "")}/reset-password?token=${rawToken}`;
+        try {
+            yield (0, mail_1.sendPasswordResetEmail)({
+                to: user.email,
+                resetUrl,
+                expiresInMinutes: RESET_TOKEN_EXPIRY_MINUTES
+            });
+        }
+        catch (mailError) {
+            yield db_1.prisma.passwordResetToken.update({
+                where: { id: createdToken.id },
+                data: { usedAt: new Date() }
+            });
+            throw mailError;
+        }
+        console.log("[PASSWORD_RESET] email sent", {
             email: user.email,
-            resetUrl,
             expiresAt: expiresAt.toISOString()
         });
         return res.json({
             success: true,
-            message: "If that email exists, a reset link has been generated.",
-            // Return for manual flows/dev; can be hidden by client in production UI
-            resetUrl
+            message: "If that email exists, reset instructions were sent."
         });
     }
     catch (error) {

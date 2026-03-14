@@ -1,769 +1,769 @@
 {
-  "trial": {
-    "expiring_title": "Trial Ending Soon",
-    "expiring_desc": "You have {{days}} days left in your trial. Upgrade now to avoid interruption.",
-    "expired_title": "Trial Expired",
-    "expired_desc": "Your free month has ended. Keep your online booking active for just 9 AZN.",
-    "upgrade_btn": "Upgrade Now"
-  },
-  "nav": {
-    "dashboard": "Dashboard",
-    "login": "Login",
-    "logout": "Logout",
-    "profile": "Profile",
-    "my_appointments": "My Appointments",
-    "favorites": "Favorites",
-    "register": "Register"
-  },
-  "home": {
-    "hero_title": "Find Your Next Perfect",
-    "hero_subtitle": "Haircut",
-    "hero_desc": "Discover the best barbers in your area, view their portfolios, and book an appointment in seconds.",
-    "search_placeholder": "Search by name, location, or service...",
-    "search_btn": "Search",
-    "vip_section": "VIP Masters",
-    "vip_badge": "PREMIUM",
-    "all_barbers": "All Masters",
-    "view_all": "View All",
-    "more": "more",
-    "banner_badge": "1 Month Free",
-    "banner_title": "Grow Your Client Base with QR Code",
-    "banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online.",
-    "mid_banner_title": "Are you a Barber?",
-    "mid_banner_desc": "Join our platform to manage bookings, grow your client base, and showcase your portfolio.",
-    "mid_banner_btn": "Get Started",
-    "filters": {
-      "title": "Filters",
-      "clear_all": "Clear all",
-      "location": "Location",
-      "all_locations": "All Locations",
-      "category": "Category",
-      "all_categories": "All Categories",
-      "price_level": "Price Level",
-      "any_price": "Any Price",
-      "price_low": "$ (Under 20)",
-      "price_medium": "$$ (20 - 50)",
-      "price_high": "$$$ (50+)",
-      "rating": "Rating",
-      "any_rating": "Any Rating",
-      "stars_4_5": "4.5+ Stars",
-      "stars_4_0": "4.0+ Stars",
-      "stars_3_5": "3.5+ Stars",
-      "show_results": "Show {{count}} Results",
-      "no_results_title": "No Barbers Found",
-      "no_results_desc": "No results found matching your search. Try different keywords.",
-      "clear_filters_btn": "Clear all filters",
-      "load_error_title": "Couldn't load barbers",
-      "load_error_desc": "Check your connection or API settings, then try again.",
-      "retry_btn": "Retry",
-      "near_me": "near me"
-    }
-  },
-  "categories": {
-    "All": "All",
-    "Men": "Men",
-    "Women": "Women",
-    "Kids": "Kids",
-    "Beard": "Beard",
-    "Haircut": "Haircut",
-    "Styling": "Styling"
-  },
-  "footer": {
-    "description": "The easiest way to find and book the best barbers in your city. Look good, feel good.",
-    "product": "Product",
-    "features": "Features",
-    "for_barbers": "For Barbers",
-    "pricing": "Pricing",
-    "company": "Company",
-    "about_us": "About Us",
-    "careers": "Careers",
-    "contact": "Contact",
-    "legal": "Legal",
-    "privacy": "Privacy",
-    "terms": "Terms",
-    "copyright": "© 2025 Salonify Inc. All rights reserved."
-  },
-  "pages": {
-    "features": {
-      "title": "Features",
-      "subtitle": "Everything you need to manage your style, all in one place.",
-      "items": {
-        "booking": {
-          "title": "Easy Booking",
-          "desc": "Book your appointment in seconds with our intuitive interface."
-        },
-        "availability": {
-          "title": "Real-time Availability",
-          "desc": "See exactly when your favorite barber is free."
-        },
-        "reminders": {
-          "title": "Reminders",
-          "desc": "Get notified before your appointment so you never miss a cut."
-        },
-        "reviews": {
-          "title": "Reviews & Ratings",
-          "desc": "Read genuine reviews from other customers to choose the best."
-        }
-      }
-    },
-    "for_barbers": {
-      "title": "For Barbers",
-      "subtitle": "Grow your business and manage your clients with ease.",
-      "scheduling": {
-        "title": "Smart Scheduling",
-        "desc": "Manage your calendar effortlessly. Set your working hours, breaks, and holidays."
-      },
-      "clients": {
-        "title": "Client Management",
-        "desc": "Keep track of your clients, their preferences, and booking history."
-      },
-      "growth": {
-        "title": "Business Growth",
-        "desc": "Get insights into your performance and grow your revenue with our analytics tools."
-      },
-      "cta": {
-        "title": "Ready to upgrade your business?",
-        "subtitle": "Join thousands of barbers who trust Salonify to run their business.",
-        "button": "Get Started"
-      }
-    },
-    "pricing": {
-      "title": "Pricing",
-      "subtitle": "Choose the best plan for your business",
-      "selected": "Selected",
-      "button": "Join via WhatsApp",
-      "popular": "BEST VALUE",
-      "period": "month",
-      "demo": {
-        "title": "Pro Demo",
-        "price": "Free",
-        "features": "features",
-        "button": "Try 1 month free",
-        "description": "You will test all features during this period, no payment required."
-      },
-      "basic": {
-        "title": "Basic",
-        "price": "10 ₼",
-        "features": "features",
-        "button": "Get Basic",
-        "description": "50 bookings per month, full access to calendar and clients."
-      },
-      "standard": {
-        "title": "Standard",
-        "price": "20 ₼",
-        "features": "features",
-        "button": "Get Standard",
-        "description": "Unlimited bookings, client statistics, convenient workflow."
-      },
-      "pro": {
-        "title": "Pro",
-        "price": "30 ₼",
-        "features": "features",
-        "button": "Get Pro",
-        "description": "Maximum load, priority support, advanced statistics."
-      }
-    },
-    "about": {
-      "title": "About Us",
-      "mission": "Salonify is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service.",
-      "story": {
-        "title": "Our Story",
-        "text": "Founded in 2024, Salonify started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently.",
-        "content": "content"
-      },
-      "values": {
-        "title": "Our Values",
-        "quality": {
-          "title": "Quality:",
-          "text": "We believe in highlighting the best talent in the industry.",
-          "desc": "desc"
-        },
-        "community": {
-          "title": "Community:",
-          "text": "Barbershops are community hubs, and we want to support that connection.",
-          "desc": "desc"
-        },
-        "innovation": {
-          "title": "Innovation:",
-          "text": "We're constantly improving our technology to serve you better.",
-          "desc": "desc"
-        }
-      },
-      "subtitle": "subtitle"
-    },
-    "careers": {
-      "title": "Join Our Team",
-      "subtitle": "We're building the future of barbershop management. Come help us shape the industry.",
-      "positions": {
-        "0": {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        "1": {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        "2": {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        "3": {
-          "title": "title",
-          "department": "department",
-          "location": "location",
-          "type": "type"
-        },
-        "frontend": {
-          "title": "Senior Frontend Engineer",
-          "dept": "Engineering"
-        },
-        "design": {
-          "title": "Product Designer",
-          "dept": "Design"
-        },
-        "marketing": {
-          "title": "Marketing Manager",
-          "dept": "Marketing"
-        },
-        "success": {
-          "title": "Customer Success Specialist",
-          "dept": "Operations"
-        }
-      },
-      "location": {
-        "remote": "Remote",
-        "baku": "Baku, Azerbaijan"
-      },
-      "type": "Full-time"
-    },
-    "contact": {
-      "title": "Contact Us",
-      "subtitle": "Have questions? We'd love to hear from you.",
-      "get_in_touch": "Get in Touch",
-      "email": {
-        "title": "Email",
-        "value": "support@salonify.com",
-        "desc": "We usually reply within 24 hours."
-      },
-      "phone": {
-        "title": "Phone",
-        "value": "+994 50 123 45 67",
-        "desc": "Mon-Fri from 9am to 6pm."
-      },
-      "office": {
-        "title": "Office",
-        "value": "123 Nizami Street",
-        "city": "Baku, Azerbaijan"
-      },
-      "form": {
-        "name": "Name",
-        "name_placeholder": "Your name",
-        "email": "Email",
-        "email_placeholder": "you@example.com",
-        "message": "Message",
-        "message_placeholder": "How can we help?",
-        "submit": "Send Message",
-        "success": "Message sent successfully!"
-      }
-    },
-    "privacy": {
-      "title": "Privacy Policy",
-      "last_updated": "Last updated: December 8, 2025",
-      "intro": {
-        "title": "1. Introduction",
-        "text": "Welcome to Salonify. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
-        "content": "content"
-      },
-      "data": {
-        "title": "2. Data We Collect",
-        "text": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:",
-        "items": [
-          "Identity Data includes first name, last name, username or similar identifier.",
-          "Contact Data includes email address and telephone number.",
-          "Technical Data includes internet protocol (IP) address, browser type and version.",
-          "Usage Data includes information about how you use our website and services."
-        ],
-        "content": "content",
-        "list": {
-          "0": "0",
-          "1": "1",
-          "2": "2",
-          "3": "3"
-        }
-      },
-      "usage": {
-        "title": "3. How We Use Your Data",
-        "text": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
-        "items": [
-          "Where we need to perform the contract we are about to enter into or have entered into with you.",
-          "Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
-          "Where we need to comply with a legal or regulatory obligation."
-        ],
-        "content": "content",
-        "list": {
-          "0": "0",
-          "1": "1",
-          "2": "2"
-        }
-      }
-    },
-    "terms": {
-      "title": "Terms of Service",
-      "last_updated": "Last updated: December 8, 2025",
-      "agreement": {
-        "title": "1. Agreement to Terms",
-        "text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.",
-        "content": "content"
-      },
-      "license": {
-        "title": "2. Use License",
-        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on Salonify's website for personal, non-commercial transitory viewing only.",
-        "content": "content"
-      },
-      "disclaimer": {
-        "title": "3. Disclaimer",
-        "text": "The materials on Salonify's website are provided on an 'as is' basis. Salonify makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
-        "content": "content"
-      },
-      "limitations": {
-        "title": "4. Limitations",
-        "text": "In no event shall Salonify or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Salonify's website.",
-        "content": "content"
-      }
-    }
-  },
-  "auth": {
-    "welcome": "Welcome Back",
-    "login_subtitle": "Sign in to manage your appointments and favorites",
-    "email_label": "Email address",
-    "email_placeholder": "you@example.com",
-    "password_label": "Password",
-    "password_disabled_title": "Password not required for this demo",
-    "forgot_password": "Forgot password?",
-    "login_button": "Sign in",
-    "logging_in": "Signing in...",
-    "demo_accounts": "Demo Accounts",
-    "client_demo": "Client Demo",
-    "barber_demo": "Barber Demo",
-    "no_account": "Don't have an account?",
-    "register_link": "Sign up for free",
-    "login_failed": "Login failed. Try client@test.com or barber@test.com",
-    "create_account": "Create an account",
-    "register_subtitle": "Join us to book or manage appointments",
-    "full_name_label": "Full Name",
-    "i_am_a": "I am a...",
-    "guest_details": "Your Details",
-    "name": "Name",
-    "name_placeholder": "Enter your name",
-    "phone": "Phone Number",
-    "phone_placeholder": "Enter your phone number",
-    "guest_details_required": "Please enter your name and phone",
-    "role_client": "Client",
-    "role_barber": "Barber",
-    "creating_account": "Creating account...",
-    "sign_up": "Sign up",
-    "already_have_account": "Already have an account?",
-    "sign_in_link": "Sign in",
-    "registration_failed": "Registration failed. Please try again.",
-    "session_expired": "session expired",
-    "forgot_password_title": "Forgot password",
-    "forgot_password_subtitle": "Enter your email and we will generate a reset link.",
-    "reset_email_sent": "If that email exists, reset instructions were sent.",
-    "reset_request_failed": "Failed to request password reset",
-    "generating_reset_link": "Generating reset link...",
-    "send_reset_link": "Send reset link",
-    "reset_link_label": "Reset link:",
-    "remember_password": "Remember your password?",
-    "reset_password_title": "Set new password",
-    "reset_password_subtitle": "Choose a strong new password for your account.",
-    "new_password_label": "New password",
-    "confirm_new_password_label": "Confirm new password",
-    "resetting_password": "Resetting password...",
-    "reset_password_button": "Reset password",
-    "back_to": "Back to",
-    "reset_token_missing": "Reset token is missing.",
-    "password_min_length": "Password must be at least 6 characters.",
-    "password_mismatch": "Passwords do not match.",
-    "password_reset_success": "Password has been reset successfully. Redirecting to login...",
-    "password_reset_failed": "Failed to reset password"
-  },
-  "profile": {
-    "book_for_someone_else": "Book for someone else",
-    "whatsapp_message": "Hello, I would like to book an appointment.",
-    "contact_whatsapp": "Contact via WhatsApp",
-    "rating": "Rating",
-    "avatar_url": "Profile Picture URL",
-    "available_times": "Available Times",
-    "no_slots": "No available slots for the selected date.",
-    "no_services": "No services available yet.",
-    "back_to_search": "Back to Search",
-    "open": "OPEN",
-    "reviews": "reviews",
-    "verified": "Verified",
-    "professional": "Professional",
-    "about": "About",
-    "services_menu": "Service Menu",
-    "service_name": "Service",
-    "duration": "Duration",
-    "price": "Price",
-    "select_service": "Select Service",
-    "select_service_placeholder": "Select a service...",
-    "location": "Location",
-    "portfolio": "Portfolio",
-    "show_less": "Show less",
-    "view_all": "View all",
-    "min": "min",
-    "selected": "Selected",
-    "select": "Select",
-    "book_appointment": "Book Appointment",
-    "select_date": "Select Date",
-    "select_time": "Select Time",
-    "confirm_booking": "Confirm Booking",
-    "total_price": "Total Price",
-    "processing": "Processing...",
-    "confirm": "Confirm",
-    "slot_taken": "This slot is already taken. Please choose another.",
-    "busy": "Busy",
-    "reserved": "Reserved",
-    "pending_warning": "This slot has a pending request. You can still request it, but availability is not guaranteed.",
-    "appointment_confirmed": "Appointment Confirmed!",
-    "appointment_success_message": "Your appointment has been successfully booked.",
-    "book_another": "Book Another",
-    "booking_failed": "Failed to book appointment",
-    "dynamic_slots_hint": "Available time slots are calculated based on the duration of the selected service.",
-    "loading_availability": "Loading availability...",
-    "availability_load_failed": "Failed to load availability.",
-    "retry": "Retry",
-    "closed_day": "This barber is not available on this day.",
-    "errors": {
-      "SLOT_ALREADY_BOOKED": "This time slot is already booked",
-      "MAX_ACTIVE_BOOKINGS_REACHED": "You have reached the maximum limit of 3 active bookings."
-    },
-    "reviews_section_title": "Reviews",
-    "write_review": "Write a Review",
-    "no_reviews": "No reviews yet. Be the first to review!",
-    "rate_experience": "Rate your experience",
-    "review_placeholder": "Share your experience (optional)...",
-    "share_experience_placeholder": "Share your experience (optional)...",
-    "submitting": "Submitting...",
-    "submit_review": "Submit Review",
-    "book_now": "Book Now",
-    "selected_service": "Selected Service"
-  },
-  "dashboard": {
-    "title": "Dashboard",
-    "subtitle": "Manage your profile and schedule",
-    "subscription": {
-      "title": "Subscription",
-      "plan": "Plan",
-      "status": "Status",
-      "expires": "Expires in",
-      "bookings_used": "Bookings used"
-    },
-    "loading": "Loading...",
-    "profile_load_error": "Profile failed to load",
-    "unknown_error": "Unknown error",
-    "status_updated": "Booking status updated",
-    "status_update_error": "Error updating status",
-    "changes_saved": "Changes saved successfully!",
-    "save_error": "An error occurred. Please try again.",
-    "profile_not_found": "Barber profile not found.",
-    "no_bookings": "You have no bookings yet.",
-    "saving": "Saving...",
-    "save": "Save Changes",
-    "bookings": {
-      "title": "Appointments Timeline",
-      "load_error": "Failed to load bookings",
-      "update_success": "Booking updated",
-      "update_error": "Update error",
-      "no_bookings": "You have no bookings yet.",
-      "share_link": "Share your profile link to get bookings.",
-      "client": "Client",
-      "service": "Service",
-      "date_time": "Date & Time",
-      "status_label": "Status",
-      "actions_label": "Actions",
-      "unknown_client": "Unknown Client",
-      "unknown_service": "Unknown Service",
-      "service_deleted": "Service Deleted",
-      "status": {
-        "confirmed": "Confirmed",
-        "pending": "Pending",
-        "cancelled": "Cancelled",
-        "completed": "Completed",
-        "no_show": "No Show"
-      },
-      "no_filtered_bookings": "No bookings found with this status",
-      "try_different_filter": "Try selecting a different status.",
-      "actions": {
-        "confirm": "Confirm",
-        "cancel": "Cancel",
-        "complete": "Complete",
-        "no_show": "No Show"
-      },
-      "cancel_reason_prompt": "Reason for cancellation (optional):",
-      "note": "Note",
-      "subtitle": "Manage your daily schedule",
-      "scan_to_book": "Scan to book",
-      "new_booking_notification": "new booking notification"
-    },
-    "unknown_client": "Unknown Client",
-    "profile": {
-      "title": "Profile Details",
-      "profile_picture": "Profile Picture",
-      "set_as_profile_picture": "Set as Profile Picture",
-      "select_from_portfolio": "Select from portfolio:",
-      "no_portfolio": "Upload images to your portfolio to set them as your profile picture.",
-      "name": "Full Name",
-      "email": "Email Address",
-      "phone": "Phone Number",
-      "address": "Address / Location",
-      "address_hint": "Enter the full address (City, Street, Building) to ensure clients can find you.",
-      "map_preview": "Location Preview",
-      "open_in_maps": "Open in Google Maps",
-      "map_warning": "If the map is incorrect, please add more details to the address field.",
-      "official_address": "Official Address",
-      "about": "About You",
-      "about_placeholder": "Tell clients about your experience and skills...",
-      "specialties": "Specialties",
-      "specialties_placeholder": "e.g. Haircut, Beard Trim, Styling (comma separated)",
-      "verification_title": "Verification",
-      "status_verified": "Verified Account",
-      "status_pending": "Verification Pending",
-      "status_unverified": "Unverified Account",
-      "verified_desc": "Your account is verified and displays a badge.",
-      "pending_desc": "We are reviewing your documents.",
-      "unverified_desc": "Upload a document to get verified.",
-      "upload_doc": "Upload ID or Certificate",
-      "submit_verification": "Submit Request",
-      "upload_hint": "Please provide a link to your document (Google Drive, Dropbox, etc.)"
-    },
-    "schedule": {
-      "title": "Working Hours",
-      "days": {
-        "monday": "Monday",
-        "tuesday": "Tuesday",
-        "wednesday": "Wednesday",
-        "thursday": "Thursday",
-        "friday": "Friday",
-        "saturday": "Saturday",
-        "sunday": "Sunday"
-      },
-      "hours_active": "hours active",
-      "holidays": {
-        "title": "Holidays / Days Off",
-        "add": "Add Date",
-        "no_holidays": "No holidays added yet."
-      },
-      "add_time": "Add Time"
-    },
-    "services": {
-      "title": "Services",
-      "new_service_default": "New Service",
-      "add_service": "Add Service",
-      "name": "Service Name",
-      "duration": "Duration (min)",
-      "price": "Price",
-      "no_services": "No services added yet.",
-      "add_first": "Add your first service"
-    },
-    "portfolio": {
-      "title": "Portfolio",
-      "profile_avatar": "Profile Avatar",
-      "avatar_desc": "Shown on your profile and reviews.",
-      "select_from_gallery": "Select from Gallery...",
-      "change_avatar": "Change Avatar",
-      "listing_cover": "Listing Cover",
-      "cover_desc": "Shown in search results and lists.",
-      "change_cover": "Change Cover",
-      "select_instruction": "Select an image below to set as your",
-      "avatar": "Avatar",
-      "cover_image": "Cover Image",
-      "cancel_selection": "Cancel",
-      "current_avatar": "Current Avatar",
-      "current_cover": "Current Cover",
-      "prompt_url": "Enter image URL:",
-      "add_image": "Add Image",
-      "limit_reached": "Maximum 6 images allowed",
-      "upload_title": "Upload Image",
-      "compressing": "Compressing...",
-      "click_to_upload": "Click to upload image",
-      "image_added": "Image added successfully",
-      "upload_error": "Failed to upload image",
-      "set_avatar_tooltip": "Set as Profile Picture",
-      "current_avatar_tooltip": "Current Profile Picture",
-      "delete_tooltip": "Delete Image",
-      "upload_help": "JPG, PNG (Max 800x800px)",
-      "upload_new_image": "Upload New Image",
-      "no_images": "no images",
-      "upload_first": "upload first"
-    },
-    "tabs": {
-      "overview": "Overview",
-      "profile": "Profile Details",
-      "bookings": "Bookings",
-      "schedule": "Working Hours",
-      "services": "Services",
-      "portfolio": "Portfolio",
-      "expenses": "Expenses",
-      "notifications": "Notifications",
-      "qrcode": "QR Code"
-    },
-    "expenses": {
-      "title": "Expenses",
-      "subtitle": "Track your business costs",
-      "add_btn": "Add Expense",
-      "total_cost": "Total Cost",
-      "date": "Date",
-      "category": "Category",
-      "note": "Note",
-      "amount": "Amount",
-      "no_data": "No expenses recorded yet.",
-      "add_title": "Add New Expense",
-      "added_success": "Expense added successfully",
-      "add_error": "Failed to add expense",
-      "deleted_success": "Expense deleted",
-      "delete_error": "Failed to delete expense",
-      "categories": {
-        "rent": "Rent",
-        "supplies": "Supplies",
-        "utilities": "Utilities",
-        "marketing": "Marketing",
-        "other": "Other"
-      }
-    },
-    "notifications": {
-      "title": "Notification Settings",
-      "subtitle": "Receive instant alerts when clients book appointments with you.",
-      "telegram_title": "Telegram Alerts (Free)",
-      "telegram_connected": "Connected",
-      "telegram_desc": "Get instant messages when a client books an appointment with you. Click the button below to instantly link your Telegram account securely.",
-      "telegram_chat_id": "Chat ID",
-      "telegram_disconnect": "Disconnect",
-      "telegram_active_desc": "Notifications are currently active and being sent to your Telegram.",
-      "telegram_connect_btn": "Connect Telegram Account",
-      "telegram_waiting": "Waiting for Telegram...",
-      "telegram_instruction": "A new tab will open. Press 'Start' in the Telegram chat to automatically link your account.",
-      "telegram_success": "Telegram connected successfully!",
-      "whatsapp_title": "WhatsApp Alerts",
-      "whatsapp_desc": "We are preparing an official WhatsApp integration.",
-      "whatsapp_warning": "Note: Unlike Telegram, automated messaging through official WhatsApp Business APIs is a paid service (via Meta).",
-      "whatsapp_input_label": "WhatsApp Number (Coming Soon)",
-      "enable_title": "Enable Notifications",
-      "modal_heading": "Don't miss a beat!",
-      "modal_desc": "Turn on notifications to instantly receive booking requests and stay organized.",
-      "enable_btn": "Enable Notifications",
-      "sustain_now": "Maybe Later",
-      "sustain_forever": "Never"
-    },
-    "stats": {
-      "today_revenue": "Today's Revenue",
-      "bookings_today": "bookings today",
-      "month_revenue": "Month Revenue",
-      "bookings_month": "bookings this month",
-      "total_clients": "Total Clients",
-      "unique_clients": "unique clients",
-      "weekly_overview": "Weekly Overview",
-      "revenue": "Revenue",
-      "bookings": "Bookings",
-      "no_data_title": "No Stats Available",
-      "no_data_desc": "Start accepting bookings to see your analytics here.",
-      "get_started_title": "Ready for Business?",
-      "get_started_desc": "Your analytics will appear here once you start receiving bookings."
-    },
-    "clients": {
-      "title": "My Clients",
-      "search_placeholder": "Search clients...",
-      "total_clients": "Total Clients",
-      "total_revenue": "Total Revenue",
-      "last_visit": "Last Visit",
-      "bookings": "Bookings",
-      "notes": "Notes",
-      "tags": "Tags",
-      "add_note": "Add Note",
-      "save_note": "Save Note",
-      "no_clients": "No clients found",
-      "details": "Client Details",
-      "contact": "Contact Info",
-      "add_tag": "Add Tag",
-      "share_profile": "Share Profile",
-      "no_clients_title": "No clients yet",
-      "no_clients_desc": "Share your profile link to start getting bookings."
-    },
-    "roadmap": {
-      "title": "Your Success Roadmap",
-      "subtitle": "Maximize your potential as a professional barber with these easy steps.",
-      "step1_title": "Grow Your Client Base",
-      "step1_desc": "Your profile is your digital business card. Add your best haircuts to the Portfolio, keep your services updated, and watch new clients roll in through our platform.",
-      "step2_title": "Never Miss a Booking",
-      "step2_desc": "Don't let a client wait! Enable notifications (Web Push or Telegram) so you instantly know when someone books, cancels, or reschedules.",
-      "step3_title": "The Magic QR Code",
-      "step3_desc": "Print your unique QR Code from the QR tab and stick it on your mirror! Clients can simply scan it while sitting in your chair to see your portfolio, leave a review, or book their next visit on the spot.",
-      "dismiss": "Got it, hide this guide"
-    },
-    "qrcode": {
-      "download_sticker": "Download HD Sticker",
-      "print_instruction": "Downloads a high-quality PNG ready for printing",
-      "powered_by": "Powered By",
-      "title": "Digital Business Card",
-      "subtitle": "Download a beautifully designed QR code sticker to print and place at your station."
-    },
-    "hide_past": "Hide Past Appointments",
-    "show_past": "Show Past Appointments"
-  },
-  "common": {
-    "loading": "Loading...",
-    "check_map": "Check Map",
-    "refresh": "Refresh",
-    "days": "days",
-    "all": "All Statuses",
-    "page": "Page",
-    "link_copied": "Link copied!",
-    "confirm_delete": "Are you sure?",
-    "cancel": "Cancel",
-    "saving": "Saving...",
-    "save": "Save",
-    "today": "Today",
-    "tomorrow": "Tomorrow",
-    "yesterday": "Yesterday",
-    "refreshed": "Refreshed",
-    "min": "min",
-    "close": "Close",
-    "use_current_location": "use current location",
-    "geolocation_not_supported": "geolocation not supported",
-    "geolocation_denied": "geolocation denied",
-    "book_now": "Book Now"
-  },
-  "user_bookings": {
-    "title": "My Appointments",
-    "subtitle": "Your upcoming and past appointments",
-    "no_bookings_title": "No Appointments Found",
-    "no_bookings_desc": "You haven't booked any appointments yet.",
-    "book_now": "Book Appointment",
-    "unknown_barber": "Unknown Barber",
-    "status": {
-      "confirmed": "Confirmed",
-      "pending": "Pending",
-      "cancelled": "Cancelled",
-      "completed": "Completed"
-    },
-    "cancel_tooltip": "Cancel Appointment",
-    "cancel_reason_label": "Reason for cancellation (optional):",
-    "cancel_reason_placeholder": "Enter reason...",
-    "confirm_cancel": "Confirm",
-    "note_label": "Note: "
-  },
-  "favorites": {
-    "title": "Favorites",
-    "subtitle": "List of your favorite barbers",
-    "empty_title": "List is empty",
-    "empty_desc": "You haven't added any barbers to favorites yet.",
-    "discover_btn": "Discover Barbers"
-  }
+	"trial": {
+		"expiring_title": "Trial Ending Soon",
+		"expiring_desc": "You have {{days}} days left in your trial. Upgrade now to avoid interruption.",
+		"expired_title": "Trial Expired",
+		"expired_desc": "Your free month has ended. Keep your online booking active for just 9 AZN.",
+		"upgrade_btn": "Upgrade Now"
+	},
+	"nav": {
+		"dashboard": "Dashboard",
+		"login": "Login",
+		"logout": "Logout",
+		"profile": "Profile",
+		"my_appointments": "My Appointments",
+		"favorites": "Favorites",
+		"register": "Register"
+	},
+	"home": {
+		"hero_title": "Find Your Next Perfect",
+		"hero_subtitle": "Haircut",
+		"hero_desc": "Discover the best barbers in your area, view their portfolios, and book an appointment in seconds.",
+		"search_placeholder": "Search by name, location, or service...",
+		"search_btn": "Search",
+		"vip_section": "VIP Masters",
+		"vip_badge": "PREMIUM",
+		"all_barbers": "All Masters",
+		"view_all": "View All",
+		"more": "more",
+		"banner_badge": "1 Month Free",
+		"banner_title": "Grow Your Client Base with QR Code",
+		"banner_desc": "Print a special QR code for your salon. Your clients can scan this code to book their next appointment directly online.",
+		"mid_banner_title": "Are you a Barber?",
+		"mid_banner_desc": "Join our platform to manage bookings, grow your client base, and showcase your portfolio.",
+		"mid_banner_btn": "Get Started",
+		"filters": {
+			"title": "Filters",
+			"clear_all": "Clear all",
+			"location": "Location",
+			"all_locations": "All Locations",
+			"category": "Category",
+			"all_categories": "All Categories",
+			"price_level": "Price Level",
+			"any_price": "Any Price",
+			"price_low": "$ (Under 20)",
+			"price_medium": "$$ (20 - 50)",
+			"price_high": "$$$ (50+)",
+			"rating": "Rating",
+			"any_rating": "Any Rating",
+			"stars_4_5": "4.5+ Stars",
+			"stars_4_0": "4.0+ Stars",
+			"stars_3_5": "3.5+ Stars",
+			"show_results": "Show {{count}} Results",
+			"no_results_title": "No Barbers Found",
+			"no_results_desc": "No results found matching your search. Try different keywords.",
+			"clear_filters_btn": "Clear all filters",
+			"load_error_title": "Couldn't load barbers",
+			"load_error_desc": "Check your connection or API settings, then try again.",
+			"retry_btn": "Retry",
+			"near_me": "near me"
+		}
+	},
+	"categories": {
+		"All": "All",
+		"Men": "Men",
+		"Women": "Women",
+		"Kids": "Kids",
+		"Beard": "Beard",
+		"Haircut": "Haircut",
+		"Styling": "Styling"
+	},
+	"footer": {
+		"description": "The easiest way to find and book the best barbers in your city. Look good, feel good.",
+		"product": "Product",
+		"features": "Features",
+		"for_barbers": "For Barbers",
+		"pricing": "Pricing",
+		"company": "Company",
+		"about_us": "About Us",
+		"careers": "Careers",
+		"contact": "Contact",
+		"legal": "Legal",
+		"privacy": "Privacy",
+		"terms": "Terms",
+		"copyright": "© 2025 Salonify Inc. All rights reserved."
+	},
+	"pages": {
+		"features": {
+			"title": "Features",
+			"subtitle": "Everything you need to manage your style, all in one place.",
+			"items": {
+				"booking": {
+					"title": "Easy Booking",
+					"desc": "Book your appointment in seconds with our intuitive interface."
+				},
+				"availability": {
+					"title": "Real-time Availability",
+					"desc": "See exactly when your favorite barber is free."
+				},
+				"reminders": {
+					"title": "Reminders",
+					"desc": "Get notified before your appointment so you never miss a cut."
+				},
+				"reviews": {
+					"title": "Reviews & Ratings",
+					"desc": "Read genuine reviews from other customers to choose the best."
+				}
+			}
+		},
+		"for_barbers": {
+			"title": "For Barbers",
+			"subtitle": "Grow your business and manage your clients with ease.",
+			"scheduling": {
+				"title": "Smart Scheduling",
+				"desc": "Manage your calendar effortlessly. Set your working hours, breaks, and holidays."
+			},
+			"clients": {
+				"title": "Client Management",
+				"desc": "Keep track of your clients, their preferences, and booking history."
+			},
+			"growth": {
+				"title": "Business Growth",
+				"desc": "Get insights into your performance and grow your revenue with our analytics tools."
+			},
+			"cta": {
+				"title": "Ready to upgrade your business?",
+				"subtitle": "Join thousands of barbers who trust Salonify to run their business.",
+				"button": "Get Started"
+			}
+		},
+		"pricing": {
+			"title": "Pricing",
+			"subtitle": "Choose the best plan for your business",
+			"selected": "Selected",
+			"button": "Join via WhatsApp",
+			"popular": "BEST VALUE",
+			"period": "month",
+			"demo": {
+				"title": "Pro Demo",
+				"price": "Free",
+				"features": "features",
+				"button": "Try 1 month free",
+				"description": "You will test all features during this period, no payment required."
+			},
+			"basic": {
+				"title": "Basic",
+				"price": "10 ₼",
+				"features": "features",
+				"button": "Get Basic",
+				"description": "50 bookings per month, full access to calendar and clients."
+			},
+			"standard": {
+				"title": "Standard",
+				"price": "20 ₼",
+				"features": "features",
+				"button": "Get Standard",
+				"description": "Unlimited bookings, client statistics, convenient workflow."
+			},
+			"pro": {
+				"title": "Pro",
+				"price": "30 ₼",
+				"features": "features",
+				"button": "Get Pro",
+				"description": "Maximum load, priority support, advanced statistics."
+			}
+		},
+		"about": {
+			"title": "About Us",
+			"mission": "Salonify is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service.",
+			"story": {
+				"title": "Our Story",
+				"text": "Founded in 2024, Salonify started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently.",
+				"content": "content"
+			},
+			"values": {
+				"title": "Our Values",
+				"quality": {
+					"title": "Quality:",
+					"text": "We believe in highlighting the best talent in the industry.",
+					"desc": "desc"
+				},
+				"community": {
+					"title": "Community:",
+					"text": "Barbershops are community hubs, and we want to support that connection.",
+					"desc": "desc"
+				},
+				"innovation": {
+					"title": "Innovation:",
+					"text": "We're constantly improving our technology to serve you better.",
+					"desc": "desc"
+				}
+			},
+			"subtitle": "subtitle"
+		},
+		"careers": {
+			"title": "Join Our Team",
+			"subtitle": "We're building the future of barbershop management. Come help us shape the industry.",
+			"positions": {
+				"0": {
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				"1": {
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				"2": {
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				"3": {
+					"title": "title",
+					"department": "department",
+					"location": "location",
+					"type": "type"
+				},
+				"frontend": {
+					"title": "Senior Frontend Engineer",
+					"dept": "Engineering"
+				},
+				"design": {
+					"title": "Product Designer",
+					"dept": "Design"
+				},
+				"marketing": {
+					"title": "Marketing Manager",
+					"dept": "Marketing"
+				},
+				"success": {
+					"title": "Customer Success Specialist",
+					"dept": "Operations"
+				}
+			},
+			"location": {
+				"remote": "Remote",
+				"baku": "Baku, Azerbaijan"
+			},
+			"type": "Full-time"
+		},
+		"contact": {
+			"title": "Contact Us",
+			"subtitle": "Have questions? We'd love to hear from you.",
+			"get_in_touch": "Get in Touch",
+			"email": {
+				"title": "Email",
+				"value": "support@salonify.com",
+				"desc": "We usually reply within 24 hours."
+			},
+			"phone": {
+				"title": "Phone",
+				"value": "+994 50 123 45 67",
+				"desc": "Mon-Fri from 9am to 6pm."
+			},
+			"office": {
+				"title": "Office",
+				"value": "123 Nizami Street",
+				"city": "Baku, Azerbaijan"
+			},
+			"form": {
+				"name": "Name",
+				"name_placeholder": "Your name",
+				"email": "Email",
+				"email_placeholder": "you@example.com",
+				"message": "Message",
+				"message_placeholder": "How can we help?",
+				"submit": "Send Message",
+				"success": "Message sent successfully!"
+			}
+		},
+		"privacy": {
+			"title": "Privacy Policy",
+			"last_updated": "Last updated: December 8, 2025",
+			"intro": {
+				"title": "1. Introduction",
+				"text": "Welcome to Salonify. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
+				"content": "content"
+			},
+			"data": {
+				"title": "2. Data We Collect",
+				"text": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:",
+				"items": [
+					"Identity Data includes first name, last name, username or similar identifier.",
+					"Contact Data includes email address and telephone number.",
+					"Technical Data includes internet protocol (IP) address, browser type and version.",
+					"Usage Data includes information about how you use our website and services."
+				],
+				"content": "content",
+				"list": {
+					"0": "0",
+					"1": "1",
+					"2": "2",
+					"3": "3"
+				}
+			},
+			"usage": {
+				"title": "3. How We Use Your Data",
+				"text": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
+				"items": [
+					"Where we need to perform the contract we are about to enter into or have entered into with you.",
+					"Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
+					"Where we need to comply with a legal or regulatory obligation."
+				],
+				"content": "content",
+				"list": {
+					"0": "0",
+					"1": "1",
+					"2": "2"
+				}
+			}
+		},
+		"terms": {
+			"title": "Terms of Service",
+			"last_updated": "Last updated: December 8, 2025",
+			"agreement": {
+				"title": "1. Agreement to Terms",
+				"text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.",
+				"content": "content"
+			},
+			"license": {
+				"title": "2. Use License",
+				"text": "Permission is granted to temporarily download one copy of the materials (information or software) on Salonify's website for personal, non-commercial transitory viewing only.",
+				"content": "content"
+			},
+			"disclaimer": {
+				"title": "3. Disclaimer",
+				"text": "The materials on Salonify's website are provided on an 'as is' basis. Salonify makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
+				"content": "content"
+			},
+			"limitations": {
+				"title": "4. Limitations",
+				"text": "In no event shall Salonify or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Salonify's website.",
+				"content": "content"
+			}
+		}
+	},
+	"auth": {
+		"welcome": "Welcome Back",
+		"login_subtitle": "Sign in to manage your appointments and favorites",
+		"email_label": "Email address",
+		"email_placeholder": "you@example.com",
+		"password_label": "Password",
+		"password_disabled_title": "Password not required for this demo",
+		"forgot_password": "Forgot password?",
+		"login_button": "Sign in",
+		"logging_in": "Signing in...",
+		"demo_accounts": "Demo Accounts",
+		"client_demo": "Client Demo",
+		"barber_demo": "Barber Demo",
+		"no_account": "Don't have an account?",
+		"register_link": "Sign up for free",
+		"login_failed": "Login failed. Try client@test.com or barber@test.com",
+		"create_account": "Create an account",
+		"register_subtitle": "Join us to book or manage appointments",
+		"full_name_label": "Full Name",
+		"i_am_a": "I am a...",
+		"guest_details": "Your Details",
+		"name": "Name",
+		"name_placeholder": "Enter your name",
+		"phone": "Phone Number",
+		"phone_placeholder": "Enter your phone number",
+		"guest_details_required": "Please enter your name and phone",
+		"role_client": "Client",
+		"role_barber": "Barber",
+		"creating_account": "Creating account...",
+		"sign_up": "Sign up",
+		"already_have_account": "Already have an account?",
+		"sign_in_link": "Sign in",
+		"registration_failed": "Registration failed. Please try again.",
+		"session_expired": "session expired",
+		"forgot_password_title": "Forgot password",
+		"forgot_password_subtitle": "Enter your email and we will generate a reset link.",
+		"reset_email_sent": "If that email exists, reset instructions were sent.",
+		"reset_request_failed": "Failed to request password reset",
+		"generating_reset_link": "Generating reset link...",
+		"send_reset_link": "Send reset link",
+		"reset_link_label": "Reset link:",
+		"remember_password": "Remember your password?",
+		"reset_password_title": "Set new password",
+		"reset_password_subtitle": "Choose a strong new password for your account.",
+		"new_password_label": "New password",
+		"confirm_new_password_label": "Confirm new password",
+		"resetting_password": "Resetting password...",
+		"reset_password_button": "Reset password",
+		"back_to": "Back to",
+		"reset_token_missing": "Reset token is missing.",
+		"password_min_length": "Password must be at least 6 characters.",
+		"password_mismatch": "Passwords do not match.",
+		"password_reset_success": "Password has been reset successfully. Redirecting to login...",
+		"password_reset_failed": "Failed to reset password"
+	},
+	"profile": {
+		"book_for_someone_else": "Book for someone else",
+		"whatsapp_message": "Hello, I would like to book an appointment.",
+		"contact_whatsapp": "Contact via WhatsApp",
+		"rating": "Rating",
+		"avatar_url": "Profile Picture URL",
+		"available_times": "Available Times",
+		"no_slots": "No available slots for the selected date.",
+		"no_services": "No services available yet.",
+		"back_to_search": "Back to Search",
+		"open": "OPEN",
+		"reviews": "reviews",
+		"verified": "Verified",
+		"professional": "Professional",
+		"about": "About",
+		"services_menu": "Service Menu",
+		"service_name": "Service",
+		"duration": "Duration",
+		"price": "Price",
+		"select_service": "Select Service",
+		"select_service_placeholder": "Select a service...",
+		"location": "Location",
+		"portfolio": "Portfolio",
+		"show_less": "Show less",
+		"view_all": "View all",
+		"min": "min",
+		"selected": "Selected",
+		"select": "Select",
+		"book_appointment": "Book Appointment",
+		"select_date": "Select Date",
+		"select_time": "Select Time",
+		"confirm_booking": "Confirm Booking",
+		"total_price": "Total Price",
+		"processing": "Processing...",
+		"confirm": "Confirm",
+		"slot_taken": "This slot is already taken. Please choose another.",
+		"busy": "Busy",
+		"reserved": "Reserved",
+		"pending_warning": "This slot has a pending request. You can still request it, but availability is not guaranteed.",
+		"appointment_confirmed": "Appointment Confirmed!",
+		"appointment_success_message": "Your appointment has been successfully booked.",
+		"book_another": "Book Another",
+		"booking_failed": "Failed to book appointment",
+		"dynamic_slots_hint": "Available time slots are calculated based on the duration of the selected service.",
+		"loading_availability": "Loading availability...",
+		"availability_load_failed": "Failed to load availability.",
+		"retry": "Retry",
+		"closed_day": "This barber is not available on this day.",
+		"errors": {
+			"SLOT_ALREADY_BOOKED": "This time slot is already booked",
+			"MAX_ACTIVE_BOOKINGS_REACHED": "You have reached the maximum limit of 3 active bookings."
+		},
+		"reviews_section_title": "Reviews",
+		"write_review": "Write a Review",
+		"no_reviews": "No reviews yet. Be the first to review!",
+		"rate_experience": "Rate your experience",
+		"review_placeholder": "Share your experience (optional)...",
+		"share_experience_placeholder": "Share your experience (optional)...",
+		"submitting": "Submitting...",
+		"submit_review": "Submit Review",
+		"book_now": "Book Now",
+		"selected_service": "Selected Service"
+	},
+	"dashboard": {
+		"title": "Dashboard",
+		"subtitle": "Manage your profile and schedule",
+		"subscription": {
+			"title": "Subscription",
+			"plan": "Plan",
+			"status": "Status",
+			"expires": "Expires in",
+			"bookings_used": "Bookings used"
+		},
+		"loading": "Loading...",
+		"profile_load_error": "Profile failed to load",
+		"unknown_error": "Unknown error",
+		"status_updated": "Booking status updated",
+		"status_update_error": "Error updating status",
+		"changes_saved": "Changes saved successfully!",
+		"save_error": "An error occurred. Please try again.",
+		"profile_not_found": "Barber profile not found.",
+		"no_bookings": "You have no bookings yet.",
+		"saving": "Saving...",
+		"save": "Save Changes",
+		"bookings": {
+			"title": "Appointments Timeline",
+			"load_error": "Failed to load bookings",
+			"update_success": "Booking updated",
+			"update_error": "Update error",
+			"no_bookings": "You have no bookings yet.",
+			"share_link": "Share your profile link to get bookings.",
+			"client": "Client",
+			"service": "Service",
+			"date_time": "Date & Time",
+			"status_label": "Status",
+			"actions_label": "Actions",
+			"unknown_client": "Unknown Client",
+			"unknown_service": "Unknown Service",
+			"service_deleted": "Service Deleted",
+			"status": {
+				"confirmed": "Confirmed",
+				"pending": "Pending",
+				"cancelled": "Cancelled",
+				"completed": "Completed",
+				"no_show": "No Show"
+			},
+			"no_filtered_bookings": "No bookings found with this status",
+			"try_different_filter": "Try selecting a different status.",
+			"actions": {
+				"confirm": "Confirm",
+				"cancel": "Cancel",
+				"complete": "Complete",
+				"no_show": "No Show"
+			},
+			"cancel_reason_prompt": "Reason for cancellation (optional):",
+			"note": "Note",
+			"subtitle": "Manage your daily schedule",
+			"scan_to_book": "Scan to book",
+			"new_booking_notification": "new booking notification"
+		},
+		"unknown_client": "Unknown Client",
+		"profile": {
+			"title": "Profile Details",
+			"profile_picture": "Profile Picture",
+			"set_as_profile_picture": "Set as Profile Picture",
+			"select_from_portfolio": "Select from portfolio:",
+			"no_portfolio": "Upload images to your portfolio to set them as your profile picture.",
+			"name": "Full Name",
+			"email": "Email Address",
+			"phone": "Phone Number",
+			"address": "Address / Location",
+			"address_hint": "Enter the full address (City, Street, Building) to ensure clients can find you.",
+			"map_preview": "Location Preview",
+			"open_in_maps": "Open in Google Maps",
+			"map_warning": "If the map is incorrect, please add more details to the address field.",
+			"official_address": "Official Address",
+			"about": "About You",
+			"about_placeholder": "Tell clients about your experience and skills...",
+			"specialties": "Specialties",
+			"specialties_placeholder": "e.g. Haircut, Beard Trim, Styling (comma separated)",
+			"verification_title": "Verification",
+			"status_verified": "Verified Account",
+			"status_pending": "Verification Pending",
+			"status_unverified": "Unverified Account",
+			"verified_desc": "Your account is verified and displays a badge.",
+			"pending_desc": "We are reviewing your documents.",
+			"unverified_desc": "Upload a document to get verified.",
+			"upload_doc": "Upload ID or Certificate",
+			"submit_verification": "Submit Request",
+			"upload_hint": "Please provide a link to your document (Google Drive, Dropbox, etc.)"
+		},
+		"schedule": {
+			"title": "Working Hours",
+			"days": {
+				"monday": "Monday",
+				"tuesday": "Tuesday",
+				"wednesday": "Wednesday",
+				"thursday": "Thursday",
+				"friday": "Friday",
+				"saturday": "Saturday",
+				"sunday": "Sunday"
+			},
+			"hours_active": "hours active",
+			"holidays": {
+				"title": "Holidays / Days Off",
+				"add": "Add Date",
+				"no_holidays": "No holidays added yet."
+			},
+			"add_time": "Add Time"
+		},
+		"services": {
+			"title": "Services",
+			"new_service_default": "New Service",
+			"add_service": "Add Service",
+			"name": "Service Name",
+			"duration": "Duration (min)",
+			"price": "Price",
+			"no_services": "No services added yet.",
+			"add_first": "Add your first service"
+		},
+		"portfolio": {
+			"title": "Portfolio",
+			"profile_avatar": "Profile Avatar",
+			"avatar_desc": "Shown on your profile and reviews.",
+			"select_from_gallery": "Select from Gallery...",
+			"change_avatar": "Change Avatar",
+			"listing_cover": "Listing Cover",
+			"cover_desc": "Shown in search results and lists.",
+			"change_cover": "Change Cover",
+			"select_instruction": "Select an image below to set as your",
+			"avatar": "Avatar",
+			"cover_image": "Cover Image",
+			"cancel_selection": "Cancel",
+			"current_avatar": "Current Avatar",
+			"current_cover": "Current Cover",
+			"prompt_url": "Enter image URL:",
+			"add_image": "Add Image",
+			"limit_reached": "Maximum 6 images allowed",
+			"upload_title": "Upload Image",
+			"compressing": "Compressing...",
+			"click_to_upload": "Click to upload image",
+			"image_added": "Image added successfully",
+			"upload_error": "Failed to upload image",
+			"set_avatar_tooltip": "Set as Profile Picture",
+			"current_avatar_tooltip": "Current Profile Picture",
+			"delete_tooltip": "Delete Image",
+			"upload_help": "JPG, PNG (Max 800x800px)",
+			"upload_new_image": "Upload New Image",
+			"no_images": "no images",
+			"upload_first": "upload first"
+		},
+		"tabs": {
+			"overview": "Overview",
+			"profile": "Profile Details",
+			"bookings": "Bookings",
+			"schedule": "Working Hours",
+			"services": "Services",
+			"portfolio": "Portfolio",
+			"expenses": "Expenses",
+			"notifications": "Notifications",
+			"qrcode": "QR Code"
+		},
+		"expenses": {
+			"title": "Expenses",
+			"subtitle": "Track your business costs",
+			"add_btn": "Add Expense",
+			"total_cost": "Total Cost",
+			"date": "Date",
+			"category": "Category",
+			"note": "Note",
+			"amount": "Amount",
+			"no_data": "No expenses recorded yet.",
+			"add_title": "Add New Expense",
+			"added_success": "Expense added successfully",
+			"add_error": "Failed to add expense",
+			"deleted_success": "Expense deleted",
+			"delete_error": "Failed to delete expense",
+			"categories": {
+				"rent": "Rent",
+				"supplies": "Supplies",
+				"utilities": "Utilities",
+				"marketing": "Marketing",
+				"other": "Other"
+			}
+		},
+		"notifications": {
+			"title": "Notification Settings",
+			"subtitle": "Receive instant alerts when clients book appointments with you.",
+			"telegram_title": "Telegram Alerts (Free)",
+			"telegram_connected": "Connected",
+			"telegram_desc": "Get instant messages when a client books an appointment with you. Click the button below to instantly link your Telegram account securely.",
+			"telegram_chat_id": "Chat ID",
+			"telegram_disconnect": "Disconnect",
+			"telegram_active_desc": "Notifications are currently active and being sent to your Telegram.",
+			"telegram_connect_btn": "Connect Telegram Account",
+			"telegram_waiting": "Waiting for Telegram...",
+			"telegram_instruction": "A new tab will open. Press 'Start' in the Telegram chat to automatically link your account.",
+			"telegram_success": "Telegram connected successfully!",
+			"whatsapp_title": "WhatsApp Alerts",
+			"whatsapp_desc": "We are preparing an official WhatsApp integration.",
+			"whatsapp_warning": "Note: Unlike Telegram, automated messaging through official WhatsApp Business APIs is a paid service (via Meta).",
+			"whatsapp_input_label": "WhatsApp Number (Coming Soon)",
+			"enable_title": "Enable Notifications",
+			"modal_heading": "Don't miss a beat!",
+			"modal_desc": "Turn on notifications to instantly receive booking requests and stay organized.",
+			"enable_btn": "Enable Notifications",
+			"sustain_now": "Maybe Later",
+			"sustain_forever": "Never"
+		},
+		"stats": {
+			"today_revenue": "Today's Revenue",
+			"bookings_today": "bookings today",
+			"month_revenue": "Month Revenue",
+			"bookings_month": "bookings this month",
+			"total_clients": "Total Clients",
+			"unique_clients": "unique clients",
+			"weekly_overview": "Weekly Overview",
+			"revenue": "Revenue",
+			"bookings": "Bookings",
+			"no_data_title": "No Stats Available",
+			"no_data_desc": "Start accepting bookings to see your analytics here.",
+			"get_started_title": "Ready for Business?",
+			"get_started_desc": "Your analytics will appear here once you start receiving bookings."
+		},
+		"clients": {
+			"title": "My Clients",
+			"search_placeholder": "Search clients...",
+			"total_clients": "Total Clients",
+			"total_revenue": "Total Revenue",
+			"last_visit": "Last Visit",
+			"bookings": "Bookings",
+			"notes": "Notes",
+			"tags": "Tags",
+			"add_note": "Add Note",
+			"save_note": "Save Note",
+			"no_clients": "No clients found",
+			"details": "Client Details",
+			"contact": "Contact Info",
+			"add_tag": "Add Tag",
+			"share_profile": "Share Profile",
+			"no_clients_title": "No clients yet",
+			"no_clients_desc": "Share your profile link to start getting bookings."
+		},
+		"roadmap": {
+			"title": "Your Success Roadmap",
+			"subtitle": "Maximize your potential as a professional barber with these easy steps.",
+			"step1_title": "Grow Your Client Base",
+			"step1_desc": "Your profile is your digital business card. Add your best haircuts to the Portfolio, keep your services updated, and watch new clients roll in through our platform.",
+			"step2_title": "Never Miss a Booking",
+			"step2_desc": "Don't let a client wait! Enable notifications (Web Push or Telegram) so you instantly know when someone books, cancels, or reschedules.",
+			"step3_title": "The Magic QR Code",
+			"step3_desc": "Print your unique QR Code from the QR tab and stick it on your mirror! Clients can simply scan it while sitting in your chair to see your portfolio, leave a review, or book their next visit on the spot.",
+			"dismiss": "Got it, hide this guide"
+		},
+		"qrcode": {
+			"download_sticker": "Download HD Sticker",
+			"print_instruction": "Downloads a high-quality PNG ready for printing",
+			"powered_by": "Powered By",
+			"title": "Digital Business Card",
+			"subtitle": "Download a beautifully designed QR code sticker to print and place at your station."
+		},
+		"hide_past": "Hide Past Appointments",
+		"show_past": "Show Past Appointments"
+	},
+	"common": {
+		"loading": "Loading...",
+		"check_map": "Check Map",
+		"refresh": "Refresh",
+		"days": "days",
+		"all": "All Statuses",
+		"page": "Page",
+		"link_copied": "Link copied!",
+		"confirm_delete": "Are you sure?",
+		"cancel": "Cancel",
+		"saving": "Saving...",
+		"save": "Save",
+		"today": "Today",
+		"tomorrow": "Tomorrow",
+		"yesterday": "Yesterday",
+		"refreshed": "Refreshed",
+		"min": "min",
+		"close": "Close",
+		"use_current_location": "use current location",
+		"geolocation_not_supported": "geolocation not supported",
+		"geolocation_denied": "geolocation denied",
+		"book_now": "Book Now"
+	},
+	"user_bookings": {
+		"title": "My Appointments",
+		"subtitle": "Your upcoming and past appointments",
+		"no_bookings_title": "No Appointments Found",
+		"no_bookings_desc": "You haven't booked any appointments yet.",
+		"book_now": "Book Appointment",
+		"unknown_barber": "Unknown Barber",
+		"status": {
+			"confirmed": "Confirmed",
+			"pending": "Pending",
+			"cancelled": "Cancelled",
+			"completed": "Completed"
+		},
+		"cancel_tooltip": "Cancel Appointment",
+		"cancel_reason_label": "Reason for cancellation (optional):",
+		"cancel_reason_placeholder": "Enter reason...",
+		"confirm_cancel": "Confirm",
+		"note_label": "Note: "
+	},
+	"favorites": {
+		"title": "Favorites",
+		"subtitle": "List of your favorite barbers",
+		"empty_title": "List is empty",
+		"empty_desc": "You haven't added any barbers to favorites yet.",
+		"discover_btn": "Discover Barbers"
+	}
 }
