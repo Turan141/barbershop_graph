@@ -55,7 +55,7 @@ export function getCorsOptions(): cors.CorsOptions {
 				normalizeOrigin(process.env.FRONTEND_URL),
 				normalizeOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL),
 				normalizeOrigin(process.env.VERCEL_URL)
-		  ].filter((v): v is string => Boolean(v))
+			].filter((v): v is string => Boolean(v))
 		: []
 
 	const allowList = Array.from(new Set([...envAllowList, ...autoVercelOrigins]))
@@ -77,8 +77,7 @@ export function getCorsOptions(): cors.CorsOptions {
 		origin: (origin, callback) => {
 			// Allow non-browser clients (no Origin header) like curl/Capacitor native.
 			if (!origin) return callback(null, true)
-			if (matchesAllowedOrigin(origin, allowList))
-				return callback(null, true)
+			if (matchesAllowedOrigin(origin, allowList)) return callback(null, true)
 			console.error(
 				`CORS blocked origin: ${origin}. Allowed: ${JSON.stringify(allowList)}`
 			)

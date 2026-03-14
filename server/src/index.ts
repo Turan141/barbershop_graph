@@ -8,8 +8,9 @@ import { initSocket } from "./socket"
 
 dotenv.config()
 
-// Fail fast if critical secrets are missing.
-requireEnv("JWT_SECRET")
+// Relaxing top-level fail-fast so server can boot and serve CORS headers on Vercel even if env vars are missing.
+// Missing secrets will still throw inside the specific routes/functions that use them.
+// requireEnv("JWT_SECRET")
 
 const app = express()
 const httpServer = createServer(app)
@@ -42,6 +43,23 @@ app.use("/api/bookings", bookingsLimiter, bookingRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/debug", debugRoutes)
 app.use("/api/push", pushRoutes)
+
+app.get("/api/ping", (req, res) => {
+	res.json({
+		status: "ok",
+		timestamp: new Date().toISOString(),
+		env: {
+			hasJwtSecret: !!process.env.JWT_SECRET,
+			hasDatabaseUrl: !!process.env.DATABASE_URL
+		}
+	})
+})
+
+// Global error handler to ensure JSON responses on errors (preserves CORS)
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+	console.error("Unhandled Error:", err)
+	res.status(500).json({ error: "Internal Server Error", details: err.message })
+})
 
 if (require.main === module) {
 	httpServer.listen(Number(PORT), "0.0.0.0", () => {
