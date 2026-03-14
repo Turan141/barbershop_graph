@@ -193,60 +193,117 @@ export const BarberDashboardPage = () => {
 
 	const handleDownloadQR = () => {
 		const canvas = document.createElement("canvas")
-		// A6 ratio approx
-		canvas.width = 1050
-		canvas.height = 1485
+		// Super HD Print Quality Card (3:4 Ratio)
+		canvas.width = 1200
+		canvas.height = 1600
 		const ctx = canvas.getContext("2d")
 		if (!ctx) return
 
+		// Fill solid luxury white background
 		ctx.fillStyle = "#ffffff"
 		ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-		ctx.strokeStyle = "#0f172a"
-		ctx.lineWidth = 24
-		ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80)
+		// Top subtle sleek accent
+		const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0)
+		gradient.addColorStop(0, "#0f172a")
+		gradient.addColorStop(1, "#334155")
+		ctx.fillStyle = gradient
+		ctx.fillRect(0, 0, canvas.width, 32)
+
+		// Subtop subtle grey background area for name
+		ctx.fillStyle = "#f8fafc"
+		ctx.fillRect(0, 32, canvas.width, 600)
+
+		// Smooth transition
+		const lg = ctx.createLinearGradient(0, 632, 0, 700)
+		lg.addColorStop(0, "#f8fafc")
+		lg.addColorStop(1, "rgba(248, 250, 252, 0)")
+		ctx.fillStyle = lg
+		ctx.fillRect(0, 632, canvas.width, 68)
+
+		// Barber Name (huge, black, sleek font)
+		ctx.fillStyle = "#0f172a"
+		ctx.font = "900 120px system-ui, -apple-system, 'Inter', sans-serif"
+		ctx.textAlign = "center"
+		ctx.textBaseline = "middle"
+
+		let displayName = barber?.name || "VIP Barber"
+		if (displayName.length > 15) {
+			ctx.font = "900 90px system-ui, -apple-system, 'Inter', sans-serif"
+		}
+		ctx.fillText(displayName.toUpperCase(), canvas.width / 2, 240)
+
+		// "SCAN TO BOOK" minimalist badge
+		const badgeW = 460
+		const badgeH = 80
+		const badgeX = (canvas.width - badgeW) / 2
+		const badgeY = 360
+
+		ctx.fillStyle = "#ffffff"
+		ctx.beginPath()
+		ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 40)
+		ctx.fill()
+
+		ctx.strokeStyle = "#cbd5e1"
+		ctx.lineWidth = 2
+		ctx.stroke()
 
 		ctx.fillStyle = "#0f172a"
-		ctx.font = "bold 96px system-ui, -apple-system, sans-serif"
-		ctx.textAlign = "center"
-		ctx.fillText(barber?.name || "Barber", canvas.width / 2, 220)
+		ctx.font = "700 32px system-ui, -apple-system, 'Inter', sans-serif"
+		// @ts-ignore
+		if (ctx.letterSpacing !== undefined) ctx.letterSpacing = "4px"
 
-		ctx.fillStyle = "#64748b"
-		ctx.font = "600 52px system-ui, -apple-system, sans-serif"
-		ctx.fillText(
-			t("scan_to_book") || "Scan to book an appointment",
-			canvas.width / 2,
-			320
-		)
+		let theText =
+			t("dashboard.bookings.scan_to_book") &&
+			t("dashboard.bookings.scan_to_book") !== "dashboard.bookings.scan_to_book"
+				? t("dashboard.bookings.scan_to_book").toUpperCase()
+				: "SCAN TO BOOK"
+		ctx.fillText(theText, canvas.width / 2, badgeY + badgeH / 2 + 3)
 
+		// @ts-ignore
+		if (ctx.letterSpacing !== undefined) ctx.letterSpacing = "0px"
+
+		// QR Code Layout
 		const qrCanvas = document.getElementById("barber-qr-code") as HTMLCanvasElement
 		if (qrCanvas) {
-			const qrSize = 750
+			const qrSize = 720
 			const x = (canvas.width - qrSize) / 2
-			const y = 460
+			const y = 560
 
-			ctx.shadowColor = "rgba(0,0,0,0.1)"
-			ctx.shadowBlur = 40
-			ctx.shadowOffsetY = 20
+			// Sleek modern shadow
+			ctx.shadowColor = "rgba(15, 23, 42, 0.12)"
+			ctx.shadowBlur = 80
+			ctx.shadowOffsetY = 24
 			ctx.fillStyle = "#ffffff"
+
 			ctx.beginPath()
-			ctx.roundRect(x - 50, y - 50, qrSize + 100, qrSize + 100, 60)
+			ctx.roundRect(x - 40, y - 40, qrSize + 80, qrSize + 80, 56)
 			ctx.fill()
 			ctx.shadowColor = "transparent"
+
+			// Mute inner border
+			ctx.strokeStyle = "#e2e8f0"
+			ctx.lineWidth = 1
+			ctx.stroke()
 
 			ctx.drawImage(qrCanvas, x, y, qrSize, qrSize)
 		}
 
-		ctx.fillStyle = "#cbd5e1"
-		ctx.font = "bold 40px system-ui, -apple-system, sans-serif"
-		ctx.fillText("POWERED BY", canvas.width / 2, 1370)
-		ctx.fillStyle = "#0f172a"
-		ctx.fillText("BARBERSHOP", canvas.width / 2, 1420)
+		// Subtle clean footer
+		ctx.fillStyle = "#94a3b8"
+		ctx.font = "600 28px system-ui, -apple-system, 'Inter', sans-serif"
+		ctx.fillText("POWERED BY", canvas.width / 2, 1460)
+
+		ctx.fillStyle = "#020617"
+		ctx.font = "900 48px system-ui, -apple-system, 'Inter', sans-serif"
+		// @ts-ignore
+		if (ctx.letterSpacing !== undefined) ctx.letterSpacing = "4px"
+		ctx.fillText("BARBERBOOK", canvas.width / 2, 1510)
 
 		const link = document.createElement("a")
 		let safeName = "Barber"
 		if (barber && barber.name) safeName = barber.name.replace(/\s+/g, "_")
-		link.download = "Sticker_QR_" + safeName + ".png"
+		link.download = "HQ_Sticker_" + safeName + ".png"
 		link.href = canvas.toDataURL("image/png", 1.0)
 		link.click()
 	}
