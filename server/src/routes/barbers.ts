@@ -615,8 +615,10 @@ router.put("/:id", authenticateToken, async (req: AuthRequest, res) => {
 		if (data.verificationDocumentUrl)
 			updateData.verificationDocumentUrl = data.verificationDocumentUrl
 		if (data.verificationStatus === "pending") updateData.verificationStatus = "pending"
-		if (data.telegramChatId !== undefined) updateData.telegramChatId = data.telegramChatId === "" ? null : data.telegramChatId
-		if (data.whatsappNumber !== undefined) updateData.whatsappNumber = data.whatsappNumber === "" ? null : data.whatsappNumber
+		if (data.telegramChatId !== undefined)
+			updateData.telegramChatId = data.telegramChatId === "" ? null : data.telegramChatId
+		if (data.whatsappNumber !== undefined)
+			updateData.whatsappNumber = data.whatsappNumber === "" ? null : data.whatsappNumber
 
 		// Handle Services Update
 		if (data.services && Array.isArray(data.services)) {

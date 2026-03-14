@@ -1516,7 +1516,9 @@ export const BarberDashboardPage = () => {
 														onClick={() => {
 															setFormData({ ...formData, telegramChatId: "" })
 															saveBarberData({ ...formData, telegramChatId: "" })
-															setBarber((prev) => prev ? { ...prev, telegramChatId: "" } : null)
+															setBarber((prev) =>
+																prev ? { ...prev, telegramChatId: "" } : null
+															)
 														}}
 														className='text-sm text-red-600 hover:text-red-700 font-medium'
 													>
