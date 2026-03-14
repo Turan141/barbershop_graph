@@ -81,7 +81,7 @@
     "legal": "Юридическая информация",
     "privacy": "Конфиденциальность",
     "terms": "Условия",
-    "copyright": "© 2025 BarberBook Inc. Все права защищены."
+    "copyright": "© 2025 Salonify Inc. Все права защищены."
   },
   "auth": {
     "welcome": "Добро пожаловать",
@@ -506,7 +506,7 @@
       },
       "cta": {
         "title": "Готовы обновить свой бизнес?",
-        "subtitle": "Присоединяйтесь к тысячам барберов, которые доверяют BarberBook управление своим бизнесом.",
+        "subtitle": "Присоединяйтесь к тысячам барберов, которые доверяют Salonify управление своим бизнесом.",
         "button": "Начать"
       }
     },
@@ -548,11 +548,11 @@
     },
     "about": {
       "title": "О нас",
-      "subtitle": "BarberBook стремится модернизировать опыт посещения барбершопа. Мы соединяем талантливых барберов с клиентами, которые ценят качественный сервис.",
+      "subtitle": "Salonify стремится модернизировать опыт посещения барбершопа. Мы соединяем талантливых барберов с клиентами, которые ценят качественный сервис.",
       "story": {
         "title": "Наша история",
-        "content": "Основанный в 2024 году, BarberBook начался с простого наблюдения: найти хорошего барбера и записаться на прием было сложнее, чем должно быть. Мы решили создать платформу, которая облегчит клиентам поиск отличных барберов, а барберам — эффективное управление своим бизнесом.",
-        "text": "Founded in 2024, BarberBook started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
+        "content": "Основанный в 2024 году, Salonify начался с простого наблюдения: найти хорошего барбера и записаться на прием было сложнее, чем должно быть. Мы решили создать платформу, которая облегчит клиентам поиск отличных барберов, а барберам — эффективное управление своим бизнесом.",
+        "text": "Founded in 2024, Salonify started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
       },
       "values": {
         "title": "Наши ценности",
@@ -572,7 +572,7 @@
           "text": "We're constantly improving our technology to serve you better."
         }
       },
-      "mission": "BarberBook is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service."
+      "mission": "Salonify is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service."
     },
     "careers": {
       "title": "Присоединяйтесь к нашей команде",
@@ -616,7 +616,7 @@
       "email": {
         "title": "Email",
         "desc": "Обычно мы отвечаем в течение 24 часов.",
-        "value": "support@barberbook.com"
+        "value": "support@salonify.com"
       },
       "phone": {
         "title": "Телефон",
@@ -647,8 +647,8 @@
       "last_updated": "Последнее обновление: 8 декабря 2025",
       "intro": {
         "title": "1. Введение",
-        "content": "Добро пожаловать в BarberBook. Мы уважаем вашу конфиденциальность и обязуемся защищать ваши персональные данные. Эта политика конфиденциальности проинформирует вас о том, как мы заботимся о ваших персональных данных, когда вы посещаете наш веб-сайт, и расскажет вам о ваших правах на конфиденциальность и о том, как закон защищает вас.",
-        "text": "Welcome to BarberBook. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
+        "content": "Добро пожаловать в Salonify. Мы уважаем вашу конфиденциальность и обязуемся защищать ваши персональные данные. Эта политика конфиденциальности проинформирует вас о том, как мы заботимся о ваших персональных данных, когда вы посещаете наш веб-сайт, и расскажет вам о ваших правах на конфиденциальность и о том, как закон защищает вас.",
+        "text": "Welcome to Salonify. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
       },
       "data": {
         "title": "2. Данные, которые мы собираем",
@@ -693,18 +693,18 @@
       },
       "license": {
         "title": "2. Лицензия на использование",
-        "content": "Разрешается временно загрузить одну копию материалов (информации или программного обеспечения) на веб-сайте BarberBook только для личного, некоммерческого временного просмотра.",
-        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on BarberBook's website for personal, non-commercial transitory viewing only."
+        "content": "Разрешается временно загрузить одну копию материалов (информации или программного обеспечения) на веб-сайте Salonify только для личного, некоммерческого временного просмотра.",
+        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on Salonify's website for personal, non-commercial transitory viewing only."
       },
       "disclaimer": {
         "title": "3. Отказ от ответственности",
-        "content": "Материалы на веб-сайте BarberBook предоставляются на условиях «как есть». BarberBook не дает никаких гарантий, явных или подразумеваемых, и настоящим отказывается от всех других гарантий, включая, помимо прочего, подразумеваемые гарантии или условия товарной пригодности, пригодности для определенной цели или ненарушения прав интеллектуальной собственности или иного нарушения прав.",
-        "text": "The materials on BarberBook's website are provided on an 'as is' basis. BarberBook makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
+        "content": "Материалы на веб-сайте Salonify предоставляются на условиях «как есть». Salonify не дает никаких гарантий, явных или подразумеваемых, и настоящим отказывается от всех других гарантий, включая, помимо прочего, подразумеваемые гарантии или условия товарной пригодности, пригодности для определенной цели или ненарушения прав интеллектуальной собственности или иного нарушения прав.",
+        "text": "The materials on Salonify's website are provided on an 'as is' basis. Salonify makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
       },
       "limitations": {
         "title": "4. Ограничения",
-        "content": "Ни при каких обстоятельствах BarberBook или его поставщики не несут ответственности за какой-либо ущерб (включая, помимо прочего, ущерб от потери данных или прибыли или из-за прерывания бизнеса), возникающий в результате использования или невозможности использования материалов на веб-сайте BarberBook.",
-        "text": "In no event shall BarberBook or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on BarberBook's website."
+        "content": "Ни при каких обстоятельствах Salonify или его поставщики не несут ответственности за какой-либо ущерб (включая, помимо прочего, ущерб от потери данных или прибыли или из-за прерывания бизнеса), возникающий в результате использования или невозможности использования материалов на веб-сайте Salonify.",
+        "text": "In no event shall Salonify or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Salonify's website."
       }
     }
   },

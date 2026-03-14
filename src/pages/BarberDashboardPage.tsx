@@ -285,7 +285,7 @@ export const BarberDashboardPage = () => {
 		ctx.font = "900 48px system-ui, -apple-system, 'Inter', sans-serif"
 		// @ts-ignore
 		if (ctx.letterSpacing !== undefined) ctx.letterSpacing = "4px"
-		ctx.fillText("BARBERBOOK", canvas.width / 2, 1510)
+		ctx.fillText("SALONIFY", canvas.width / 2, 1510)
 
 		const link = document.createElement("a")
 		let safeName = "Barber"

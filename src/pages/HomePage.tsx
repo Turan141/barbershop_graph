@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next"
 import { useAuthStore } from "@/store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"
 import clsx from "clsx"
+import { BrandLogo } from "@/components/BrandLogo"
 
 const getRegionFromAddress = (address: string) => {
 	if (!address) return ""
@@ -237,14 +238,16 @@ export const HomePage = () => {
 			<div className='relative z-10 pt-6 pb-6 px-4 sm:px-6 lg:px-8'>
 				<div className='max-w-7xl mx-auto pl-0 md:pl-8'>
 					{/* Mobile Branding */}
-					<div className='sm:hidden mb-6 flex items-center justify-between'>
+					{/* <div className='sm:hidden mb-6 flex items-center justify-between'>
 						<div>
-							<h1 className='text-xl font-bold text-slate-900 flex items-center gap-2'></h1>
+							<div className='flex items-center gap-3'>
+								<BrandLogo size='sm' />
+							</div>
 							<p className='text-xs text-slate-500 mt-1 ml-1'>
 								{t("home.hero_desc").split(".")[0]}.
 							</p>
 						</div>
-					</div>
+					</div> */}
 
 					<div className='hidden sm:flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8'>
 						<div className='max-w-2xl'>

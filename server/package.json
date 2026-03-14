@@ -1,12 +1,13 @@
 {
-	"name": "barbershop-server",
+	"name": "salonify-server",
 	"version": "1.0.0",
-	"description": "Backend for Barbershop App",
+	"description": "Backend for Salonify App",
 	"main": "dist/index.js",
 	"scripts": {
 		"start": "node dist/index.js",
 		"dev": "nodemon src/index.ts",
 		"build": "tsc",
+		"admin:promote": "node scripts/promote-admin.cjs",
 		"prisma:generate": "prisma generate",
 		"prisma:migrate:deploy": "prisma migrate deploy",
 		"prisma:migrate:status": "prisma migrate status",

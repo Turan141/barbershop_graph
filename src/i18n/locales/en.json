@@ -81,7 +81,7 @@
     "legal": "Legal",
     "privacy": "Privacy",
     "terms": "Terms",
-    "copyright": "© 2025 BarberBook Inc. All rights reserved."
+    "copyright": "© 2025 Salonify Inc. All rights reserved."
   },
   "pages": {
     "features": {
@@ -123,7 +123,7 @@
       },
       "cta": {
         "title": "Ready to upgrade your business?",
-        "subtitle": "Join thousands of barbers who trust BarberBook to run their business.",
+        "subtitle": "Join thousands of barbers who trust Salonify to run their business.",
         "button": "Get Started"
       }
     },
@@ -165,10 +165,10 @@
     },
     "about": {
       "title": "About Us",
-      "mission": "BarberBook is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service.",
+      "mission": "Salonify is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service.",
       "story": {
         "title": "Our Story",
-        "text": "Founded in 2024, BarberBook started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently.",
+        "text": "Founded in 2024, Salonify started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently.",
         "content": "content"
       },
       "values": {
@@ -248,7 +248,7 @@
       "get_in_touch": "Get in Touch",
       "email": {
         "title": "Email",
-        "value": "support@barberbook.com",
+        "value": "support@salonify.com",
         "desc": "We usually reply within 24 hours."
       },
       "phone": {
@@ -277,7 +277,7 @@
       "last_updated": "Last updated: December 8, 2025",
       "intro": {
         "title": "1. Introduction",
-        "text": "Welcome to BarberBook. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
+        "text": "Welcome to Salonify. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
         "content": "content"
       },
       "data": {
@@ -323,17 +323,17 @@
       },
       "license": {
         "title": "2. Use License",
-        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on BarberBook's website for personal, non-commercial transitory viewing only.",
+        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on Salonify's website for personal, non-commercial transitory viewing only.",
         "content": "content"
       },
       "disclaimer": {
         "title": "3. Disclaimer",
-        "text": "The materials on BarberBook's website are provided on an 'as is' basis. BarberBook makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
+        "text": "The materials on Salonify's website are provided on an 'as is' basis. Salonify makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
         "content": "content"
       },
       "limitations": {
         "title": "4. Limitations",
-        "text": "In no event shall BarberBook or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on BarberBook's website.",
+        "text": "In no event shall Salonify or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Salonify's website.",
         "content": "content"
       }
     }

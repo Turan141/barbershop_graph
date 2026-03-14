@@ -1,9 +1,10 @@
 import * as React from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
-import { Scissors, LogOut, Menu, X } from "lucide-react"
+import { LogOut, Menu, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { LanguageSwitcher } from "./LanguageSwitcher"
+import { BrandLogo } from "./BrandLogo"
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
 	const { user, logout } = useAuthStore()
@@ -25,12 +26,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 						{/* Logo */}
 						<div className='flex items-center'>
 							<Link to='/' className='flex items-center gap-3 group'>
-								<div className='w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary-600/20 group-hover:scale-105 transition-transform'>
-									<Scissors className='h-6 w-6' />
-								</div>
-								<span className='font-bold text-xl text-slate-900 tracking-tight'>
-									Barber<span className='text-primary-600'>Book</span>
-								</span>
+								<BrandLogo size='md' />
 							</Link>
 						</div>
 
@@ -209,10 +205,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 					<div className='grid grid-cols-1 md:grid-cols-4 gap-12 mb-12'>
 						<div className='col-span-1 md:col-span-1'>
 							<div className='flex items-center gap-2 mb-4'>
-								<div className='w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white'>
-									<Scissors className='h-5 w-5' />
-								</div>
-								<span className='font-bold text-lg text-slate-900'>BarberBook</span>
+								<BrandLogo size='sm' />
 							</div>
 							<p className='text-slate-500 text-sm leading-relaxed'>
 								{t("footer.description")}

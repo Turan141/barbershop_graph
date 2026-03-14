@@ -21,7 +21,7 @@ self.addEventListener("push", (event) => {
 	}
 
 	event.waitUntil(
-		self.registration.showNotification(payload.title || "BarberBook", options)
+		self.registration.showNotification(payload.title || "Salonify", options)
 	)
 })
 

@@ -57,7 +57,7 @@ export const NotificationService = {
 			notifications: [
 				{
 					title: "Test Notification",
-					body: "This is a test notification from BarberBook",
+					body: "This is a test notification from Salonify",
 					id: 1,
 					schedule: { at: new Date(Date.now() + 5000) }, // 5 seconds from now
 					sound: undefined,

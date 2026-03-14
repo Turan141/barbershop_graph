@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from "@capacitor/cli"
 
 const config: CapacitorConfig = {
-	appId: "com.barberbook.app",
-	appName: "BarberBook",
+	appId: "com.salonify.app",
+	appName: "Salonify",
 	webDir: "dist",
 	server: {
 		androidScheme: "http",

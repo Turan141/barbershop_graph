@@ -1,4 +1,4 @@
-package com.barberbook.app;
+package com.salonify.app;
 
 import com.getcapacitor.BridgeActivity;
 

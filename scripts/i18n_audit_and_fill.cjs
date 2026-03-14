@@ -137,10 +137,16 @@ const missingAfter = {
 	az: missingCount(locales.az)
 }
 
-console.log(JSON.stringify({
-	usedKeys: used.size,
-	missingBefore,
-	missingAfter,
-	ruMissingKeys: missingKeys(locales.ru),
-	azMissingKeys: missingKeys(locales.az)
-}, null, 2))
+console.log(
+	JSON.stringify(
+		{
+			usedKeys: used.size,
+			missingBefore,
+			missingAfter,
+			ruMissingKeys: missingKeys(locales.ru),
+			azMissingKeys: missingKeys(locales.az)
+		},
+		null,
+		2
+	)
+)
