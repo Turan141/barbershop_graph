@@ -7,7 +7,6 @@ import { toast } from "react-hot-toast"
 import { useAuthStore } from "@/store/authStore"
 import { Barber, Service } from "@/types"
 import { api } from "@/services/api"
-import { connectSocket } from "@/services/socket"
 import {
 	User,
 	Users,
@@ -397,19 +396,19 @@ export const BarberDashboardPage = () => {
 			<div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
 				{/* Sidebar Navigation */}
 				<div className='lg:col-span-3'>
-					<nav className='space-y-1'>
+					<nav className='flex space-x-2 overflow-x-auto lg:flex-col lg:space-y-1 lg:space-x-0 pb-4 lg:pb-0 hide-scrollbar scroll-smooth snap-x'>
 						{tabs.map((tab) => (
 							<button
 								key={tab.id}
 								onClick={() => setActiveTab(tab.id)}
 								className={clsx(
-									"w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors",
+									"flex-none lg:w-full flex items-center justify-center lg:justify-start gap-2 lg:gap-3 px-4 py-2.5 lg:py-3 text-sm font-bold lg:font-medium rounded-xl transition-all duration-200 snap-start whitespace-nowrap",
 									activeTab === tab.id
-										? "bg-primary-50 text-primary-700"
-										: "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+										? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-100"
+										: "text-slate-600 hover:bg-slate-50 hover:text-slate-900 bg-white lg:bg-transparent border border-slate-200 lg:border-transparent"
 								)}
 							>
-								<tab.icon className='w-5 h-5' />
+								<tab.icon className={clsx("w-5 h-5", activeTab === tab.id ? "text-primary-600" : "text-slate-400")} />
 								{tab.label}
 							</button>
 						))}

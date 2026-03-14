@@ -136,21 +136,34 @@
 			"demo": {
 				"title": "Pro Demo",
 				"price": "Free",
-				"features": ["Full calendar", "Bookings", "WhatsApp button", "Statistics"],
+				"features": [
+					"Full calendar",
+					"Bookings",
+					"WhatsApp button",
+					"Statistics"
+				],
 				"button": "Try 1 month free",
 				"description": "You will test all features during this period, no payment required."
 			},
 			"basic": {
 				"title": "Basic",
 				"price": "10 ₼",
-				"features": ["1 chair", "All features", "Max 50 bookings/mo"],
+				"features": [
+					"1 chair",
+					"All features",
+					"Max 50 bookings/mo"
+				],
 				"button": "Get Basic",
 				"description": "50 bookings per month, full access to calendar and clients."
 			},
 			"standard": {
 				"title": "Standard",
 				"price": "20 ₼",
-				"features": ["1-2 chairs", "Unlimited bookings", "Access to statistics"],
+				"features": [
+					"1-2 chairs",
+					"Unlimited bookings",
+					"Access to statistics"
+				],
 				"button": "Get Standard",
 				"description": "Unlimited bookings, client statistics, convenient workflow."
 			},
@@ -414,7 +427,7 @@
 		"saving": "Saving...",
 		"save": "Save Changes",
 		"bookings": {
-			"title": "Bookings",
+			"title": "Appointments Timeline",
 			"load_error": "Failed to load bookings",
 			"update_success": "Booking updated",
 			"update_error": "Update error",
@@ -444,7 +457,8 @@
 				"no_show": "No Show"
 			},
 			"cancel_reason_prompt": "Reason for cancellation (optional):",
-			"note": "Note"
+			"note": "Note",
+			"subtitle": "Manage your daily schedule"
 		},
 		"unknown_client": "Unknown Client",
 		"profile": {
@@ -632,7 +646,11 @@
 		"confirm_delete": "Are you sure?",
 		"cancel": "Cancel",
 		"saving": "Saving...",
-		"save": "Save"
+		"save": "Save",
+		"today": "Today",
+		"tomorrow": "Tomorrow",
+		"yesterday": "Yesterday",
+		"refreshed": "Refreshed"
 	},
 	"user_bookings": {
 		"title": "My Appointments",

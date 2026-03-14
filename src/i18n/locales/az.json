@@ -200,7 +200,7 @@
 		"saving": "Yadda saxlanılır...",
 		"save": "Yadda saxla",
 		"bookings": {
-			"title": "Randevular",
+			"title": "Görüş Zaman Çizelgesi",
 			"load_error": "Randevular yüklənmədi",
 			"update_success": "Randevu yeniləndi",
 			"update_error": "Yeniləmə xətası",
@@ -230,7 +230,8 @@
 				"no_show": "Gəlmədi"
 			},
 			"cancel_reason_prompt": "Ləğv səbəbi (könüllü):",
-			"note": "Qeyd"
+			"note": "Qeyd",
+			"subtitle": "Gündəlik qrafikinizi idarə edin"
 		},
 		"unknown_client": "Naməlum Müştəri",
 		"profile": {
@@ -419,7 +420,11 @@
 		"confirm_delete": "Əminsiniz?",
 		"cancel": "Ləğv et",
 		"saving": "Yadda saxlanılır...",
-		"save": "Yadda saxla"
+		"save": "Yadda saxla",
+		"today": "Bugün",
+		"tomorrow": "Sabah",
+		"yesterday": "Dünən",
+		"refreshed": "Yeniləndi"
 	},
 	"pages": {
 		"features": {
@@ -475,21 +480,34 @@
 			"demo": {
 				"title": "Pro Demo",
 				"price": "Pulsuz",
-				"features": ["Tam təqvim", "Randevular", "WhatsApp düyməsi", "Statistika"],
+				"features": [
+					"Tam təqvim",
+					"Randevular",
+					"WhatsApp düyməsi",
+					"Statistika"
+				],
 				"button": "Sına 1 ay pulsuz",
 				"description": "Bu müddət ərzində bütün funksiyaları sınayacaqsınız, ödəniş yoxdur."
 			},
 			"basic": {
 				"title": "Basic",
 				"price": "10 ₼",
-				"features": ["1 kreslo", "Bütün funksiyalar", "Maks. 50 randevu/ay"],
+				"features": [
+					"1 kreslo",
+					"Bütün funksiyalar",
+					"Maks. 50 randevu/ay"
+				],
 				"button": "Basic al",
 				"description": "Ayda 50 randevu, təqvim və müştərilərə tam çıxış."
 			},
 			"standard": {
 				"title": "Standard",
 				"price": "20 ₼",
-				"features": ["1-2 kreslo", "Limitsiz randevu", "Statistikaya çıxış"],
+				"features": [
+					"1-2 kreslo",
+					"Limitsiz randevu",
+					"Statistikaya çıxış"
+				],
 				"button": "Standard al",
 				"description": "Limitsiz randevu, müştəri statistikası, rahat iş."
 			},
