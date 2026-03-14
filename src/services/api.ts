@@ -18,6 +18,10 @@ const API_BASE = getApiBase()
 
 async function handleResponse<T>(response: Response): Promise<T> {
 	if (!response.ok) {
+		if (response.status === 401 || response.status === 403) {
+			// fetchWithAuth already tried to refresh — session is truly gone
+			throw new Error(JSON.stringify({ error: "Session expired. Please log in again." }))
+		}
 		const error = await response.text()
 		console.error("API Error:", error)
 		throw new Error(error || response.statusText)
@@ -37,6 +41,61 @@ const getHeaders = () => {
 		"Content-Type": "application/json",
 		...(token ? { Authorization: `Bearer ${token}` } : {})
 	}
+}
+
+// Deduplicates concurrent refresh attempts — if 3 requests 401 at once, only 1 refresh call is made
+let _refreshPromise: Promise<boolean> | null = null
+
+async function tryRefreshToken(): Promise<boolean> {
+	if (!_refreshPromise) {
+		_refreshPromise = (async () => {
+			const token = useAuthStore.getState().token
+			if (!token) return false
+			try {
+				const res = await fetch(`${API_BASE}/auth/refresh`, {
+					method: "POST",
+					headers: { Authorization: `Bearer ${token}` }
+				})
+				if (!res.ok) return false
+				const data = await res.json()
+				useAuthStore.getState().updateToken(data.token)
+				return true
+			} catch {
+				return false
+			}
+		})().finally(() => {
+			_refreshPromise = null
+		})
+	}
+	return _refreshPromise
+}
+
+/**
+ * Drop-in fetch wrapper that auto-refreshes the JWT on 401/403.
+ * If refresh also fails the user is logged out silently.
+ */
+export async function fetchWithAuth(
+	url: string,
+	options: RequestInit = {}
+): Promise<Response> {
+	const { headers: extraHeaders, ...rest } = options
+	const buildHeaders = () => ({
+		...getHeaders(),
+		...(extraHeaders as Record<string, string> | undefined)
+	})
+	const response = await fetch(url, { ...rest, headers: buildHeaders() })
+
+	if (response.status === 401 || response.status === 403) {
+		const refreshed = await tryRefreshToken()
+		if (refreshed) {
+			// Retry once with the new token
+			return fetch(url, { ...rest, headers: buildHeaders() })
+		}
+		// Refresh failed — silently log the user out (ProtectedRoute will redirect to /login)
+		useAuthStore.getState().logout()
+	}
+
+	return response
 }
 
 export const api = {
@@ -89,43 +148,34 @@ export const api = {
 			),
 
 		addReview: (id: string, data: { rating: number; text?: string }) =>
-			fetch(`${API_BASE}/barbers/${id}/reviews`, {
+			fetchWithAuth(`${API_BASE}/barbers/${id}/reviews`, {
 				method: "POST",
-				headers: getHeaders(),
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Review>(res)),
-
 		getStats: (id: string) =>
-			fetch(`${API_BASE}/barbers/${id}/stats`, {
-				headers: getHeaders()
-			}).then((res) => handleResponse<any>(res)),
+			fetchWithAuth(`${API_BASE}/barbers/${id}/stats`).then((res) => handleResponse<any>(res)),
 
 		getClients: (id: string) =>
-			fetch(`${API_BASE}/barbers/${id}/clients`, {
-				headers: getHeaders()
-			}).then((res) => handleResponse<any[]>(res)),
+			fetchWithAuth(`${API_BASE}/barbers/${id}/clients`).then((res) => handleResponse<any[]>(res)),
 
 		saveClientNote: (
 			barberId: string,
 			clientId: string,
 			data: { notes: string; tags: string[] }
 		) =>
-			fetch(`${API_BASE}/barbers/${barberId}/clients/${clientId}/notes`, {
+			fetchWithAuth(`${API_BASE}/barbers/${barberId}/clients/${clientId}/notes`, {
 				method: "POST",
-				headers: getHeaders(),
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<any>(res)),
 
 		activateTrial: () =>
-			fetch(`${API_BASE}/barbers/trial`, {
-				method: "POST",
-				headers: getHeaders()
-			}).then((res) => handleResponse<{ success: boolean; message: string }>(res)),
+			fetchWithAuth(`${API_BASE}/barbers/trial`, { method: "POST" }).then((res) =>
+				handleResponse<{ success: boolean; message: string }>(res)
+			),
 
 		update: (id: string, data: Partial<Barber>) =>
-			fetch(`${API_BASE}/barbers/${id}`, {
+			fetchWithAuth(`${API_BASE}/barbers/${id}`, {
 				method: "PUT",
-				headers: getHeaders(),
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Barber>(res))
 	},
@@ -134,9 +184,8 @@ export const api = {
 		create: (
 			data: Omit<Booking, "id" | "status" | "createdAt"> & { asGuest?: boolean }
 		) =>
-			fetch(`${API_BASE}/bookings`, {
+			fetchWithAuth(`${API_BASE}/bookings`, {
 				method: "POST",
-				headers: getHeaders(),
 				body: JSON.stringify(data)
 			}).then((res) => handleResponse<Booking>(res)),
 
@@ -150,9 +199,9 @@ export const api = {
 			if (params?.limit) query.set("limit", params.limit.toString())
 			if (params?.status) query.set("status", params.status)
 			const suffix = query.toString() ? `?${query.toString()}` : ""
-			return fetch(`${API_BASE}/barbers/${barberId}/bookings${suffix}`, {
-				headers: getHeaders()
-			}).then((res) => handleResponse<any>(res))
+			return fetchWithAuth(`${API_BASE}/barbers/${barberId}/bookings${suffix}`).then((res) =>
+				handleResponse<any>(res)
+			)
 		},
 
 		listForClient: (clientId: string, page?: number, limit?: number) => {
@@ -160,43 +209,38 @@ export const api = {
 			if (page) params.append("page", page.toString())
 			if (limit) params.append("limit", limit.toString())
 			const suffix = params.toString() ? `?${params.toString()}` : ""
-			return fetch(`${API_BASE}/users/${clientId}/bookings${suffix}`, {
-				headers: getHeaders()
-			}).then((res) => handleResponse<any>(res))
+			return fetchWithAuth(`${API_BASE}/users/${clientId}/bookings${suffix}`).then((res) =>
+				handleResponse<any>(res)
+			)
 		},
 
 		updateStatus: (id: string, status: Booking["status"], comment?: string) =>
-			fetch(`${API_BASE}/bookings/${id}`, {
+			fetchWithAuth(`${API_BASE}/bookings/${id}`, {
 				method: "PATCH",
-				headers: getHeaders(),
 				body: JSON.stringify({ status, comment })
 			}).then((res) => handleResponse<Booking>(res))
 	},
 
 	favorites: {
 		list: (userId: string) =>
-			fetch(`${API_BASE}/users/${userId}/favorites`, {
-				headers: getHeaders()
-			}).then((res) => handleResponse<Barber[]>(res)),
+			fetchWithAuth(`${API_BASE}/users/${userId}/favorites`).then((res) =>
+				handleResponse<Barber[]>(res)
+			),
 
 		add: (userId: string, barberId: string) =>
-			fetch(`${API_BASE}/users/${userId}/favorites`, {
+			fetchWithAuth(`${API_BASE}/users/${userId}/favorites`, {
 				method: "POST",
-				headers: getHeaders(),
 				body: JSON.stringify({ barberId })
 			}).then((res) => handleResponse<void>(res)),
 
 		remove: (userId: string, barberId: string) =>
-			fetch(`${API_BASE}/users/${userId}/favorites/${barberId}`, {
-				method: "DELETE",
-				headers: getHeaders()
+			fetchWithAuth(`${API_BASE}/users/${userId}/favorites/${barberId}`, {
+				method: "DELETE"
 			}).then((res) => handleResponse<void>(res))
 	},
 
 	users: {
 		get: (id: string) =>
-			fetch(`${API_BASE}/users/${id}`, {
-				headers: getHeaders()
-			}).then((res) => handleResponse<User>(res))
+			fetchWithAuth(`${API_BASE}/users/${id}`).then((res) => handleResponse<User>(res))
 	}
 }

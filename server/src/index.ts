@@ -34,12 +34,14 @@ import barberRoutes from "./routes/barbers"
 import bookingRoutes from "./routes/bookings"
 import userRoutes from "./routes/users"
 import debugRoutes from "./routes/debug"
+import pushRoutes from "./routes/push"
 
 app.use("/api/auth", authLimiter, authRoutes)
 app.use("/api/barbers", barberRoutes)
 app.use("/api/bookings", bookingsLimiter, bookingRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/debug", debugRoutes)
+app.use("/api/push", pushRoutes)
 
 if (require.main === module) {
 	httpServer.listen(Number(PORT), "0.0.0.0", () => {

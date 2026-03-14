@@ -3,6 +3,7 @@ import { prisma } from "../db"
 import { authenticateToken, optionalAuth, AuthRequest } from "../middleware/auth"
 import { createBookingLimiter } from "../middleware/rateLimit"
 import { getIO } from "../socket"
+import { sendPushToUser } from "../push"
 import { Prisma } from "@prisma/client"
 
 const router = Router()
@@ -228,6 +229,22 @@ router.post("/", createBookingLimiter, optionalAuth, async (req: AuthRequest, re
 				// Socket io might not be initialized (e.g. in Vercel serverless functions)
 				console.warn("Socket.io emit failed")
 			}
+
+			// Send Web Push notification to the barber (works even when offline)
+			let clientName = guestName || "Someone"
+			if (clientId && !guestName) {
+				const clientUser = await prisma.user.findUnique({
+					where: { id: clientId },
+					select: { name: true }
+				})
+				if (clientUser) clientName = clientUser.name
+			}
+			const serviceName = booking.service?.name || "appointment"
+			sendPushToUser(barberProfile.userId, {
+				title: "New Booking!",
+				body: `${clientName} booked ${serviceName} on ${date} at ${time}`,
+				url: "/dashboard"
+			}).catch((err) => console.warn("Push notification failed:", err))
 		} catch (error) {
 			// Race-safe: DB unique index rejects duplicate active slots
 			if (

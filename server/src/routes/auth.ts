@@ -3,6 +3,7 @@ import { prisma } from "../db"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { getJwtSecret } from "../config"
+import { authenticateToken, AuthRequest } from "../middleware/auth"
 
 const router = Router()
 
@@ -27,7 +28,7 @@ router.post("/login", async (req, res) => {
 
 		// Generate real JWT
 		const token = jwt.sign({ id: user.id, role: user.role }, getJwtSecret(), {
-			expiresIn: "24h"
+			expiresIn: "30d"
 		})
 
 		const { password: _, ...userWithoutPassword } = user as any
@@ -100,13 +101,27 @@ router.post("/register", async (req, res) => {
 		}
 
 		const token = jwt.sign({ id: user.id, role: user.role }, getJwtSecret(), {
-			expiresIn: "24h"
+			expiresIn: "30d"
 		})
 		const { password: _, ...userWithoutPassword } = user as any
 		res.json({ user: userWithoutPassword, token })
 	} catch (error) {
 		console.error("Registration error:", error)
 		res.status(500).json({ error: "Registration failed" })
+	}
+})
+
+// POST /api/auth/refresh — issues a new 30-day token for any currently valid token
+router.post("/refresh", authenticateToken, async (req: AuthRequest, res) => {
+	try {
+		const token = jwt.sign(
+			{ id: req.user!.id, role: req.user!.role },
+			getJwtSecret(),
+			{ expiresIn: "30d" }
+		)
+		res.json({ token })
+	} catch (error) {
+		res.status(500).json({ error: "Token refresh failed" })
 	}
 })
 

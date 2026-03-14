@@ -40,6 +40,7 @@ import { Modal } from "@/components/Modal"
 import { TrialBanner } from "@/components/TrialBanner"
 import { compressImage } from "@/utils/imageUtils"
 import { ExpensesManager } from "@/components/ExpensesManager"
+import { subscribeToPush } from "@/services/pushNotifications"
 
 const TIME_SLOTS = Array.from({ length: 48 }, (_, i) => {
 	const h = Math.floor(i / 2)
@@ -215,6 +216,9 @@ export const BarberDashboardPage = () => {
 				setBarber(data)
 				setFormData(data)
 				setPreviewAddress(data.location || "")
+
+				// Auto-subscribe to push notifications for barbers
+				subscribeToPush().catch(() => {})
 			} catch (error: any) {
 				console.error("Failed to fetch barber profile", error)
 				setMessage({

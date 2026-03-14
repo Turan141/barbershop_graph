@@ -28,6 +28,7 @@ model User {
   reviews       Review[]
   clientNotes   BarberClientNote[]
   expenses      Expense[]
+  pushSubscriptions PushSubscription[]
 }
 
 model Expense {
@@ -157,4 +158,16 @@ model Review {
   barber    BarberProfile @relation(fields: [barberId], references: [id])
 
   @@unique([userId, barberId])
+}
+
+model PushSubscription {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
