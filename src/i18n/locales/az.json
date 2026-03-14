@@ -55,7 +55,8 @@
       "clear_filters_btn": "Bütün filterləri təmizlə",
       "load_error_title": "Bərbərlər yüklənmədi",
       "load_error_desc": "İnterneti və ya API ayarlarını yoxlayın, sonra yenidən cəhd edin.",
-      "retry_btn": "Yenidən"
+      "retry_btn": "Yenidən",
+      "near_me": "near me"
     }
   },
   "categories": {
@@ -114,7 +115,8 @@
     "sign_up": "Qeydiyyatdan keç",
     "already_have_account": "Artıq hesabınız var?",
     "sign_in_link": "Daxil ol",
-    "registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin."
+    "registration_failed": "Qeydiyyat uğursuz oldu. Yenidən cəhd edin.",
+    "session_expired": "session expired"
   },
   "profile": {
     "book_for_someone_else": "Başqa biri üçün randevu al",
@@ -176,7 +178,8 @@
     "submitting": "Göndərilir...",
     "submit_review": "Rəyi Göndər",
     "book_now": "İndi Bron Et",
-    "selected_service": "Seçilmiş Xidmət"
+    "selected_service": "Seçilmiş Xidmət",
+    "avatar_url": "Profile Picture URL"
   },
   "dashboard": {
     "title": "İdarə Paneli",
@@ -232,7 +235,8 @@
       "cancel_reason_prompt": "Ləğv səbəbi (könüllü):",
       "note": "Qeyd",
       "subtitle": "Gündəlik qrafikinizi idarə edin",
-      "scan_to_book": "Rezervasiya etmək üçün skan edin"
+      "scan_to_book": "Rezervasiya etmək üçün skan edin",
+      "new_booking_notification": "new booking notification"
     },
     "unknown_client": "Naməlum Müştəri",
     "profile": {
@@ -322,7 +326,9 @@
       "current_avatar_tooltip": "Cari profil şəkli",
       "delete_tooltip": "Şəkli sil",
       "upload_help": "JPG, PNG (Maks 800x800px)",
-      "upload_new_image": "Yeni Şəkil Yüklə"
+      "upload_new_image": "Yeni Şəkil Yüklə",
+      "no_images": "no images",
+      "upload_first": "upload first"
     },
     "tabs": {
       "overview": "İcmal",
@@ -332,7 +338,8 @@
       "services": "Xidmətlər",
       "portfolio": "Portfolio",
       "expenses": "Xərclər",
-      "notifications": "Bildirişlər"
+      "notifications": "Bildirişlər",
+      "qrcode": "QR Code"
     },
     "expenses": {
       "title": "Xərclər",
@@ -432,7 +439,9 @@
       "powered_by": "Dəstəkləyir",
       "title": "Rəqəmsal Vizit Kartı",
       "subtitle": "Çap edib iş yerinizdə yerləşdirmək üçün gözəl dizayn edilmiş QR kod stikerini yükləyin."
-    }
+    },
+    "hide_past": "Hide Past Appointments",
+    "show_past": "Show Past Appointments"
   },
   "common": {
     "loading": "Yüklənir...",
@@ -449,7 +458,13 @@
     "today": "Bugün",
     "tomorrow": "Sabah",
     "yesterday": "Dünən",
-    "refreshed": "Yeniləndi"
+    "refreshed": "Yeniləndi",
+    "min": "min",
+    "close": "Close",
+    "use_current_location": "use current location",
+    "geolocation_not_supported": "geolocation not supported",
+    "geolocation_denied": "geolocation denied",
+    "book_now": "Book Now"
   },
   "pages": {
     "features": {
@@ -505,46 +520,28 @@
       "demo": {
         "title": "Pro Demo",
         "price": "Pulsuz",
-        "features": [
-          "Tam təqvim",
-          "Randevular",
-          "WhatsApp düyməsi",
-          "Statistika"
-        ],
+        "features": "features",
         "button": "Sına 1 ay pulsuz",
         "description": "Bu müddət ərzində bütün funksiyaları sınayacaqsınız, ödəniş yoxdur."
       },
       "basic": {
         "title": "Basic",
         "price": "10 ₼",
-        "features": [
-          "1 kreslo",
-          "Bütün funksiyalar",
-          "Maks. 50 randevu/ay"
-        ],
+        "features": "features",
         "button": "Basic al",
         "description": "Ayda 50 randevu, təqvim və müştərilərə tam çıxış."
       },
       "standard": {
         "title": "Standard",
         "price": "20 ₼",
-        "features": [
-          "1-2 kreslo",
-          "Limitsiz randevu",
-          "Statistikaya çıxış"
-        ],
+        "features": "features",
         "button": "Standard al",
         "description": "Limitsiz randevu, müştəri statistikası, rahat iş."
       },
       "pro": {
         "title": "Pro",
         "price": "30 ₼",
-        "features": [
-          "3-5 kreslo",
-          "Limitsiz randevu",
-          "Genişləndirilmiş statistika",
-          "Prioritet dəstək"
-        ],
+        "features": "features",
         "button": "Pro al",
         "description": "Maksimum yüklənmə, prioritet dəstək, genişləndirilmiş statistika."
       }
@@ -554,53 +551,63 @@
       "subtitle": "BarberBook bərbərxana təcrübəsini müasirləşdirmək missiyasındadır. Biz istedadlı bərbərləri keyfiyyətli xidməti qiymətləndirən müştərilərlə əlaqələndiririk.",
       "story": {
         "title": "Bizim Hekayəmiz",
-        "content": "2024-cü ildə qurulan BarberBook sadə bir müşahidə ilə başladı: yaxşı bərbər tapmaq və randevu almaq lazım olduğundan daha çətin idi. Biz müştərilərin əla bərbərləri kəşf etməsini və bərbərlərin bizneslərini səmərəli idarə etməsini asanlaşdıran bir platforma qurmaq üçün yola çıxdıq."
+        "content": "2024-cü ildə qurulan BarberBook sadə bir müşahidə ilə başladı: yaxşı bərbər tapmaq və randevu almaq lazım olduğundan daha çətin idi. Biz müştərilərin əla bərbərləri kəşf etməsini və bərbərlərin bizneslərini səmərəli idarə etməsini asanlaşdıran bir platforma qurmaq üçün yola çıxdıq.",
+        "text": "Founded in 2024, BarberBook started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
       },
       "values": {
         "title": "Dəyərlərimiz",
         "quality": {
           "title": "Keyfiyyət",
-          "desc": "Sənayedəki ən yaxşı istedadları vurğulamağa inanırıq."
+          "desc": "Sənayedəki ən yaxşı istedadları vurğulamağa inanırıq.",
+          "text": "We believe in highlighting the best talent in the industry."
         },
         "community": {
           "title": "İcma",
-          "desc": "Bərbərxanalar icma mərkəzləridir və biz bu əlaqəni dəstəkləmək istəyirik."
+          "desc": "Bərbərxanalar icma mərkəzləridir və biz bu əlaqəni dəstəkləmək istəyirik.",
+          "text": "Barbershops are community hubs, and we want to support that connection."
         },
         "innovation": {
           "title": "İnnovasiya",
-          "desc": "Sizə daha yaxşı xidmət göstərmək üçün texnologiyamızı daim təkmilləşdiririk."
+          "desc": "Sizə daha yaxşı xidmət göstərmək üçün texnologiyamızı daim təkmilləşdiririk.",
+          "text": "We're constantly improving our technology to serve you better."
         }
-      }
+      },
+      "mission": "BarberBook is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service."
     },
     "careers": {
       "title": "Komandamıza Qoşulun",
       "subtitle": "Biz bərbərxana idarəçiliyinin gələcəyini qururuq. Sənayeni formalaşdırmağa kömək edin.",
       "positions": [
         {
-          "title": "Baş Frontend Mühəndisi",
-          "department": "Mühəndislik",
-          "location": "Uzaqdan",
-          "type": "Tam ştat"
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
         },
         {
-          "title": "Məhsul Dizayneri",
-          "department": "Dizayn",
-          "location": "Bakı, Azərbaycan",
-          "type": "Tam ştat"
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
         },
         {
-          "title": "Marketinq Meneceri",
-          "department": "Marketinq",
-          "location": "Uzaqdan",
-          "type": "Tam ştat"
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
         },
         {
-          "title": "Müştəri Uğuru Mütəxəssisi",
-          "department": "Əməliyyatlar",
-          "location": "Bakı, Azərbaycan",
-          "type": "Tam ştat"
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
         }
-      ]
+      ],
+      "location": {
+        "remote": "Remote",
+        "baku": "Baku, Azerbaijan"
+      },
+      "type": "Full-time"
     },
     "contact": {
       "title": "Bizimlə Əlaqə",
@@ -608,14 +615,18 @@
       "get_in_touch": "Əlaqə Saxlayın",
       "email": {
         "title": "E-poçt",
-        "desc": "Adətən 24 saat ərzində cavab veririk."
+        "desc": "Adətən 24 saat ərzində cavab veririk.",
+        "value": "support@barberbook.com"
       },
       "phone": {
         "title": "Telefon",
-        "desc": "B.e.-Cümə 09:00-dan 18:00-a qədər."
+        "desc": "B.e.-Cümə 09:00-dan 18:00-a qədər.",
+        "value": "+994 50 123 45 67"
       },
       "office": {
-        "title": "Ofis"
+        "title": "Ofis",
+        "value": "123 Nizami Street",
+        "city": "Baku, Azerbaijan"
       },
       "form": {
         "name": "Ad",
@@ -624,7 +635,8 @@
         "email_placeholder": "siz@numune.com",
         "message": "Mesaj",
         "message_placeholder": "Sizə necə kömək edə bilərik?",
-        "submit": "Mesaj Göndər"
+        "submit": "Mesaj Göndər",
+        "success": "Message sent successfully!"
       },
       "schedule": {
         "add_time": "Vaxt əlavə et"
@@ -635,25 +647,39 @@
       "last_updated": "Son yenilənmə: 8 Dekabr 2025",
       "intro": {
         "title": "1. Giriş",
-        "content": "BarberBook-a xoş gəlmisiniz. Məxfiliyinizə hörmət edirik və şəxsi məlumatlarınızı qorumağa sadiqik. Bu məxfilik siyasəti veb saytımızı ziyarət etdiyiniz zaman şəxsi məlumatlarınıza necə baxdığımız barədə məlumat verəcək və məxfilik hüquqlarınız və qanunun sizi necə qoruduğu barədə sizə məlumat verəcəkdir."
+        "content": "BarberBook-a xoş gəlmisiniz. Məxfiliyinizə hörmət edirik və şəxsi məlumatlarınızı qorumağa sadiqik. Bu məxfilik siyasəti veb saytımızı ziyarət etdiyiniz zaman şəxsi məlumatlarınıza necə baxdığımız barədə məlumat verəcək və məxfilik hüquqlarınız və qanunun sizi necə qoruduğu barədə sizə məlumat verəcəkdir.",
+        "text": "Welcome to BarberBook. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
       },
       "data": {
         "title": "2. Topladığımız Məlumatlar",
         "content": "Sizin haqqınızda aşağıdakı kimi qruplaşdırdığımız müxtəlif növ şəxsi məlumatları toplaya, istifadə edə, saxlaya və ötürə bilərik:",
         "list": [
-          "Şəxsiyyət Məlumatlarına ad, soyad, istifadəçi adı və ya oxşar identifikator daxildir.",
-          "Əlaqə Məlumatlarına e-poçt ünvanı və telefon nömrəsi daxildir.",
-          "Texniki Məlumatlara internet protokol (IP) ünvanı, brauzer növü və versiyası daxildir.",
-          "İstifadə Məlumatlarına veb saytımızdan və xidmətlərimizdən necə istifadə etdiyiniz barədə məlumatlar daxildir."
+          "0",
+          "1",
+          "2",
+          "3"
+        ],
+        "text": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:",
+        "items": [
+          "Identity Data includes first name, last name, username or similar identifier.",
+          "Contact Data includes email address and telephone number.",
+          "Technical Data includes internet protocol (IP) address, browser type and version.",
+          "Usage Data includes information about how you use our website and services."
         ]
       },
       "usage": {
         "title": "3. Məlumatlarınızı Necə İstifadə Edirik",
         "content": "Şəxsi məlumatlarınızı yalnız qanun icazə verdikdə istifadə edəcəyik. Əksər hallarda şəxsi məlumatlarınızı aşağıdakı hallarda istifadə edəcəyik:",
         "list": [
-          "Sizinlə bağlamaq üzrə olduğumuz və ya bağladığımız müqaviləni yerinə yetirmək lazım olduqda.",
-          "Bizim (və ya üçüncü tərəfin) qanuni maraqlarımız üçün zəruri olduqda və sizin maraqlarınız və əsas hüquqlarınız bu maraqları üstələmədikdə.",
-          "Qanuni və ya tənzimləyici öhdəliyə əməl etməli olduğumuz yerlərdə."
+          "0",
+          "1",
+          "2"
+        ],
+        "text": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
+        "items": [
+          "Where we need to perform the contract we are about to enter into or have entered into with you.",
+          "Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
+          "Where we need to comply with a legal or regulatory obligation."
         ]
       }
     },
@@ -662,19 +688,23 @@
       "last_updated": "Son yenilənmə: 8 Dekabr 2025",
       "agreement": {
         "title": "1. Şərtlərlə Razılaşma",
-        "content": "Veb saytımıza daxil olmaqla, bu Xidmət Şərtlərinə əməl etməyə və bütün tətbiq olunan qanun və qaydalara riayət etməyə razılaşırsınız. Bu şərtlərdən hər hansı biri ilə razı deyilsinizsə, bu saytdan istifadə etmək və ya daxil olmaq qadağandır."
+        "content": "Veb saytımıza daxil olmaqla, bu Xidmət Şərtlərinə əməl etməyə və bütün tətbiq olunan qanun və qaydalara riayət etməyə razılaşırsınız. Bu şərtlərdən hər hansı biri ilə razı deyilsinizsə, bu saytdan istifadə etmək və ya daxil olmaq qadağandır.",
+        "text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
       },
       "license": {
         "title": "2. İstifadə Lisenziyası",
-        "content": "BarberBook-un veb saytındakı materialların (məlumat və ya proqram təminatı) bir nüsxəsini yalnız şəxsi, qeyri-kommersiya məqsədli müvəqqəti baxış üçün yükləməyə icazə verilir."
+        "content": "BarberBook-un veb saytındakı materialların (məlumat və ya proqram təminatı) bir nüsxəsini yalnız şəxsi, qeyri-kommersiya məqsədli müvəqqəti baxış üçün yükləməyə icazə verilir.",
+        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on BarberBook's website for personal, non-commercial transitory viewing only."
       },
       "disclaimer": {
         "title": "3. Məsuliyyətdən İmtina",
-        "content": "BarberBook-un veb saytındakı materiallar 'olduğu kimi' təqdim olunur. BarberBook heç bir zəmanət vermir, ifadə edilmir və ya nəzərdə tutulmur və bununla da ticarət qabiliyyəti, müəyyən məqsədə uyğunluq və ya əqli mülkiyyətin pozulmaması və ya digər hüquqların pozulması daxil olmaqla, lakin bununla məhdudlaşmayaraq bütün digər zəmanətləri rədd edir və ləğv edir."
+        "content": "BarberBook-un veb saytındakı materiallar 'olduğu kimi' təqdim olunur. BarberBook heç bir zəmanət vermir, ifadə edilmir və ya nəzərdə tutulmur və bununla da ticarət qabiliyyəti, müəyyən məqsədə uyğunluq və ya əqli mülkiyyətin pozulmaması və ya digər hüquqların pozulması daxil olmaqla, lakin bununla məhdudlaşmayaraq bütün digər zəmanətləri rədd edir və ləğv edir.",
+        "text": "The materials on BarberBook's website are provided on an 'as is' basis. BarberBook makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
       },
       "limitations": {
         "title": "4. Məhdudiyyətlər",
-        "content": "Heç bir halda BarberBook və ya onun təchizatçıları BarberBook-un veb saytındakı materiallardan istifadə və ya istifadə edə bilməməsi nəticəsində yaranan hər hansı zərərə (o cümlədən, məhdudiyyətsiz olaraq, məlumat və ya mənfəət itkisi və ya işin dayandırılması səbəbindən yaranan zərərlər) görə məsuliyyət daşımır."
+        "content": "Heç bir halda BarberBook və ya onun təchizatçıları BarberBook-un veb saytındakı materiallardan istifadə və ya istifadə edə bilməməsi nəticəsində yaranan hər hansı zərərə (o cümlədən, məhdudiyyətsiz olaraq, məlumat və ya mənfəət itkisi və ya işin dayandırılması səbəbindən yaranan zərərlər) görə məsuliyyət daşımır.",
+        "text": "In no event shall BarberBook or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on BarberBook's website."
       }
     }
   },

@@ -55,7 +55,8 @@
       "clear_filters_btn": "Clear all filters",
       "load_error_title": "Couldn't load barbers",
       "load_error_desc": "Check your connection or API settings, then try again.",
-      "retry_btn": "Retry"
+      "retry_btn": "Retry",
+      "near_me": "near me"
     }
   },
   "categories": {
@@ -136,46 +137,28 @@
       "demo": {
         "title": "Pro Demo",
         "price": "Free",
-        "features": [
-          "Full calendar",
-          "Bookings",
-          "WhatsApp button",
-          "Statistics"
-        ],
+        "features": "features",
         "button": "Try 1 month free",
         "description": "You will test all features during this period, no payment required."
       },
       "basic": {
         "title": "Basic",
         "price": "10 ₼",
-        "features": [
-          "1 chair",
-          "All features",
-          "Max 50 bookings/mo"
-        ],
+        "features": "features",
         "button": "Get Basic",
         "description": "50 bookings per month, full access to calendar and clients."
       },
       "standard": {
         "title": "Standard",
         "price": "20 ₼",
-        "features": [
-          "1-2 chairs",
-          "Unlimited bookings",
-          "Access to statistics"
-        ],
+        "features": "features",
         "button": "Get Standard",
         "description": "Unlimited bookings, client statistics, convenient workflow."
       },
       "pro": {
         "title": "Pro",
         "price": "30 ₼",
-        "features": [
-          "3-5 chairs",
-          "Unlimited bookings",
-          "Advanced statistics",
-          "Priority support"
-        ],
+        "features": "features",
         "button": "Get Pro",
         "description": "Maximum load, priority support, advanced statistics."
       }
@@ -185,28 +168,57 @@
       "mission": "BarberBook is on a mission to modernize the barbershop experience. We connect talented barbers with clients who appreciate quality service.",
       "story": {
         "title": "Our Story",
-        "text": "Founded in 2024, BarberBook started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently."
+        "text": "Founded in 2024, BarberBook started with a simple observation: finding a good barber and booking an appointment was harder than it should be. We set out to build a platform that makes it easy for clients to discover great barbers and for barbers to manage their business efficiently.",
+        "content": "content"
       },
       "values": {
         "title": "Our Values",
         "quality": {
           "title": "Quality:",
-          "text": "We believe in highlighting the best talent in the industry."
+          "text": "We believe in highlighting the best talent in the industry.",
+          "desc": "desc"
         },
         "community": {
           "title": "Community:",
-          "text": "Barbershops are community hubs, and we want to support that connection."
+          "text": "Barbershops are community hubs, and we want to support that connection.",
+          "desc": "desc"
         },
         "innovation": {
           "title": "Innovation:",
-          "text": "We're constantly improving our technology to serve you better."
+          "text": "We're constantly improving our technology to serve you better.",
+          "desc": "desc"
         }
-      }
+      },
+      "subtitle": "subtitle"
     },
     "careers": {
       "title": "Join Our Team",
       "subtitle": "We're building the future of barbershop management. Come help us shape the industry.",
       "positions": {
+        "0": {
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
+        },
+        "1": {
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
+        },
+        "2": {
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
+        },
+        "3": {
+          "title": "title",
+          "department": "department",
+          "location": "location",
+          "type": "type"
+        },
         "frontend": {
           "title": "Senior Frontend Engineer",
           "dept": "Engineering"
@@ -265,7 +277,8 @@
       "last_updated": "Last updated: December 8, 2025",
       "intro": {
         "title": "1. Introduction",
-        "text": "Welcome to BarberBook. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
+        "text": "Welcome to BarberBook. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
+        "content": "content"
       },
       "data": {
         "title": "2. Data We Collect",
@@ -275,7 +288,14 @@
           "Contact Data includes email address and telephone number.",
           "Technical Data includes internet protocol (IP) address, browser type and version.",
           "Usage Data includes information about how you use our website and services."
-        ]
+        ],
+        "content": "content",
+        "list": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3"
+        }
       },
       "usage": {
         "title": "3. How We Use Your Data",
@@ -284,7 +304,13 @@
           "Where we need to perform the contract we are about to enter into or have entered into with you.",
           "Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.",
           "Where we need to comply with a legal or regulatory obligation."
-        ]
+        ],
+        "content": "content",
+        "list": {
+          "0": "0",
+          "1": "1",
+          "2": "2"
+        }
       }
     },
     "terms": {
@@ -292,19 +318,23 @@
       "last_updated": "Last updated: December 8, 2025",
       "agreement": {
         "title": "1. Agreement to Terms",
-        "text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+        "text": "By accessing our website, you agree to be bound by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.",
+        "content": "content"
       },
       "license": {
         "title": "2. Use License",
-        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on BarberBook's website for personal, non-commercial transitory viewing only."
+        "text": "Permission is granted to temporarily download one copy of the materials (information or software) on BarberBook's website for personal, non-commercial transitory viewing only.",
+        "content": "content"
       },
       "disclaimer": {
         "title": "3. Disclaimer",
-        "text": "The materials on BarberBook's website are provided on an 'as is' basis. BarberBook makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
+        "text": "The materials on BarberBook's website are provided on an 'as is' basis. BarberBook makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
+        "content": "content"
       },
       "limitations": {
         "title": "4. Limitations",
-        "text": "In no event shall BarberBook or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on BarberBook's website."
+        "text": "In no event shall BarberBook or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on BarberBook's website.",
+        "content": "content"
       }
     }
   },
@@ -340,7 +370,8 @@
     "sign_up": "Sign up",
     "already_have_account": "Already have an account?",
     "sign_in_link": "Sign in",
-    "registration_failed": "Registration failed. Please try again."
+    "registration_failed": "Registration failed. Please try again.",
+    "session_expired": "session expired"
   },
   "profile": {
     "book_for_someone_else": "Book for someone else",
@@ -459,7 +490,8 @@
       "cancel_reason_prompt": "Reason for cancellation (optional):",
       "note": "Note",
       "subtitle": "Manage your daily schedule",
-      "scan_to_book": "Scan to book"
+      "scan_to_book": "Scan to book",
+      "new_booking_notification": "new booking notification"
     },
     "unknown_client": "Unknown Client",
     "profile": {
@@ -548,7 +580,9 @@
       "current_avatar_tooltip": "Current Profile Picture",
       "delete_tooltip": "Delete Image",
       "upload_help": "JPG, PNG (Max 800x800px)",
-      "upload_new_image": "Upload New Image"
+      "upload_new_image": "Upload New Image",
+      "no_images": "no images",
+      "upload_first": "upload first"
     },
     "tabs": {
       "overview": "Overview",
@@ -558,7 +592,8 @@
       "services": "Services",
       "portfolio": "Portfolio",
       "expenses": "Expenses",
-      "notifications": "Notifications"
+      "notifications": "Notifications",
+      "qrcode": "QR Code"
     },
     "expenses": {
       "title": "Expenses",
@@ -658,7 +693,9 @@
       "powered_by": "Powered By",
       "title": "Digital Business Card",
       "subtitle": "Download a beautifully designed QR code sticker to print and place at your station."
-    }
+    },
+    "hide_past": "Hide Past Appointments",
+    "show_past": "Show Past Appointments"
   },
   "common": {
     "loading": "Loading...",
@@ -675,7 +712,13 @@
     "today": "Today",
     "tomorrow": "Tomorrow",
     "yesterday": "Yesterday",
-    "refreshed": "Refreshed"
+    "refreshed": "Refreshed",
+    "min": "min",
+    "close": "Close",
+    "use_current_location": "use current location",
+    "geolocation_not_supported": "geolocation not supported",
+    "geolocation_denied": "geolocation denied",
+    "book_now": "Book Now"
   },
   "user_bookings": {
     "title": "My Appointments",
