@@ -18,7 +18,6 @@ import { useTranslation } from "react-i18next"
 import { useAuthStore } from "@/store/authStore"
 import { BarberDashboardPage } from "./BarberDashboardPage"
 import clsx from "clsx"
-import { BrandLogo } from "@/components/BrandLogo"
 
 const getRegionFromAddress = (address: string) => {
 	if (!address) return ""
